@@ -1,0 +1,407 @@
+
+            ************************************************************
+                 Infection of biological DNA with digital Computer Code
+                                        by Second Part To Hell
+            ************************************************************
+                
+
+
+  
+  
+     Biological life spreads in the biological-chemical world, computer codes
+     can spread in the digital computer world. That is a rule - no self-
+     replicator has ever overcome the digital-biological barrier. Until today.
+     Here I show a method how a digital computer code can infect biological 
+     DNA, thus spread in the biological-chemical world. The method is mainly 
+     based on the fantastic research by the J. Craig Venter Institute on 
+     synthetic life, and might ask new questions about the definition of
+     life itself.
+
+ 
+                
+
+
+  1) Introduction
+    
+  2) Craig Venter's synthetical cell
+     2.1) General concept
+     2.2) Watermarks and DNA encoding language
+  
+  3) FASTA file format
+     3.1) plain fasta-files
+     3.2) xml fasta-files
+     
+  4) Infection scenario
+     4.1) Stealth technique in DNA
+
+  5) Conclusion
+  
+  
+  
+  
+  
+  1) Introduction
+  
+     In 2010, the J. Craig Venter Institute (JCVI) reported the creation of a
+     bacterial cell with a chemically synthesized genome [1]. They sequenced
+     the  DNA of a bacteria (M.mycoides), modified several parts of its DNA in
+     the computer, synthetized the novel genome and transplanted it to a
+     different bacteria's cell (M.capricolum). They observed the control of
+     the cell only by the new DNA. For verification, they introduced
+     artificial "watermarks" sequences (non-coded part of the DNA) to the
+     genome, which contained among other things the names of the involved
+     scientists (written in a specially designed DNA encoding alphabet). The
+     artificially created genome was capable of continuous self-replication.
+     They call their new artificial bacterial Mycoplasma mycoides JCVI-syn1.0.
+      
+     This is in my opinion one of the greatest scientific achievement in
+     recent years.
+     
+     In this text I explain the implementation of a computer code that makes
+     the step from the digital to the biological world.
+     The computer code, written in C++, hosts the DNA sequence of M.mycoides
+     JCVI-syn1.0. At runtime it acts as follows:
+     
+     1) Preparing the DNA sequence of M.mycoides JCVI-syn1.0 in the memory,
+        (with slightly modified watermarks).
+     2) Encoding own file-content in base32. The base32 code is then encoded in
+        JCVI's DNA-encoded alphabet.
+     3) This representation of its digital form is then copied to a
+        watermark of the bacteria's genome in memory. With this, a fully
+        functional bacterial DNA sequence including the digital code is 
+        generated.
+     4) Next it searches for FASTA-files on the computer, which are text-based
+        representations of DNA sequences, commonly used by many DNA sequence
+        libraries.
+     5) For each FASTA-file, it replaces the original DNA with the bacterial
+        DNA containing the digital form of the computer code.
+        
+     The code has a classical self-replication mechanism as well, to eventually
+     end up on a computer in a microbiology-laboratory with the ability of
+     creating DNA out of digital genomes (such as laboratories by the JCVI).
+     
+     If the scientists are incautious, the computer code's genome (instead of 
+     the intented original DNA) might be written to the biological cell.
+     The new cell will start replicating in the biological world, and with it
+     the representation of the digital computer code.
+     
+     
+     
+     
+     
+  2) Craig Venter's synthetical cell
+  
+     2.1) General concept
+     
+          The team of Craig Venter has demonstrated how to create bacteria
+          controlled by artificially designed and synthesized DNA. For that,
+          they used the sequenced DNA of a ~1 mega-base pair bacteria 
+          M.mycoides. They modified the genome on the computer - deactivated
+          several genes, and introduced watermarks (artificial non-coding
+          parts of the DNA). A company called Blue Heron sequenced 1000 bp
+          fragments of the full DNA. With a three-step procedere, they assembled
+          the full DNA. This was transplanted into an empty receiver cell of the
+          bacteria M.capricolum.
+          
+          Amazingly, the cell with the new genom booted up, and was able to
+          self-replicate. To verify that the expected genome was replicating,
+          they introduced special functionality to the watermarks which are
+          visible with chemical methods.
+          
+          In their article [1] they write:
+              "This work provides a proof of principle for producing cells
+               based on computer-designed genome sequences. DNA sequencing
+               of a cellular genome allows storage of the genetic instructions
+               for life as a digital file."
+               
+          The project describe here uses the method of their proof-of-principle.
+          
+          
+               
+     2.2) Watermarks and DNA encoding language  
+          
+          The watermarks are parts of the genome that are not translated into
+          functional proteins. That means: They are part of the DNA, but have
+          no functional effect on the behaviour of the cell.
+          
+          The watermarks are represented by nucleotides A,C,G,T. JCVI
+          developed an encoding technique from DNA to human letters. Three 
+          nucleotides (one codon) represent one letter or ascii symbol. With
+          that encoding methode, they encode readable information into the
+          cell: It contains the name of the involved scientists, philosophical
+          quotes and one html-code with an e-mail adresse.
+          
+          The encoding from codons to letters has never been documented
+          explicitly, but can be deduced mainly from the implicit information
+          given in the article. The known alphabet looks like this:
+          
+          TAG = a        GCA = k        TCC = u        AGA = 4        CAC = /
+          AGT = b        AAC = l        TTG = v        GCG = 5        CCA = =
+          TTT = c        CAA = m        GTC = w        GCC = 6        CGA = .
+          ATT = d        TGC = n        GGT = x        TAT = 7        GAG = !
+          TAA = e        CGT = o        CAT = y        CGC = 8        CAG = :
+          GGC = f        ACA = p        TGG = z        GTA = 9        GGA = "
+          TAC = g        TTA = q        TCT = 0        ATA = space    GTG = ,
+          TCA = h        CTA = r        CTT = 1        GGG = chr(10)  TCG = @
+          CTG = i        GCT = s        ACT = 2        AGC = >        CCC = -
+          GTT = j        TGA = t        AAT = 3        CGG = <
+          
+          Four watermarks have been introduced to the modified bacterial DNA
+          in the computer.
+          
+          As an example, a part of the DNA sequence of one watermark is:
+          
+              GCTTAATAAATATGATCACTGTGCTACGCTATATGCCGTTGAATATAGGCTATATGATC
+              ATAACATATATAGCTATAAGTGATAAGTTCCTGAATATAGGCTATATGATCATAACATA
+              TACAACTGTACTCATGAATAAGTTAACGA 
+	
+          The sequence is divided into three-nucleotide parts (codons):
+          
+              GCT TAA TAA ATA TGA TCA CTG TGC TAC GCT ATA TGC CGT TGA ATA 
+              TAG GCT ATA TGA TCA TAA CAT ATA TAG CTA TAA GTG ATA AGT TCC
+              TGA ATA TAG GCT ATA TGA TCA TAA CAT ATA CAA CTG TAC TCA TGA
+              ATA AGT TAA CGA
+              
+          We can see in the above list that GCT stands for "s", TAA stands for
+          "e", ATA is a space, TGA stands for "t" ... and so on.
+          
+          In the end we can extract the sentence:
+                 "see things not as they are, but as they might be."
+                 
+          Obviously we can also write in this encoding technique:
+   
+          "hello vxers!" ->
+                TCA TAA AAC AAC CGT ATA TTG GGT TAA CTA GCT GAG  
+                
+          The full structure of the alphabet is not known ,therefor only 49 out
+          of 64 codon's representation are presented here. However all of them
+          are used in the watermark (i.e. there is no biological reason for not
+          using specific codons).  
+                                                                                            
+     
+     
+      
+     
+  3) FASTA file format     
+     
+     Fasta files are textbased representations of nucleotide sequences, commonly
+     used in micro-biologic libraries. There are two fasta-file types that I
+     will describe here. The first one is plain fasta-format (which usually have
+     the file-extention .fasta or .fas.
+     Both are available from the genome-database
+     http://www.ncbi.nlm.nih.gov/.
+     
+     For example, if you want to see the DNA of Mycoplasma mycoides JCVI-syn1.0:
+         http://www.ncbi.nlm.nih.gov/nuccore/296455217
+         
+     or something more common: E.coli
+         http://www.ncbi.nlm.nih.gov/nuccore/BA000007.2
+         
+     
+     
+  3.1) plain fasta-files
+
+       The plain fasta-files have a small header, followed by a plain
+       representation of the DNA in the nucleotide basis (A, T, G, C).
+       Two examples:
+       
+       a) Mycoplasma mycoides JCVI-syn1.0
+       This is about 1MB of data
+       
+- - - - - - - - Mycoplasma mycoides JCVI-syn1.0.fasta - - - - - - - -      
+>gi|296455217|gb|CP002027.1| Synthetic Mycoplasma mycoides JCVI-syn1.0 clone sMmYCp235-1, complete sequence
+ATGAACGTAAACGATATTTTAAAAGAACTTAAACTAAGTTTAATGGCTAATAAAAATATTGATGAATCCG
+TGTATAACGACTATATAAAGACAATAAATATTCATAAAAAGGGGTTTTCTGATTATATTGTTGTTGTTAA
+ATCACAATTTGGTTTGTTAGCTATAAAACAGTTTCGTCAAACTATTGAAAATGAGATAAAAAATATTTTA
+AAAGAACCTGTAAATATTAGTTTTACATACGAACAAGAATATAAAAAACAACTAGAAAAAGATGAATTAA
+TTAATAAAGATCATTCTGATATCATTACTAAAAAAGTTAAAAAAACTAATGAAAACACTTTTGAAAATTT
+...
+- - - - - - - - Mycoplasma mycoides JCVI-syn1.0.fasta - - - - - - - -          
+          
+       b) Escherichia coli
+       This is about 5.5MB of data
+       
+- - - - - - - - - - - - - - - E.coli.fasta - - - - - - - - - - - - - - -        
+>gi|47118301|dbj|BA000007.2| Escherichia coli O157:H7 str. Sakai DNA, complete genome
+AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTCTCTGACAGCAGC
+TTCTGAACTGGTTACCTGCCGTGAGTAAATTAAAATTTTATTGACTTAGGTCACTAAATACTTTAACCAA
+TATAGGCATAGCGCACAGACAGATAAAAATTACAGAGTACACAACATCCATGAAACGCATTAGCACCACC
+ATTACCACCACCATCACCACCACCATCACCATTACCATTACCACAGGTAACGGTGCGGGCTGACGCGTAC
+AGGAAACACAGAAAAAAGCCCGCACCTGACAGTGCGGGCTTTTTTTTCGACCAAAGGTAACGAGGTAACA    
+...
+- - - - - - - - - - - - - - - E.coli.fasta - - - - - - - - - - - - - - -
+
+
+
+     3.2) xml fasta-files
+     
+     The second form is pure DNA aswell, however in a small xml-file. Two
+     examples again:
+
+- - - - - - - - Mycoplasma mycoides JCVI-syn1.0.fasta.xml - - - - - - - -      
+<?xml version="1.0"?>
+ <!DOCTYPE TSeqSet PUBLIC "-//NCBI//NCBI TSeq/EN" "http://www.ncbi.nlm.nih.gov/dtd/NCBI_TSeq.dtd">
+ <TSeqSet>
+<TSeq>
+  <TSeq_seqtype value="nucleotide"/>
+  <TSeq_gi>296455217</TSeq_gi>
+  <TSeq_accver>CP002027.1</TSeq_accver>
+  <TSeq_taxid>766747</TSeq_taxid>
+  <TSeq_orgname>synthetic Mycoplasma mycoides JCVI-syn1.0</TSeq_orgname>
+  <TSeq_defline>Synthetic Mycoplasma mycoides JCVI-syn1.0 clone sMmYCp235-1, complete sequence</TSeq_defline>
+  <TSeq_length>1078809</TSeq_length>
+  <TSeq_sequence>ATGAACGTAAACGATATTTTAAAAGAACTTAAACTAAGTTTAATGGCTAATAAAAATATTGATGAATCCGTGTATAACGACTATATAAAGACAATAAATATTCATAAAAAGGGGTTTTCTGATTATATTGTTGTTGTTAAATCA...</TSeq_sequence>
+</TSeq>
+
+</TSeqSet>
+- - - - - - - - Mycoplasma mycoides JCVI-syn1.0.fasta - - - - - - - - 
+
+     or E.coli again:
+
+- - - - - - - - - - - - - - - E.coli.fasta.xml - - - - - - - - - - - - - - -      
+<?xml version="1.0"?>
+ <!DOCTYPE TSeqSet PUBLIC "-//NCBI//NCBI TSeq/EN" "http://www.ncbi.nlm.nih.gov/dtd/NCBI_TSeq.dtd">
+ <TSeqSet>
+<TSeq>
+  <TSeq_seqtype value="nucleotide"/>
+  <TSeq_gi>47118301</TSeq_gi>
+  <TSeq_accver>BA000007.2</TSeq_accver>
+  <TSeq_taxid>386585</TSeq_taxid>
+  <TSeq_orgname>Escherichia coli O157:H7 str. Sakai</TSeq_orgname>
+  <TSeq_defline>Escherichia coli O157:H7 str. Sakai DNA, complete genome</TSeq_defline>
+  <TSeq_length>5498450</TSeq_length>
+  <TSeq_sequence>AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTCTCTGACAGCAGCTTCTGAACTGGTTACCTGCCGTGAGTAAATTAAAATTTTATTGACTTAGGTCACTAAATACTTTAACCAATATA...</TSeq_sequence>
+</TSeq>
+
+</TSeqSet>
+- - - - - - - - - - - - - - - E.coli.fasta.xml - - - - - - - - - - - - - - -           
+          
+          
+          
+          
+          
+  4) Infection scenario
+  
+     The strategy of this digitally and biologically self-replicating code is
+     the following:
+     
+     It starts as a digital computer file, and replicates itself via local
+     networks, USB sticks and other removeable devices.
+     
+     There are two potential scenarios to step from the digital to the
+     biological world:
+     
+     1) The self-replicating code might end up at a USB stick of a 
+        microbiologist. (S)he runs it unintentionally at a computer that host
+        DNA sequences (stored in the common fasta-file format) which will be
+        synthesized and transplanted to receiving cells (such as in the labs of
+        JCVI). The computer code will find these fasta-files and replace their 
+        DNA sequences with the bacterial genome of M.mycoides. This genome
+        contains a watermark with the DNA-representation of the file-content of
+        the computer code. When the DNA files are synthesized, the computer code
+        is synthesized aswell, and will continuously self-replicate in the
+        biological world in the form of a bacteria.
+     
+     2) In this scenario, the code gets to the computer of a genome library
+        (such as NCBI, National Center for Biotechnology Information).
+        The computer code will search for FASTA files and replace their DNA
+        content with its own DNA code. The employee will unintentionally upload
+        the computer code's DNA instead of the original DNA.
+        Then - back in a laboratory like that from JCVI - scientists will
+        download the modified DNA sequence. When they synthesize the wrong DNA
+        sequence, the computer code lands in the bacterial cell again, again
+        capable of continuously self-replicate in the biological world.
+     
+     There is a different interesting scenario: First, Mycoplasma mycoides
+     bacteria are usually infecting cattles and goats. Imagine an unknown
+     outbreak of the here presented bacteria. Goats or cattles would get sick,
+     and microbiologists want to know the exact reason. They take samples of
+     the infectious cells and sequence them in their laboratories.
+     Now they see the DNA, and find out that the bacteria contains a rather
+     big non-coded sequence - the watermark. They find this very unnatural and
+     analyse the watermark, also by applying Craig Venter's DNA encoding
+     alphabet (because it is very famous due to their first fascinating
+     results). After decoding, they see that the code only contains
+     a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,2,3,4,5,6,7
+     
+     This is a curious structure, they research a bit and see that its base32-
+     encoding. They decode it, and see 'M','Z',0x90,0x0,...
+     They immediatly see that its a windows executeable, and I guess would be
+     surprised :)
+     
+     
+     
+     4.1) Stealth technique in the DNA
+     
+          In their modified genome of M.mycoides JCVI-syn1.0, the JCVI-team
+          introduces four watermarks. Every watermark contains a special
+          sequence which is useed to test whether a cell has the intended
+          genome or is a contamination (for example, from the receiving cell).
+          
+          In the supplementary material of their article [1], they describe the
+          exact representation of these sequences (primer). Each of the four
+          watermarks contain one primer. When they perform a multiplex PCR, each
+          watermark creats a specific characteristic.
+
+          In my code, I removed the total original content of all watermarks,
+          except for the identified primer-sequence. As a result, when a team
+          tests the bacteria cell with the representation of the digital code,
+          it will have the same characteristic as their original designed DNA.
+          Thus the computer code's DNA will pass this test.
+     
+     
+       
+       
+       
+  5) Conclusion
+
+     I've shown the implementation of a technique that allows a digital computer
+     code to make the step to the biological world. This is done by infecting a
+     DNA-file with the genome of a self-replicating biological bacteria. The
+     bacteria's genome contains the digital code of the self-replicator in form
+     of a base32-representation encoded via Craig Venter's DNA encoding
+     alphabet.
+     The biological bacteria will self-replicator in the biological world, and
+     so will the representation of the digital computer code.                
+        
+     The outbreak-probability of such cross-domain infectors is very low. The
+     researchers in [1] have made ethical studies, and I'm convinced that they
+     came up with perfect protections against potential attacks as this.
+                
+     Finally, digital self-replicators are usually not considered as a form of
+     life, even they fulfill the most important characteristic of life:
+     capability of self-replication and subject to evolution [2].
+     I wonder whether this computer code can count as a form of life - if so, I
+     would call it
+        
+                             Mycoplasma mycoides SPTH-syn1.0    
+                                                                :)
+                                                                
+
+
+                                                           Second Part To Hell
+                                                                 October 2013
+                                                                      
+                                                          http://spth.virii.lu/
+                                                          sperl.thomas@gmail.com
+                                                          twitter: @SPTHvx                                                           
+                                        
+                                       
+[1] Daniel G. Gibson et al., "Creation of a Bacterial Cell Controlled by a
+              Chemically Synthesized Genome", Science 329, 52 (2010).
+
+[2] SPTH, "Taking the redpill: Artificial Evolution in native x86 systems",
+              http://vxheaven.org/lib/vsp26.html, (2010). 
+    SPTH, "Imitation of Life: Advanced system for native Artificial Evolution",
+              in valhalla#1, http://vxheaven.org/lib/vsp37.html, (2011).                                                             
+
+
+PS: Thanks to hh86 for motivation. Thanks to the JCVI-team for their awesome
+    research, looking forward reading more discoveries on the boarder between
+    dead and living material!
+    
+    
+PPS: I'm not a microbiologist (or biologist at all). Even if I tried as hard as
+     possible, I can not rule out that some assumptions might be wrong, some
+     things I might have misunderstand.
+     In any case, the main idea should be valid.         
