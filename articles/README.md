@@ -79,5 +79,5 @@
 <font size="2" color="#000000"><b>2004.12:</b></font> <a href="files/fat12.txt">FAT12 Dateizugriff</a><font color="#000000" size="2"> ~ 22 kB | german only | also released in LowLevel #7</font><br>
 <font size="2" color="#000000"><b>2004.12:</b></font> <a href="files/kav.txt">How BigBrother wants to get us down!</a><font color="#000000" size="2"> ~ 36 kB </font><br>
 <font size="2" color="#000000"><b>2004.09:</b></font> <a href="files/Menuet.txt">MenuetOS - Der Weg zum Erfolg mit Assembler</a><font color="#000000" size=2> ~ 18 kB | german only | also released in LowLevel #6</font><br>
-<font size="2" color="#000000"><b>2004.08:</b></font> <a href="files/IMikeH.txt">Interview mit Mike Hibbett</a><font color="#000000" size=2> ~ 9 kB (zipped) | german only | also released in LowLevel #6</font><br>
+<font size="2" color="#000000"><b>2004.08:</b></font> <a href="files/intMikeH.txt">Interview mit Mike Hibbett</a><font color="#000000" size=2> ~ 9 kB (zipped) | german only | also released in LowLevel #6</font><br>
 <font size="2" color="#000000"><b>2004.08:</b></font> <a href="files/rrlfmeet.txt">The weekend of rRlf meeting</a><font color="#000000" size="2"> ~ 8 kB | also released in rRlf #5</font><br><br>
