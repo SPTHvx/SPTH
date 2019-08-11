@@ -1,0 +1,386 @@
+
+                                 How BigBrother wants to get us down!
+
+  Recently I've written some mails to herm1t, and he told me quite alot of interesting stuff.
+  Most about KAV, and how they try to get us down. As most of the infos he gave me are russian,
+  I desided to write this text. I tried my best to get all informations correct. It may be
+  that some things are not totally correct anyway, but I dont think so.
+
+  1) KAV against whale
+  2) KAV against herm1t
+  3) FSecure against vx.netlux.org
+  4) KAV against virus related Newsgroups
+  5) KAV against www.host.sk
+  6) AVs spreading the virus writer's name
+  7) Conclusion
+
+
+
+
+
+  1) KAV against whale
+
+     On 22th October 2004, whale, an now ex-29A member was trailed. First official statement
+     about that happened at KAV's site (http://www.viruslist.com/en/weblog?discuss=155027820&return=1)
+     at 17th November 2004:
+
+     - - - - - - - - [KAV - whale] - - - - - - - -
+     29A member convicted in Russia 
+     by Aleks Gostev - November 17, 2004 | 16:09  MSK
+ 
+       In Russia a virus writer known as Whale has been pronounced guilty. His real name is Evgenii Suchkov,
+       and we know that he belonged to 29A, the notorious virus writing group. We think he may also be a
+       member of HangUp Team, a similar Russian group. 
+       Suchkov's trial was on 22nd October this year in Izhevsk, Russia. He admitted that he was guilty of
+       writing two complex viruses: Stepar and Gastropod. He created these viruses and put the source code and
+       exe files on some virus writing sites, including 29A website.
+       He was only fined 3,000 roubles or $100 and now has a criminal record. This isn't much - but the court
+       didn't have any evidence to prove that the viruses had caused any material loss. But now Russian virus
+       writers know that they are not always going to be able to hide from the law. And the world knows that
+       Russia is doing something about virus writing.
+     - - - - - - - - [KAV - whale] - - - - - - - -
+
+     How comes? What happened?
+     Sometime in November, whale wrote a official letter (russian) to explain, how police got him.
+     The letter (http://www.wasm.ru/forum/files/_839773323__letter.txt) has been original posted
+     at Z0MBiE's Homepage. What he wrote is quite interesting. First the original letter, then the
+     translation:
+
+     - - - - - - - - [whale - open letter (russian)] - - - - - - - -
+       ??????? ???????. ???????? ??????? ????? ???????.
+
+       ????? ?? ??? ?????????: ??????????? ??????????? - ??????? ?????? ???????
+       ? ??????? ??????????. ?????? ????????? ?????? ?? ?? ?? ???? ?????? ????.
+
+       ?? ??? ??, ??? ? ??? ??????? ???????? ???????????? ??? ???,
+       ????????? ? ????? ???? ????? ? ???????? ??????? :)
+
+       ?????? ?????? ????? ????? ??????!
+
+       ????? ?? ???? ??? ???????? ?????????? ??????:
+       1. ???????? ?????, ???????? ???????? ??
+       2. ???????? ?????????, ????????? ?????? ???????????? ????????????, ????? ??????????:
+       ?????????? ???????, ???. ????????, ???????????, 10-67
+       3. ?????????? ???????, ??????????? ???????? ??? "??????????? ???????????"
+
+       ??????? ??????????????! ??? ????? - ????? ???? ???????? ?? ?????????? ????.
+       ?????? ???????? ?? ???? ?? ??? ? ???, ?? ??? ??????????, ??? ??? ???
+       ???????? ???????.
+
+       ??????? - ??? ??????. ??? - ??????? ????? ????????????? ???????????.
+       ??????????? ??????? ?? ????? ?????????!
+
+       ??????, ? ????? ????????? ??? ??? ?? ???????, ??? ??? ?????????
+       ???? ?? ????????? ? ????? ? ?????????? ?????????? ?? ?????? 80-1 ?? ??.
+
+       ????? ???????, ? ????????? ? ????????? ????????????? ???????.
+       ???????????, ???? ????????? ?????? ??????????? ??????? ?????,
+       ??? ????????-???????? ??????????.
+
+       ??????? ??? ? ????? ???????? ?????? :)
+     - - - - - - - - [whale - open letter (russian)] - - - - - - - -
+
+     And now the translation (herm1t did - much thanks for that!)
+
+     - - - - - - - - [whale - open letter (english)] - - - - - - - -
+       Hi, sirs. Rather nasty story has turned out.
+
+       With the following conclusion: Kaspersky Laboratory - is a totally rotten
+       place and the medley of informers. Exactly due to the information from
+       KL the case against me has been opened.
+
+       All right then, if you have enough insolence to publish my name,
+       get your own names in the morning papers as a reply :)
+
+       The country must know its heroes!
+
+       The information against me has been signed by the following persons:
+       1. Sumenkov Igor, KL virus analyst
+       2. Shevchenko Stanislaw, head of department of anti-virus research, place
+       of residence: Moscow oblast, village Korenevo, Ostrovskogo, 10-67
+       3. Kaspersky Natal'ya, Chief Executive Officer, "Kaspersky Labs" Closed
+       Joint-Stock Company
+
+       Gentlemen, antivirologists! My words - just an excerpt from the criminal
+       record. You may sue me for these words and you will loose the case, because
+       these words are truth.
+
+       Informers are good. They are the main stronghold of totalitarian state.
+       Continue to squeal up for the welfare of the homeland!
+
+       By the way, it hasn't been said in your publication about me that I 
+       was released
+       by court because of changed situation according to the article 80-1 of
+       CC RF (Criminal Code of Russian Federation).
+
+       Thus I am totally reformed man without criminal records.
+       One may admit, that to be ex-virmaker without criminal records is a far
+       better, than to be an informer-virus analyst.
+
+       I wish you success in you hard work :)
+     - - - - - - - - [whale - open letter (english)] - - - - - - - -
+
+     What the hell? Natalya Kaspersky (http://www.itseccity.de/content/bilder/031008_natalya_kasperskylabs.gif),
+     Eugene Kaspersky's stupid wife signed the letter? Who are the other two?
+     I had no success with searching for them. I just know, they are my enemyies!
+
+
+
+
+
+  2) KAV against herm1t
+
+     Another proof that AVs want to bring is down is a mail written by Aleks Gostev (KAV -
+     http://www.viruslist.com/en/imagesen/vlweblog/gostev.jpg). The mail has been sent to
+     hostmaster@union.org.ua AND law@union.org.ua. union.org.ua were the ISP of herm1t's
+     homepage: vx.org.ua, where he had the great collection of virus-information.
+
+    - - - - - - - - [Aleks Gostev - union.org.ua 1 - (russian)] - - - - - - - -
+      From Alexander.Gostev@kaspersky.com  Fri Feb 21 16:14:42 2003
+      Return-Path: <Alexander.Gostev@kaspersky.com>
+      Received: from relay.avp.ru (ns1.kasperskylabs.net [212.5.80.3])
+	      by srv1.union.org.ua (8.11.2/8.11.2) with ESMTP id h1LEEdc05761
+	      for <hostmaster@union.org.ua>; Fri, 21 Feb 2003 16:14:40 +0200
+      Received: (from root@localhost)
+	      by relay.avp.ru (8.9.3/8.9.3) id RAA25753
+      	      for hostmaster@union.org.ua.KAV; Fri, 21 Feb 2003 17:20:26 +0600 (OMST)
+	      (envelope-from Alexander.Gostev@kaspersky.com)
+      Received: from avp_server.avp.ru ([172.16.0.52])
+	      by relay.avp.ru (8.9.3/8.9.3) with ESMTP id RAA25623;
+              Fri, 21 Feb 2003 17:20:22 +0600 (OMST)
+	      (envelope-from Alexander.Gostev@kaspersky.com)
+      Received: from GOSTEV.avp.ru ([172.16.1.205]) by avp_server.avp.ru with Microsoft SMTPSVC(5.0.2195.5329);
+	       Fri, 21 Feb 2003 17:09:17 +0300
+      Date: Fri, 21 Feb 2003 17:09:17 +0300
+      From: Alex Gostev <alexander.gostev@kaspersky.com>
+      X-Mailer: The Bat! (v1.62/Beta7) UNREG / CD5BF9353B3B7091
+      Reply-To: Alex Gostev <alexander.gostev@kaspersky.com>
+      Organization: Kaspersky Lab
+      X-Priority: 3 (Normal)
+      Message-ID: <57107895796.20030221170917@kaspersky.com>
+      To: hostmaster@union.org.ua
+      CC: law@union.org.ua
+      Subject: vx.org.ua !
+      MIME-Version: 1.0
+      Content-Type: text/plain; charset=Windows-1251
+      Content-Transfer-Encoding: 8bit
+      X-OriginalArrivalTime: 21 Feb 2003 14:09:17.0156 (UTC) FILETIME=[D2117240:01C2D9B2]
+      Status: RO
+      X-Status: A
+      X-Keywords:                
+      X-UID: 173
+
+      Çäðàâñòâóéòå!
+
+      Íà ðàçìåùåííîì ó Âàñ ñàéòå vx.org.ua ñîäåðæàòñÿ ôàéëû, ïðåäñòàâëÿþùèå
+      èç ñåáÿ êîëëåêöèþ êîìïüþòåðíûõ âèðóñîâ, áîëåå 7 000 ðàçíîâèäíîñòåé.
+      Êàê ìíå êàæåòñÿ, ïîäîáíîå ñîäåðæàíèå ñàéòà íàðóøàåò ðÿä ñòàòåé ÓÊ
+      Óêðàèíû.
+
+
+      --
+      Regards, Aleks Gostev
+      Virus analyst, Kaspersky Lab.
+
+      e-mail: alexander.gostev@kaspersky.com
+      http://www.kaspersky.com/
+    - - - - - - - - [Aleks Gostev - union.org.ua 1 - (russian)] - - - - - - - -
+
+    OK, and here the translation (without mail-header):
+
+    - - - - - - - - [Aleks Gostev - union.org.ua 1 - (english)] - - - - - - - -
+      Hello!
+
+      The site vx.org.ua which located on Your (servers), contains files,
+      which are the collection of computer viruses, more than 7000 variants.
+      It seems to me that such content of the site violates a numbers
+      of articles of CC (Criminal Code) of Ukraine.
+    - - - - - - - - [Aleks Gostev - union.org.ua 1 - (english)] - - - - - - - -
+
+    Shit! Aleks Gostev wrote a mail to the hostmaster and law-section of the host,
+    over the head of herm1t. But: herm1t was the host-master and the co-owner of the
+    host, so he got the mail immediatly. And he replyed and got another NICE answere:
+
+    - - - - - - - - [Aleks Gostev - union.org.ua 2 - (russian)] - - - - - - - -
+      From Alexander.Gostev@kaspersky.com  Mon Mar 17 09:18:13 2003
+      Return-Path: <Alexander.Gostev@kaspersky.com>
+      Received: from relay.avp.ru (ns1.kasperskylabs.net [212.5.80.3])
+	      by srv1.union.org.ua (8.11.2/8.11.2) with ESMTP id h2H7IAP03696
+	      for <postmaster@union.org.ua>; Mon, 17 Mar 2003 09:18:12 +0200
+      Received: (from root@localhost)
+	      by relay.avp.ru (8.9.3/8.9.3) id KAA14533
+	      for postmaster@union.org.ua.KAV; Mon, 17 Mar 2003 10:28:25 +0600 (OMST)
+	      (envelope-from Alexander.Gostev@kaspersky.com)
+      Received: from avp_server.avp.ru ([172.16.0.52])
+	      by relay.avp.ru (8.9.3/8.9.3) with ESMTP id KAA14525
+	      for <postmaster@union.org.ua>; Mon, 17 Mar 2003 10:28:23 +0600 (OMST)
+	      (envelope-from Alexander.Gostev@kaspersky.com)
+      Received: from GOSTEV.avp.ru ([172.16.1.205]) by avp_server.avp.ru with Microsoft SMTPSVC(5.0.2195.5329);
+	       Mon, 17 Mar 2003 10:17:04 +0300
+      Date: Mon, 17 Mar 2003 10:17:04 +0300
+      From: Alex Gostev <alexander.gostev@kaspersky.com>
+      X-Mailer: The Bat! (v1.61)
+      Reply-To: Alex Gostev <alexander.gostev@kaspersky.com>
+      Organization: Kaspersky Lab
+      X-Priority: 3 (Normal)
+      Message-ID: <2227872500.20030317101704@kaspersky.com>
+      To: andrew baranovich <postmaster@union.org.ua>
+      Subject: Re[2]: vx.org.ua !
+      In-Reply-To: <Pine.LNX.4.33.0303152227070.4251-100000@srv1.union.org.ua>
+      References: <Pine.LNX.4.33.0303152227070.4251-100000@srv1.union.org.ua>
+      MIME-Version: 1.0
+      Content-Type: text/plain; charset=koi8-r
+      Content-Transfer-Encoding: 8bit
+      X-OriginalArrivalTime: 17 Mar 2003 07:17:04.0984 (UTC) FILETIME=[36757D80:01C2EC55]
+      Status: RO
+      X-Status: A
+      X-Keywords:                
+      X-UID: 180
+
+      Hi, andrew.
+
+
+      ab>         ë ÓÏÖÁÌÅÎÉÀ ÍÎÅ ÔÁË ÎÅ ËÁÖÅÔÓÑ. ëÒÏÍÅ ÔÏÇÏ ÐÏÄÏÂÎÙÍÉ
+      ab>         ×ÏÐÒÏÓÁÍÉ × ÜÔÏÊ, ÄÁ É × ÄÒÕÇÉÈ ÓÔÒÁÎÁÈ ÚÁÎÉÍÁÅÔÓÑ
+      ab>         ÏÂÙÞÎÏ ÓÕÄ. åÝÅ ×ÏÐÒÏÓÙ?
+      ab> p.s.    åÓÌÉ ×ÁÍ ÉÎÔÅÒÅÓÎÏ, ÔÏ ÍÏÖÅÍ ×ÍÅÓÔÅ ÐÏÒÁÚÍÙÛÌÑÔØ ÎÁÄ
+      ab>         ÕËÒÁÉÎÓËÉÍ ÚÁËÏÎÏÄÁÔÅÌØÓÔ×ÏÍ.
+      ab> p.p.s   æÉ, ÇÏÓÐÏÄÁ, ÄÏÎÏÓ ÈÏÓÔÅÒÕ - ËÁË ÜÔÏ ÐÏÛÌÏ ö-(
+
+      ïËÅÊ, × ÔÁËÏÍ ÓÌÕÞÁÅ ÐÏÐÒÏÂÕÅÍ ÚÁÎÑÔØÓÑ ÄÏÎÏÓÏÍ îá ÈÏÓÔÅÒÁ.
+      õÄÁÞÉ.
+
+
+
+      -- 
+      Regards, Aleks Gostev
+      Virus analyst, Kaspersky Lab.
+
+      e-mail: alexander.gostev@kaspersky.com
+      http://www.kaspersky.com/
+    - - - - - - - - [Aleks Gostev - union.org.ua 2 - (russian)] - - - - - - - -
+
+    OK, and the translation without header:
+
+    - - - - - - - - [Aleks Gostev - union.org.ua 2 - (english)] - - - - - - - -
+      Hi, andrew.
+
+      ab> To my regret i don't think so. Besides that, this sort of questions,
+      ab> usually, is in the authority of the court.
+      ab> Do you have another questions?
+      ab> p.s. If you interested in, we may think together about ukrainian laws.
+      ab> p.p.s. Fie, gentlemen, to inform the hoster is so dirty :-(
+
+      Okay, in this case we will try to inform AGAINST the hoster. (*)
+      Good luck.
+    - - - - - - - - [Aleks Gostev - union.org.ua 2 - (english)] - - - - - - - -
+
+    herm1t's note: 
+      I note that he uses here the verb "donosit'" (to send information
+      against, to squeal on). Usually people are trying to avoid this word
+      and replacing it by euphemisms, but not our Alex. He knows exactly
+      what he doing and there is no space for the another interpretation of
+      his words.
+
+    I don't want to comment on that - just that I have one more enemy. Thanks, Aleks!
+
+
+
+
+
+  3) FSecure against vx.netlux.org
+
+     Nearly the same happened, when a FSecure guy sent a mail to abuse@netlux.org,
+     to ask for removing vx.netlux.org. As herm1t were still one of the netlux-owners,
+     the unknown friendly guy got a 'Fuck Off!' reply (but more politly - of course).
+     I dont have sources for that event, I just mention it because I want to show that
+     some other AVs are as shit as KAV.
+
+
+
+
+
+  4) KAV against virus related Newsgroups
+
+     Another thing: Vadim Bogdanov tried to force FidoNet authorities
+     to drop virus related newsgroup SU.CM from the FidoNet backbone and
+     threaten its moderator (RedArc) by the possibility of criminal
+     prosecution. The discussion was in the R50.SYSOP echoconference. I could not
+     find sources for that, but you can ask RedArc for more informations.
+
+
+
+
+
+  5) KAV against www.host.sk
+
+     This is just a rumous, but it seems to be quite true. At 2nd December 2004
+     Aleks Gostev (we already know him, don't we?) wrote a entry in viruslist.com
+     Researcher's diary: (http://www.viruslist.com/en/weblog?discuss=155728886&return=1)
+
+    - - - - - - - - [KAV - host.sk] - - - - - - - -
+      Web host for virus writers closed
+
+      Aleks Gostev - December 02, 2004 | 19:13  MSK 
+
+      Today we noticed that the infamous Internet resource host.sk, which has provided
+      Web hosting services for a long time for the web sites of various virus writers'
+      groups and individual members of the underground is currently unavailable and not
+      responding to requests.
+      We can only guess that this is a result of the recent events in the Czech Republic
+      when members of 29A were questioned by the police. Benny and Ratter also had sites on this host.
+
+      We do have information that the host has been closed by the authorities and the contents seized.
+    - - - - - - - - [KAV - host.sk] - - - - - - - -
+
+    One day later, when host.sk returned, Aleks wrote an comment in the guestbook:
+    (http://www.viruslist.com/en/weblog?discuss=155728886)
+
+    - - - - - - - - [KAV - host.sk] - - - - - - - -
+       03.12.2004 01:42  |  Aleks
+      "We do have" - correct "We dont have". Just typo, sorry.
+    - - - - - - - - [KAV - host.sk] - - - - - - - -
+
+    I don't believe it was just a mistake - not after knowing all the things I've already wrote.
+    But what happened then? About one week after that, host.sk went down again.
+    I've tryed to get information about that (I've called .cz's police and SK-PRIME-INTERACTIVE -
+    the company behind www.host.sk. But I could not get any informations!
+    As I said, this is just a rumous, but what I think is the following:
+    KAV (maybe Aleks) wrote a mail to www.host.sk or to any higher instance to close the site
+    due to virus groups (29a, ...) and individuums (Z0MBiE, vecna, Benny, Ratter). At 2nd December
+    host.sk had problems with their server, and shut down. As Aleks thought, it's due to his
+    'activity', he wrote the message at the Researcher's Diary. But when Aleks found out that
+    host.sk is active again, he wrote that it was a typing mistake. Why do I think so?
+    KAV don't want to public the information, that they are doing such things beside of making
+    an AV programm. But they want to be the first once to publish hot stories.
+    As I said - just rumous!
+
+
+
+
+
+  6) AVs spreading the virus writer's name
+
+     When I found the virus writing scene and the antivirus scene, I thought both are gentlement
+     clubs, doing their best with their knowlegde. But now I think different: AVs (at least KAV)
+     moved to a very strange site. They sent messages to police, hostmasters, ... to stopp viruswriters
+     from that what they want to do.
+     Another really shit technique of doing so is releasing the real names of Viruswriters.
+     Neighter the names of thiefs nor killers become public - but the names of virus writers.
+     There are two examples: Gigabyte's name (released in the VirusBulletin 12/04 - Editional)
+     and whale's name, which has been released nearly everywhere!
+     This is a real bad behaviour - it's no more fun - it's crime!
+
+
+
+
+
+  7) Conclusion
+
+     Once I had a big respect of all AV researchers, but that changed: Now I feel just angry when I
+     read their names. Big thanks to herm1t (vx.netlux.org) for everything you wrote!!! I hope I gave
+     you the same feeling with this article! I really want you to spread these informations - they
+     must not be secret anymore!!!
+
+                                                                      Second Part To Hell/rRlf
+                                                                      15.12.2004

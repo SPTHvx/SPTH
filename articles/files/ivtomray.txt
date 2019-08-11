@@ -1,0 +1,314 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************        Interview with Tom Ray        ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) About Tom Ray
+
+  1) About Tierra
+
+  2) The Interview
+
+
+
+
+
+  0) About Tom Ray
+
+     Dr. Thomas S. Ray is a professor of Zoology at the University of Oklahoma,
+     with an adjunct appointment as Professor of Computer Science. He received his
+     Masters and Doctorate in Biology from Harvard University, specializing in plant
+     ecology.
+       Tom Ray is a well-known scientist in the field of artificial life and
+     evolution. In The 1990s he has developed "Tierra" and "Virtual Life".
+     Beside of that, he has also been deeply involved in rain forest conservation
+     in Costa Rica.
+
+     His homepage: http://life.ou.edu/
+
+
+
+
+
+  1) About Tierra
+
+     Tierra is a computer simulation developed in the early 1990s in which computer
+     programs compete for central processor unit (CPU) time and access to main memory.
+     The computer programs in Tierra are evolvable and can mutate, self-replicate and
+     recombine. Tierra is a frequently cited example of an artificial life model;
+     in the metaphor of the Tierra, the evolvable computer programs can be considered
+     as digital organisms which compete for energy (CPU time) and resources (main memory).
+
+     (http://en.wikipedia.org/wiki/Tierra_%28computer_simulation%29 and at Tom Ray's homepage)
+
+
+
+
+
+  2) The Interview
+
+   1.) Why have you started to do researching in such an unusual topic 
+       as "artificial life"?
+
+   I feel that I answered this question in my essay:
+   Ray, T. S. 1993. How I created life in a virtual universe.
+   http://life.ou.edu/pubs/nathist/
+
+
+   2.) After you have introduced Tierra@Home, which has terrifically
+       increased the size and speed of Tierra, have there been any
+       significant successes (social behaviour, increase of complexity,
+       ...)?
+
+   Although I have released the source code for the network version of
+   Tierra, I have never fostered a Tierra@Home project.  The reason is
+   that I am not convinced that running a really large network would
+   produce the desired result, a virtual Cambrian explosion.
+
+
+  3.) In the real world there are hundreds or thousands of chemical
+      reactions, which are equally to computer functions in Tierra. But
+      the amount of functions in Tierra is limited in comparison to
+      Operation Systems or BIOS functions. Would be a more complex system
+      more suitable for evolution?
+
+   I don't think your analogy is appropriate:
+
+      chemical reactions = functions in Tierra
+
+   I think I might equate chemical reactions the actions of algorithms,
+   or code fragments, of which there are a limitless number.
+
+
+   4.) Soon in Tierra parasites have been formed, later cells with
+       immunity, which has been a highly interesting development. What has
+       been the most impressive development in Tierra in your opinion?
+
+   I think the ecological/evolutionary dynamic was the most impressive
+   result in Tierra.
+
+
+   5.) Sexuality is a very successful way of recombining the genomes 
+       of creatures in biology. Is this system also successful in 
+       artificial evolution?
+
+   Yes.  I don't use it much in Tierra, but it is used a lot in genetic
+   algorithms and genetic programming.
+
+
+   6.) In some of your publications you mentioned the phrase "Cambrian
+       explosion" in computers. In the history of life this happened more
+       than 1 billion years after the development of first forms of life.
+       In addition, earth had more resources than networks like Tierra -
+       even more than the whole worldwide network. Is there still a reason
+       for believing that this will happen in computers much faster?
+
+   The Cambrian explosion happened when organisms were prepared to explore
+   the diversity of the multi-cellular developmental process.  It took
+   about three billion years to reach that point.  However, in an artificial
+   system, we can attempt to engineer the conditions from which that
+   exploration is possible.
+
+
+   7.) What has prepared biological organisms for that important step 
+       of evolution?
+
+   Some say that it was necessary for the concentration of oxygen in the
+   atmosphere to reach a level high enough to support large multicellular
+   organisms.  But I also think that it had to await the evolution of a
+   flexible genetic system for directing the developmental process, such
+   that mutations in the developmental controls could produce changes in
+   body plan.
+
+
+   8.) How do you want to engineer this condition in an artificial system?
+
+   The network Tierra experiment was not about scale, it was about engineering
+   a system poised on the threshold of a digital Cambrian.  This is discussed
+   in papers such as:
+
+   Ray, T. S. 1998. Selecting Naturally for Differentiation: preliminary 
+   evolutionary results. Complexity, 3(5): 25-33. John Wiley & Sons, Inc.
+
+   Ray, T. S. and Joseph Hart. 1998 Evolution of Differentiated 
+   Multi-threaded Digital Organisms. In: Artificial Life VI proceedings, 
+   C. Adami, R. K. Belew, H. Kitano, and C. E. Taylor [eds.], 295-304. 
+   The MIT Press, Cambridge.
+
+   The multicellular starting organisms in network Tierra were differentiated
+   at the most primitive level: two cell types.  The object of the experiment
+   was to observe an increase in the number of cell types.
+
+
+   9.) You have compared today's software with biological cells, and
+       wrote that even our most complex software (such as operation
+       systems including multi-threading) are just Protozoa (single-celled
+       organism). What could be the "Cambrian explosion" in computers and
+       what do you expect from it?
+
+   I discuss this in a paper that I think you have read:
+   http://life.ou.edu/pubs/reserves/node1.html
+   I point out that we probably can not imagine what such digital organisms
+   might be like.
+
+
+   10.) Are there conditions, which influence the speed of evolution in 
+        a positive ways  in biological and artificial systems?
+
+   In biological systems, adaptive radiations occur when species invade
+   ecological voids (such as the colonization of a newly formed archipelago,
+   e.g. Galapagos) or when they evolve new morphological novelties (such as
+   multicellularity, e.g. Cambrian explosion; or jointed appendages, e.g.
+   diversification of insects).  Artificial systems unfortunately are orders of
+   magnitude simpler that biological systems that exhibit adaptive radiations.
+   Many studies in genetic algorithms or evolutionary computation compare
+   rates of evolution under different conditions.  But this is all trivial
+   compared to what happens in biological systems.
+
+
+   11.) The whole theory of evolution relies on randomness. New let's 
+        change the view: Is there also a way of mutation, where artificial 
+        creatures try to improve their own code by calculate a 
+        best-case-scene, and what is your opinion about that?
+
+   This kind of reverse engineering is not practical for a variety of reasons.
+   Organisms don't have any means of forseeing what kinds of changes are
+   needed for adaptation.  Also, if it were known what kind of adaptation is
+   needed, it is generally not possible to know what kind of mutations would
+   generate such an adaptation.  We don't have a general understanding of
+   the mapping from genotype to phenotype.
+
+
+   12.) In 1986 Fred Cohen wrote in "Computer Viruses - Theory and
+        Experiments" about the possibility of accidental development of
+        artificial life due to software bugs. Could this thought come true
+        in our modern world, which is "dominated" by computers?
+
+   David Ackley gave a fascinating lecture about "real" AL several years
+   ago, in which he claimed that all the critters living on the net (viruses,
+   worms, etc) are in fact artificial life.  This is one view, but see my
+   answer to the next question.
+
+
+   13.) Several sources count computer viruses as first artificial
+        life. What is your opinion about that statement and what do you
+        think about harmless computer viruses, which have just been created
+        for the purpose of existing?
+
+   This question forces us to take a position on defining life.  Computer
+   viruses, worms, etc exhibit self-replication, an important quality of life.
+   However, I consider evolution to be both the defining property and the
+   creative process of life.  Evolution is the missing element in the kind
+   of "real" AL that Ackley talks about.
+
+
+   14.) What do you consider as "computer virus"?
+
+   I think this is adequately answered here:
+
+   http://en.wikipedia.org/wiki/Computer_virus
+
+
+   15.) How would you describe a program with self-replication- and 
+        evolution-capability? Computer virus or artificial life?
+
+   I think if it both self-replicates and evolves, we can consider it to
+   be artificial life.
+
+
+   16.) Beside of self-replication and evolution, what else do you 
+        consider as conditions of life?
+
+   I think self-replication and evolution are what matters, but many people
+   will produce a long list of characters, including such things as metabolism
+   and repair.
+
+
+   17.) Metabolism is biochemical process mainly for getting energy and 
+        for anabolism - both is not needed for an artificial organism. What 
+        else could "artificial metabolism" be?
+
+   We can only make analogies between organic and digital life.  These analogies
+   may or may not be meaningful.  A digital analog of metabolism might just be
+   the processing of instructions and manipulation of data.
+
+
+   18.) In Tierra, phenotype and genotype of the creatures are the 
+        same. What could be the phenotype of an artificial creature, if we 
+        do not count simulated "earth-like" systems as Karl Sims' "Virtual 
+        Life"?
+
+   I think it is a mistake to see the phenotype and genotype as the same in
+   Tierra.  The genotype is the bit sequence or instruction sequence of the
+   genome.  The phenotype is what happens when those instructions are executed.
+
+
+   19.) In John Conway's "Game of Life" 2-dimensional "pixel-creatures" 
+        behave as they would life. What do you think about this 
+        mathematical simulation - do you consider its creatures as alive?
+
+   I enjoyed playing with it as a kid, when it was published in Scientific
+   American.  Today I don't find it very compelling.  The entities don't have
+   a genetic representations, thus there is really no heredity, so there can
+   not be a basis for evolution, and there is no evolution in the biological
+   sense.  I don't consider them to be alive.
+
+
+   20.) In "The Universe in a Nutshell" Stephen Hawking explains that 
+        (biological) life is just possible at universe with more then 2 
+        dimensions. What do you think about that idea, and is there 
+        something equal to dimensions in the computer?
+
+   This may be true in the context of the material universe.  However, I don't
+   consider it to be true in the digital universe, where dimensionality has
+   quite different qualities.  I discussed dimensionality here:
+
+   http://life.ou.edu/pubs/zen/node18.html
+
+   By the way, I urge you to read the zen paper:
+
+   http://life.ou.edu/pubs/zen/
+
+   It may be my best paper.
+
+
+   21.) Are you interested in any other artificial life or 
+        evolution projects?
+
+   I like Karl Sims evolved virtual creatures very much, and I created a version
+   of it that runs on the PC: http://life.ou.edu/VirtualLife/
+
+
+   22.) What do you expect about artificial life and about Tierra in future?
+
+   Open ended evolution, and large evolutionary increases in complexity
+   remain challenges in AL.  I don't know what the prospects are of
+   overcoming these challenges.
+
+
+   23.) What are your current researches, and what are your future 
+        plans about that topic?
+
+   I am currently working in the area of psychopharmacology, trying to understand
+   the chemical architecture of the mind.
+
+
+
+
+                                                  - - - - - - - - - - - - - - -
+                                                    Second Part To Hell/[rRlf]
+                                                    www.spth.de.vu
+                                                    spth@priest.com
+                                                    written in June 2006
+
+                                                    ...surrealistic viruswriter...
+                                                  - - - - - - - - - - - - - - -

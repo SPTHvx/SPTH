@@ -1,0 +1,262 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************       Interview with pr0mix          ***********
+	  ************              by SPTH                 ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+
+
+This is an interview with the virus writer pr0mix, done in january 2012.
+You can find him http://lj.rossia.org/users/pr0mix
+or send e-mails to pr0mix@mail.ru
+
+
+Have fun! :)
+
+
+
+
+##############################
+##  Hey pr0mix! Thanks alot for accepting this interview! First of all, could
+##  you please descripe yourself: where are you from, how old are you, whats
+##  your favorite music, what are your hobbies ...
+
+Hello! Thank you for taking the interview ;) I'm from Russia, 23. 
+Maybe I'm a music lover (meloman? =)) I like to listen to various music: rap, 
+rock, electronic, classic etc etc. My interests: vx, computers, sport, music, 
+girls -> self-development xD
+
+
+
+##############################
+##  Where did you get your handle from and what does it mean?
+
+I combined two words: pr0 + mix. I liked the result and it became my 
+nickname )
+
+
+
+##############################
+##  Could you please tell us a bit about your start in vx: why did you start
+##  writing viruses in the first place? When did you start and who where the
+##  first vxers that you had contact with?
+
+Before I was a little programming experience. Initially, I wrote various 
+applied programs. Then, with friends we wanted to create a cool game, but for 
+some reason we have postponed this idea. Though, nevertheless something has 
+been created (arcanoid 2D =)).
+I like to read a variety of computer articles (and not only =)), and thus I 
+have opened for myself the VX. It was about 4 years ago. After acquaintance to 
+this theme, I realized that this is, what I want to do. 
+Here there are no borders, only a fantasy.
+VX - a first of all idea, it's part of me. 
+After some time I realized a few vx-projects and wanted to share them with
+other people. So, at first I found herm1t. And then of other people.
+
+
+
+##############################
+##  Does your family or friends know about this hobby?
+
+Only one of my friends. 
+
+
+
+##############################
+##  Could you please give us an overview of your vx projects that you have
+##  done over the last years?
+
+You can find my projects in my blog: http://lj.rossia.org/users/pr0mix
+
+
+
+##############################
+##  OK, thanks. I see that the blog is russian - can you please summarize for
+##  us non-russian speakers what you have done? :) What where the special 
+##  things of win32.atix, win32.spectr0, win32.XtaiL, win32.0x02? What is the
+##  purpose of the engines that you made? Please explain us a bit about the 
+##  projects that you did :-)
+
+Oke, I will briefly talk about three developments that were in the magazine 
+EOF#3.
+1. Text "Static detection of files" (on rus/eng), which says how avers can 
+catch files by analyzing their structure and data, and possible variants for 
+bypass these detections. 
+2 & 3. Text "Smart trash: building of logic" (on rus/eng), which says how to 
+improve the quality of the generated garbage. And also developed the 
+eXperimental/eXtended/eXecutable Trash Generator (xTG v2.0.0), in which 
+implemented a  "Logical Trash" technique (user's manual on rus/eng). 
+
+If you are interested in other details, you can write me an email =)
+
+
+
+##############################
+##  What is your favorite malware of all time? Which viruswriters do you
+##  respect most and which vx-groups did/do a pretty great job?
+
+I don't have favorite malware. Respect to all active virmakers =)
+
+
+
+##############################
+##  Which kind of vx technology are you most interested in? New techniques
+##  for spreading? Better ways for hiding the code from detection? Deeper
+##  control of the computer (boot kits)? Or something totally different?
+
+All, but there is currently a priority - it's poly-meta-permutation etc. 
+
+
+
+##############################
+##  What would be the prefect computer virus in your opinion?
+
+Undetectable virus, with the (artificial) intelligence, which would think 
+out new technology of spread, hide and others, could exist not only on 
+devices, and to infect various objects by force of thought. The rest think 
+up you :)
+
+
+
+##############################
+##  What are your plans for the future as a VXer? Do you have a pretty full
+##  to-do list?
+
+Yes, there is time for everything, everything is good in its season =)
+
+
+
+##############################
+##  Whats a good language for writing viruses? Whats your opinion of assembler
+##  viruses, on HLL viruses (C,.NET,VB,...), and on script languages?
+
+The main thing - the idea. Realization - second task. So, all languages are in 
+own way good. 
+I like to program on the assembler. It gives me complete control over the program. 
+On the other hand, I can write on C independent components, modules and other big 
+projects on it language. It is easier and more convenient. Mainly, I use scripting 
+languages as the additional tool, and also for automation of some processes. Here 
+depends on personal preferences and the tasks, what language will be more suitable.
+
+
+
+##############################
+##  How do you inform yourself about viruses? Which e-zines did you read in
+##  past? What is your oppinion on VirusBulletin or Journal in Computer
+##  Virology? Do you regulary read it?
+
+Whenever possible I read and read any thematic articles, e-zines, etc. I think that 
+it is possible to find the useful, valuable information in each document (about VB 
+and JCV too :)). And thanks to all those who share her. 
+
+
+
+##############################
+##  You are member of EOF for several years. Could you please give us an
+##  overview of this group?
+
+It's the project of people and for people interested in development of vx-technology. 
+Now project is experiencing the not best of times, but I hope that this is temporary 
+and all will be good. Other information can be found on a site of the project: 
+http://eof-project.net
+Wishing to join, you are welcome =)
+
+
+
+##############################
+##  Have you ever met other viruswriters in real life? Would you?
+
+No, but it would be possible to meet. 
+
+
+
+##############################
+##  Do you have contact to people from AV companies?
+
+Not
+
+
+
+##############################
+##  Would you ever consider working in an AV company? Even they deny it, many
+##  viruswriters are working in such companies, helping them to get their
+##  buggy, lame programs working. :-)
+
+I wouldn't mind if a company from time to time would be divided with me the latest 
+news and developments. And for this I would say "thank you!" to them xD. Other 
+variants of cooperation somehow don't like to me.
+
+
+
+##############################
+##  What would be your suggestion to new viruswriters who want to do viruses
+##  as a hobby? What should they read? What and how should they learn?
+
+Respect that is written. Study, that is available. Develop the new. In general, do 
+that you think is necessary.
+
+
+
+##############################
+##  What's your opinion on commercial computer viruses that have nearly
+##  displaced the hobbyist-writers last 5-10years?
+
+I don't approve. Commercial computer viruses don't have any relation to True VX. 
+
+
+
+##############################
+##  So viruswriting has mainly shifted from hobby-creation to commercial virus
+##  writing. What is your prediciton for the hobby-vx-scene; will it survive
+##  and people continue to develope new technologies, improve old ideas and
+##  write viruses for new platforms - without harming others?
+
+The "VX-scene" - the concept of fuzzy. But hobbyist-writers were, there is and, 
+I'm sure, that will be. Maybe, the format of an exchange of technologies will 
+change, but development will continue.
+
+
+
+##############################
+##  In 2010 we saw new kind of virus - cyber weapon written by a government
+##  agency: Stuxnet. What is your opinion on that worm? Will we see such
+##  projects more often in future?
+
+It is (high)-quality, professional development. However, I agree with one article, 
+which says that basically nothing new has been invented. I think it will be several 
+more similar projects.
+
+
+
+##############################
+##  Now let's look into the future: How will be the virus situation in 2015 -
+##  3 years from now? What what will be your long term prognosis, lets say
+##  for 2020 and for 2050? Be creative! :)
+
+Pull out your crystal ball =)
+Future of the 1-st day: x64-technology, advanced technics of disembodied files and 
+rootkit-technology, the spread of viruses to new platforms / devices, advanced 
+integration of a virus with executable files etc;
+
+Future of the 2-nd day: algorithmic mutation, the use of powerful virtualization 
+technology in viruses, the use of viruses in the new format (going beyond the PC) etc;
+
+Future of the 3-rd day: neural networks, AI, the integration of virus-technologies 
+into gene engineering etc;
+
+hehe :p 
+
+
+
+##############################
+##  Thanks alot pr0mix for the interview!
+##  Feel free to fill the rest of the file with whatever you like!
+
+A journey of a thousand miles begins with a single step..so go into the VX-world, you 
+will be pleased! Yop!
+ 

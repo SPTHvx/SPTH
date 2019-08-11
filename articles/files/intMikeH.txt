@@ -1,0 +1,90 @@
+
+Interview mit Mike Hibbett, dem Chef-Programmierer von MenuetOS, einem Betriebssystem, dass 100% in Assembler geschrieben ist.
+
+Fragen von Second Part To Hell (www.spth.de.vu) für das deutsche „LowLevel-Magazin“, August 2004
+
+-	First of all, please introduce yourself (where do you live, Age, job, family, hobbies, ...)
+
+I live in the south-east of England with my partner and our two young children. I'm 39, and currently working as an embedded software engineer for a telecommunications equipment manufacturer. With a young family at home my spare time is limited, and most of it goes into Menuet. Rock climbing sometimes occurs when I can find the time!
+
+
+-	When and how did you start to code?
+
+I started coding at the age of 14 when I bought my first computer, an Acorn System 1 (http://www.cary.demon.co.uk/acorn/ ). I still own it. It was programmed in assembly, and the challenges and fun I had getting the thing to do anything useful remains with me to this day, and are the reasons why I still enjoy the challenge of programming at the low level.
+
+
+-	Which languages do you know and why did you learn them, and which one do you like best and why?
+
+6502 Assembly was the first language I learnt for programming the Acorn system 1. I then moved onto Cobol, simply because that was the only book on programming in the Library. I started to use BASIC on the TRS80, but I didn't like it; To abstract from the hardware, and too slow. That feeling still dominates my view of BASIC and I have never really done any serious coding in it.
+
+My first real experience of a high level language was Pascal which I learnt at university along with Fortran. I never really liked either, even though I programmed in Pascal for several years during the 80's. But then I found 'C', and never looked back. 
+
+I view C as a decent assembler rather than a high level language. It gave me the opportunity to visualise my designs more quickly than with assembly, but still allowed me direct access to the underlying hardware, and an easy interface to assembly when I wanted it. Even so, I often find myself looking at the assembly output of a compiler to check it isn't making mistakes!
+   
+I think I have to say that assembly and C are my joint favorites; I need both. I love expressing design concepts in 'C', but I love the challenge of assembly.
+
+
+-	How did you learned about OS developing and, beside of MenuetOS, have you ever created or contributed to any other OS?
+
+Menuet is in fact the first 'proper' OS I have ever coded on; Up until last year (and that is over 25 years of coding,) I have relied on a basic 'main loop' and interrupt processing to get the job done. And that is in a wide range of products; Telephones, pagers, robots, electricity meters and telecoms equipment. 
+
+
+-	How and when did you find MenuetOS?
+
+I forget now how I first came across it. It was about 3 years ago, and I suspect what may have attracted me was that it had no TCP/IP support. I'd just written a TCP/IP stack in 'C' and had  always been interested in networking, so I thought I would give it
+a go. And it's small size attracted me. Even though I played with Linux back in 1993 I still found Linux too large to get to grips with.
+I like to fully understand the enviroment that I am working in.
+
+
+-	What made you decide to code stuff for MenuetOS, and what one have you already coded?
+
+I guess I have already answered that; It was Menuets lack of networking that pushed me to create a simple stack. I started off with IP, UDP and SLIP, then moved on to TCP, Ethernet, and a host of network applications. My favorite network application is an IRC client written by Ville, and it's only 8KB of code.
+
+    
+-	After four successful years MenuetOS got a new leader/operator: You. Why did Ville Turjanmaa (the founder) choose you?
+
+I dont really know, I never asked him. Ville and I have always worked well together, I understand what his views are for Menuet, and I respect them. And I think realises that; Perhaps he trusts me to keep to the original ideals for Menuet; A small, assembly language OS. When he asked me to take over I was both delighted and sad; Delighted that I would be able to contribute more to the direction of Menuet, but sad because I have enjoyed working with Ville, sharing his ideals.
+
+
+-	The main aim of MenuetOS seems to be fitting on one 1"44 Disk. In future, if the whole applications and sources are to big for one disk, what will you do?
+ 
+I dont believe fitting on a floppy is an aim of Menuet, it certainly isn't one of my aims. But it is a question of size; Menuet is a small OS, and it isn't going to outgrow the size of a floppy soon! We already have many megabytes of applications, and Jarek Pelczar has done some great work on C libraries that increase that significantly! I am keen to keep the main distribution small since that fits in with the general philosophy of the project, but at the same time I want to encourage people to build on top of Menuet as they see fit. The OS is after all just a part of a complete working system. I hope to improve on the harddisk installation procedures soon. This will mean a second 'official' distribution along side the main floppy version, but the 'floppy' version will always be the primary release.
+ 
+
+-	What is the target group of MenuetOS, who uses it
+
+The target group is clear from the banner on the web site: "The Assembly Language Programmers OS" And there do seem to be quite a hardcore group of highly technical programmers, mainly in Europe. 
+Recent media coverage in the USA has increased our user base, and we now seem to have a number of different interest groups. We are moving into the phase of "users verses developers" which is quite an interesting juggling act. 
+
+
+-	What is more important for you: Bigger target group (more user-friendly) or more technically applications?
+
+Neither. What is important to me is moving Menuet forward to the stage where it is a real contender for my desktop. I'm currently writing this article at home under Windows; I'd rather be using Menuet. It's going to be an interesting journey, and it's one that I hope the Menuet community can make together without fragmenting, or loosing interest.
+Part of that journey will involve more user-friendliness, part of it technical improvements such as font support, web browser, etc.
+
+
+-	Now let's talk about Menuet's future: What will be (do you hope) in near future  (let's say: 6 month - 2 years)?
+
+Near term, getting harddisk boot support, font handling and a web browser. All of these are in progress, but progress is slow. There are smaller goals along the road, but those are the things I think of before falling asleep at night! 
+
+   
+-	And what do you think about the far-away future (5-10 years)?
+
+Ah, the vision thing. I never look more than 5 years hence, it's just too far. But in 5 years I hope that Menuet will be my main OS at home; What that means in terms of development is hard to say, ask me again in one year!
+
+
+-	Which advise would you give new OS developers? How to start? Which tutorials to read?
+
+The best tutorial I have found is Andy Tanenbaums book on OS design (Operating Systems: Design and Implementation.) Although the book describes a micro kernel (which I dont like,) I loved the principles, and it is a great read. The problem with good books though is that they can stop you from engaging in the best activity for learning how to code an OS:
+Coding.
+And the reason? Because coding is hard, and sometimes you have to throw away months of work.
+What worked for me was finding a project with a vital part missing, and setting down to provide that part. Thats how I got involved; I loved networking, and Menuet was without a network stack. I have learned much more about OS's and TCP/IP than I would from just reading books. Of course the web is a great source for tutorials these days, and there are plenty of individuals and institutions who have published well documented examples on the web. 
+
+
+-	Thanks a lot for the interview! I hope the questions weren't too stupid :)!
+   
+They weren't stupid, they made me step back and think, and it's important to do that from time to time! Thanks for the interest.
+
+   	Regards,
+   	Mike.
+

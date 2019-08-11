@@ -1,0 +1,413 @@
+             
+             **********************************************
+                         Interview with genetix
+                         by Second Part To Hell
+             **********************************************
+
+
+genetix is a viruswriter who appeared someday in 2005. After a longer break,
+recently she started to write several first-time infectors for new programming
+languages, so I thought its the perfect time to make an interview with her.
+
+The interview has been done via e-mail and IRC, in june 2013.
+
+You can reach her via kels@kittymail.com or at https://twitter.com/MitterAngel.
+
+Have fun :)
+
+
+
+##############################
+## hey genetix! Thanks for agreeing to answere a few questions. First, could you
+## please tell us a bit about yourself - like where you are from, how old you
+## are, whats your favorite music/movie, how you usually spend your day, ...
+
+
+Greetings!! my real name is Kelsey I'm 21 years young and I'm living in finland 
+(although it's not my origin) and I have blue Hair. I don't exactly have a
+favourite music genre I like all sorts but recently I've been listening to a lot
+of Celine Dion. As for movies my favourite is "note book". I don't have much
+spare time but my usually activity is just going to the library, visiting coffee
+shops, getting drunk on saturday nights with my friends (if i can afford). I
+often get confused as a scene or emo girl but i'm neither, I'm just myself. I
+don't even enjoy reading I just go to the library because it's quiet and I can
+also have coffee there.. and may be look sothisticated.
+
+
+
+############################## 
+## Where are you from originally any why did you go to finland? Did you want to
+## meet Mikko Hypponen? :) Or do you like when its cold, and you can stroke
+## Reindeers? :) Do you speek finnish?
+
+
+Originally USA I'm still in finland and I honestly have no interest meeting that
+person^^ I've not got close enough to a reindeer. I moved here because I had 
+some friends here and I like the country, it has a very hot summer, but a very
+cold winter!
+
+
+
+##############################  
+## When was your first contact to computer viruses? Why and when did you write
+## your first virus?
+
+
+I remember someone telling me something stupid about how a pixel could contain
+a virus.. I wasn't sure what a virus was but that info alone kinda intrigued me
+enough to seek viruses using my schools library computer (because I had no
+internet) anyway I finally after many failed attempts come across herm1ts site
+and began downloading lots of viruses, I remember the Anti-Virus (McAfee) was
+going crazy I thought it was so cool! But I was shortly pulled from the computer
+by the admin who didn't look very happy and suspended me from the library. It
+was months after that, that I finally had internet access at home and began my
+search again. I tried contacting virus writers using the email addresses I'd
+gotten from tutorials but little did I know they were all retired, people
+like VicodinES and jackie.
+
+I ended up sending a mail to someone called kefi and about a week later I had a 
+reply I was amazed I had finally gotten contact with a REAL VIRUS WRITER OMG!!!
+i'm sure you know the feeling^^ I was actually talking with him on MSN while he
+was writing the first virus for a language called kixstart, I'm pretty sure
+he was showing off! I got his source and was so amazed although I understood
+nothing at-all I just thought it was totally amazing! He even challenged me to
+write a virus better than his.. kinda unfair at the time but if you are reading
+this now I will accept your challenge^^ I can't remember in what order but I
+contacted a few others through him.
+
+I wrote my first virus because.. well.. viruses are kewl! I think it was just a
+vbs overwriter.. nothing special.
+
+
+
+##############################  
+## Very nice story :) In which year was that?
+
+
+I can't remember exactly^^ but probably like 6-7 years ago may be? it was at the
+very beginning.
+
+
+
+##############################  
+## Do some of your friends or family know that you have this "special hobby"? :)
+
+
+Some friends do and my parents did too but most people don't understand what it
+really is all about so they don't have much to say about it plus it's an 
+uninteresting topic to them.. although there are some added complications when
+both of your parents work for the police (such a twist!) all they know is that
+it's morally wrong to write viruses and we have had many arguments over it, I
+even walked out a few times slamming the door behind me. The worst thing they
+ever did was insult my virus writer friends.. And we still don't talk anymore.
+It's a long story, basically they made me choose.
+
+
+
+##############################  
+## You have been active several years ago, then stopped writing codes. Why did
+## you stopp and why did you decide to code self-replicators again?
+
+
+I got bored of it for a while, I guess we all do.. but now I have a lot of work
+to do and I cant fit virus writing in with my current life style, I'm also
+not really interested about it.. or at least not right now.
+
+
+
+##############################  
+## You have been memeber of Doom Riderz, can you tell us something about this
+## group? Have you been active in other joined projects aswell?
+
+
+I was in EOF but that was very short lived, I quit within a few days to join
+DoomRiderz because I was closer friends with the founder and he asked if I 
+wanted to join so.. I did. There was a lot of drama in that group But I really
+enjoyed my time there, free0n left and the group died.
+
+
+
+##############################  
+## Do you have contact to many other viruswriters? 
+
+
+I have contact to all of them I guess, we all know or at least know of eachother
+but the only active virus writer I have somewhat regular contact with is you.
+
+
+
+##############################  
+## Have you ever met viruswriters in real life?
+
+
+I made plans to meet Belial once in berlin with a friend but there was some
+emotional wreck involved and.. yea.. long story so I ended up not going, I
+visited a hospital instead but I'm sure berlin would have been much more fun!^^
+
+
+
+##############################  
+## Do you have contact to people from antivirus companies, or security
+## researchers?
+
+
+No, I have no reason to contact them, mutual I suppose. 
+(OMG ITS THUNDERING NOW!)
+
+
+
+##############################  
+## Can you tell about some of your best creations? What was your favorite
+## project, which one was most challanging?
+
+
+I think that would be my recent OCaml virus, it was my first time using a
+functional language and it was also the first time that this language had been
+infected, we know how challenging functional languages are^^
+
+
+
+##############################  
+## What is your favorite virus of all times?
+
+
+Melissa macro virus^^ it was also the first virus I had ever seen.
+
+
+
+##############################  
+## Which techniques do you like most in selfreplications?
+
+
+EPO (Entry Point Obscurring) I always try to adopt this method in to my viruses.
+I first come across the method by reading your tutorials a long time ago. I also
+like cavity infection.. i just think its kewl..old but still kewl! 
+
+
+
+##############################  
+## Consider the coolest self-replicator that you can imagine, how would it look
+## like (be creative and visionary ;) )? Whats the perfect virus of the future?
+## How do you imagine computer viruses in near future, lets say in 3 years?
+## What is your longterm prognosis for 2020 and 2050?
+
+
+A futue virus.. So many possibilities! Well first we have to think about the
+size of the binary before we come up with crazy new ideas because size does
+matter (no pun intended) and also the fact that although in theory a technique
+or a set of techniques can be used and a programmer has the right skills for it,
+there does come a point when the source gets so massive and complicated that you
+simply cannot follow it anymore, not to mention the inevitable bugs you'll come
+across that will be harder and harder to solve. I think in this case a whole new
+language is needed but I'm probably jumping to far ahead with this^^ anyway I
+think a basic answer to a future virus would be (TEAMWORK) and I don't see much
+of it. We have 1 person who is good at mutating code and another who is good
+with pe infection, but no combined projects? strange.
+
+I bet AV are hoping virus writers don't start working as a team like AV
+companies do when writing AV software.. you think just one guy sits there
+writing these programs? And that reminds me, what exactly is the point in
+VX-Teams when there is no teamwork going on?
+
+Also a nice idea would be for a virus to be aware of it's detection status and
+communicate with other infected computers, they can let each other know when
+it's time for a change and send some metacode to them so that the virus can
+mutate to a new varient using the details in the metacode.. for some of this we
+can follow botnet examples, how they communicate with eachother. It would also
+be nice to infect mobile devices and employ rootkit-like techniques. Computers
+are becomming more and more paranoid these days and we can't ignore it and avoid
+it.. it's a problem that must be faced and defeated. We can't send someone an
+EXE file anymore and expect them to run it and infect everything, now we get
+all sorts of popups warning us of strange activity. I see that many viruses
+ignore this.. it can't be ignored!
+
+
+
+##############################  
+## You are a main participant for the "language infection project" - so far you
+## infected more than 10 (!) untouched languages. Can you tell a bit about
+## your experience on infecting new languages? Which projects were the most 
+## challanging?
+
+
+Well the languages I chose were pretty simple^^ once you write a few viruses and
+know how a virus looks and what it has to do you can write a virus in nearly any
+language, it's as complicated as you want it to be and mine wernt very
+complicated or advanced.. the most difficult to write was the OCaml virus,
+functional languages were totally new to me, I so wasn't prepared for what I was
+getting my self in to!^^ But I managed to finish it in 3-4 days. Virus writing
+is as easy as you want it to be. Although the chosen language may be difficult
+to learn, the virus itself could still be something primitive. Does any of that
+even make sense? I'm tired.
+
+
+
+##############################  
+## Yes, makes sense :) Do you plan to continue to hit new languages for the
+## first time? There seems to be still alot of languages on the LIP-list. But I
+## guess the projects become more difficult, as the simplest things have been
+## infected already. Many functional languages are yet to be touched, wanna give
+## it a try? :)
+
+
+It's not about the difficulty level, I'm not interested enough to attempt it and
+have very little time. So for now the answer would be no.
+
+
+
+##############################  
+## Do you have plans for the future as a viruswriter? Something that you want to
+## look into?
+
+
+Not yet, at the moment I'm a little more focused on my personal life and real
+life stuff than writing viruses.
+
+
+
+############################## 
+## Since 2010, we have been surprised several times by high-tech cyber weapons
+## like the self-replicator Stuxnet. What were your thoughts about those
+## kitties?
+
+
+It was like dropping the first atomic bomb again.
+
+
+
+############################## 
+## Next comes a word-rap, it has been done via IRC. I say a phrase, and genetix
+## says the first that comes to her mind...
+
+
+- favorite tv series
+simpsons, dr house, ummm
+
+- favorite place on earth
+germany!
+
+- favorite food
+indian, thia
+
+- school
+got in the way of my education
+
+- OCaml
+a nightmare!
+
+- Wikileaks
+it.. leaks.. wiki stuff...
+THEY EXPOSE THE TRUTH
+
+- cats
+they smell .. and piss everywhere, one day they will take over the world i'm 
+sure of it!
+
+- Kurt Cobain
+he doesnt exist in my common knowledge database^^
+
+- Jesus Christ
+He can walk on water.. 
+
+- Neil Amstrong
+trains space monkeys
+
+- Death
+death.. death is ok
+
+- VX Heavens
+needs to be re-established! and the law can go fuck themselfs with a wooden 
+spoon!
+
+- Metamorphism
+crazy stuff.. there was this insane guy who made a metamorphic javascript...
+that's just... whaaat??? 
+
+- Linux vs. Windows
+I think linux users are big headed assholes. I love linux. Windows is lame.
+wait..
+I love linux but window is.. ok too
+
+- USA
+Not somewhere i'm proud to say I'm from
+
+- Europe
+No, fellow americans it is NOT a country!
+
+- China
+That however, is a country^^ 
+
+- Russia
+They are insane, If I ever go there I will book my funeral in advance.
+
+- drugs (marihuana, cocaine, heroine, ...)
+Your parents were wrong, it's totally worth it!
+
+- favorite alcohol
+long drink
+
+- mathematics
+1+1=10
+
+- astronomy/NASA/ESA
+I actually adore space stuff, I think little grey people exist!
+
+- nullsecurity
+a hacking group
+
+- twitter
+a place where I can spam and get followers for it
+
+- facebook
+can't remember my password
+
+- police
+they work for the law. although they like to think they are the law
+
+- year 2030
+I will have 3 children, christmia, hanna, kira and a dog named ronja , I will
+own a coffee shop and be happily married
+
+- three things you want to do/see/visit before you die
+I want to marry a nice guy and start my own family a little less screwed up than
+the one I come from, I want to visit germany again, and I want to swim with
+sharks.. shark swimming is the last one because knowing my luck i'll be eaten by
+them. 
+
+
+
+##############################  
+## What is your plan for the future? Are you planning to become a famous
+## scientist, politician, moviestar, singer? :) 
+
+
+I really Don't know what I want in life.. all I know is that by the end I want
+to feel that I have lived a good life.
+
+
+
+############################## 
+## Thanks alot for the short interview! Feel free to fill the rest of the doc 
+## with whatever you like! :)
+
+
+TEAMWORK! 
+
+And the ever famous greetings:
+spth
+belial
+vxf
+Metal
+dref
+hh86
+slagehammer
+skier
+kefi
+MikeAce
+herm1t
+rembrandt 
+retro
+cl0wn - the only turkish person I know who i actually enjoyed talking to!
+
+and everyone in #virus & #nullsecurity, I know I forgot a few but does it really
+matter?

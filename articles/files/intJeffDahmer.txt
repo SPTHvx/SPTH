@@ -1,0 +1,318 @@
+
+             **********************************************
+                      Interview with Jeff Dahmer
+                                by SPTH
+             **********************************************                                 
+   
+Jeff Dahmer is the new administrator of VX Heaven, our fantastic library, 
+after it was raided by ukrainian authorities in March 2012 for no reason - and 
+we are of course very thankful that he and herm1t managed to bring the library 
+back. Here we talk with him about the project, fairy tails and other important 
+things :) 
+
+You can reach him via dahmer.vx@gmail.com
+                                 
+The interview was done in two sessions via email in October/November 2013.
+
+Have fun :)
+
+
+
+
+
+##############################                     
+## Hello dahmer, thanks alot for accepting the interview! As not many people 
+## know you very well (including me :D), please introduce yourself a bit. Who 
+## are you? How old are you? Where are you from? What are you doing? What kind 
+## of music do you like?
+
+
+Hey, bro, first of all, let me thank You personnaly and all the editorial for 
+the possibility of contributing to the zine!
+
+As far as you know, Dahmer is an alias, and we'll talk about this a bit later.
+That might be the most difficult question - who am I? - philantrope, hacker, 
+alcoholic:P Make a choice yourself
+
+I'm old enough to pay taxes, buy alcohol, use drugs, drive car and be jailed:)
+
+
+
+##############################
+## Whats your favorite book and movie? Favorite Fairy Tail? :D
+
+
+Oh, that's quite an easy question - dozens of 'em!!! Books, movies and fairy-
+tales:P
+
+And music varies from classics, like Wagner and Orff, to the old-school 
+thrash-metal (yummy:) ) - Slayer
+
+Actually i'm keen on movies alot, especially on those which are about war, 
+history, crimes, serial-killings and blah-blah-blah.
+
+
+
+##############################
+## You go by the name Jeff Dahmer. Is this your real name? If not, what does 
+## it mean?
+
+
+Nope, it's an alias taken after the name of a serial killer Jeffrey Dahmer. I 
+was really inspired by his story. 
+
+
+
+##############################
+## What is your connection to computer security? Are you interested in 
+## hacking, reverse engineering, computer viruses, cryptology&privacy? Do you 
+## work in the offence or defence?
+
+
+I find my interests in the areas of offensive security, hacking and 
+exploitation.
+
+
+
+##############################
+## Interesting, can you tell us a bit more about it? Are you part of some bad-
+## ass hacking group? Do you write publicly available articles about your work?
+
+
+Bad-ass hacking group, huh? Are there any left since CoC and CCC????:) Kidding)
+I don't write stuff, maybe because being to drunk and lazy all the time:|
+
+
+
+##############################
+## What is your relation to computer viruses and self-replicating codes? Have 
+## you ever written them yourself?
+
+
+It would be definetely true to say that i'm not developing code myself... The 
+last one was like a hell-of-the-years ago;) 
+
+
+
+##############################
+## Haha, you should start again ;-) So as you are not a vxer yourself, but the 
+## admin of the best vxer-library, what kind of VX-stuff do you find 
+## interesting? Is there any? :-)
+
+
+I think, things must be straight & divided. Being unengaged with pure vx-ing 
+thus having managing capabilities would be much more effective in coping with 
+"one of the best" projects. Remeber Jobs (R.I.P), Gates etc.? They all started 
+Ideas which were brought to their current "future" by the routine managers, so 
+did we with VX (quite funny comparison, isn't it?:) ): me - doing 
+administering and running "business", herm1t - ideology.
+
+Regarding VX stuff -  I personally admire *nix codes alot...rootkits, 
+injection kits, sploit-packs, etc.
+
+
+
+##############################
+## Do you have alot contact with virus-writers and other virus-researchers?
+
+
+Actually it's hard to say for sure. I'm not profiling my buddies as "VXers"\"
+non-VXers". But there some prominent personalities among them - that's the 
+fact! 
+
+
+
+##############################
+## VX Heavens (the best resource about computer viruses - our library) was 
+## shut down in March 2012 by ukrainian authorities, and herm1t had to fight a 
+## unnecessary case. Can you tell something about that it?
+
+
+I think it would be better to ask herm1t on the details on that case, as he is 
+the key figure in all that chaos. In my opinion, he? personally? and the 
+Project itself, just became an irritating point to the local authorities, that 
+tried to tie all the things on the duty of so called 'authorities' through 
+posing herm1t as most notrious criminal, and the VX-project - as main black-
+hat market and virus distribution platform. That's an absurd. I know the guy 
+for a while, and he's definetely not driving a Porsche like a black-hat pimp.
+
+
+
+##############################
+## You are now the administrator of the VX Heaven project since July 2013. How 
+## did it come that you restart that project? What was required to do?
+
+
+Why not? It's quite a logical statement of further project development. We met 
+once, got a lot of whisky and put a question for a discussion - to be or not 
+to be. Whether the project is going to be buried, or it's gonna be up and 
+prosper. It was not so difficult - the answer was -"YES!"
+
+We got backups, starting funds, got the hardware for a rapid start - so it 
+came back up and loaded. I would lie if say that there were no risks and 
+threats on launching the project, but we're dealing with it for now, and I do 
+believe - everything's gonna be great.
+
+We've got strategy and irresistible desire to move further.
+
+
+
+##############################
+## How can people help you with the VX Heaven project?
+
+
+The live of the project based mostly on three things:
+
+1. People and their faith in us
+2. Content
+3. Investments
+
+Yeah, we've tried to launch the donation campaign, but it has actually failed, 
+for a lot of reasons. But we're not declining donations as the fact, though we 
+have to reconsider some things, to keep it simple and easy for people to help 
+the project.
+
+While, the main operational idea of the project to be bidirectional with it's 
+users, we're developing some strategies on donation encouragement, but let it 
+be a mystery for now:)
+
+Content - content is the key feature of the project - knowledge base, library, 
+board discussions, etc. It brings people together, helps in sharing thoughts 
+and knowledge, gives answers and starts up ideas. So, we will definitely put 
+an effort on producing, storing and distributing the finest content in the 
+area of malware-code research, it's history and further development (for 
+scientific purposes, of course).
+
+
+
+##############################
+## Did you get any hate-emails when you restarted the project again? I saw 
+## some stupid comments by KAV people at twitter when it was shut down,
+## anything like that when it came back?
+
+
+He-he:) How do you think?:P 
+
+In common - yep - we encounter some kind of harassments, but we're dealing 
+with it:)
+
+
+
+##############################
+## What are your plans with the project?
+
+
+Development and investment - that's the main aim. The VXHeaven project has
+Investment plans I described a bit earlier. As for project development plans, 
+for the Phase 1, they are:
+
+1. Restructuring the main interface code - it needs to be much more usable and 
+   intuitive.
+2. Bringing up all the library data and back-ups, reforming storage methods, 
+   making it consistent and fault-free.
+3. Changing the board engine (it really makes me sick), terms\policies of 
+   usage revisioning.
+
+
+
+##############################
+## In the VX Heaven forum, the density of people that are interested in 
+## botnet-shit and tools for stealing money increased. What do you think about 
+## it? You know I dont like those criminals, are you on my side? ;-)
+
+That's a bit double-edged question. On one hand - the more code we expose, the 
+faster it's becoming "de-priv-+8", and the chances on developing mitigation 
+tools are growing; on the other - 'authorities' and AV'ers, with their 
+stupidness and narrow-mindness, do react quite neurasthenic, acussing the 
+exposers in all deadly sins and demanding immediate capitol punishment; 
+skiddies - are also the threat, it's like providing monkey with a grenade. VX 
+- Virus eXchange - I mean open exchange, not marketed, for me it's like a 
+researching a vaccine working constantly with some deadly virus like ebola and 
+the gun pointed to your head, and those bitches (auth,av) like having the cure 
+but afraid of exposing it and want nobody ever found or even researched it 
+because of shaking on every bloody penny of their.
+
+As for black\grey\white-hats and sides - it's like magic - there's no black or 
+white magic, there are magic and intentions, mixed.
+
+
+
+##############################
+## What is the first thing that comes to my mind for the following 20 terms :)
+
+- NSA
+no such agency
+
+- Edward Snowden
+C|EH
+
+- Wikileaks
+shityard
+
+- Stuxnet
+SCADA audit toolkit
+
+- PGP
+Pretty Good Poo
+
+- Chaos Chomputer Club
+Fucking Dinosaurs, love 'em
+
+- Money
+Pink Floyd
+
+- God
+is dead, I'm alive
+
+- New Horizons 2015
+Soyuz
+
+- Beatles
+Help, i need to kill smbd.
+
+- Death
+Chuck Shuldiner
+
+- Evolution
+Mitsubishi
+
+- Eugene Kaspersky
+KGB doggy-style
+
+- Mikko Hypponen
+ex-Ponny-tail dude
+
+- Harry Potter
+WTF?
+
+- Julia Timoschenko
+con
+
+- Klishko brothers
+AC\DC
+
+- Neil Armstrong
+fake
+
+- european union
+The Old World
+
+- Russia / Putin
+Kuzma's Mother
+
+
+
+##############################
+## Imagine a nice ghost offers you three wishes, what would they be? :)
+
+
+1. No hunger
+2. No diseases
+3. Peace all over the world
+
+:)
+
+
+##############################
+## Thanks alot dahmer for your time! Feel free to fill the rest of the 
+## document with whatever you like! :)

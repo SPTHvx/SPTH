@@ -1,0 +1,136 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************       Interview with Karl Sims       ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) About Karl Sims
+
+  1) The Interview
+
+
+
+
+
+  0) About Karl Sims
+
+     Karl Sims is a researcher formerly with the MIT Media Lab who is most well known for
+     using genetic programming to evolve virtual creatures that competed in various simulated
+     environments.
+       While working at Thinking Machines, he wrote a paper describing the virtual creatures 
+     he created. They used an artificial neural network to process input from virtual sensors
+     and act on virtual muscles between cuboid 'limbs'. The creatures were evolved to display
+     multiple modes of water and land based movements such as swimming like a sea snake or fish.
+     He has also done various pictures and videos using genetic algorithm, released at his page.
+
+     His homepage: http://www.genarts.com/karl/
+
+
+
+
+  1) The Interview
+
+   1.) Why have you started to do researchings in such an unusual topic
+       as "artificial creatures" and "artificial evolution"?
+
+   Two reasons:
+   First, I think artificial evolution has the potential of creating 
+   complex and interesting results that can surpass those invented or 
+   designed by traditional methods.
+   Second, I think simulations of the Darwinian process could help give 
+   us a better understanding of natural evolution.
+
+
+   2.) What is your definition of 'life' and which conditions are
+       necessary for a living organism?
+
+   I tend to avoid a specific definition of 'life'.  Things are what 
+   they are whether you want to assign that word to them or not.
+
+
+   3.) A highly interesting developement of "Virtual Creatures" is the
+       near connection of artificial and biological results of evolution
+       (swimming snake for example). What has been the most interesting
+       developement in your opinion?
+
+   I'm not sure, I'm afraid I'm not current on much of the recent work.
+
+
+   4.) In "Virtual Creatures" you have used genetic algorithm for
+       mutation. The biological evolution, in contrast, also uses point
+       mutation, which also change the code behind the algorithm and leaded
+       to that complex life as we can see it on our planet. Why have you
+       desided to use genetic algorithm?
+
+   I attempted to use a genetic language that was high level enough to 
+   give interesting results with a reasonable chance, but was also not 
+   bounded by a specific length or number of parameters.  Mutations 
+   could alter, add, or subtract, from the "growth" instructions.  It 
+   was not a typical genetic algorithm.
+
+
+   5.) In 1990 you have released a video about "Panspermia", which is
+       highly fascinating. Do you think such unusual kind of biological
+       spreading could have been evolved in the universe?
+
+   I think its possible.  If you accept life may have evolved on other 
+   planets, why not between planets as well?
+
+
+   6.) In 1986 Fred Cohen wrote in "Computer Viruses - Theory and
+       Experiments" about the possibility of accidental development of
+       artificial life due to software bugs. Could this thought come true in
+       our modern world, which is "dominated" by computers?
+
+   There are certainly many viruses that propagate using software bugs, 
+   but I think they are currently more likely to start with human help 
+   than by accident.
+
+
+   7.) Several sources count computer viruses as first artificial life.
+       What is your opinion about that statement and what do you think about
+       harmless computer viruses, which have just been created for the
+       purpose of existing?
+
+   They can be interesting, but I don't personally consider them alive.
+
+
+   8.) Are you interested in any other artificial creatures or evolution
+       projects?
+
+   Sure, I'd be interested in any of them.
+
+
+   9.) What do you expect about artificial life and evolution in future?
+
+   I expect further mutations.
+
+
+   10.) What are you doing recently? Do you have new researches?
+
+   I founded a company, GenArts, Inc. which makes visual effects 
+   software for the motion picture industry.  That, and my family, have 
+   kept me busy lately and I haven't spent time on any artificial 
+   evolution projects in awhile.
+
+
+
+
+                                                  - - - - - - - - - - - - - - -
+                                                    Second Part To Hell/[rRlf]
+                                                    www.spth.de.vu
+                                                    spth@priest.com
+                                                    written in June 2006
+
+                                                    ...surrealistic viruswriter...
+                                                  - - - - - - - - - - - - - - -
+
+   PS: To be honest, I think answere 9 is sacastic :-)

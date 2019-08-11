@@ -1,0 +1,266 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************       Interview with WarGame         ***********
+	  ************              by SPTH                 ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+
+
+This is an interview with the virus writer WarGame, done in january 2012.
+You can find him http://vx.netlux.org/wargamevx/
+or send e-mails to wargame89@yahoo.it
+
+
+Have fun! :)
+
+
+
+
+##############################
+##  Hey wargame! Thanks for accepting the interview! Could you please
+##  begin descriping yourself; your age, where do you come from, what you
+##  do in RL, what are your hobbys, fav. music and so on :)
+
+I am 22 years old and I come from a small village in the southern of Italy. In the real life I am a student of computer engineering.
+I like classic metal (old Metallica, Iron Maiden, Slayer and so on ...) and old school rock (Black Sabbath, Led Zeppelin and all the good rock
+of 70's). I like reading and travelling. 
+
+
+
+##############################
+##  Nice taste of music. :) So you are from italy - I can not resist asking this:
+##  What do you think about italy's political system? What is your oppinion on
+##  Don Silvio, the 75year old womanizer :D
+
+It's very difficult to understand the italian political system if you look at it through the eyes
+of an other country. In my opinion it is too conditioned by external powers (mafia and freemasonry) but 
+there are many people that fight against this corrupted system. 
+Few words about Berlusconi: no comment! (he is a shame for Italy).
+
+
+
+##############################
+##  Where did you get your handle from? From the great hackers movie WarGames
+##  in 1983? :)
+
+Yes, from that nice film ;D
+
+
+
+##############################
+##  Does your family or friends know about this special hobby?
+
+My family and my girlfriend know about my special hobby. My friends don't know about it because I think they would not understand
+
+
+
+##############################
+##  You have joined the scene many years ago. Why did you start to write
+##  viruses in the first place?
+
+I discovered the world of viruses while I was playing with an old i386 with DOS (I do not remember the version).
+I booted that pc with a floppy disk infected by a boot virus, at the beginning I was a bit disappointed but after a bit  
+I was very fascinated by that small piece of code (you know 512 byte :D). Everything started in that way.
+Then I started studying some programming languages (my favourite one is C) and after some months I began writing some small things. 
+
+
+
+##############################
+##  Could you give us a summary of the project you were working on over the
+##  last years?
+
+Of course.
+WarSkype - it's a PoC worm written in C for skype. It was the first to use this IM program to spread
+RansomWar - it's a ransomware that I wrote while I was going deep in the field of cryptography
+LittlePain - it's a windows worm written in C. It uses network windows shared drives/directories to spread
+MiniPig - it's a prepender virus for Windows written in C
+Parmenide - it's a worm written in ASM for windows
+BadBunny - it's a cross-platform worm for OpenOffice. It was born thanks to a collaboration with skyout and necronomikon.
+	   I coded the part the for the Linux platform (it uses xchat as a spreading vector).
+DeadKitty - it's my first complex worm written in C for Windows. It uses classical ways for spreading and a vulnerability in
+	    the way Windows handles animated cursor (ani files).
+kr00l(a/b/c/d) - it's small family of virii written in a scripting language called Ferite. The first one is a simple overwriter. The others are
+		 appenders with a small polymorphic engine
+VDIInfector - it's a PoC infector for the the virtual disks of VirtualBox
+Monkey - it's a PoC prepender virus written in the MEL scripting language (it's a language embedded in Autodesk's 3D Graphics Software Maya)
+amonkeycanpost - it's a very small PoC worm (few lines of js) that abuses the greasemonkey extension of firefox
+Turtle & Turtle2 - they are rootkits for FreeBSD. I wrote them because I got interested in this fantastic OS and also because there are
+		   not so many rootkits around for this OS ;D
+I have also written some VCKs: the skype worm generator and an other one that generates boot records overwriting trojans for Windows.
+
+
+
+##############################
+##  Wow this is an impressive list! Turtle seems to be your last creation - could
+##  you please explain it a bit more in detail? What did it do, how does it work?
+
+It's a rootkit for FreeBSD that can hide files and processes. It hooks some specific syscalls of the system
+to accomplish this task. The second version (Turtle2) has a simple backdoor that can be activated 
+through ICMP packets to execute commands on the host system. It can also hide processes thanks to a modification
+of a linked list used by the kernel to rappresent the running processes. It was nice to go deep in the FreeBSD kernel :D
+
+
+
+##############################
+##  What are your favorite viruses of all time; and why do you like them? Which
+##  viruswriters do you respect most and what groups in your opinion r0cked?
+
+I like a lot the happy99 worm because it was the first mail worm. The morrison worm because it was the first to use remote exploits to spread.
+Winux because it was the first cross platform PE/ELF infector. There are many other virii that I like but It would take a lot of time to list all of them. I respect a lot the 29a group, I think it's the best one. I like a lot the work of people like Griyo, z0mbie, Benny and the others belonging to the 29a. Their work inspired many people. I also like the work of herm1t on linux virii.
+
+
+
+##############################
+##  What virus technologies are you most interested in?
+
+I am very interested in network worms and rootkits in general. Boot virii and bootkit are also very interesting for me.
+
+
+
+##############################
+##  Boot viruses in 2012? thats great! :) Do you have plans to write some for this
+##  age - like with network capability or for mobile devices? Any idea?
+
+I would like to write a crossplatform bootkit/bootvirus but it will take a lot of time to be done  
+
+
+
+##############################
+##  Let's imagine the perfect computer virus/worm in your opinion, how would
+##  it look like? Whats the perfect "virus of tomorrow"?
+
+It's cross platform, self mutating and it can use multiple spreading vectors. An Android/IOS/MacOSX/Linux/Windows virus would be fantastic :D
+
+
+
+##############################
+##  What will you do in future as a viruswriter? Creating this "virus of
+##  tomorrow"? :-)  Do you have a full to-do list?
+
+I will work on PoC projects. My favourite fields are bootkits and the mobile systems. I would like to release some asm virii for ARM CPUs.
+
+
+
+##############################
+##  What do you think about viruses written in assembler? What about viruses
+##  written in HLL such as C, C++, C#, VB? And whats your opinion on viruses
+##  written in a script langauge?
+
+I think that using assembler gives you more control and let you do things that can't be done with an HLL, but the best
+in the field of asm virii has already been done (take a look at 29a zines) ... so HLL worms/virii are the future (also mixed with asm).
+Think about an XSS worm: effective, elegant and all coded in js .
+
+
+
+##############################
+##  You have been member of DoomRiderz, who did released one nice
+##  e-zine but died after that. Could you please give us an overview of that
+##  group. What was its intention, who were involved, and why did you stop
+##  in the end?
+
+I liked a lot staying in this group but at the end it died because all the members became idle ... 
+
+
+
+##############################
+##  After DoomRiderz, you joined EOF again. Can you tell us a bit about this
+##  group?
+
+EOF is a great group. We are trying to release more as we can but as you know it's becoming very difficult to collect good things 
+for e-zines ... I hope it can go on.
+
+
+
+##############################
+##  Have you ever met some viruswriters in real life? Would you?
+
+I have never met any viruswriter in the real like but I would like to. The italian vx scene is not very active :/ (the problem is that there is
+not a real vx scene in my country). 
+
+
+
+##############################
+##  Do you know of former virus coder from italy? Did you ever had contact with
+##  one of them?!
+
+I do not know any former virus coder from Italy. There are some active groups but they are interested in 
+the field of IT security (like web attacks and so on) and not virus writing
+
+
+
+##############################
+##  Do you have contact to people from AVs? Would you ever consider to work in a
+##  AV company, to help them get their buggy programs running, such as many former
+##  viruswriter have done?
+
+I have never had contact with anybody from AVs. Working in a AV company? I do not know 
+... spending all the time reversing some chinese packed/encrypted banker trojans doesn't look
+to be very funny :D (even if I like grabbing come crappy usb worms and reverse them just for fun)  
+
+
+
+##############################
+##  How do you inform yourself about viruses? Which e-zines did you read in
+##  past? What is your oppinion on VirusBulletin or Journal in Computer
+##  Virology? Do you regulary read them?
+
+I read a lot the blog of AV companies to be informed. I read in the past 29a zines, RRLF, Xine.
+I sometimes read VirusBulletin but I do not like much it.
+
+
+
+##############################
+##  What is your suggestion to young people who want to start writing viruses
+##  for fun, learn and develope new vx-technologies, ...? How should they start?
+
+Everything must be driven by the passion. I suggest to young people to start studying some programming languages and everything will follow
+
+
+
+##############################
+##  There have been a shift to commercial viruswriting about 5-10years ago.
+##  What's your thoughts about this?
+
+I think that commercial viruswriting is destroying the real vx scene. Money corrupt.
+
+
+
+##############################
+##  Will these commercial viruses/worms/trojans fully displace the old hobby
+##  viruswriters, who worked for fun and did not harm anybody?
+
+I hope that this will never happen.
+
+
+
+##############################
+##  A very interesting malware has been recognized in 2010 - Stuxnet.
+##  What do you think about it? Will such cyber weapon created by government
+##  agencies increase alot?
+
+Stuxnet is a masterpiece. It uses the state of art techs in all of its parts. I think that such cyber weapons will increase
+because is simple to make a digital war, no men are involved. 
+It's a bit scaring (as the german government malware) when a malware gets used by any goverment agencies to go against the privacy of the citizens ... 
+
+
+
+##############################
+##  Let's look into the future: How will be the virus situation in 2015 (3 years from now)?
+##  And what will be your long term prognosis for 2020 and 2050 (be creative!) :D
+
+We will see more mobile malwares (android and IOS) in 2015 because mobile computing is becoming very widespreaded.
+I do not have long term prognosis, I just hope being alive ;D 
+
+
+
+##############################
+##  Thanks alot wargame for the interview :-)
+##  Feel free to fill the rest of the doc with whatever you like (greets, sayings,
+##  ASCII-pr0n, ...)
+
+A small quote: So di non sapere (Socrate)

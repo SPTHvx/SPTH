@@ -1,0 +1,313 @@
+             **********************************************
+                         Interview with Mark Stamp
+                            by Second Part To Hell
+             **********************************************
+
+
+Mark Stamp, born in 1960 in Nebraska, is a Professor at the Department of 
+Computer Science at San Jose State University (SJSU) since 2002. From 1993 to 
+2000 he worked as a "Cryptologic Mathematician" at the National Security Agency. 
+He has got a BS in Computer Science and a MS and a PhD in Mathematics. 
+
+His research covers several topics in information security, including computer 
+virology. Together with his students, he has worked on the topic of metamorphism 
+on the defense and offense side, including statistical approaches to detect 
+metamorphic viruses.
+
+You can find Mark's homepage at http://www.cs.sjsu.edu/~stamp and contact him 
+via stamp@cs.sjsu.edu.
+
+The interview was done in August 2012 via e-Mail.
+
+Have fun :)
+
+
+
+##############################
+##  Hello Mark, thanks alot for acceppting the request to answere a few 
+##  questions. Let's start first with something about your private life. How do 
+##  you spend your free-time, what are your hobbies?? Which kind of music do you 
+##  listen to?
+
+
+When not sitting in front of my computer, and/or working, I head to the outdoors 
+as much as possible. I bike, hike, and recently started kayak fishing in the 
+ocean. There's nothing quite like bobbing up and down in a kayak a mile offshore 
+on a foggy day. And once in a while I actually catch a fish, although generally 
+the fish are safe when I'm around. 
+
+As for music, I like the classic British Invasion bands (although I'm not _that_ 
+old), and especially The Kinks. I once attended two Kinks concerts on 
+consecutive days, where I had to drive about 500 miles. Both of those concerts 
+were in huge 10,000+ seat auditoriums, and for one of them, I was in the front 
+row.
+
+
+
+##############################
+##  When did you get first in contact with computers? When did you start to code 
+##  for the first time? You started to study Computer Science in 1979 - why did 
+##  you choose it and how was studying CS at that time?
+
+
+My high school had a couple of Commodore PET computers, and my dad had a TRS-80 
+that he wanted to use to automate some work in his accounting office. I spent a 
+little time playing around with both of those, but I didn't really get excited 
+about computers until we got an Intellivision game system. I still love to play 
+those classic Intellivision games. Shortly thereafter, we got a Commodore 64 and 
+I wrote a couple of fairly involved programs for that (a strategy-based football 
+game and a horse racing animation). Then I was truly hooked.
+
+Needless to say, CS education in the 1980s was a lot different than today. 
+During college, I never heard the word "network" uttered, and nobody had a clue 
+about security. Believe it or not, the computer system at my college had a 
+password file that was stored in the clear, and everybody knew where it was 
+located---essentially, there was no security at all. But, ironically, in some 
+ways, I'd say that CS education was much better back in the "good old days". . . 
+For one thing, we used "primitive" programming languages, such as C (no "++"). 
+That type of programming forces a person to actually think and to be conscious 
+of the hardware. 
+
+Today, almost all CS education relies on high-level object-oriented programming, 
+where students are taught to tie a bunch of pre-defined crap together to 
+accomplish their goal. To me, that's for wimps and, besides, it's mind-numbingly 
+boring. And worst of all, the hardware is completely abstracted away, so 
+students have no concept of the machine that is actually executing their code. 
+When I tell my students that "everything is bits", they look at me like I'm from 
+another planet (which I am, but don't tell anybody). IMHO, Java is the worst 
+thing that ever happened to CS education, if not CS in general. A decent C 
+program can be a work of art, while the best Java program in the world can't 
+rise to that level. It's like comparing the Mona Lisa to a 5-year-old's finger-
+painting.
+
+So maybe it's the "primitive" and low-level nature of security that attracts me. 
+That sort of stuff gets short shrift in modern CS education, but is critical for 
+understanding much of security. For example, to deal with malware, you have to 
+deal with assembly code, reverse engineering, intricate details of PE file 
+structure, etc., etc., etc. Of course, I have no doubt that eventually security 
+education will become very bland and boring too, because all of that low-level 
+stuff is unfashionable and hard. Then we'll have a lot more security "experts", 
+but few of them will know anything useful.
+
+
+
+##############################
+##  You have been working for the National Security Agency (NSA) from 1993-2000 
+##  as a Cryptologic Mathematician. Sounds interesting! Can you describe what
+##  you where doing? What were your responsibilities and how did your every-day 
+##  look like?
+
+
+Well, I could tell you, but then I'd have to kill you. But seriously, I was a "
+cryptologic mathematician", so I did a lot of applied cryptanalysis. It was a 
+fascinating experience, and I got to work with a lot of really, really smart 
+people. I think I learned more about security in my 7 years at NSA than I could 
+have learned in a lifetime anywhere else, especially when it comes to the 
+offensive side. Most security that is done in industry and even academia is on 
+the defensive side, but you can't expect people to play good defense unless they 
+know a lot about the offense.
+
+
+
+##############################
+##  What was your first encounter with computer viruses? When and why did you 
+##  decide to work on this topic in your professional career?
+
+
+I'm interested in all aspects of information security, from cryptography to 
+software reverse engineering, and everything in between. But, I didn't have much 
+experience with malware when I started working at SJSU. At SJSU, I have a lot of 
+master's students and I'm always looking for appropriate project topics. 
+Ideally, a master's project has some academic substance, yet it has a practical 
+angle to it, and it's do-able within the limited timeframe of a master's degree 
+(basically, two semesters of part-time research). I had one excellent student 
+who wanted to do something in security, but with a bioinformatics flavor. I've 
+long had an interest in hidden Markov models (HMMs), and metamorphic malware had 
+recently caught my attention. We combined the two and got some interesting 
+results, and my work in malware has grown exponentially from there.
+
+
+
+##############################
+##  Which computer viruses do you find most interesting? Which ideas/techniques 
+##  do you find surprising/creative?
+
+
+I'm fascinated by metamorphic malware, that is, malware that "mutates" each 
+generation by changing its internal structure, while the function remains the 
+same. In principle, metamorphism is an extremely powerful technique for evading 
+signature detection. In fact, you can easily prove that metamorphic malware can 
+evade signature detection. The concept of metamorphism has been around for quite 
+a while, but virus writers have not (yet) been able to really take advantage of 
+the full potential. Our research highlights some of the challenges in developing 
+such malware and we also focus on the interplay between practical detection and 
+evasion strategies.
+
+
+
+##############################
+##  What do you think about hobby-viruswriters who discover/develope new 
+##  techniques and release the source-code of their creations online? In several 
+##  of your researches you use for instance NGVCK by SnakeByte, who publicly 
+##  released this complex virus construction kit. Do you think this is a problem 
+##  as other people could use it for harmful malware? Have you ever had contact 
+##  to SnakeByte or other hobby-viruswriters?
+
+
+"I think any time you expose vulnerabilities it's a good thing. . ." is a quote 
+attributed to Janet Reno, Attorney General in the Clinton administration. Of 
+course, she didn't act accordingly, but that quote summarizes my philosophy, 
+with respect to malware. If we didn't have people constantly probing for new 
+attack vectors, we'd all be a lot less secure today.
+
+My students have spent a lot of time and effort analyzing virus construction 
+kits that claim to produce metamorphic code. We've found them to be generally 
+weak, with very little metamorphism in the resulting code. The exception to that 
+rule is NGVCK, by SnakeByte, which achieves an high level of metamorphism. It 
+turns out that NGVCK is still detectable with our HMM technique, but that's 
+pretty far beyond standard signature detection. So, NGVCK has figured 
+prominently in a lot of my students' research. I have had a couple of email 
+correspondences with SnakeByte, and I let him (or her) know that I am impressed 
+by his (or her) work.
+
+
+
+##############################
+##  In several publications by you or thesis by your students, you explain 
+##  implementations of complex mutation engines. Why haven't you released the 
+##  source codes? Have you shared the source codes with other security 
+##  researchers or even anti virus companies?
+
+
+So far, we have not shared the code, but the ideas have been published and it 
+would not be difficult to reproduce most of what we've done. Also, with rare 
+exception, for our research projects, we do not need all of the bells and 
+whistles that would be required in a fully functional metamorphic generator. 
+That is, our contribution resides in the ideas and quantifiable results, rather 
+than the generators themselves.
+
+
+
+##############################
+##  You have shown that your method of hidden-Markov-Model (HMM) can be used to 
+##  detect complex metamorphic viruses via a statistical approach. However, 
+##  recently in the article "Hunting for undetectable metamorphic viruses" you 
+##  showed a way to circumvent HMM-detection, for instance by including "normal-
+##  file" code to the viruscode. How could the next step from a defender's side 
+##  look like?
+
+
+That's a very good question. There are several possible approaches that could 
+aid detection, and some of these are under investigation by my current students. 
+For example, if we can detect and remove a reasonable percentage of dead code (
+and/or other "unimportant" code), then we can detect the viruses in the paper 
+you've cited. We've got some ideas on how to do that. Of course, virus writers 
+could respond by making their dead code stealthier, or in various other ways 
+that would make separating the wheat from the chaff more difficult. But, 
+anything we do to make the virus writer's life more difficult will increase the 
+chances of some flaw or weakness slipping by, and that should leave us with a 
+viable detection strategy. If you think about it, most physical security 
+operates on exactly this same principle. That is, if  a perfect crime occurs, 
+you'll never catch the perpetrator. But, the more perfect that the crime has to 
+be, the less likely the perpetrator will succeed. In other words, we make our 
+defenses as strong as possible and then rely on the fact that (near) perfection 
+is extremely difficult to achieve. As in the physical world, people who expect 
+absolute information security are likely to be disappointed.
+
+
+
+##############################
+##  Do you have contact with anti virus companies? Are they interested in your 
+##  research in statistical detection methods of complex viruses or do they 
+##  ignore results from scientific researches?
+
+
+We have met with AV companies in the past and they seem to like to hire my 
+former students. But I haven't had any close dealings with any of those 
+companies for the past few years. I won't mention any names, but based on my 
+experience (which is now a few years out of date) I'd say the AV companies are (
+were) fairly primitive in their approach. They relied almost entirely on manual 
+analysis---when a new virus appeared, they'd have a skilled reverse engineer 
+beat his head against it until a signature could be derived. That skilled 
+reverse engineer is certainly important, but there are a lot of tools and 
+powerful techniques that could be brought to bear on the problem. I suspect that 
+it's simply a matter of their approach working, so they have no need to push the 
+envelope. But I'm confident that the problems are going to get more difficult in 
+the future, and then we'll see if the AV companies are up to the challenge.
+
+
+
+##############################
+##  It is known since the 1980s that malware detection is undecidable (which has 
+##  been proven by Fred Cohen already in the 1980s). Yet people from anti-virus 
+##  community claim that every self-replicator can be detected. Now what is 
+##  correct? Could somebody write a self-modifying virus that can circumvent 
+##  every possible methode like clever algorithms, emulation including behaviour 
+##  analysis, statistical approaches, ...?
+
+
+In spite of the theoretical result that you mention, it seems that viruses are 
+generally detected with surprising ease. I believe this has more to do with the 
+poor quality of most malware code, as opposed to affirming the genius of AV 
+software. Certainly, much of what the AV people do is excellent, but, in 
+principle, the virus writers should always have the upper hand, and that does 
+not seem to be the case in practice. I think the relative weakness of typical 
+hacker-produced malware is exposed when compared to something like Stuxnet, 
+which takes malware to a completely different level.
+
+
+
+##############################
+##  VX Heavens has been closed since March 2012, due prosecution of herm1t. In 
+##  many of your articles you cite/reference to VX Heavens or its content. What 
+##  were your thoughts when this virus-related library was closed? VX Heavens 
+##  exists for many years, why did they investigate against herm1t now? Has the 
+##  shutdown influenced the research of scientists like yourself?
+
+
+This is a significant loss to the virus research community. There are certainly 
+many academic researchers who have gotten access to viruses through VX Heavens. 
+And, as always, there is no putting the genie back in the bottle. So, these 
+absurd legal proceedings will cause headaches for everybody, possibly make a few 
+lawyers rich, and ultimately, accomplish nothing useful.
+
+
+
+##############################
+##  About two years ago, Stuxnet appeared and marked the first big publicly-
+##  known cyber-attack of a government. Later Duqu, Flame and Gauss were 
+##  discovered. What do you think about these cyber weapons? Where you surprised 
+##  about attacks of this type and these code's complexity? What were the 
+##  reasons that these codes have been actively spreading and no anti virus 
+##  program was able to detect it?
+
+
+Stuxent is amazing---far more sophisticated than any malware previously seen in 
+the wild. Any time an attacker has a zero day exploit (or 2 or 3) available, the 
+AV ought to have trouble, at least until the system is patched. So, I'd cut the 
+AV guys some slack on this one. As for the use of cyber weapons, I think that 
+was inevitable. It's hard to say where it might lead, but it's not hard to 
+imagine some pretty unpleasant scenarios.
+
+
+
+##############################
+##  What do you think will the future of computer viruses look like? What do you 
+##  expect in a near future 3-5 years from now? And how might self-replicating 
+##  codes might be in a distant future 15-20years from now?
+
+
+As I always tell my students, the future is bright for malware. We know that in 
+theory, it's not possible to detect all malware. So, malware writers should have 
+an inherent advantage. Sometimes, however, the line between theory and practice 
+can be a lot less clear than the theoreticians would have you believe. For 
+example, the traveling salesman problem is a classic NP-complete problem, which 
+means there is no known efficient algorithm to solve it. But that's not the end 
+of the story---there are very efficient algorithms that give good approximates 
+in practice. So, practical malware detection and theoretical detection might be 
+quite different beasts. Having said that, it seems almost certain that malware 
+will remain a difficult practical challenge for the foreseeable future. Just a 
+couple of years ago, something like Stuxnet would have been hard to imagine. 
+Now, thanks to Stuxnet, run-of-the-mill viruses are bound to become much 
+stronger, and, as for the next generation of super-viruses, the sky is the 
+limit.

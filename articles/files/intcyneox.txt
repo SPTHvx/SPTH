@@ -1,0 +1,335 @@
+````````````````````````````````````
+      Please describe yourself briefly!
+````````````````````````````````````
+
+I am known with the pseudonym 'cyneox' and I'm writing viruses for Linux.
+I'm not a bad human, who wants to destroy the work of ther people with his
+own creations. With my work I try to discover new vulnerabilities and try Anti Virus
+developer to improve the security of every single of their products.
+
+Original, I am from romania and I'm living in germany for four years. I've started
+to write viruses one year ago for the single reason, that I really wanted to know,
+how a computer virus works. This ideology of viruswriting just fascinated me, and is
+still fascinating me...
+
+
+````````````````````````````````````
+    Why are you using Linux?
+````````````````````````````````````
+Linux, for myself, was/is the best alternative for Windows. The prinzip of OpenSouce,
+which is responsible for the whole project, motivated me to learn more of this
+Operating System, and also to discover in this field.
+
+I've been using Linux for about two years. There has, of course, been also negative
+experiences, which motivated me even more to get known that system.
+One summerday finally I've decided to learn a programming language. These days I've
+started to learn the C-computer language and one of my friends assured me, Linux would
+be the best platform, where I can use all possibilities of these programming language.
+Furthermore I was anxious to use a new operating system. One month later, SuSE 8.0
+was installed at my harddisk.
+
+Nowadays, Windows is used by most people. I did not want to belong to these people,
+and wanted to try something different. It can be seen, that it was a good decision
+and that Linux was perfect for me. The system was/is difficult to understand for
+beginners, but the longer I've worked with it, the faster I was able to understand
+the system of Linux: Linux Torvalds has developed a fascinating system, which is used
+in a great number in today's servers and which is a real opponent for Microsoft.
+
+Linux is developing very fast. 3-4 months pass, and we can already see a new
+distribution or a new version of another distribution for sale. No doubt, it
+has become more user-friendly and the user may not have that amount of computer
+knowledge to install the system at all. To future Linux users I can just say one
+thing: Have a lot of fun...
+
+
+````````````````````````````````````````````````````````````````````
+   How and when did you start to write viruses?
+````````````````````````````````````````````````````````````````````
+
+As I have already mentioned above, C was my very first programming language, which
+I've learned. In the beginning I've written a huge number of programs and I feeled
+that I have to specialize or concentrate on one special field.
+
+While surfing in the internet, I came across the web site of '29a'. In my view, '29a'
+is the best viruswriting group at all. The web site was full of viruses and source
+codes. Most of them have been writing in assembler, but that time I didn't know
+assembler. Therefore I started to search for viruses, which have been written with
+C, that I could analyse the code and understand the functions of such a computer virus
+better.
+
+It started to interest me and soon I've written my very first virus for Linux. I
+can still remember it how much time I had to invest, until I've understood the
+structure and the methode of the ELF format (Executable and Linking Format).
+ELF is the format of executeable files, Libraries etc. In the course of time my
+knowledge of ELF increased a lot, which helped me very much to develope new
+techniques.
+
+In July 2004 my first virus, written in assembler language, was released. Assembler
+was a great challange for me, but soon I was able to understand assembler-source
+codes very well. I began writing assembler-programms and since that time I'm
+trieng to develope new techniques and to write better and better viruses.
+
+
+```````````````````````````````````````````````````````````````````````````
+   Why do you write computerviruses for Linux, even Microsoft Windows is much
+   more widespread and has due to that fact more users?
+```````````````````````````````````````````````````````````````````````````
+
+Mir geht es gar nicht darum, dass sich irgendwelche User mit meinen 
+Viren infizieren oder sonst dergleichen. Vielmehr geht es in dieser Branche darum,
+neue Infiziertechniken zu finden, die Grenzen des Virenschreibens immer wieder
+neu zu definieren. 
+
+Linux ist ein exotisches Betriebssystem aber es hat viel Potenzial. Bisher habe ich 
+mich nur mit dem ELF beschäftigt und es gibt auch andere Formate, die von mir 
+noch nicht erforscht worden sind. Ich wollte mich nur auf den Standard 
+konzentrieren. Mein Ziel ist es, neue Methoden zu finden, die es ermöglichen
+Dateien auf andere Weisen zu infizieren.
+
+Die meisten Virenschreiber schreiben für Windows, weil es so verbreitet ist 
+und eine ziemlich große Angriffsfläche bietet. Die meisten wollen nur ihre
+Kreationen bei der Arbeit sehen, und bedenken dabei überhaupt nicht, dass 
+wertvolle Arbeit dadurch verloren geht. Meine Viren sind zum Teil harmlos oder
+wurden auf einen niedrigen Sicherheitslevel eingestuft. Dies ist mir nicht von 
+großer Bedeutung. Es kommt auf die Eleganz an, mit der die zu infizierende Datei
+behandelt wird...
+
+
+`````````````````````````````````````````````
+   What are you doing with your finished viruses?
+`````````````````````````````````````````````
+
+My viruses will be released at my website, where the great importance are the
+source codes. The source code with the binary are archived and uploaded to
+my server. That's definitively also the reason, why my viruses are already
+analysed and detected by most common antivirus companies: The binary form
+is also offered, however, this has no destructive purpose. The binaries'
+reasons aren't some script kiddies, who can download some viruses and execute
+them later on.
+
+I just want to share my knowledge with other interested persons by releasing
+the source code and I hope that it will be used for educational purpose only.
+
+
+`````````````````````````````````````````````````````````````````````
+` How do your viruses work exactly? Please describe them!
+`````````````````````````````````````````````````````````````````````
+
+I'll concentrate on one single virus, Linux.Binom, which I have written some months
+ago. As you can see from the name, it concerns two variants of the virus, where
+the "wished" version of the virus has to be given at the compiling process. This
+will be reached with the help of macros, which tell the compiler, what and how
+the virus has to be compiled. There are macros, which are responsible for the
+process of the first versions, and macros, which are responsible for the process
+of the second version.
+
+
+Here you can see a small overview of the feature of the virus:
+
+             Option        |    FUCK_USER      |      FUCK_SYSTEM
+         ------------------+-------------------+----------------------
+         Path to infect    | "."               |       "/bin"
+         ------------------+-------------------+----------------------
+            File type      |      ELF          |         ELF 
+         ------------------+-------------------+----------------------
+         Required rights   |  normal           |       root 
+         ------------------+-------------------+----------------------
+           Infecting       | SPI + Abuse of    |   SPI + Abuse of                  
+          technique        | _libc_start_main  |   shard libraries
+        -------------------+-------------------+----------------------
+                           |  yes(calculating  |      yes 
+              EPO          |return addr using  |
+                           |relative offsets)  |
+        -------------------+-------------------+----------------------
+            Payload        |   yes(print msg)  |     yes(print msg) 
+        -------------------+-------------------+----------------------
+                           |  no (change       |  no(change push 
+            Change entry   | call instruction  |  instruction in the 
+             point         | in the startup    |  startup routine 
+                           | routine)          |
+        -------------------+-------------------+----------------------
+           Files nr. to    |       all         |         all 
+             infect        |                   | 
+        -------------------+-------------------+----------------------
+           Invisible       |  yes(foking to    |  yes(froking to back-
+                           |    background)    |    ground)
+        -------------------+-------------------+----------------------
+
+Here I will also just write about the "FUCK_USER", which is the user-mode.
+When the virus is compiled with this opion, the virus will just concentrate
+on programs, where it has write-access. If the virus also affected also
+important system-directories, there could be the danger that the administrator
+would recognice its behaviour, which would means the death for our virus.
+
+
+The infection works in several steps:
+       
+1) First, in the current directory "." all files are scanned, with no attention
+   which file it is. After that, the virus searchs for specific criterions:
+     a) Is the file a ELF-File?
+        a) Is the file executeable?
+           (It must be regared, that even libraries use the ELF format. But
+           these file are unimportant for us, for that reason it has to be checked,
+           if the founden file can be executed.)
+
+     b) Has the user, who has executed the virus, writeaccess on the spezific file?
+      
+   If all these criterioms came true, the infection routine can be started.
+ 
+
+2) To understand the following steps, I have to introduce you to ELF-theory,
+   explain the sturcture and to illustrate the prinzip more exactly.
+ 
+     Inner Structure of ELF-Files
+     ==========================================
+     ELF Header                 :  contains important information of the
+                                   ELF-file
+				   
+     PHT (Program Header Table) :  Stucture, which is responsible for the
+                                   executeable process
+				   
+     Segment 1  ------------|     -Code-Segment: contains executeable code
+                            |     -Data-Segment: contains various values
+     Segment 2              |---- -NOTE-Segment: not that important
+                            |      .....
+     ....       ------------|
+     
+     SHT (Section Header Table) : Contains important informations about
+                                  each section
+				 				 
+
+   Next, the virus compares some stuctures of the ELF-Header with the target-file
+   (the file, which shall be infected), to ensure that the ELF-Header of the
+   target-file is not damaged or does not contain any false information. The
+   ELF-Header looks nearly equal at all executeable files.
+
+   The virus uses that fact, and this way it saves quite a lot of time, while
+   comparing he information of its own host file (the file, which contains the
+   virus) with the target-file. Using that fact, there are no values which have
+   to be defined and saved in the virus, and compared after that with the ELF-
+   header of the target-file. Everything should be as dynamic as possible, for
+   the reason of decreasing the size of the virus to a minimum.
+
+
+3) The following model should make our infection more clearly
+
+     Program before it is infected
+     ================================
+     [ ELF Header ]
+     _libc_start_main :                   : The main function of the program. 
+                                            The offset of this function is the
+                                            same in each ELF-file
+					    
+					    
+                        call 0xYYYYYY     : This command calls a function.
+			                    Usually it is one of the functions
+                                            of the Shared-Libraries. 
+			
+			ret               : Closes the program
+			
+     [ Programm Header Table ]
+     [ Segment 1 ]
+     [ Segment 2 ]
+     [   ....    ]
+     [ Sections Header Table ]
+     
+     
+     
+     
+     
+     Program after it is infected
+     =================================
+     [ ELF Header ]                       : Here some changes happenend.
+					    
+     _libc_start_main:
+                        call 0xVVVVVV     : Now the offset of the virus will
+                                            be called
+					    
+			ret					    
+     
+     [ Programm Header Table ]            : This table has to be patched or
+                                            renewed, as some things of the
+                                            program's process have been changed.
+					    
+       
+     [ Segment 1 ]                        : The virus has to be in the code-segment,
+                                            otherwise it can not be executed.
+					    
+     0xVVVVVV				  : The offset, which is called by 
+                                            _libc_start_main
+      					             
+     virus_code :       
+                        pusha             : Pushes the value of all registers to
+                                            the stack
+					                  
+                        ....              : Further commands...
+			
+			popa              : Restore the registers with the
+                                            original values.
+			
+			jmp 0xYYYYYY      : Call the offset, which has been canged
+			                    in the _libc_start_main - function.
+					    Now everything works as nothing would
+                                            have ever been happend.
+					    
+     [ Segment 2 ]
+     [    ....   ]
+     [ Sections Header Table ]            : The table has to be actualised.
+					    
+
+ What is quite important to mention is the fact, that the size of the code-
+ segment is limited. By that reason, also the size of the virus is limited,
+ as it has to be copied to the code-segment.
+ 
+ I hope that my explanation was exactly enough. I want to mention again one
+ important thing: This is a simple example, how the infection methode can
+ be done. If anybody wants to know me, feel free to contact me!
+
+
+````````````````````````````````````````````````````````````````````````````` 
+  Many Linux users don't know or don't believe that there are even computer
+  viruses for this operating system, and as a matter of fact, they dont protect themselves.
+  Do you protect yourself? If yes, how?
+````````````````````````````````````````````````````````````````````````````` 
+ 
+ To be honest: No, i don't protect myself at all. I have not installed any
+ Antivirus-program at my harddisk. It has already happened some times
+ that I've infected myself with my own viruses. Linux.Binom caused that
+ much damage, that I had to reinstall my system. However, and old proverb
+ says: "Shit happens!"
+ 
+ But on the other side I take much care, what and where I download something,
+ as you can never know, what hides as a harmless tool. I think, now i will
+ install an antivirus programm immediatly.
+
+ 
+``````````````````````````````````````````````````````````````````````````
+   Which advise would you give to a Linux user to protect his system
+   as good as possible?
+``````````````````````````````````````````````````````````````````````````
+
+ Gute Frage. Er sollte immer misstrauisch sein, was ausführbare 
+ Dateien angeht und man sollte immer sein AntiVirus-Programm auf
+ dem aktuellsten Stand halten. 
+ 
+ Good question. He should always be distrustful of executeable files,
+ and he should always run an updated antivirus-program.
+ 
+ You should NEVER, really NEVER and i repeat it once again:
+ Really NEVER execute unknown files as the root. As after that you
+ just can pray that the file come from a guy like 'cyneox'... :)
+
+ 
+```````````````````
+Â´ Outro `
+```````````````````
+     
+     I thank god, that the world exists.
+     I thank the mankind, that they have developed like that.
+     I thank Linus, that Linux exists.
+     I thank Caline, that she loves me.
+
+     By Cyneox 
+     "Change your thought and the world around you changes." 
+
+

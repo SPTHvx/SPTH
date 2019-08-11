@@ -1,0 +1,875 @@
+
+            ****************************************************
+                             Back to the Future
+                             
+                   What viruswriters in the past thought about
+                                     the viruses of the future
+
+                                        by Second Part To Hell
+            ****************************************************                                                        
+
+
+  Recently I've watched "Back To The Future II", a movie from 1989 where the
+  actors go to the future of 2015, and see flying cars everywhere, kids going by
+  hover-boards, 3d holographic billboards, and much more.
+  
+  Well - I dont see those things yet :-) But it gave me an idea: Check out old
+  interviews by VXers of the past, and look what they thought about the
+  future of computer-viruses.
+  
+  I found some very nice ideas - several of them are "not even close", others
+  were excellent predictions.
+  
+  The interviews I found in VDAT, VX Heavens's library, and in several e-zines
+  (thx to Cicatrix, herm1t and all authors :) ).
+  
+  The quotes are sorted chronologically, and in the end of the text I give a
+  small prediciton myself - we'll see if it's good or not even close ;)
+  
+  
+  Now: It's December 2012 - let's get back to the future!
+
+
+
+==============================================================================
+
+Who:   Urnst Kouch (Editor of Crypt Newsletter)
+When:  Summer 1993
+By whome/where: in Gray Areas #3
+
+
+Q: Do you know/heard of any new virus-writing technics coming in the near
+   future?
+
+A: Yes, I suspect there will be a continued fascination with cramming advanced
+   stealth, tunneling, and multi-partitism into one virus, along with active
+   and passive anti-anti-virus code. All this will succeed in doing is
+   guaranteeing the viruses won't do very well off the drawing board, simply
+   because they're overly complex, and complexity breeds unpredictable
+   bugginess.
+
+
+Q: What do you think the future is for writing viruses for WIN and OS/2?
+
+A: If and when it happens in a significant manner, it won't be done by the
+   virus programmers we see now. They just have shown no real interest in the
+   effort it would take to write successful replicating code for these
+   operating systems. Conceptually, we should be seeing more imaginative
+   applications of the term 'virus'. This hasn't happened; there's been
+   nothing really unique for at least a year.
+
+
+
+==============================================================================
+
+Who:   Qark/VLAD
+When:  December 1995
+By whome/where: The Unforgiven in Insane Reality issue #7
+
+
+Q: How do you think the viruswriting future looks for Win95 and DOS? 
+
+A: The DOS future is as bright as ever, but Win95 waits to be conquered...
+
+
+Q: Do you know/heard of any new technics coming in the near future? 
+
+A: Win 95 ?  And a polymorphic engine with layers and layers of encryption. 
+
+
+
+==============================================================================
+
+Who:   John Tardy/Trident
+When:  December 1995
+By whome/where: The Unforgiven in Insane Reality issue #7
+
+
+Q: Do you know/heard of any new technics coming in the near future?
+
+A: Yes. I think the new breed of viruses will analyse any type of code run and
+   tries to insert it somewhere in there. With protected mode programming it's
+   possible to stay away from any scanner and control everything. As a result,
+   such virus could infect a .MOD file somewhere halfway if it's contains
+   executable code which is run. Also own compression mechanisms are nice
+   (take Cruncher for an example, but it utilized the Diet algorithm).
+
+
+
+==============================================================================
+
+Who:   Potti Rotti/Trident
+When:  December 1995
+By whome/where: The Unforgiven in Insane Reality issue #7
+
+
+Q: Do you know/heard of any new technics coming in the near future?
+
+A: Not really. But viruses written in protected mode could be quite a cool
+   thing to do, I think this will be done shortly. If we look at the future in
+   a wider perspective I think self-learning viruses is the next logical step.
+   This is fully doable with today's knowledge about A.I. Else, I think
+   viruswriter will aim for other and newer operating-system with the same
+   techniques as we see today (stealth/polymorphism, etc. etc. ).
+
+
+
+==============================================================================
+
+Who:   Crom-Cruach/Trident
+When:  1995 (?)
+By whome/where: The Unforgiven in Insane Reality issue (?)
+
+
+Q: Do you know/heard of any new technics coming in the near future?
+
+A: I'm pretty sure the PowerPC will give virus authors a wide scala of new
+   possibilities...
+
+
+
+==============================================================================
+
+Who:   b0z0/iKX
+When:  December 1996
+By whome/where: MrSandman in 29A#1
+
+
+Q: How will the 'viruses of the future' look in your opinion?
+
+A: i think that the 'viruses of the future' will have support for spreading
+   over a network. there are plenty of this possibilities under win*.* that
+   can be implemented, and they *will* be implemented :)
+
+
+
+==============================================================================
+
+Who:   MrSandman/29A
+When:  April 1997
+By whome/where: b0z0 in iKX Xine #2
+
+
+Q: What do you think about the future of viriis?
+
+A: Since Bill Gates is the wealthiest man in the earth right now, we must
+   assume that Windows (and i don't mean Windows95 or NT) is the future. Heh,
+   anybody could make all the people think that a crock of shit is good, and
+   even eat it... if he has the money Bill Gates does :)
+
+   Operating systems such as Linux, OS/2 and Mac OS are very good, but they
+   will die soon as the number of dickheads increases every day. Of course,
+   Windows95 won't be the definitive operating system... anyway, i think
+   that it's a positive thing to spend our time trying to find out more
+   stuff about PE infection under Windows95, as things won't change radically
+   in a LOT of time.
+
+   And maybe part of the future of viruses is related with the your next
+   question... Java and/or Internet.
+
+
+
+==============================================================================
+
+Who:   Sepultura/Insane Reality
+When:  April 1997
+By whome/where: *-Zine #1
+
+
+Q: Perspectives of polymorphism
+
+A: Traditional polymorphism (with a static virus wrapped in a highly variable
+   decryptor) is a dying concept in my opinion. With the advent of generic
+   decryption, polymorphism is not really much of a threat to the scanners
+   any more.
+
+   I think the future lies in the 'metamorphic' viruses. These are viruses
+   that are not encrypted, but the code of the virus itself changes. These
+   include viruses such as PLY, Win.Apparition, TMC, and Swap. If we imagine
+   metamorphism in the future reaching a stage where the only thing two copies
+   of the 'same' virus have in common is the algorithm (or what actually they
+   do). This can pose some interesting problems. Lots of 'different' viruses
+   use exaclty the same algorithm, so if a virus that modifies its code comes
+   out is it just creating a new copy of the same virus, or a new virus? And
+   really, detecting a virus just by looking for code to perform a certain
+   algorithm, is what is used for heuristic scanning today, so when detecting
+   a truly metamorphic virus, you are likely to detect a lot of completely
+   unrelated viruses - how can you identify such a virus?
+
+
+
+==============================================================================
+
+Who:   Cicatrix (creator of VDAT)
+When:  December 1997
+By whome/where: Horny Toad
+
+
+Q: What do you see in the future for virus writers?
+
+A: As long as there are computers there will be computer viruses, as long as
+   there are viruses there will be virus authors. It might get more difficult
+   in the future to write a 'successful' virus but it has been proven several
+   times already that there are a lot of smart, innovative people that want to
+   write viruses.
+
+
+
+==============================================================================
+
+Who:   Qark/VLAD
+When:  February 1998
+By whome/where: MrSandman
+
+
+Q: How will the 'viruses of the future' look in your opinion?
+
+A: It will be a resident win95/NT infector.
+
+
+
+==============================================================================
+
+Who:   RaiD/SLAM
+When:  March 1998
+By whome/where: Opic in codebreakers#3
+
+
+Q: What do you think the future of virus writing is? Are we at the tip of the
+   iceberg or nearing end of the road?
+
+A: As long as an OS is popular, and is used, and theres an interest, they'll
+   be a virus for it. I consider virus coding a challenge. :-)
+
+
+
+==============================================================================
+
+Who:   OWL[FS] (leader of the Feathered Serpents)
+When:  May 1998
+By whome/where: in iKX Xine #3
+
+
+Q: But what do you see in the future of polymorphism?  What are your views on
+   polymorphic implementation and theory (talk to us about RHM polymorphism)?
+   
+A: I think polymorphism is still important even with the advancement of
+   metamorphism already upon us.  Metamorphism is nice, a decent engine can
+   produce a nearly infinite number of virus variations, but if you are not
+   carefull, instruction expansion will be what an AV looks for as it scans
+   for your engine.  Besides metamorphism takes a long time to master, and a
+   decent emulation system will slice through it just like a standard
+   unencrypted virus.
+
+   RHM Evolving Polymorphism was to slow polymorphism as that was to standard
+   polymorphism.  The thing is, that under any close scrutiny, any form of
+   slow polymorphic engine is just as easily detected by an AV as any other
+   of equal complexity.  They both work the same way, it just means an AV has
+   to make sure they disassemble each polymorphic engine to detect every
+   possible output.
+
+   RHM is not limited to polymorphic engines however, it was just a simple
+   way of showing how a computer virus can have something similar to genes
+   and how it can combine them with genes from another virus.  The real test
+   of RHM will be not in hiding viruses from AV, but rather, from hiding the
+   virus from the user of infected systems, by altering virus functions to
+   those that fit in with the user's habits.
+
+
+
+==============================================================================
+
+Who:   Q The Misanthrope/VLAD
+When:  July 1998
+By whome/where: Nucleii
+
+
+Q: Where do you think the technical aspects of virus code, the AV, and the
+   future of viruses in general are headed?
+   
+A: Mr. Bill just announced what Microsoft's Email would be like in the future.
+   Can we say "Good-Times" is for real. What kind of butt-head would allow you
+   to open an Email message and have it automatically launch a Visual Basic
+   script. Mr. Bill is evil (this is not necessarily a bad thing) and is on
+   our (the VX) side. Sun developed JAVA to make it incapable of spreading a
+   virus. Mr. Bill developed Word with Macro's that make it easy to create
+   viruses. The VX scene will find all the holes Mr. Bill has created and
+   exploit them to the extreme.
+
+
+
+==============================================================================
+
+Who:   Yosha
+When:  late 1998
+By whome/where: Feathered Serpents
+
+
+Q: What you think lies in the future of virus coding?
+   
+A: I think polymorphism will become the most important part of a good virus,
+   that is, if it's not already. Eventually, engines will be so complex and
+   variable, that 100% detection will simply not be possible.
+
+
+
+==============================================================================
+
+Who:   JMRK
+When:  late 1998
+By whome/where: Feathered Serpents
+
+
+Q: What you think lies in the future of virus coding?
+   
+A: Crazy polymorphism, complex retro code that can magically have it's way
+   with any AV, and multi platform viruses that transmit themselves over the
+   Internet.
+
+
+
+==============================================================================
+
+Who:   Pockets
+When:  late 1998
+By whome/where: Feathered Serpents
+
+
+Q: What you think lies in the future of virus coding?
+   
+A: Disaster and plague, as new proprietary "technologies" are released, and
+   more platforms become "compatible" with each other [ie: what Linux and Java
+   are doing now].
+
+
+
+==============================================================================
+
+Who:   LovinGOD
+When:  March 1999
+By whome/where: SeptiC in Technological Illusions Magzine #1
+
+
+Q: How will the future OS/computer viruses look like?
+
+A: Internet worms with artificial intellect, they will have more power, coz
+   computers will control everything in real life.
+
+
+Q: Will computer viruses be used as "weapons" in the future?
+
+A: I am using this information weapons now. Of course, future technologies
+   will allow viruses to influent on real life.
+
+
+
+==============================================================================
+
+Who:   Int13h/iKX
+When:  May 1999
+By whome/where: Billy Belceb£/DDT in DDT#1
+
+
+Q: What is your viewpoint about a "perfect" virus? Could it be made? Do you
+   think that the Artificial Intelligence will be implemented in a virus in
+   the future?
+
+A: To talk about a perfect virus is almost as utopic as talk about a perfect
+   woman, without faults. It's a pure enthelequia.
+   A virus could work very vell during a certain period of time, but after
+   will come any software that will make crash, any new operative system, any
+   new driver, etc., there is always something that breaks the perfection
+   About applying artificial intelligence, who knows. Time will come fast and
+   will show us the replies.
+   
+   
+   
+==============================================================================
+
+Who:   Wintermute
+When:  May 1999
+By whome/where: Billy Belceb£/DDT in DDT#1
+
+
+Q: Well, as we wanna follow the normal steps of an interview... another
+   classical question :)
+   What do you think about a perfect virus? And how do you think that the
+   viruses in the future will be?
+
+A: Personally, I think there's been so much years of developing artificial
+   life. I've also became bored of the same stuff always... the perfect virus
+   shouldn't be artificial life, but artificial intelligence, that's the way
+   to go. Anyway I'm not that optimist... the future in viruses depends on how
+   much people can continue with the new systems with DOS nearly finished;
+   maybe much VXers go to HLLs, or worst, to macro shiiiit.
+   
+   
+   
+==============================================================================
+
+Who:   Foxz/NMVT (No Mercy Virus Team)
+When:  May 1999
+By whome/where: Serialkiller in codebreakers#5
+
+
+Q: Which viruses did you think are the next viruses in the future ?
+
+A: i think ASM will never die, but mmmmm now someone was bring new type of 
+   virus, HTML virus!. may be this type is gonna take the place
+
+
+
+==============================================================================
+
+Who:   Nightmare Joker
+When:  May 1999
+By whome/where: Serialkiller in codebreakers#5
+
+
+Q: How your opinion like do the viruses look the future?
+
+A: Probably all will try now on the VBScript or Java course will jump up, but
+   as soon as the Browser gets protective functions, the fun will fast past
+   be. The only sort of viruses, to which I would predict " for a long time "
+   a future am the Win32.HLL viruses generally. To coden easily and to adapt
+   also just as easily again new conditions. All Win95/98/NT ASM viruses is
+   naturally still better, to coden but but very with difficulty. Naja, we
+   will see, what brings us the future.
+   
+
+   
+==============================================================================
+
+Who:   Evil-E
+When:  May 1999
+By whome/where: Assembler Head in codebreakers#5
+
+
+Q: Give a little picture about Vx in future? 
+
+A: I see a good, very infective, future on the new platforms...
+   What do you want to infect today :-)
+   
+   
+
+==============================================================================
+
+Who:   Ruzz
+When:  January 2000
+By whome/where: EXE-Gency
+   
+   
+Q: What do you think the future of virus writing holds?
+
+A: Virus writing will go on for as long as there are computers and people to
+   depend on them. The future will consist of viral codes that are totally
+   internet aware and use AI to survive.
+   
+   
+   
+==============================================================================
+
+Who:   Bhunji
+When:  March 2000
+By whome/where: EXE-Gency
+
+
+Q: What do you think the future of virus writing holds?
+
+A: If i knew that i wouldnt be here, i would be threatening the AV's showing
+   some kewl undetectable techniques :). Na, i think viruses will continue as
+   slow as it does now as there is so few good coders making virii. Maybe some
+   more internet stuff, maybe someone realices what i have realiced about the
+   PE format and makes a very hard to find virus, maybe all coders stop coding
+   and opens up a pr0n palace, i have heard some rumors from Spyda about that.
+
+
+   
+==============================================================================
+
+Who:   doxtorL
+When:  August 2000
+By whome/where: Del_Armg0 in MATRiX#2
+
+
+Q: What do you think the future of virus writing holds ?
+
+A: At the beginning of virus computers, if you knew how to infect a com
+   executable you was considered to be an elite coder. Nowdays, write viruses
+   to infect Windows executable is not so easy. i suppose in the future things
+   will be even harder to write viruses; the minimum knowledge to write
+   viruses will be hard to master. I think macro viruses will disappear...
+   i don't mean macro langages will disappear too ,but according me, Microsoft
+   can easily stop macro viruses to be a threat. But is Microsoft want really 
+   to stop the spreading of macro viruses?  
+
+
+
+==============================================================================
+
+Who:   Walrus
+When:  August 2000
+By whome/where: Slagehammer
+
+
+Q: Do you have any new ideas for viruses you want to write in the near future?
+
+A: Id like to create a mailing virus. Not a mass mailing one like melissa but
+   one that attaches itself to mails as you send them. Therefore not creating
+   mail traffic. Also id like to venture into html virus coding and in the
+   future win32 asm.
+
+
+
+==============================================================================
+
+Who:   CYPH3R
+When:  April 2001
+By whome/where: Del_Armg0 in MATRiX#3
+
+
+Q: What do you think the future of virus writing holds ?
+
+A: as the electronic world advances more there will be more to infect, New
+   platforms new programs, it will never end. i feel there is alot of new fun
+   stuff coming up in the future, it will be great :D
+
+
+
+==============================================================================
+
+Who:   YELLO
+When:  April 2001
+By whome/where: Del_Armg0 in MATRiX#3
+
+
+Q: What do you think the future of virus writing holds ?
+
+A: I think that Hybris is the start of what’s to come. Antivx use the Internet
+   to update ... Why cant Virii? 
+
+
+
+==============================================================================
+
+Who:   The Mental Driller/29A
+When:  March 2002
+By whome/where: PetiK in PetiKVX Ezine #1
+
+
+Q: How do you see the virus and the worm in the future ?
+
+A: I think the threat is going to remain, mostly the threat represented by
+   the script-kiddies and their inmaturity, since the ones like us that code
+   viruses as proofs of concept or the like aren't a real threat (answering
+   to the ever-in-the-air question that many people have in mind).
+
+   From my point of view, the worms are the kind of self-replicating programs
+   that will be predominant in the future, as we have them in the present,
+   due to the massive growth of Internet and e-mail communication last years.
+   This is also contributed by tremendous security flaws in Micro$oft apps.
+   We'll see more and more worms that use exploits of known OSes to allow them
+   to continue replicating.
+
+   In a far future, maybe we'll see the first intelligent virus, designed with
+   neural nets and capable of searching exploits or new ways of infection by
+   its own, but for that we need an outstandingly process power, so we won't
+   see this very soon. I hope I'll be there to make something like that :).
+
+
+
+==============================================================================
+
+Who:   philet0ast3r/rRlf
+When:  March 2002
+By whome/where: PetiK in PetiKVX Ezine #1
+
+
+Q: How do you see the virus and the worm in the future ?
+
+A: Everthing improves. And the more it improves, the more difficult it gets.
+   I think future virus scene will concentrate on a few persons or groups,
+   inventing new things, and forcing AV to also invent something against it.
+   It's a circle of death. If the perfect virus can't be found, the true virus
+   scene will die some day, because old coders get too old, and things will be
+   too complicated for most newbies to learn.
+
+
+
+==============================================================================
+
+Who:   Benny/29A
+When:  March 2002
+By whome/where: PetiK in PetiKVX Ezine #1
+
+
+Q: How do you see the virus and the worm in the future ?
+
+A: Well, new viruses and worms will be much more "inteligent", more than they
+   are now.
+
+
+
+==============================================================================
+
+Who:   alcopaul/rRlf
+When:  March 2002
+By whome/where: PetiK in PetiKVX Ezine #1
+
+
+Q: How do you see the virus and the worm in the future ?
+
+A: virus of the future? simple.. an undetectable one...  :)
+   worm? a melissa-like sms worm...
+
+
+
+==============================================================================
+
+Who:   ZeMacroKiller98
+When:  March 2002
+By whome/where: PetiK in PetiKVX Ezine #1
+
+
+Q: How do you see the virus and the worm in the future ?
+
+A: I will see the next generation of virii contains all technics that exist
+   and add new technics find by new author
+
+
+
+==============================================================================
+
+Who:   Lord YuP (later dis69/29A)
+When:  May 2002
+By whome/where: PetiK in PetiKVX Ezine #2
+
+
+Q: How do you see the virus and the worm in the future ?
+
+A: A.I + meta + bug finding (sploiting) + plugins + stealth = PERFECT VIRUS ;]
+
+
+
+==============================================================================
+
+Who:   mandragore (ex-29A)
+When:  May 2002
+By whome/where: PetiK in PetiKVX Ezine #2
+
+
+Q: How do you see the virus and the worm in the future ?
+
+A: it's pretty sad.. but that's what old vxers thought in their time i guess )
+   newcomers tend to choose the facility and are not willin to pay the efforts
+   to learn so we'll see lotta teenagers with scriptin skillz (ironical) try
+   to infect as many computer as possible at any cost for some cheap glory,
+   without anything new nor interesting, even for 'em. i don't know for
+   'professional' vxin since i never came across some. but it could grow.
+
+
+
+==============================================================================
+
+Who:   BlackArt
+When:  May 2002
+By whome/where: PetiK in PetiKVX Ezine #2
+
+
+Q: How do you see the virus and the worm in the future ?
+
+A: hmm.. I hope that metamorhpic virus increase.
+
+
+
+==============================================================================
+
+Who:   Lord Julus (ex-29A)
+When:  June 2002
+By whome/where: PetiK in PetiKVX Ezine #2
+
+
+Q: How do you see the virus and the worm in the future ?
+
+A: I see a period of decline for Windows viruses with the implementation of
+   the Win64 platform and the new PE file. I see an increase in worms as much
+   more is doable thru scripting. In the further future I see a new wave of
+   strong viruses once people get used to the Win64 platform and again a
+   decrease in script worms...
+
+
+
+==============================================================================
+
+Who:   roy g biv
+When:  July 2007
+By whome/where: izee in EOF/DR/RRLF (EOF#2)
+
+
+Q: Which methods of infection do you prefer and which techniques do you like
+   more? How you think, what we can expect in the future?
+ 
+A: I like file infection that uses special methods, like insertion or multiple
+   cavities. Perhaps all of the infection methods have been found by now. What
+   remains are new ways to get control or new ways to decrypt the code. 
+
+
+
+==============================================================================
+
+Who:   herm1t
+When:  November 2007
+By whome/where: izee in EOF/DR/RRLF (EOF#2)
+
+
+Q: Which methods of infections do you prefer, and which techniques do you like
+   more? How you think, what we can expect in the future? 
+
+A: Complex enough to heat the imagination, but simple enough to be able to
+   handle them. :-) For me, now, it is automatic code dissection and
+   transformation. There are many interesting topics there. I'm not good with
+   predictions, I don't even try to keep a close watch on the trends in the
+   field (and those who tried often failed), but I think, that as an
+   implication from the fact that virus could be written for nearly every
+   universal computing system, and widespreading of different "smart" devices,
+   we'll seen more and more creatures filling the gaps on the platforms there
+   they were never seen before. As more and more techniques will be available,
+   we'll see a cross breeding of them, a hodge podge liveware which is a bit
+   of everything. And I want to belive and I hope that it is possible to
+   create a program that can change not only a form, but its functionality,
+   something that might be called polyessentialism (vs polymorphism). 
+
+
+
+==============================================================================
+
+Who:   hh86
+When:  December 2010
+By whome/where: SPTH in DarkCodez #3
+
+
+Q: What do you think will be the future of viruses? what will be the malware
+   "of tomorrow"? Some artificial intelligent coffee-machine infector? :)
+
+A: Probably. :)
+   But the most complex thing these days seem to be infectors like Stuxnet.
+   Now that malware officially reached the stage where it can be used for
+   sabotage on such a powerful thing like a nuclear plant and people is not
+   safe anymore of this kind of attacks, we can expect more serious attacks
+   from unscropulous organisations of malware writers. They should get their
+   asses turned into communitary sex centers for black people hungry of very
+   nerdy white guys in jail.
+   
+   
+==============================================================================
+
+Who:   pr0mix/EOF
+When:  March 2012
+By whome/where: SPTH in valhalla#2
+
+
+Q: Now let's look into the future: How will be the virus situation in 2015 -
+   3 years from now? What what will be your long term prognosis, lets say
+   for 2020 and for 2050? Be creative! :)
+
+A: Pull out your crystal ball =)
+   Future of the 1-st day: x64-technology, advanced technics of disembodied
+   files and rootkit-technology, the spread of viruses to new platforms /
+   devices, advanced integration of a virus with executable files etc;
+
+   Future of the 2-nd day: algorithmic mutation, the use of powerful
+   virtualization technology in viruses, the use of viruses in the new format
+   (going beyond the PC) etc;
+
+   Future of the 3-rd day: neural networks, AI, the integration of
+   virus-technologies into gene engineering etc;
+
+   hehe :p 
+   
+   
+   
+==============================================================================
+
+Who:   WarGame/EOF
+When:  March 2012
+By whome/where: SPTH in valhalla#2
+
+
+Q: Let's look into the future: How will be the virus situation in 2015
+   (3 years from now)? And what will be your long term prognosis for 2020 and
+   2050 (be creative!) :D
+
+A: We will see more mobile malwares (android and IOS) in 2015 because mobile
+   computing is becoming very widespreaded. I do not have long term prognosis,
+   I just hope being alive ;D
+   
+   
+   
+==============================================================================
+
+Who:   Peter Ferrie/Microsoft
+When:  March 2012
+By whome/where: hh86 and SPTH in valhalla#2
+
+
+Q: Look into the future:  what do you expect in near 3 to 5 years, and far
+   beyond, maybe in 10 years, to happen with viruses and how will AVs continue
+   to work.
+
+A: The future is now.  I expect to see more of the same, or perhaps I should
+   say *more* of the same.  Much more.  Malware on other platforms like phones
+   and other hand-held devices will be quite common.  Running AV on those
+   devices will be quite hard.  sigh.       
+   
+   
+   
+==============================================================================
+==============================================================================
+
+
+Thats it - now I want to try it myself :)
+
+
+Who:   SPTH
+When:  December 2012
+By whome/where: in valhalla#3
+
+Q: Future of viruses?
+
+A: Soon I guess there will be very complex metamorphic viruses - far more
+   advanced that whatever we have seen before. The reason is that the theory
+   of such self-mutating engines have been developed last few years very well.
+   Scientific researchers finally work on this topic as well, and producing
+   incredible results (mathematical proofs of undetectable viruses,
+   implementations based on formal languages and grammar, ...). Also
+   experienced VXers such as herm1t show (even more practical and potential
+   more successful) ways to implement game-changer based on self-compiling
+   high-level-languages (see valhalla#2 for instance). I expect those things
+   being developed withing 3-5 years. Expectation: < 2017
+   
+   Many predictions above were about self-learning codes (A.I. was mentioned
+   several times). Actually I am surprised that there has not been too much
+   progress on that field. Not even in theory as far as I understand (just
+   talking about self-replicators. The topic of artificial learning is very
+   advanced). Maybe its just the question of combining those two fields - that
+   means some theory about fitness-functions should be created that can be
+   applied to self-replicators. This requires good understanding of the known
+   results in A.I. - but I'm sure there are some clever people with interest
+   in self-replication out there that are not affraid of looking into new
+   fields such as machine learning (or vice versa). I want to see that!
+   I REALLY WANT TO!!! Expectation: < 2020 (first clever scaleable steps)
+   
+   Another thing that I would love to see are autonomous collectives of viral
+   units in big networks, such as swarms of birds or fishes. Maybe even such
+   as ants or bees. The idea is that such collectives can share information,
+   distribute dangerous code - if some of the units disappear, it does not
+   matter to the swarm. Todays bot-nets are somehow in that direction -
+   however, this swarm would not listen to human instructions anymore. It
+   would instruct itself. Really scary to think about :) Expectation: < 2025
+   
+   
+         Whatever happens, future will be bright and exciting :)
+
+                                                                December 2012
+                                                          Second Part To Hell
+

@@ -1,0 +1,169 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************       Einige Optimierungstricks      ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Einleitung
+
+  1) MOV reg, 0
+
+  2) CMP reg, 0
+
+  3) CMP reg, -1
+
+  4) MOVZX
+
+  5) IMUL
+
+  6) Schleifen
+
+  7) Nachwort
+
+
+
+
+
+  0) Einleitung
+
+     Nur eine ganz kurze Einleitung: Da Assembler die Maschinensprache ist,
+     und damit direkt auf die Leistungen des CPUs zugreifen kann (ist das jetzt
+     grammatikalisch richtig??? who cares :D), ist es möglich, ein und das Selbe
+     auf mehrere verschiedene Arten zu machen. Da die unterschiedlichen Befehle
+     auch unterschiedliche Längen haben, und in vielen Fällen die unnötig lange
+     benutzt wird, habe ich mir gedacht, ich schreibe ein kurzes Tut darüber, wie
+     man Codes verkürzen kann. Also, dann fangen wir mal an.
+
+
+  1) MOV reg, 0
+
+     Hier ist ein häufig benutzter Befehl, der unnötig lange ist: Einen Register
+     Null zu setzen. Hier im Beispiel ax.
+
+     mov ax, 0		; 0xB8, 0x00, 0x00
+
+     Also ist dieser Befehl 3 Bytes groß. Das gleiche kann mit XOR oder SUB
+     erreict werden, nur eben kleiner:
+
+     sub ax, ax 	; 0x29, 0xC0
+     xor ax, ax 	; 0x31, 0xC0
+
+     Dieser Befehl braucht nur 2 Bytes, wir haben also ein Byte gespart.
+
+
+  2) CMP reg, 0
+
+     Sagen wir mal, wir wollen einen Register mit 0 vergleichen:
+
+     cmp ax, 0x0	; 0x83, 0xF8, 0x00
+     jz  irgenwohin	; 0x74, 0x00
+
+     5 Bytes, eigentlich zu viel :) Dann versuchen wir es mal kleiner:
+
+     test ax, ax	; 0x85, 0xC0
+     jz   irgenwohin	; 0x74, 0x00
+
+     4 Bytes, schon mal nicht schlecht, aber es geht noch kleiner:
+
+     xchg cx, ax	; 0x91
+     jcxz irgendwohin	; 0xE3, 0x00
+
+     3 Bytes, und damit 2 Bytes eingespart. Das ist ein Erfolg :)
+
+
+  3) CMP reg, -1
+
+     Was auch oft gebraucht wird, ist der vergleich von einem Register mit -1.
+     Zuerst die konventionelle Überprüfung, dann die optimierte
+
+     cmp ax, -1		; 0x83, 0xF8, 0xFF
+     je  irgendwohin	; 0x74, 0x00
+
+     5 Bytes, aber es geht kleiner:
+
+     inc ax		; 0x40
+     jz  irgendwohin	; 0x74, 0x01
+     dec ax		; 0x48
+
+     Damit haben wir ein Byte gespart.
+
+
+  4) MOVZX
+
+     Wenn wir einen 1 Byte Wert in einen 16-Bit Register kopieren wollen, müssen
+     wir zuerst den 16-Bit Register löschen, um nicht einen Wert im anderen 1Byte
+     Teil zu haben.
+
+     xor ax, ax 	; 0x31, 0xC0
+     mov al, bl		; 0x88, 0xD8
+
+     Und jetzt optimiert:
+
+     movzx ax, bl	; 0x0F, 0xB6, 0xC3
+
+     Sehr fein, wieder ein Byte weniger :)
+
+
+  5) IMUL
+
+     Wenn wir zwei Werte multiplizieren wollen, wird mit MUL der Wert von AX
+     multipliziert, der erst nach AX kopiert werden muss:
+
+     mov ax, 0x12	; 0xB8, 0x12, 0x00
+     mov cx, 0x13	; 0xB9, 0x13, 0x00
+     mul cx		; 0xF7, 0xE1
+
+     8 Bytes sind schon viel, wenn es auch einfacher geht:
+
+     mov ax, 0x12	; 0xB8, 0x12, 0x00
+     imul ax, ax, 0x13	; 0x6B, 0xC0, 0x13
+
+     2 Bytes reduziert, sehr schön :)
+     (So, jetz mal warten, ich brauch ne Zigarette...
+      ...ok, back again!)
+
+
+  6) Schleifen
+
+     Wir müssen ja oft das selbe einige male ausführen. Meistens sieht der Code
+     dafür dann so oder so ähnlich aus:
+
+     xor ax, ax 	; 0x31, 0xC0
+     schleife:
+       ...
+       inc ax		; 0x40
+       cmp ax, 8	; 0x83, 0xF8, 0x08
+     jne schleife	; 0x75, 0xFA
+
+     Relativ groß, hmm? 8 Bytes nur für die Schleife. Dann machen wir das mal kleiner:
+
+     mov cx, 8		; 0xB9, 0x08, 0x00
+     schleife:
+       ...
+     loop schleife	; 0xE2, 0xFE
+
+     Von 8 auf 5 Bytes reduziert - ein voller Erfolg!
+
+
+  7) Nachwort
+
+     Das ist ein kleines Tutorial, das aber hilfreich sein kann. Ich muss jetzt
+     den Göttern des Optimierens, Super und Billy Belceb£, für ihre Codes und
+     Tuts danken. Das ist alles...
+
+
+                                                        - - - - - - - - - - - - - - -
+                                                          Second Part To Hell/[rRlf]  
+                                                          www.spth.de.vu
+                                                          spth@priest.com
+                                                          geschrieben am 11.05.2005
+                                                          Österreich
+                                                        - - - - - - - - - - - - - - - 

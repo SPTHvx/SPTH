@@ -1,0 +1,258 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************      Interview with Ralf Burger      ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) About Ralf Burger
+
+  1) English version (translated)
+
+  2) German version (original)
+
+
+
+
+
+  0) About Ralf Burger
+
+     Ralf Burger lives in Germany and has been one of the first virus writers, back in 1987.
+     He has written a very popular book called "DAS GROSSE COMPUTERVIREN BUCH". In 1992 he
+     stopped discovering viruses. Today, he is a one-man-company, doing security and Linux.
+     His homepage: http://burger-ag.de/
+
+
+
+
+
+  1) English version (translated)
+
+   1.) In 1987, you have been one of the pioneers, who have talked about computer viruses and
+       released their source-codes. Where have you heared about computer viruses and why have you
+       started to research them?
+
+   Because of an article in Spiegel about Cohens work. As Ive become an independent worker
+   that time, work has been rare, so I had time for it. And Ive just been interested in that topic.
+
+
+
+   2.) Other researches about that topic were censored. Juergen Kraus article is still unknown
+       today. Why have there been so much secrecy, and why were you able to release your information
+       anyway?
+
+   I dont think that it was deliberate censorship. Well  of course some things have not been shared
+   as fast as today. I think in most cases it has been ignorance. Some computer scientific journals as
+   CHIP or CT did not want to talk about that topic. Thought it is nonsense (because they did not
+   understand it) or feared that due to negative reports about viruses the new developing market for
+   computer magazines will disappear. That time Ive met an employee of Data-Becker Publisher at CeBit
+   who asked me: "Why dont you do a book about it?"
+
+
+   3.) In your book "Das grosse Computervirenbuch" you have released beside of your own source codes,
+       also source of other persons (Bernd Fix, M. Vallen, ...). How did you get contact to other
+       researchers of that critical topic "computer virus" in spite of cencorship?
+
+   As there has not been an Internet as we know it today and Modems (which were illegal, of course)
+   were traded at a price of 2000-3000 DM, there have not been that much possibilities. Most contacts
+   have been created at the Congress of CCC.
+
+
+
+   4.) According to yourself, you have been worked with computer viruses until 1992. That time already
+       a small virus writing scene has been formed in the underground. What did you think about that
+       development?
+
+   Ive been fascinated about the developers creativity and the humour. The bootsector viruses, the
+   beautiful Amiga-viruses and the funny Autumn foliage virus (who made the letters falling down the
+   screen) were really impressive.
+
+
+
+   5.) Why did you stop to investigate computer viruses, and what have you done later?
+
+   Hostility and the commercialisation (connected with aggressiveness) of the market. The warning of
+   the BSI about continuing publish about computer viruses. Lawsuits with participation of my "special
+   friends" Freiherr von Gravenreuth and Prof. Brunnstein. The lake of possibilities to communicate.
+   But most important: it has not been worthwhile anymore. One will not gain control of the thing.
+   Not with _this_ computers and not with _this_ operation systems. There was no Linux yet, and Unix
+   was enormous expensive. And when Ive been ordered by a nearby company, I was able to choose:
+   Continue writing viruses or doing something productively.
+
+
+
+   6.) Have you ever had moral doubts because of your work? In the end, your book has opened that topic
+       for a mass of people, and has helped people writing viruses and, moreover, spreading them.
+
+   Moral doubts? Because of spreading information? No way.
+
+
+
+   7.) At that time, in 1987, have you thought that computer viruses could become such a major problem as
+       they are today?
+
+   I anticipated something bad, but that it would be that bad I did not thought about. I thought there
+   would be an different behaviour of computing, and, moreover, better operation systems. But I was wrong.
+
+
+
+   8.) What do you think about todays computer viruses?
+
+   They are not relevant for me. Im using an operation system which is incompatible to nearly all computer
+   viruses. But it is funny when such a thing infects the computer of a customer, and is just recognized
+   because it removes the virus scanner first. ;-)
+
+
+
+   9.) Would you start to research that topic again with the knowledge of todays situation?
+
+   Everything about that topic has been said. Lets talk about the truth: Last 30 years computers
+   have not had a significant increase of power. Already in the 80s computers were used for bookkeeping,
+   writing letters, watching movies, listening to music and for communication. Already the Amiga could make
+   noise. Today, I also can do the bookkeeping, writing letters, watching movies or communication. It has
+   become easier, but these are no real innovations.
+
+
+
+
+
+  2) German version (original)
+
+   1.) 1987 warst du einer der "Pioniere", die Computerviren besprochen und deren Quellcodes veröffentlicht
+       haben. Wie hast du von Viren erfahren und warum hast du sie zu erforschen begonnen?
+
+   Aufgrund eines Artikels im Spiegel ueber
+   die Arbeit von Cohen. Da ich damals grade
+   erst mit der Selbstaendigkeit begonnen hatte,
+   war die Auftragsdecke duenn und ich hatte noch Zeit.
+   Und das Thema interessierte mich einfach.
+
+
+ 	 	
+   2.) Andere Arbeiten dieses Forschungszweigs wurden von verschiedenen Institutionen zensiert. Jürgen
+       Kraus' Arbeit ist heute noch der Öffentlichkeit völlig unbekannt. Warum gab es so großes Interesse
+       an der Geheimhaltung, und warum ist dir und deinen Arbeiten dieses Schicksal erspart geblieben?
+
+   Ich denke nicht, dass das absichtliche Zensur war.
+   Gut, einige Dinge wurden sicherlich nicht so zuegig
+   Aufgearbeitet und weitergegeben, wie das Heute
+   der Fall ist.
+   Ich denke, es war zum grossen Teil Ignoranz.
+   Fachzeitschriften wie CHIP oder CT wollten
+   von dem Thema nichts wissen. Hielten es entweder fuer
+   Unfug (weil sie es nicht verstanden hatten) oder
+   befuerchteten, sich durch negative Berichte ueber
+   Viren den grade erst entstehenden Markt fuer
+   Fachzeitschriften selbst zu untergraben.
+
+   Und da habe ich dann auf der CeBit zufaellig einen
+   jungen Lektor von Data-Becker kennengelernt, der
+   im Gespreach zu mir sagte: Haben Sie Lust daraus
+   ein Buch zu machen?
+
+
+
+   3.) In deinem Buch "Das große Computerviren Buch" hast du neben eigenen Quellcodes auch Viren von anderen
+       Personen (Bernd Fix, M. Vallen, ...) veröffentlicht. Wie kam damals der Kontakt zu anderen Forschern
+       dieses heiklen Themas trotz staatlicher Zensur zustande?
+
+   Da es das Internet in der heutigen Form noch nicht gab
+   und Modems (die natuerlich illegal waren) zu Preisen
+   von 2-3000 DM gehandelt wurden, habe es nicht sooo
+   viele Moeglichkeiten.
+   Die meisten Kontakte haben sich auf Kongressen des
+   CCC ergeben.
+
+
+
+   4.) Du hast dich nach eigenen Angaben bis etwa 1992 mit dem Thema "Computerviren" befasst. Zu dieser
+       Zeit hat sich im Untergrund bereits eine kleine Virenschreiber-Szene entwickelt. Wie hast du diese
+       Entwicklung erlebt?
+
+   Ich war schon fasziniert vom Einfallsreichtum und
+   Humor der Entwickler. Die Bootsektorviren und
+   die huebschen Amiga-Viren oder der witzige
+   "Herbstlaub-Virus" (bei dem die Buchstaben am
+   Bildschirm herunterfielen), waren schon beeindruckend.
+
+
+
+   5.) Was hat dich dazu gebracht, das Thema Computerviren sein zu lassen und was hast du danach gemacht?
+
+   Anfeindungen und die mit der Kommerzialisierung
+   verbundene Agressivitaet des Marktes. Anrufe des
+   BSI, die mich davor gewarnt haben, weiter zu
+   veroeffentlichen, Rechtssteitigkeiten unter Beteiligung
+   meiner speziellen Freunde Freiherr von Gravenreuth
+   und Prof. Brunnstein, die fehlenden Kommunikationsmoeglichkeiten,
+   und vor allem die Tatsache, dass das alles ein Fass ohne Boden
+   zu werden schien.
+   Man wuerde die Sache nicht in den Griff bekommen koennen.
+   Nicht mit _diesen_ Computern und nicht mit _diesen_ Betriebssystemen.
+   Linux gab es damals noch nicht und Unix war unerschwinglich teuer.
+   Und als dann ein lukrativer Auftrag fuer ein ortsansaessiges
+   Unternehmen anstand, hatte ich die Wahl:
+   Weiter Viren oder lieber was Produktives machen...
+
+
+
+   6.) Hattest du jemals moralische Bedenken wegen deiner Arbeit? Dein Buch hat schließlich der breiten
+       Öffentlichkeit dieses Thema zugänglich gemacht und hat wohl viele Menschen zum Schreiben und vor
+       allem Verbreiten von schädlichen Codes gebracht.
+
+   Moralische bedenken? Wg. dem Verbeiten von Informationen?
+   Nein
+
+
+
+   7.) Hast du dir damals, 1987, gedacht, dass Computerviren ein so großes Problem werden könnten wie
+       sie heute sind?
+
+   Ich ahnte, dass es schlimm werden wuerde. Dass es so schlimm
+   werden wuerde, ahnte ich nicht. Ich dachte, es wird einen anderen
+   Umgang mit dem PC und vor allem bessere Betriebssysteme geben.
+
+
+
+   8.) Was denkst du über heutige Computerviren?
+
+   Sie sind fuer micht nicht relevant. Ich benutze eine
+   Betriebssystemversion, die praktisch zu allen Viren
+   inkompatibel ist.
+   Aber irgendwie witzig finde ich es schon, wenn sich
+   auf dem Rechner eines Kunden so ein Ding breitmacht
+   und nur dadurch auffaellt, dass es erstmal den Virescanner
+   entfernt ;-)
+
+
+
+   9.) Würdest du mit dem Wissen der heutigen Situation nochmals beginnen dieses Thema erforschen?
+
+   Es ist zu dem Thema alles gesagt, was es zu sagen gab.
+   Machen wir uns nichts vor: Computer haben in den letzten
+   30 Jahren keine wirklichen Leistungsspruenge gemacht.
+   Bereits in den 80er konnte man damit seine Buchhaltung
+   machen, Briefe schreiben, Filme sehen, Musik hoeren
+   und Kommunizieren. Bereits der Amiga konnte sprechen.
+   Heute kann ich mit einem modernen PC meine Buchhaltung
+   machen, Briefe schreiben, Filme sehen und Kommunizieren.
+   Es geht vielleicht alles etwas einfacher, aber wirkliche
+   Innovationen sind das nicht.
+
+
+
+                                                  - - - - - - - - - - - - - - -
+                                                    Second Part To Hell/[rRlf]
+                                                    www.spth.de.vu
+                                                    spth@priest.com
+                                                    written in May 2006
+
+                                                    ...surrealistic viruswriter...
+                                                  - - - - - - - - - - - - - - -

@@ -1,0 +1,283 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************        Interview with hh86           ***********
+	  ************              by SPTH                 ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+
+
+This is an interview with the virus writer hh86, done in December 2010.
+You can find her at http://vx.netlux.org/hh86/
+or send e-mails to slaughter.v.c@gmail.com
+
+
+Have fun! :)
+
+
+
+
+##############################
+##  Hello hh86, thanks for accepting the interview request! :) Could you 
+##  please descripe yourself - where are you from, how old are you, favorite
+##  music, hobbies etc.?
+
+Hello.  Okay, I was born in 1992 in southern Europe.
+My hobby is virus writing. I am a great fan of Cat Power, Lisa Germano, Julie London, Blonde Redhead, Silversun Pickups and Sigur Ros.
+
+
+
+##############################
+##  Where did you have your nickname from - what does it mean? Once you wrote
+##  that it was not the one you attempted to use - what was your first attempt?
+##  Have you ever used a different one?
+
+"hh86" was the signature of another female programmer. It was her name, surname and year when she was born.
+I attempted "Hallow". I tried some but herm1t always used "hh86" for me as author.
+
+
+
+##############################
+##  Do your friends or family know that you write viruses?! If yes, what was
+##  their reaction when they found out/you told them? What do they think about
+##  it?
+
+Except for my boyfriend, they don't know. I think it's for best. ;)
+
+
+
+##############################
+##  You have released your first viruses about one year ago - some advanced
+##  assembler viruses. I'm speculating that you are interested in viruses much
+##  longer :) Since when are you interested in malware and what was the cause
+##  for that interest?!
+
+I am interested since I was 14.
+The cause for that interest might be when hh86 told me I could write code. I began learning in September 2009, and wrote my first virus in November 2009.
+
+
+
+##############################
+##  What was the feeling when you've finally released your first creature?
+##  What have been the first comments about it?
+
+Oh, I was so nervous when sent it to herm1t.
+I knew there was no turning back and that I had to continue running for new code.
+
+No comments arrived for that virus, maybe people thought it was just an everyday appender. It was very simple, of course, but it had a detail. ;)
+
+
+
+##############################
+##  You have written several viruses so far. Could you please descripe them
+##  briefly? Which one did you like most, where come the names from, do they
+##  have some special additional story?
+
+Yeah, here they are.
+
+"Deelae family"
+W32.reise (infector of PE files and the first virus to overwrite certificate table for no file increase)
+W32.nova  (remake of W32.reise, but this used a new entrypoint obfuscation technique: hooking the DLIT [Delay-Load Import Table])
+W32.juli  (infector of PE files, last section appender, this hooked in the DUIT [Delay-Unload Import Table] instead)
+W32.dnl12 (remake of W32.juli, this hooked in the DBIT [Delay-Bound Import Table] instead)
+
+W32.luna  (this was the first virus to infect LUA script files on Windows 32-bit)
+
+In old russian "reise" means to raise, I liked it.
+I heard of the Latin meaning of the word "nova", that is "new" and a female name, so I used it, since my virus was brighter and new.
+LUA is portuguese word for "moon" in english, so I called mine "luna" that is much beautiful name.
+I don't know why I used the names "juli" and "dnl12".
+
+My favorite virus is Nova.
+
+
+
+##############################
+##  Your Deelae Family has been described in the VirusBulletin Nov.2010, by
+##  Peter Ferrie. What was your feeling when you found out that they will be
+##  analysed in that magazine, and what did you actually think about the text?
+
+I was so happy. I liked it but some things were a little bit wrong, though.
+
+
+
+##############################
+##  After writing several win32 assembler viruses within a very short period
+##  of time, you disappeared for several months without a word. What happened?
+##  What was your intent to return?
+
+I felt that it was time to cold the grand project for a while.
+Eventually I felt an ever growing need to code. I heard about some programming language, and I decided that it was time to come back.
+
+
+
+##############################
+##  Do you have much contact to other viruswriters? Do you use IRC? Why (not)?
+
+No, they don't contact me, and I have nothing to say to them. ;)
+I used IRC only once. I don't like it because there is nothing interesting on hanging in the list all day long with a bunch of stupid people.
+
+
+
+##############################
+##  You are a female viruswriter - "a rarity in the virus-writing world.".
+##  Do you know or have contact to other female vxers? What do you think about their
+##  creations?
+
+I don't know any other female virus writer.
+In the past, Gigabyte did great job representing us.
+
+
+
+##############################
+##  Do you have contact to guys (girls? :D) from the anti virus scene? Which
+##  people from that "dark side" do you respect, and why. Do you disrespect
+##  some of them?
+
+Yes, I have contact with some people of the industry and met some of them personally.
+I respect Peter Ferrie and Peter Szor for their great knowledge.
+
+
+
+##############################
+##  You are a freelancer - not member of a viruswriting group. Why do you
+##  prefere to work on your own? Have you ever intented to join a group?
+
+I intended to join in EOF but izee was not competent enough to test my codes correctly.
+I work on my own now, and I will release an e-zine very soon. :)  However, if anyone is interested to have me on their group then contact me.
+
+
+
+##############################
+##  What do you think about the current viruswriting "scene"?
+
+I don't like it.
+
+
+
+##############################
+##  You intent to release your personal magazine. That is not so common. What
+##  gave you that idea? Is there something that you can let out about the
+##  magazine before the release?! :)
+
+I wanted to contribute to an e-zine.  But I thought it was going to be very awkward to try EOF.  So, I thought that releasing my own e-zine would be nice.
+The time is getting closer.  I am very happy that old school virus writers have contributed quality works for my dream to come true. :)
+
+
+
+##############################
+##  What are your favorite viruses out there and why do you like them?
+
+Shrug version for Windows 64-bit on Intel Itanium by roy g biv.  It is such a great code.
+
+
+
+##############################
+##  What is your favorite technique in viruses? What do you think about
+##  polymorphism and metamorphism, what about EPO and encryption? What about
+##  infecting virgin platforms?
+
+My favorite technique is that technique that hides your code and makes your virus' entrypoint be obscured. :)
+Polymorphism along with new method for encryption is quite awesome!  I don't see the funny thing in metamorphism.
+Infection of new platforms, systems, lenguages, is my most great desire.
+
+
+
+##############################
+##  What would you consider as THE PERFECT VIRUS/WORM?
+
+A Cross-platform, polymorphic, EPO, virus.  :)
+
+
+
+##############################
+##  What do you think about viruses written in C or C++, .NET viruses, Java or
+##  viruses for other highlevel languages? What about script-viruses?
+
+I personally don't like HLL or script viruses.
+I really love to be in control of every byte in my code, I don't want a compiler to decide wich combination should use to do some thing.
+
+
+
+##############################
+##  What do you think will be the future of viruses? what will be the malware
+##  "of tomorrow"? Some artificial intelligent coffee-machine infector? :)
+
+Probably. :)
+But the most complex thing these days seem to be infectors like Stuxnet.
+Now that malware officially reached the stage where it can be used for sabotage on such a powerful thing like a nuclear plant and people is not safe anymore of this kind of attacks,
+we can expect more serious attacks from unscropulous organisations of malware writers. They should get their asses turned into communitary sex centers for black people hungry of very
+nerdy white guys in jail.
+
+
+
+##############################
+##  What will be your future as viruswriter? Do you have goals? Do you have
+##  a plenty full to-do-list? Or will you take another break from coding soon?
+
+My future as a virus writer is to code more viruses, my goals are infect on new machines and new files.
+I have a lot of work to do, but that will be after my next break. :)
+
+
+
+##############################
+##  Lets make a short word-rap now - I give you a word/phrase and you tell me
+##  what pops to your mind first...
+
+- VX Heavens
+ hh86:  best resources!
+
+- Dark Avanger
+ hh86:  <3
+
+- Microsoft
+ hh86:  love it
+
+- favorite API
+ hh86:  MapViewOfFile
+
+- Drugs
+ hh86:  hate them
+
+- politics
+ hh86:  necessary
+
+- Barack Obama
+ hh86:  great man :)
+
+- freedom
+ hh86:  of heart and mind :)
+
+- Wikileaks
+ hh86:  don't care about it.  :)
+
+- church/religion
+ hh86:  I prefer Satan.
+
+- Death
+ hh86:  friend.
+
+- place you want to visit one day
+ hh86:  I would like to visit: Egypt.
+
+- person you want to meet one day
+ hh86:  That is a very good one... hh86.
+
+- one thing you want to do before you die
+ hh86:  let me think...
+ hh86:  meet virus writers.  :)
+
+
+
+##############################
+##  We are at the end of the interview - thanks alot for your time! If there
+##  is something else that you want to say, feel free to fill the rest of the
+##  file with whatever you want :)
+
+Au revoir!
+
+
