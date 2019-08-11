@@ -43,10 +43,10 @@
 <font size="2" color="#000000"><b>2003.06:</b></font> <a href="files/article2.txt">Cross Infection in JavaScript </a> <font color="#000000" size=2> ~ 19kB | also released in rRlf #4</font><br>
 <font size="2" color="#000000"><b>2003.06:</b></font> <a href="files/Useful-things-in-Batch.txt">Useful Things in Batch </a> <font color="#000000" size=2> ~ 9kB | also released in DvL's BATch Zone #1</font><br>
 <font size="2" color="#000000"><b>2003.05:</b></font> <a href="files/article1.txt">Useful Things In JavaScript </a> <font color="#000000" size=2> ~ 16kB | also released in rRlf #4</font><br>
-<font size="2" color="#000000"><b>2003.01:</b></font> <a href="files/How-to-crypt-JS.zip">How to encrypt JavaScript viriis</a> <font color="#000000" size=2> ~ 7 kB | also released in coderz.net #3</font><br>
+<font size="2" color="#000000"><b>2003.01:</b></font> <a href="files/How-to-crypt-JS.txt">How to encrypt JavaScript viriis</a> <font color="#000000" size=2> ~ 7 kB | also released in coderz.net #3</font><br>
 <font size="2" color="#000000"><b>2003.01:</b></font> <a href="files/Polymorphism-in-BatXP.txt">Polymorphism in BatXP</a> <font color="#000000" size=2> ~ 12 kB | also released in coderz.net #3</font><br>
 <font size="2" color="#000000"><b>2002.11:</b></font> <a href="files/PIWvVBS.txt">Perfect Internet-Worm via VisualBasicScript</a> <font color="#000000" size=2> ~ 10 kB | also released in eBCVG #3</font><br>
-<font size="2" color="#000000"><b>2002.10:</b></font> <a href="files/sclfbe.zip">Special Character List for Batch Encryption</a> <font color="#000000" size=2> ~ 8 kB | also released in rRlf #3</font><br>
+<font size="2" color="#000000"><b>2002.10:</b></font> <a href="files/sclfbe.txt">Special Character List for Batch Encryption</a> <font color="#000000" size=2> ~ 8 kB | also released in rRlf #3</font><br>
 <font size="2" color="#000000"><b>2002.10:</b></font> <a href="files/UDF.txt">Undeletable directories via Batch, VBS and JS</a><font color="#000000" size=2> ~ 9 kB </font><br>
 <font size="2" color="#000000"><b>2002.09:</b></font> <a href="files/perfbati-worm.txt">Perfect Internet-Worm via Batch v2.0</a><font color="#000000" size=2> ~ 11 kB | also released in rRlf #3</font><br>
 <font size="2" color="#000000"><b>2002.06:</b></font> <a href="files/undetectbatcrypt.txt">Undetectable batch encryption</a><font color="#000000" size=2> ~ 4 kB | also released in rRlf #3</font><br>
@@ -79,5 +79,5 @@
 <font size="2" color="#000000"><b>2004.12:</b></font> <a href="files/fat12.txt">FAT12 Dateizugriff</a><font color="#000000" size="2"> ~ 22 kB | german only | also released in LowLevel #7</font><br>
 <font size="2" color="#000000"><b>2004.12:</b></font> <a href="files/kav.txt">How BigBrother wants to get us down!</a><font color="#000000" size="2"> ~ 36 kB </font><br>
 <font size="2" color="#000000"><b>2004.09:</b></font> <a href="files/Menuet.txt">MenuetOS - Der Weg zum Erfolg mit Assembler</a><font color="#000000" size=2> ~ 18 kB | german only | also released in LowLevel #6</font><br>
-<font size="2" color="#000000"><b>2004.08:</b></font> <a href="files/IMikeH.zip">Interview mit Mike Hibbett</a><font color="#000000" size=2> ~ 9 kB (zipped) | german only | also released in LowLevel #6</font><br>
+<font size="2" color="#000000"><b>2004.08:</b></font> <a href="files/IMikeH.txt">Interview mit Mike Hibbett</a><font color="#000000" size=2> ~ 9 kB (zipped) | german only | also released in LowLevel #6</font><br>
 <font size="2" color="#000000"><b>2004.08:</b></font> <a href="files/rrlfmeet.txt">The weekend of rRlf meeting</a><font color="#000000" size="2"> ~ 8 kB | also released in rRlf #5</font><br><br>
