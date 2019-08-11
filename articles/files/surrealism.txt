@@ -1,0 +1,124 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************      Surrealism in viruswriting:     ***********
+	  ************        How to create new ideas       ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro Words
+
+  1) Surrealistic technique
+
+  2) How to use this technique
+
+  2.1) Examples
+
+  3) Outro words
+
+
+
+
+  0) Intro Words
+
+     This article is no way a description of a new technique or a new idea,
+     sorry - but this could be interesting/useful for reading anyway. The
+     article deals with the creation of new ideas, and how to get new ideas
+     or techniques. Why I did it? I wanted to find out, why and when the brain
+     creates very new ideas. Let's start...
+
+
+
+
+  1) Surrealistic technique
+
+     The real surrealistic scene existed after the World War I. To get the
+     ideas, the artists tried to stopp the logical thinking, by using sleep,
+     dreams or drugs - and this way merge subconscious and reality.
+     The faster they noted the idea, the farer it was away  from reality.
+     See pictures of Dalì or movies by Bunuel to understand what I mean.
+
+
+
+
+
+  2) How to use this technique
+
+     What is (one of) our main goal? Find new ways for spreading viruses or
+     worms, and to find new ways to prevent the detection of a self-spreading
+     code by an AV. As i found out last few months, the surrealistic technique
+     could be very useful for getting new ideas. Why? There are already alot
+     of techniques about viruses and worms, and if we want to idea something
+     totally new, it has to be totally unusually. And this way
+     we have to stop the logical thinking, and try to think in the subconscious.
+     Now some examples:
+
+
+     2.1) Examples
+
+     * Code via Behaviour
+       I've got that idea between the phase of awakeness and sleeping.
+       Important was, that I stood up and noted that idea (at ~2.00).
+       Otherwise I may have forgot it. Before sleeped I can remember that
+       I thought about virus technology - maybe that way my brain gave it to me.
+
+
+     * Server -> Client communication for preprocessor languages (PHP)
+       This idea I've also got while a phase of awakeness and sleeping,
+       and I've also noted it. Some days before I've hold a speech about
+       PHP in my computer science class. For this speech I've also read the
+       article in VB about the security of PHP. That evening I've thought about a
+       way to break it - and when my brain was no more in reality, I finally got the
+       idea.
+
+     * Over-File Splitting
+       This idea was created while I had some caffein-flashes at a 35h-non-sleep
+       trip. I could not think real that hours, heared noises that were not
+       there and so on. When I sat down smoking a cigarette I thought about the
+       detection of computer-codes by AVs. And finally the technique was born.
+
+     * Code via Behaviour: Follow nature's example
+       This one was ideat while I was very drunken by wiskey and stoned. At that
+       small party I finally had a flash, and I knew that I have to write it down -
+       otherwise I would have forgotten it. The week before I had some biology test
+       about the topic evolution. Somehow my brain connected these two fields.
+
+     * Stealth in worms
+       DiA told me once that he got a real nice idea about stealth. I found it very
+       interesting and asked him how he got it. He answered that he nearly sleeped,
+       got the idea and stood up to write it down for not forgetting it. I presume
+       his brain did also not work usually that minutes, and connected strange
+       (and in usually not connectable) things.
+
+
+
+
+  3) Outro
+
+     Why did I write this article? It seems to be nonsense - but that's not true at
+     all. I wanted to show you (reader) that very new and strange ideas by a high chance
+     start to exist if the brain does not work as at the usual day. As André Bretons already
+     wrote in 1924 in the First Surrealistic Manifest, the connection between reality and
+     grotesqueness creates the strange arts they had. These surrealistic scene also used drugs
+     (alcohol,...) and experiences of dreams. We should also do it - and it may be a success.
+     Just try it - you will see that you get strange (and in a positive case) useful
+     ideas...
+
+
+                                                  - - - - - - - - - - - - - - -
+                                                    Second Part To Hell/[rRlf]
+                                                    www.spth.de.vu
+                                                    spth@priest.com
+                                                    written in June 2005
+
+                                                    ...surrealistic viruswriter...
+                                                  - - - - - - - - - - - - - - -
+
+

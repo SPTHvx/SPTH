@@ -1,0 +1,250 @@
+
+			*************************************************************
+			*************************************************************
+			************			       		  ***********
+			************   How to encrypt JavaScript viriis?  ***********
+			************     by Second Part To Hell/[rRlf]	  ***********
+			************					  ***********
+			*************************************************************
+			*************************************************************
+
+
+This tutorial describes how to encrypt JavaScript files (viriis ;p ) in two ways!
+On the one hand "unescape", which is nearly the same as "chr$" and on the other hand
+"var", which is the same as "set"!
+You can use this encryptions for avoiding heuristic alarms of AV programs or to make a
+string scanning almost impossible.
+
+
+
+1.) Use "unescape" to crypting
+==============================
+
+First i wanna show you a totally normal JS-file, which writes "Hello VXers" to the "text.txt"-file:
+
+----------------------------------------------[main-code]-----------------------------------------
+var fso=WScript.CreateObject("Scripting.FileSystemObject")
+showme=fso.CreateTextFile("text.txt");
+showme.WriteLine("Hello VXers!");
+showme.Close();
+-----------------------------------------------[end-code]-----------------------------------------
+
+Now let's use "unescape" to crypt. It's nearlly the same as "chr", but it has other characters
+and an other syntax.
+
+I'll present you the same file crypt with "unescape":
+
+
+--------------------------------------------[unescape-crypt-source]---------------------------------------
+var fso=WScript.CreateObject(unescape("%53")+unescape("%63")+unescape("%72")+unescape("%69")+unescape("%50")+unescape("%74")+unescape("%69")+"n"+unescape("%67")+"."+unescape("%46")+unescape("%69")+"l"+unescape("%65")+unescape("%53")+unescape("%79")+unescape("%73")+unescape("%74")+unescape("%65")+"mO"+unescape("%62")+"j"+unescape("%65")+unescape("%63")+unescape("%74"))
+showme=fso.CreateTextFile(unescape("%74")+unescape("%65")+unescape("%78")+unescape("%74")+"."+unescape("%74")+unescape("%78")+unescape("%74"));
+showme.WriteLine(unescape("%48")+unescape("%65")+"llo"+unescape("%20")+unescape("%56")+unescape("%58")+unescape("%65")+unescape("%72")+unescape("%73")+unescape("%21"));
+showme.Close();
+--------------------------------------------------[source-end]--------------------------------------------
+
+"unescape" don't use the normal ASCII-List, so i wrote the "unescape-list":
+(perhaps you wonder, that the letters "j" to "o" and "z" are missing. I don't know why, but i think
+it's no big problem.)
+
+JavaScript's "unescape list":
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ 10 =
+ 11 =
+ 12 =
+ 13 =
+ 14 =
+ 15 =
+ 16 =
+ 17 =
+ 18 =
+ 19 =
+ 20 = 
+ 21 =!
+ 22 ="
+ 23 =#
+ 24 =$
+ 25 =%
+ 26 =&
+ 27 ='
+ 28 =(
+ 29 =)
+ 30 =0
+ 31 =1
+ 32 =2
+ 33 =3
+ 34 =4
+ 35 =5
+ 36 =6
+ 37 =7
+ 38 =8
+ 39 =9
+ 40 =@
+ 41 =A
+ 42 =B
+ 43 =C
+ 44 =D
+ 45 =E
+ 46 =F
+ 47 =G
+ 48 =H
+ 49 =I
+ 50 =P
+ 51 =Q
+ 52 =R
+ 53 =S
+ 54 =T
+ 55 =U
+ 56 =V
+ 57 =W
+ 58 =X
+ 59 =Y
+ 60 =`
+ 61 =a
+ 62 =b
+ 63 =c
+ 64 =d
+ 65 =e
+ 66 =f
+ 67 =g
+ 68 =h
+ 69 =i
+ 70 =p
+ 71 =q
+ 72 =r
+ 73 =s
+ 74 =t
+ 75 =u
+ 76 =v
+ 77 =w
+ 78 =x
+ 79 =y
+
+
+That means, that the character "a" is the same as unescape("%61")! I hope u understand what i mean.
+
+__________________________________________________________________________________________________
+
+2.) Use "var" to crypting
+=========================
+
+"var" is the same as set in VBS!
+
+First we have to make a own variable for every character, that we wanna crypt.
+For instanze:
+var a="X"
+
+Here u'll see the old code, but now it's encrypt with "var".
+
+-------------------------------------------------[var-crypt-source]-------------------------------
+var a="t"
+var b="e"
+var c="x"
+var d="."
+var e="H"
+var f="l"
+var g="o"
+var h=" "
+var i="V"
+var j="X"
+var k="r"
+var l="s"
+var m="!"
+var n="c"
+var o="i"
+var p="p"
+var q="f"
+var r="n"
+var s="g"
+var t="m"
+var u="b"
+var v="y"
+var w="j"
+var fso=WScript.CreateObject(l+n+k+o+p+a+o+r+s+d+q+o+f+b+l+v+l+a+b+t+g+u+w+b+n+a)
+showme=fso.CreateTextFile(a+b+c+a+d+a+c+a);
+showme.WriteLine(e+b+f+f+g+h+i+j+b+k+l+m);
+showme.Close();
+----------------------------------------------------[source-end]----------------------------------
+
+This is also a quite good encryption.
+
+You're also able to write fake-set's infront of the true variable. It's important, because AV's
+(ok, i just know KAV is able to do it) are able to insert the var's to the code. That means, the scanner
+decrypt the virus-code (=detect the virus).
+
+Here is a sample for that what I mean:
+
+-----------------------------------------------[fake-var-source]----------------------------------
+var a="a"
+var a="t"
+var b="b"
+var b="e"
+var c="c"
+var c="x"
+var d="d"
+var d="."
+var e="e"
+var e="H"
+var f="f"
+var f="l"
+var g="g"
+var g="o"
+var h="h"
+var h=" "
+var i="i"
+var i="V"
+var j="j"
+var j="X"
+var k="k"
+var k="r"
+var l="s"
+var l="s"
+var m="m"
+var m="!"
+var n="n"
+var n="c"
+var o="o"
+var o="i"
+var p="q"
+var p="p"
+var q="q"
+var q="f"
+var r="r"
+var r="n"
+var s="s"
+var s="g"
+var t="t"
+var t="m"
+var u="u"
+var u="b"
+var v="v"
+var v="y"
+var w="w"
+var w="j"
+var fso=WScript.CreateObject(l+n+k+o+p+a+o+r+s+d+q+o+f+b+l+v+l+a+b+t+g+u+w+b+n+a)
+showme=fso.CreateTextFile(a+b+c+a+d+a+c+a);
+showme.WriteLine(e+b+f+f+g+h+i+j+b+k+l+m);
+showme.Close();
+-----------------------------------------------[source-end]---------------------------------------
+
+I hope, now you understand it. ;)
+__________________________________________________________________________________________________
+
+Last word:
+~~~~~~~~~~
+
+Although i've never seen a JavaScript heuristic engine (maybe it exists anyway), sometime (maybe soon)
+it will exist. Then the encryption of the JS-viriis is very important.
+
+OK, that's all, folks! Very thanks 4 reading this and I hope i don't bored you! ;)
+I would be happy if you try to use this techniques!
+
+Last but not least: sorry about my real bad english!
+
+							- - - - - - - - - - - - - - -
+							  Second Part To Hell/[rRlf]  
+							  www.spth.de.vu
+							  spth@aonmail.at
+							  written in jan. 2003
+							  Austria
+							- - - - - - - - - - - - - - - 

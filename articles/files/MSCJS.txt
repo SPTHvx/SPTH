@@ -1,0 +1,525 @@
+
+                ****************************************************
+                   Metamorphism and Self-Compilation in JavaScript  
+                                        by Second Part To Hell
+                ****************************************************
+                
+
+                
+
+  1) Introduction
+    
+  2) Getting information: Decompilation versus Self-Hosting compilers
+  
+  3) Meta-Level Language and Compilation
+     3.1) General idea
+     3.2) Permutator
+     3.3) Variable/Function-Name randomization
+     3.4) Meta-Language Symbols
+     3.5) Code Derivation
+     3.6) Variable/Function insertion
+     3.7) Additional surprises
+  
+  4) Possible Extentions
+
+  5) Conclusion                                                     
+  
+  
+  
+  
+  
+  
+  
+  1) Introduction
+  
+     Metamorphism for viruses is a technique to change the internal structure of
+     a code to obtain highly-obfuscated new generations. This is done by getting
+     information of the virus-code in a meta-language which is designed to allow
+     derivation of logically equivalent but structurally different code. 
+     
+     This technique has been implemented in a few viruses infecting executable
+     files; first by virus-writers, later also by scientific researchers.
+     
+     Metamorphic script viruses have not been seen - until now. Here I show an
+     implementation in JavaScript, which have been used in JS.Transcriptase.
+     I explain the self-hosting compiler and the meta-level language and take
+     a short look into the future. 
+     
+     
+
+
+
+  2) Getting information: Decompilation versus Self-Hosting compilers
+  
+     As written above, a metamorphic virus needs the information of its code in
+     some sort of meta-level language. There are two ways how this can be done:
+     
+     a) Decompilation (reverse-engineering) and optimization of the executeable
+        code into a low-order form of the meta-language. The optimization needs
+        to de-permutate and de-obfuscate the executeable code, otherwise the
+        virus-size would grow exponentially after every generation.
+        
+        One example that implements this paradigm is MetaPHOR by The Mental
+        Driller [1], which decompiled its own code into a pseudo-assembler
+        meta-language.
+        
+
+     b) The virus hosts the source of itself (including the compiler) written in
+        the meta-level language. This technique leads to self-hosting compilers;
+        creating a self-hosting compiler is called bootstrapping.
+        
+        An virus that uses a variant of this technique is Win32/Apparition
+        (mentioned in [2]), however this virus didn't use its own meta-language,
+        but used a C++ source and relyed on installed C++ compilers. A real
+        implementation of this second type does not exist yet to my knowlegde.
+        
+
+     In my opinion, there are some contras in the first methode, which I've
+     already mentioned in another text [3]. There are two main concerns:
+
+     - The decompilation/reverse-engineering engine used by the virus could
+       directly be used by anti-virus programs to detect the code. herm1t
+       argues against such a scenario [4], by mentioning the
+       "no-zeroing-theorem" (you can not find the smallest form of an algorithm)
+       and giving examples where optimization could lead to infinite-loops.
+       This is certainly true, however approximative algorithm could be used to
+       overcome AVers problems. And furthermore, despite the mathematical
+       theorems that full zeroing/optimization is not possible, using the
+       deobfuscator from the virus definitivly leads to a significant advantage
+       for AVers:
+         They dont need to deal with fully obfuscated code anymore, but can 
+         investigate some low-order obfuscated code.
+         
+     - When the virus can obfuscate and de-obfuscate itself, it leads to a
+       symmetric system in terms of complexity: It is similar hard to obfuscate
+       than to de-obfuscate.
+       But this is definitivly not what we want, we want that obfuscation is
+       simple compared to deobfuscation. That's what Eric Filiol and Philippe
+       Beaucamps [5,6] explain: Derivation of metamorphic generations so far are
+       rather trivial due to the used grammar. It seems reasonable that
+       implementation with more complex grammars are much easier without
+       reverse-engineering.
+
+     Due to the reasons above and the fact that this has never been implemented,
+     I decided to write the engine as a self-hosted compiler, which contains its
+     own meta-language source-code.
+
+     One bottleneck for sources in the body is the detecion of the source
+     itself. This has to be prevented - but simple decryption or integration in
+     the code-flow should be enough most of the time. 
+       
+
+
+
+
+  3) Meta-Level Language and Compilation
+
+  3.1) General idea
+
+       The great advantage when you define your own language is, that you have
+       the whole information about the behaviour directly accessable, instead
+       of reverse-engineering where much information may become very obfuscated
+       or hidden in the code.
+       
+       The compiler creates the new JavaScript code with three steps:
+       a) Permutation and Variable/Function-Name randomization
+       b) Code Creation
+       c) Variable/Function insertation
+
+       The sketch of every line of the meta-code looks like this:
+
+           (Identifyer|Restrictions)instruction
+           
+       For instance:
+      
+           (200|)var b=0
+           (300|200)c+1(b)
+
+       The "(Identifyer|Restrictions)" corresponds to information for the
+       Permutator, the "instruction" will be used for creating the code.
+
+
+
+  3.2) Permutator
+
+       The Permutator goes thru every scope of the meta-code (global scope,
+       and every sub-scope for functions/ifs/whiles) and collects information
+       about the instruction-identifyers and the restrictions. Then it starts to
+       randomly permutate the instructions.
+       
+       Example:
+        
+           (100|)var a=1
+           (200|)var b=0
+           (300|)def c=true
+           (400|200)c+1(b)        // c+1(b) means increasing b by 1: i.e. b++
+           (500|400,100)c+n(b,a)  // c+n(b,a) means increasing b by a: i.e. b+=a
+           (600|500)xWScript.Echo(b)
+        
+       The code would be randomly put together if all restriction-entries were
+       empty, which would lead to 6!=720 different possible combinations. But as
+       some instructions are dependend on other instructions, not all
+       combinations lead to valid behaviour.
+       
+       In this example, the instruction 400 depends on instruction 200, because
+       the variable has to be defined before it can be increased; 500 depends
+       on 400 and 100; and 600 depends on 500.
+       
+       One potential output would be:
+
+           var b=0
+           c+1(b)
+           var a=1
+           c+n(b,a)
+           xWScript.Echo(b)
+           def c=true 
+           
+       Due to the fast grow-rate of the permuation-function, this technique is
+       especially useful for big numbers of instructions in the same scope.
+
+
+
+  3.3) Variable/Function-Name randomization
+
+       The compiler searches for all "var", "def", "while" and "function"
+       instructions of the code. Then it gets the hard-coded names in those
+       instructions and replaces them with a randomized name. Then it replaces
+       all instances of the hard-coded name in the current scope with the new
+       random name.
+       
+       Example:
+
+            function myfunction(somename){return 2*somename;}
+            var arg1=1
+            def abc=myfunction(arg1)
+             
+       could become
+       
+            function qnejobvasjok(twldceyzls){return 2*twldceyzls;}
+            var lthqppbdli=1
+            def bsyomafdst=qnejobvasjok(lthqppbdli)       
+
+
+
+  3.4) Meta-Language Symbols
+  
+       After Permutation and name randomization, the compiler parses thru the
+       meta-code and derives a valid JavaScript code for every instruction.
+
+       Before derivating the actual instruction, several meta-level symbols
+       are processed. Those symbols indicate the information that there is a
+       string, a number, an object or an element that can be derived before the
+       actual code is derived.
+       
+       For instance:
+       
+            var number=#n1n#                 // #n...n# - Numbers
+            var str=#"Hello VXers"#          // #"..."# - Strings
+            var exp=#x1true1x#               // #xN...Nx# - Elements
+            x#O1WScript#.Echo(°+str+°)1O#    // #O1... #. ...1O# - Objects 
+
+       When any of those symbols are recognized, they will be obfuscated before
+       the instruction itself. For example:
+       
+       
+       Numbers ->  variables, functions, arithmetic calculations
+       Strings ->  variables, functions, String.fromCharCode(...)
+                   (in additions, strings are splitted into substrings, and 
+                    independent obfuscations are applied on them)
+       Elements -> variables, functions, eval()
+       Objects: object.methode() -> f().methode(); function f(){return(object);}
+
+       The symbol "°+ ... +°" indicates that the variable inside must be given
+       as an argument for a function, if it is derived into a function:
+       
+            x#O1WScript#.Echo(°+str+°)1O#
+            
+        could become
+            
+            function SomeFunctionName(SomeArgName){WScript.Echo(SomeArgName);}
+            SomeFunctionName(str)
+            
+
+       All of those meta-symbols can be combined:
+       
+          xreturn(#x1#x2fGiveMeString(#n95n#)2x#+#x4fGiveMeString(#n42n#)4x#+
+              #x5fGiveMeString(#n95n#)5x#+#x6fGiveMeString(#n42n#)6x#+ #x3#O1°+
+              GVLVarListRV+°#.substring(#n0n#,#O2°+GVLVarListRV+°#.length2O#-
+              #n1n#)1O#3x#+#x7fGiveMeString(#n42n#)7x#+#x8fGiveMeString(#n95n#)
+              8x#+#x9fGiveMeString(#n42n#)9x#+fGiveMeString(#n95n#)1x#)
+       
+       This can lead to an extremly high number of different representations of
+       the same behaviour. 
+       
+        
+        
+  3.5) Code Derivation
+        
+       After processing the Meta-Language symbols, the code creates JavaScript
+       code out of the Meta-Language code.
+
+       There are several instructions that have specific properties:
+
+       - while(initial$var1!var2?operator@action)NNN
+       
+         "initial" stands for a potential initial code that is executed before
+         the while-loop, such as a variable-declaration.
+         
+         "var1" and "var2" together with the "operator" is the condition for the
+         loop.
+         
+         "action" can be an instruction in the end of the loop, such as
+         the increasing of some counter-variable.
+         
+         "NNN" stands for the number of lines that belong to the loop
+         
+         Example:
+         
+            while(var i=0$i!3?<@i=i+1)001
+            xWScript.Echo("hrhr"+i)
+            
+         could create
+         
+            var i=0; while(i<3){xWScript.Echo("hrhr"+i);i=i+1}   
+         
+         or
+
+            for(var i=0;i<3;i=i+1){xWScript.Echo("hrhr"+i)}           
+
+
+
+       - if(var1!var2?operator)NNN Code MMM AntiCode
+        
+         "var1" and "var2" together with the "operator" is the condition for the
+         loop again. NNN corresponds to the number of lines in the TRUE-branch,
+         MMM are the number of lines in the false part.
+         
+         Example:
+         
+            var i=Math.round(Math.rand());
+            if(i!1?==)001
+            xWScript.Echo("true")
+            002
+            xWScript.Echo("false")
+            xWScript.Echo("haha")
+        
+        could become
+        
+            var i=Math.round(Math.rand());if(1==i){WScript.Echo("true")}else{WScript.Echo("false");WScript.Echo("haha")}
+            
+        or
+        
+            var i=Math.round(Math.rand());switch(i){case 1:WScript.Echo("true");break;default:WScript.Echo("false");WScript.Echo("haha");break;}
+
+
+
+       - cO(1||n||s)          
+
+         This is a general purpose number/string calcuation instruction.
+         "O" stands for the operator that is applied (such as +,-,*,/). It is
+         coded very generally, so there are many potential ways how it can be
+         used:
+         
+              --> c+1(var1): increases var1 by 1
+              --> c+n(var1,var2): increases var1 by number var2
+              --> c+s(var1,var2): increases var1 by string var2
+              --> c-1(var1): decreases var1 by 1
+              --> c-n(var1,var2): decreases var1 by number var2
+              --> c*1(var1): multiply var1 by 1
+              --> c*n(var1,var2): multiply var1 by number var2
+              --> c/1(var1): divide var1 by 1
+              --> c/n(var1,var2): divide var1 by number var2
+
+         The derived code can have different representations again, example:
+         
+              c+1(number)
+              
+         could become
+
+              number++ or number+=1 or number=number+1
+         
+
+
+       - var/def
+       
+         Those instructions are for defining variables. "var" stands for a
+         defintion in the current scope, "def" is for defining global variables.
+        
+        
+        
+       - x/y
+       
+         Some instructions dont have special meta-level instructions, therefor
+         there are those general-purpose instructions to include additional
+         instructions. Such instruction can be derived into several different
+         representations (such as eval() or function calls). "y" is a more
+         restricted version of "x".
+         
+         
+         
+       - function
+       
+         This instruction is for defining functions. The functions are randomly
+         inserted in the code, and their code is independently derived.
+
+
+
+       - victory
+  
+         We want that our generated can also derive a new generation, therefore
+         we need the meta-code also in the new derived code.
+         
+         This has been done by the following instruction
+         
+              victory:sMetaLevelLanguage=
+              
+         When the compiler sees this instruction, it will define a variable
+         called sMetaLevelLanguage (but with a random name), and insert the
+         original meta-level code as string to the variable. The string gets
+         obfuscated, and as a special property, "victory" does not allow
+         plain-string return values such that every byte of the source is
+         definitivly hidden.                               
+
+        
+        
+  3.6) Variable/Function insertion
+        
+       During the compilation, many variables and function are defined (either
+       due to the meta-code itself, or due to obfuscation). They are not
+       inserted into the code yet, but are collected in special arrays. In the
+       end of the code derivation, they are inserted into the code.
+       
+       Functions can be inserted between every instruction in the global scope.
+       Variables can be inserted between every instruction in the current
+       scope - but before they are used for the first time. This is especially
+       tricky because the variables can be obfuscated and not visible anymore,
+       or they can be used in other functions.
+       
+       This insertion takes long because the whole code has to be analysed
+       several times to find potential positions.
+               
+        
+        
+  3.7) Additional surprises
+  
+       There are two additional functionalities that increase the complexity of
+       the code.
+       
+       The first one creates random functions with one to five arguments,
+       which contain an arithmetic calculation using the arguments, and return
+       a specific number.
+       
+       Example: 
+              function msbxaegrgbfqutl(pllwlqvevm,zorelhvsak,zpzrdbuy,rhuuwrxdj){return (36+zpzrdbuy)+(98+((zorelhvsak-(219-((17-(21%(rhuuwrxdj*10)))-pllwlqvevm)))-rhuuwrxdj))}
+              msbxaegrgbfqutl(161,184,152,9) gives 77
+              msbxaegrgbfqutl(227,205,255,88)) gives 56
+        
+       Up to 35 of such functions are created in the beginning, and are
+       analysed in a bruteforce way. When the analysis finds that the function
+       returns a number between 0 and 255, the function-call including the
+       arguments are saved and can be used in the number-derivation in the code.
+       
+       This should significantly increase the number of potential output,
+       especially because many instructions are derived to String.fromCharCode
+       and therefore the numbers 0 to 255 are used very often.
+       
+       
+       
+       A second special feature is the introduction of function-arrays. At the
+       stage of Variable/Function insertion, the code can select some functions
+       or variables and bundle them into one array.
+        
+       Example:
+       
+              var1=17; var2="Hello VXers!"; if(var1>12){WScript.Echo(var2)}
+
+         could become
+
+              somearray=[function(){return("Hello VXers!")},17}];
+              if(somearray[1]>12){WScript.Echo(somearray[0]()}
+
+       The array is introduced at random positions before the first entry of the
+       array is used in the code.
+
+
+
+
+
+  4) Possible Extentions
+  
+     There are hunderts of things to improve and thousands of things to
+     implement. When you have a self-compiling compiler, you can do so many
+     things that you could not even think about before! :)
+     
+     Several things that come to my mind:
+     
+     - Adding more direct Meta-Language instructions
+     
+       The general purpose instructions "x" and "y" are used in some cases where
+       one could have defined new instructions. For instance, when variables
+       are changed, when arrays get filled, ...
+
+       
+     - Multi-instruction derivation
+     
+       So far, the engine can translate one instruction into one specific set
+       of JavaScript code. But it could be possible to bundle several
+       instructions and derive them together - for instance putting them
+       together in one function or executing them together in one eval.
+       
+
+     - Behaviour polymorphism/Macro-mutations
+       
+       Functional polymorphism has been discussed in [7], and is a type of
+       macro-mutation. For instance, one could have an instruction "infect" and
+       derive sometime prepending, sometimes appending of the code.
+       
+
+     - Cross-infection
+     
+       Similar as what The Metal Driller did with his MetaPHOR (infecting Win32
+       and Linux at the same time), we can do cross-infection too. We have
+       the whole information of the code saved in the meta-language. The only
+       thing we need (for example, when infecting VBS or PHP files) is to adjust
+       the syntax accordingly.
+       
+
+
+
+
+  5) Conclusion
+  
+     Nearly one year ago, I wrote [8]:
+     
+        It seems to be possible to create a real self-recreating ("metamorphic")
+        engine in JavaScript - I predict this to come true one fine day :-)     
+     
+     It seems this one fine day is today... I'm looking forward to see further
+     developement on this topic!
+     
+     
+                                                           Second Part To Hell
+                                                                 December 2012
+     
+     
+  
+        
+[1] The Mental Driller, "Metamorphism in practice", 29a #6, February 2002.       
+[2] Peter Szor and Peter Ferrie, "Hunting for Metamorphic", Virus Bulletin
+    Conference, September 2001.
+[3] SPTH, "Some ideas to increase detection complexity", valhalla#1, July 2011.
+[4] herm1t, "Recompiling the metamorphism", valhalla#2, March 2012.
+[5] Eric Filiol, "Metamorphism, Formal grammars and Undecidable Code
+    Mutation", International Journal of Computer Science, 2007.
+[6] Philippe Beaucamps, "Advanced Metamorphic Techniques in Computer Viruses",
+    CESSE'07, November 2008.
+[7] GrÃ©goire Jacob, Eric Filiol, HervÃ© Debar, "Functional Polymorphic Engines:
+    Formalization, Implementation and Use Cases", Journal in Computer Virology, 
+    August 2009.
+[8] SPTH, "Exotic Morphing Techniques in JavaScript II", valhalla#2, 
+    January 2012.
+
+
+PS: Thanks to herm1t for many interesting discussions on this topic and to hh86
+    for constant motivation - this would not possible without your help. :)
+ 

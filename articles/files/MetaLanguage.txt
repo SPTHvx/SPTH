@@ -1,0 +1,264 @@
+ï»¿
+            ****************************************************
+                      Meta-Level Languages in Viruses
+                           by Second Part To Hell
+            ****************************************************
+
+
+
+
+  1) Introduction
+  
+  2) Meta-Language Examples
+     2.1) Direct transformations in assembler
+     2.2) Pseudo-Assembler Meta-Language
+     2.3) Build-in HLL-Source            
+     2.4) Pseudo-Script Meta-Language
+     
+  3) Selfcompiling compilers and the Highest Level Language
+  
+  4) Conclusion            
+            
+            
+            
+       
+       
+       
+            
+  1) Introduction
+  
+     In valhalla#2, March 2012, herm1t wrote a wonderful article about how to
+     write a good metamorphic virus - a gamechanger [1]. He argued that the
+     virus should be written in a high-level metalanguage such as C, and should
+     be fully self-compiling (more about it in chapter 3).           
+     
+     I got interested, and tried to understand how ancient metamorphic viruses
+     handled their reconstruction in terms of meta-languages. Here you see a
+     small non-complete collection of different ways to create a new obfuscated
+     representation of the code. Then I show a small thought on high-level
+     compilers - and what would be a wired case scenario.
+     
+     
+          
+      
+      
+  2) Meta-Language Examples
+
+  2.1) Direct transformations in assembler
+     
+       There are several metamorphic viruses that dont use an individualized
+       language, but use directly the assembler language. Three examples are
+       Win32.Evol [2] (by an unknown author in 2000), CODEGEN [3] (by Z0MBiE in
+       2000) and W32.Lexotan32 [4] (by Vecna in 2002).
+       
+       Evol and Lexotan32 can change opcodes from one instruction to another
+       (set of) instruction, which is defined in equivalence lists.
+       
+       A part of Lexotan32's equivalence list is here:       
+
+                Original               Transformed
+                
+                ADD   reg, imm         SUB   reg, -(imm)
+                
+                MOV   reg, reg/imm     PUSH  reg/imm          
+                                       POP   reg
+                
+                	
+                SUB   reg, reg         XOR   reg, reg
+                
+                TEST  reg, reg         OR    reg, reg
+                
+                LODSx                  MOV   ACUM, [esi]
+                                       ADD   esi, SIZE              
+                                  ...
+
+       This is the lowest possible level where you can perform mutations:
+       on the direct opcode level. The big disadvantage: The structure of the
+       code is very similar and its very simple to reverse. The meta-language
+       is direct assembler - no information about the code's behaviour can be
+       introduced in such transformation lists.
+
+       Z0MBiE's CODEGEN engine generates equivalent logical code with different
+       instructions as well, but tries to abstract to a certain extent the
+       behaviour from the opcode. The engine can create code with the following
+       structure (thus the "meta-language" is based on this structure):
+       
+             (cmd = mov/cmd/add/sub/xor)
+            
+                    cmd     v, c
+                    cmd     v1, [v2]
+                    cmd     [v1], v2
+                    cmd     v1, v2
+
+       The macro-instruction will be derived using rules as the following:
+       
+                    cmd     v, c
+                            mov     r, c
+                            cmd     v, r
+                            
+                    cmd     v1, [v2]
+                            mov     r2, v2     ...
+                            cmd     r1, [r2]
+                            mov     v1, r1       
+
+	     Even this engine already abstracts the behaviour from the code to some
+       extent, it is still based on micro-mutations of single assembler
+       instructions.
+
+
+
+  2.2) Pseudo-Assembler Meta-Language
+  
+       The classic metamorphic virus MetaPHOR by The Mental Driller [5] used a
+       real intermediate language to reconstruct the new generation code. The
+       language is based strongly on assembler, but contains additional
+       information that allows complex mutations in an easier way.
+       
+       All meta-level instructions are 16 bytes, and have the following
+       structure:
+
+      
+              00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+              OP *----- instruction data ----* LM *-pointer-*       
+       
+       OP and instruction data is used to identify the instruction, LM indicates
+       whether this instruction is a label (and thus must not merge with the
+       the instruction before), and pointer are used for some easier handling of
+       jump-tables.
+       
+       The big advantage is that this meta-language carries more information as
+       a simple assembler opcode (LM + pointer), and therefore allows
+       potentially more mutations. However, the language is still based on the
+       opcodes - and is on the lowest level of mutations. No macro-mutations are
+       possible with such a concept.        
+             
+
+
+  2.3) Build-in HLL-Source
+  
+       A totally different concept has been done by LordAsd in his Apparation
+       virus for Win16 and Win32. [6,7]
+       
+       The version for Win16 was written in Pascal. In addition to the binary
+       file, the Pascal source of the virus and a Pascal compiler was included
+       in the virus. The idea was to drop the source, change it, and compile it
+       again.
+       
+       The Win32 version was written in C++, it carried its own source, and
+       relied on installed C++ compiler on the infected system. When it was
+       found, the source was dropped to the harddisk, modified randomly and
+       the virus was recompiled.
+       
+       The advantage of such an approach would be the creation of very simple
+       macro mutations in the code. The downside of course is that the virus has
+       to carry the source and the compiler (or rely on systems with compilers).
+       
+       The meta-language in this case is the abstracted high-level language. 
+     
+          
+          
+  2.4) Pseudo-Script Meta-Language
+  
+       Recently I've written a metamorphic JavaScript virus [8], which contained
+       its own source in a pseudo-script language, and used a compiler written
+       in JavaScript to compile new generations. The pseudo-script language
+       contained additional information about the instructions, such as
+       permutation information or information about deriveable objects and local
+       variables.
+       
+       The general structure:
+       
+              (Identifyer|Restrictions)instruction 
+       
+       where "Identifyer" and "Restrictions" are information for the Permutator,
+       and "instruction" are the actual meta-language commands such as
+       
+              c+n(Â°+CBCCodeLineIndex+Â°,#x1Â°+CBCNumOfFFElementsCode+Â°1x#) 
+
+       The meta-language is general, and even allows some sort of
+       macro-mutations (variable constructions in arrays, ...). Still it is
+       based very much on the JavaScript langauge itself, and is not a
+       behaviour-descriptor only - which would be the optimum.
+       
+       
+
+
+
+  3) Selfcompiling compilers and the Highest Level Language
+  
+     herm1t's idea of a next-generation mutation engine [1] is a code written in
+     a high-level language such as C and can compile itself. In contrast to the
+     assembler-based meta-languages mentioned in 2.1 and 2.2, this concept
+     abstracts the "put value A to register B" (opcode basis) to a much more
+     behaviour-description basis.
+
+     In contrast to LordAsd's Apparition (chapter 2.3), his engine would have/be
+     a self-compiling compiler. The virus would not mutate the HLL source, but
+     the compiler would create a different binary out of the same source every
+     time. Due to the high-levelness of C, the mutations would be intrinsic
+     macro-mutations.
+     
+     This is of course an brilliant concept - but I wonder if its the final one?
+     Obviously, C language is itself not fully general, its based on individual
+     instructions which descript just minor behaviour. What about mutations in
+     higher-level behaviour?
+     
+     What if we had an even higher level language, where the compiler creates a
+     new generation of the virus? The next step is the algorithmic level
+     (such as writing to files in a general way, ...), then the macro-behaviours
+     (such as file-infection, code-mutation, ...).
+     
+     In the end, we could think about the highest level language that can
+     represent our virus:
+     
+     A language with just one single instruction: CREATE_NEW_VIRUS. The whole
+     source of the virus would be one instruction, that means no need to
+     disassemble itself or carry a lengthy source. Of course, the compiler of
+     such a "language" will be very big and carry itself all the information.
+     
+     Such an engine could be seen as a cascading of code derivations on one
+     level lower as before:
+     
+     nth level:     CREATE_NEW_VIRUS
+     (n-1)th level: INFECTION_METHODE_x + CODE_MUTATION_ENGINE_y
+     (n-2)th level: Some high-level descriptions of the INFECTION_METHODE_x + 
+                    Some high-level descriptions of the CODE_MUTATION_ENGINE_y
+           ...
+     3rd level:     C description of the code
+     2nd level:     assembler description of the code
+     1st level:     compiled opcode description of the code                
+          
+     I wonder how such a constructor could look like :-o
+     
+     
+     
+     
+
+  4) Conclusion  
+  
+     Here I tried to collect the ideas of meta-languages used in viruses so far,
+     analyse herm1t's metamorphism concept and give a small thought on it and on
+     a potential extention.
+     
+     Hope you enjoyed this small collection. At least I did and got a few new
+     ideas while writing. And now I exactly know what I want to do next ;-)
+         
+     
+                                                            Second Part To Hell
+                                                                  December 2012
+     
+            
+
+
+[1] herm1t, "Recompiling the metamorphism", valhalla #2, March 2012.   
+[2] Orr, "The Viral Darwinism of W32.Evol", 
+    http://www.openrce.org/articles/full_view/27, February 2007.
+[3] Z0MBiE, "METAMORPHISM", MATRiX #2, 2000.
+[4] Orr, "The Molecular Virology of Lexotan32: Metamorphism Illustrated",
+    http://www.openrce.org/articles/full_view/29, August 2007.  
+[5] The Mental Driller, "Metamorphism in practice", 29a #6, February 2002.       
+[6] SecureList, "Virus.Win16.Apparition.a", 
+    http://www.securelist.com/en/descriptions/old19603, 1997.
+[7] LordAsd, "THE APPARITION for Win32", 29a #3, 1998.
+[8] SPTH, "Metamorphism and Self-Compilation in JavaScript", valhalla #3,
+    December 2012.

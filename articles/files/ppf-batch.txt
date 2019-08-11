@@ -1,0 +1,235 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************   Past, Present and Future of Batch  ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+ Index:
+ ******
+
+  0) Intro Words
+
+  1) Past - Short view of the reached goals
+     a) Encryption and other Anti Detections
+     b) Polymorphism
+     c) Entry Point Obscuring
+
+  2) Present situation
+
+  3) Future goals
+     a) Discover more of CMD.exe
+     b) Polymorphism
+        i) Adding Trash
+        ii) Multi-Polymorphism
+     c) Permutation with Multi-EPO
+     d) Improve old techniques
+
+  4) Last words
+
+
+
+
+  0) Intro words
+
+  What is this article about and why do I write it? This may me your first questions
+  when you see the title. Well, I'll answere you: In this article you can read my (theoretically)
+  ideas of the future of Batch and a small view of the rached goals in the past.
+  Why do I write it? I just want to tell everybody, who is interested in it, my ideas of the
+  future goal and some neverdone things, because it's doubtful that I'll code much batch in
+  future. Well, I hope that you will like my ideas and thoughts. And now go on reading more
+  important things than this little intro. :)
+
+
+
+
+  1) Short view of the reached goals
+
+     As every virus language, also batch has it's one history. I want to give you some
+     interesting things I found out about this topic. It could be that I forgot some things,
+     please forgive me. :D Well, let's go.
+
+     a) Encryption and other Anti Detections
+        This technique first appeared in 2000, when Duke released his 'Advanced Batch Mutator'.
+        Meanwhile there are other and maybe stronger ways to make the batch code unreadable.
+        Guys like PhileT0ast3r and Alcopaul made a virus called Bat.Calvin&Hobbes, which was
+        encrypted via a vbs-file. I discovered the set-encrypten and the pseudo-trash, SAD1c made
+        great things like including trash and hard-encryption via vbs in his BOM (2003). Also
+        Tim Strazzere wrote a tool called BatchEncrypter, which changed the view of a batch file.
+        Another very important technique was seen in 'Trojan.NoDelDir' by an unknown author. The
+        technique was included to various VCKs (BOM, BWG, DM,...). Another idea found in 2003 was
+        the EICAR-file-including, idead by Doctor Rave.
+
+     b) Polymorphism
+        Even polymorphism is much harder to create, it was done before the encryption developed.
+        The first polymorph batch virus was written by GliTCH in 1999 (?) and was released in his
+        article called 'GliTCH's Polymorphic Batch Tutorial'. Even it was the first try, the
+        thing wasn't very successful, because every generation the virus' size increases alot.
+        Next try was my BatXP.Saturn, which used CMD.exe (Win00+) instead of command.com (Win9x).
+        One other polymorphic virus was BatXP.Palindrom, which used permutation and variable-name
+        changing. Another polymorphic Bath virus was SAD1c's BAT.PureFilth, Bat.Micromorph and the
+        output of his BOM. One other guy who wrote a polymorphic batch virus was Kefi with his BatXP.on.
+        Alcopaul also wrote an article about 'BatXP polymorphism via vbs'. PhileT0aster made a great
+        batch morphing engine, and discovered a cool type of random number generator, which was also
+        used in his and my Bat/BatXP.Iaafe. In 2003 rRlf anounced a contest about writing the best
+        poly-virus which runs from Win95-WinXP. Toro won with his Bat.Tee. In 2003 even CWarrior wrote
+        an interesting batch mutator. The last guy who joined the club of batch mutants writer was DvL
+        with his Bat.Limitrophe.a.
+
+     c) Entry Point Obscuring
+        That technique was the last totally new major technique I know. In 2003 I wrote some ideas
+        to DvL and forgot about them. The things came back into my mind when I read BZ#4 in 2004, where
+        DvL wrote a something about EPO in batch. Than I sat down and tried out things and made
+        BatXP.Nihilist, the first EPO batch virus. As this article is written short after the virus
+        I can't say anything about the future of it.
+
+
+
+
+  2) Present situation
+
+     The present situation in batch virus writing is hard to explain. There are a couple of batch
+     virus writers or people who write batch sometimes. I think there are 10-15 who create malware
+     via batch. Maybe the most important thing in the current damn good situation of batch writing
+     is DvL's BATch Zone. The situation developed, I think, in 2002/2003, because DvL started his
+     BATch Zone Magazine, SAD1c made the best Virus Creator for Batch (Batch-O-Matic) and other
+     guys discovered great techniques. Nowadays Batch authors want to create new, inovative stuff,
+     and discovering new techniques. And it changes even more to BatXP, which uses WinNT/00/XP's
+     CMD.exe. That file contains much more commands than command.com, and you can do virus-related
+     stuff much easier. But so far there are many undiscovered commands, so we don't know what future
+     could bring to us...
+
+
+
+
+
+  3) Future goals
+
+     a) Discover more of CMD.exe
+
+        In my opinion, CMD.exe could be the only future of batch, because old command.com is just used
+        by old OSes like Win95/98/Me(?). Command.com was the battle-field of batch-viruses for years
+        (since Ralf Burger's first batch virus in 1987). Moreover it's intelligent to use the new field,
+        because it allows great virus-related stuff, which weren't possible or which were not as easy to
+        make in command.com. I'm talking about techniques like infection all files at the HD, easy poly-
+        morphism, EPO, net spreading (not done yet?). I know that there will be more great techniques
+        which hasn't been done with command.com.
+
+     b) Polymorphism
+
+        i) Adding Trash
+
+           This is another polymorphism technique, which is possible to do. I got the idea when I saw
+           PhileT0ast3r's Mutanting Engine. It should be easy to write any silly commands to the code:
+
+           ----
+           trash
+           command1
+           command2
+           trash
+           trash
+           command3
+           trash
+           command4
+           trash
+           ...
+           ----
+
+
+
+       ii) Multi-Polymorphism
+
+           So far there are 2 different types of already discovere pure-batch polymorphism:
+           Permutation and Variable-Name Changing (which are already combined). After discovering
+           also the 3rd type (Adding Trash), it would be of much value to combine these three.
+           This is a sample of the file, how does it look like:
+
+           ----                ----      
+           %AAAA%... \         trash
+           %AAAA%...  \        %Bhsk%...
+           %BBBB%...   \       %Bhsk%...
+           %BBBB%...    \__\   trash
+           %CCCC%...    /  /   %Cooq%...
+           %CCCC%...   /       %Cooq%...
+           %DDDD%...  /        trash
+           %DDDD%... /         %Doej%...
+           ----                %Doej%...
+                               trash
+                               %Arrs%...
+                               %Arrs%...
+                               trash
+                               ----
+
+
+
+     c) Permutation with Multi-EPO
+
+        This strange combination could be the best technique in batch ever ideat. I got the idea
+        by jackie, who told me that this could be a great technique for JavaScript. As I think,
+        it's also possible in Batch, I wanted to write this idea here. I'll show you the idea
+        via pseudo-code:
+
+        Uninfected File   +       Virus          =          Infected File
+         ____________             __________            _________
+        |    com A   |           |  %VIR A% |          | com A   |
+        |    com B   |           |  %VIR B% |          | %VIR C% |
+        |    com C   |    |      |  %VIR C% |  _______ | com B   |
+        |    com D   | ___|___   |  %VIR D% |          | %VIR D% |
+        |    com E   |    |      |__________|  _______ | com C   |
+        |    com F   |    |                            | com D   |
+        |____________|                                 | %VIR A% |
+                                                       | com E   |
+                                                       | %VIR B% |
+                                                       | com F   |
+                                                       |_________|
+        
+         The virus splits into n parts, and then put the n parts in any order between the victim
+         file. The different parts are joined by goto & lables. To run the virus first in file you
+         include a goto infront of the real code to the first virus part. I'm sure it will be
+         much work, but remember: 2-hours viruses are nonsence. :D
+
+
+
+     d) Improve old techniques
+
+        There are many techniques, which aren't perfect so far. Examples are the EPO, Polymorphism -
+        Variable Name changing, Encryption (however which type). As you can see, there are still many
+        things, which could be improved. Maybe also techniques like Multi-OSing (Win95-WinXP runable virus)
+        are not perfect so far. I don't think of viruses, that uses the same commands for every OS, but
+        a virus, which uses different codes for CMD.exe and command.com (like PhileT0ast3r's and my
+        Bat/BatXP.Iaafe).
+
+
+
+  4) Last words
+
+     Comming to an end I want to say that I'm happy that I wrote these ideas and thoughts down, because
+     I don't if I can finish it (I've many other projects: CTG, MenuetOS, PEs, ...). It's also a new
+     challange for everybody who is interested in batch, and who thinks that (s)he is able to show
+     new great stuff. I'm sure that guys like PhileT0ast3r, Kefi, DvL or Alcopaul are able to do it.
+     As there are damn much information around about batch and BatchXP, it shouldn't be as hard as
+     you may think. I would be happy if I can see some of my ideas brought to reality new few month,
+     otherwise I know that I did everything batch related for nothing. For me it's most important to
+     see that I could help any other virus writer with my codes and ideas. And the only way you can show
+     me that is to bring these ideas to batch code. :)
+     I hope that you don't hate me now because it's a 100% theoretically article, but in my opinion
+     getting new ideas is at least as important as code this ideas. It would also be damn happy if
+     I could read some other articles about new ideas very soon. As you can see I just collected a
+     few ideas about 'Fake AV' ways. Maybe anybody else could make the same about new spreading ways of
+     batch. Well that's more than enough (and even more than I wanted to write :D), see you out there
+     soon...
+
+
+                                                        - - - - - - - - - - - - - - -
+                                                          Second Part To Hell/[rRlf]  
+                                                          www.spth.de.vu
+                                                          spth@priest.at
+                                                          written in march 2004
+                                                          Austria
+                                                        - - - - - - - - - - - - - - - 
+
+    PS: Some parts of this article were written at 3am, some parts at school and the last part in
+        a church nearby my school :) shit ... I think the priest is comming ... I've to run away...

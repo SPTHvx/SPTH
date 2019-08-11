@@ -1,0 +1,58 @@
+                                   * * *  Unicode - ANSI - Problem  * * *
+                                * * *  At Microsoft Editor Version 5.1 * * *
+
+                                        by Second Part To Hell/[rRlf]
+
+  Today, while playing around with my Hex Editor, I found a funny problem (just to don't call
+  it bug) at WindowsXP's NotePad. This problem may be used as a funny, non-destructive payload
+  for viruses. Well, I'll explain you what I found:
+
+  When you write something in NotePad 5.1 and you want to save it, you can choose between these
+  things:
+
+  - ANSI
+  - Unicode
+  - Unicode Big Endian
+  - UTF-8
+
+  Let's say, we've written a shourt text ('abc-123') and we want to save it now. It will
+  have the following form, if you look at it with a HexEditor:
+
+  -> ANSI: 61,62,63,2D,31,32,33
+     Everthing is as it should be.
+
+  -> Unicode: FF,FE,61,00,62,00,63,00,2D,00,31,00,32,00,33,00
+     A FF & FE infront of the code (to show NotePad that it's Unicode) and a 0h after every
+     sign (as it should be in Unicode).
+
+  -> Unicode Big Endian: FE,FF,00,61,00,62,00,63,00,2D,00,31,00,32,00,33
+     The same as Unicode but the 0h infront of the every sign.
+
+  -> UTF-8: EF,BB,BF,61,62,63,2D,31,32,33,00,31,00,32,00,33
+     You can see it by yourself :)
+
+
+  Forget the last two formats, and look at Unicode.
+  What if we write ANSI, but add a FFh + FEh infront of the code, like this one:
+
+  Example: FF,FE,61,62,63,2D,31,32,33
+
+  Notepad 5.1 'thinks' it's a Unicode because of the Unicode-mark infront of the code.
+  The result is that you can't view at the code, you just see some strange signs. :)
+  You can't even change it with NotePad since the Unicode-Mark don't exist there, however,
+  you didn't destroy anything because the data still exist.
+
+  In my opinion this could be a really cool payload for a virus, and I would like to see
+  the faces of an infected user when (s)he notices that all .txt files are looking strange. ;)
+
+  Now, at the end of my little story, I want to say 'Thank you' for reading this and I hope
+  you like this! :D
+
+
+							- - - - - - - - - - - - - - -
+							  Second Part To Hell/[rRlf]
+							  www.spth.de.vu
+							  spth@aonmail.at
+							  written at 10.12.2003
+							  Austria
+							- - - - - - - - - - - - - - -

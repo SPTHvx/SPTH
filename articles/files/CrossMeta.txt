@@ -1,0 +1,224 @@
+
+             **********************************************
+                Cross Script Infection using MetaLanguages
+                                  by Second Part To Hell
+             **********************************************
+
+
+  Index:
+  ******
+
+  1) Introduction
+
+  2) MetaLanguages and Translators
+
+  3) Implementation of a specific MetaLanguage
+
+  4) Outlook and Conclusion
+
+
+
+
+
+
+  1) Introduction
+
+     Cross-infection stands for the technique that allows you to infect more
+     platforms with only one code. Many coderz have worked on this topics,
+     such as MrSandman for MacOS and Windows[1], Benny for Windows and
+     Linux[2], Bumblebee for Win32 and Word[3], roy g biv and hh86 for Win32
+     and Win64[4,5], JPanic for Windows, Linux and MacOS[6] and many others.     
+     
+     In this text I focus on cross-infectors for pure scripts, which means no
+     binary format should be involved.
+     
+     If you want to infect more than one target, the first brute-force method
+     that comes into mind is to code two distinct viruses and combine them,
+     such as done for JScript+VBScript or JScript+Batch [7]. For example, if
+     you want to target three languages, you need to code 3^2 infection
+     routines:
+     
+     
+               L1 --> L1,    L1 --> L2,    L1   -->   L3
+               L2 --> L1,    L2 --> L2,    L2   -->   L3
+               L3 --> L1,    L3 --> L2,    L3   -->   L3
+     
+     
+     This scales of course disadvantageous if you want to infect more targets.
+     A different method is to develope a code that can nativly run on both
+     environments, such as done for JScript+Batch [7], JScript+VBScript [8],
+     and up to four languages (JScript+VBScript+Batch+MatLab) in [9].
+
+                                   --------> L1
+                                  /
+                  universal code ----------> L2
+                                  \
+                                   --------> L3
+     
+     This attempt can lead to small efficient cross-infectors (for example,
+     the four-language infector has less than 1.5kB). However, there is an
+     obvious problem: Every languages has certain key-words, characteristics,
+     types of comments, ... - and they interfere with the other language's
+     characteristics. To go to higher number of infected languages, it seems
+     to be impossible to use the universal-code approach.
+     
+     A different concept can addresse the difficulty with quadratic scaling
+     and language-characteristics, namely MetaLanguages.
+     
+     
+     
+     
+     
+  2) MetaLanguage and Translators
+     
+     MetaLanguages are usually used for metamorphism or advanced infection
+     techniques (see a small review here: [10]). For scripts, I know only of
+     one code that uses explicitly a MetaLanguage - for metamorphism in
+     JavaScript [11].
+     
+     However, the concept is much more powerful, and can be exploited for
+     cross-infection aswell.
+     
+     The idea is: We have the whole file-infection described in a MetaLanguage
+     and we translate this MetaLanguage with a language-dependent Translator
+     to the different languages.
+     
+             
+                              ______________
+             L1  --------->  |              |  --------> L1
+                             |              |  
+             L2  --------->  | MetaLanguage |  --------> L2
+                             |              |
+             L3  --------->  |______________|  --------> L3
+             
+        Translators                              infection codes
+
+
+     
+     Short again: Translator (written in a specific language XYZ) creates
+     code written in XYZ from the MetaLanguage. This code is executed. The
+     MetaLanguage contains file-infection descriptions, therefor the
+     created and executed code contains file-infection code.
+     
+     Now the cool thing is: When we want to add another language - lets say
+     XYZ - we only need to write the translator of the MetaLanguage in XYZ,
+     and add one infection-routine in the MetaLanguage (which is executed by
+     every other language). So it takes as long to add the 4th language to
+     the infector as it takes to add the 10th language. And as there is always
+     only one language executed, we dont need to deal with different language
+     characteristics. 
+
+     
+     
+     
+     
+  3) Implementation
+     
+     We need to think about what the MetaLanguage needs to do. It needs to
+     perform all the file-search and infection routines - but totally
+     independent of any language. That means we need file-search, file-read,
+     file-write, basic conditional-executions (if), string manipulations
+     (we need to save the non-executed translators of other languages as
+     string, best case is to write them as characters).
+     
+     Let's look at a part of the MetaLanguage code from my 0th generation
+     code JS/VBS/MatLab/Ruby/Python.Polygamy:
+
+          metaLanguage="Predefined";
+          metaLanguage+="__AddML";
+          metaLanguage+="__Forall js";
+          metaLanguage+="__  GetFileName fileName";
+          metaLanguage+="__  ReadAll allContent fileName";
+          metaLanguage+="__  Def infectionMarkerJS"; 
+          metaLanguage+="__  AddString infectionMarkerJS metaLanguage";
+          metaLanguage+="__  Exist doesExist allContent infectionMarkerJS";
+          metaLanguage+="__  If doesExist < 0";
+          metaLanguage+="__    Def newCodeJS";
+          metaLanguage+="__    AddString newCodeJS metaLanguage=";
+          metaLanguage+="__    AddChar newCodeJS 39 39";
+          metaLanguage+="__    AddString newCodeJS ;translatorJS=";
+          metaLanguage+="__    AddChar newCodeJS 39 39";
+          metaLanguage+="__    AddString newCodeJS ;translatorVBS=";
+          metaLanguage+="__    AddChar newCodeJS 39 39";
+          metaLanguage+="__    AddString newCodeJS ;translatorMatLab=";
+          metaLanguage+="__    AddChar newCodeJS 39 39";
+          metaLanguage+="__    AddString newCodeJS ;translatorRuby=";
+          metaLanguage+="__    AddChar newCodeJS 39 39";
+          metaLanguage+="__    AddString newCodeJS ;translatorPython=";
+          metaLanguage+="__    AddChar newCodeJS 39 39 59";
+          metaLanguage+="__    AddStringAsChar newCodeJS metaLanguage+=String.fromCharCode( metaLanguage , );";
+          metaLanguage+="__    AddStringAsChar newCodeJS translatorJS+=String.fromCharCode( translatorJS , );";
+          metaLanguage+="__    AddStringAsChar newCodeJS translatorVBS+=String.fromCharCode( translatorVBS , );";
+          metaLanguage+="__    AddStringAsChar newCodeJS translatorMatLab+=String.fromCharCode( translatorMatLab , );";
+          metaLanguage+="__    AddStringAsChar newCodeJS translatorRuby+=String.fromCharCode( translatorRuby , );";
+          metaLanguage+="__    AddStringAsChar newCodeJS translatorPython+=String.fromCharCode( translatorPython , );";
+          metaLanguage+="__    Arithmetic newCodeJS newCodeJS + translatorJS";         
+          metaLanguage+="__    Arithmetic newCodeJS newCodeJS + allContent";
+          metaLanguage+="__    Write fileName newCodeJS";
+          metaLanguage+="__  XX"
+          metaLanguage+="__XX"
+             
+     This part is searching for .js files, and if they are not yet infected,
+     it infects them. It first adds its own MetaLanguage as character-string
+     (AddML), then adds all other translators as character strings and
+     prepends the JS Translator to the file-content. The MetaLanguage commands
+     are very self-explainatory, and needs no further comments.
+    
+     The crucial part now is to write a translator in language XYZ that can
+     make valid XYZ-code, which is executed (for instance, using eval() in
+     some languages). If one succeeds, the XYZ language can infect JS files.
+     
+     As it is indicated in the code, I wrote translators and infection
+     routines for five different languages: JavaScript, VBScript, MatLab,
+     Ruby and Python. That means, my code can infect all of these platforms.
+     One could have continued to add more languages - there was no obvious
+     reason for a limit.
+
+     
+     
+     
+     
+  4) Outlook and Conclusion
+     
+     In this text I showed the idea and implementation of cross-infections
+     for scripts, which leaded to a code that can infect up to five different
+     languages: JavaScript, VBScript, MatLab, Ruby and Python.
+     
+     I presume that many other languages could be added here, and I hope that
+     somebody will try it - it is very straight-forward to write translators
+     and infection methods, which is a big advantage.
+     
+     The current implementation of the MetaLanguage is perfectly sufficient
+     for this task, but is not strong enough to perform more complex infection
+     methods (such as EPO, where the victim file-concept has to be examinated)
+     or infections of more complicated targets such as binary PE files, or
+     the implemenation of mutation-methods (which has been done for JavaScript
+     in a separate project[11]). The obvious question is:
+     
+         How can a MetaLanguage be developed that allows complex
+         file-infection, multi-platform infections, strong mutations -
+         and still be relativly straightforward to apply?
+         
+     I think this is a very important question, and I hope someone will
+     come up with interesting novel ideas some day! :)
+     
+                                                          Second Part To Hell
+                                                       sperl.thomas@gmail.com
+                                                                    July 2013
+     
+     
+     
+  References:
+  [1] Mister Sandman, "Esperanto, a multiprocessor and multiplatform virus", in 29a#2, 1998.
+  [2] Benny, "Win32/Linux.Winux", in 29a#6, 2002.
+  [3] Bumblebee, DOCWORM, in 29a#6, 2002.
+  [4] roy g biv, W32/W64.Shrug. in 29a#8, 2005.
+  [5] hh86, W48.Sofia, in valhalla#1, 2011.
+  [6] JPanic, CAPZLOQ, in valhalla#4, 2013.
+  [7] SPTH, "Cross Infection in JavaScript", in rRlf#4, 2003.
+  [8] roy g biv, "Cross-scripting attacks", in rRlf#6, 2005.
+  [9] SPTH, "Cross Script Infection using the same code", in valhalla#2, 2012.
+  [10] SPTH, "Meta-Level Languages in Viruses", in valhalla#3, 2012.
+  [11] SPTH, "Metamorphism and Self-Compilation in JavaScript", in valhalla#3, 2012.
+  
+  

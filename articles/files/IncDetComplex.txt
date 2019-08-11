@@ -1,0 +1,511 @@
+
+
+            ***********************************************
+               Some ideas to increase detection complexity  
+                                  by Second Part To Hell
+            ***********************************************
+
+
+
+  Index:
+  ******
+
+  0) Introduction
+
+  1) Improving tau-obfuscation?
+
+  2) Reverse Engineering vs. Meta-Language in Body
+
+  3) Code Integration -> Code Merging
+
+  4) Overlapping Code for mutations
+
+
+
+
+
+
+
+  0) Introduction
+
+     Here you'll find a few small ideas and thoughts about making detection
+     of computerviruses harder. Thanks alot to herm1t and hh86 for discussion
+     and asking the right questions.
+
+
+
+
+
+
+
+  1) Improving tau-obfuscation?
+
+     The idea of tau-obfuscation is to perform a time-intensive calculation
+     before encrypting/executing the virus-code, with the result that 
+     realistic AV emulators have to give up (as they can't scan one file for
+     too long). This technique has been already covered by Beaucamps & 
+     Filiol[1] and Z0MBiE[2].
+
+     A simple example:
+
+        encrypted_code=[ENCRYPTED CODE];
+        key=sum(factors(VERY_BIG_INTEGER_NUMBER));
+        eval(decrypt(encrypted_code, key));
+
+
+     * First question: What algorithm should be used?
+
+       Algorithms such as factorization need much code, and could be a source
+       for detection themselves.
+
+       Z0MBiE used a RSA algorithm, which is smaller than factorization, but
+       still big in terms of assembler instructions - and as its asymmetric
+       decryption, it has to carry both encrypted code and decryption key.
+
+       In MatLab.MicrophoneFever[3] I've used inbuild complex mathematic
+       functions provided by MatLab, thus reduced the code size. Disadvantage
+       of this methode is obviously the dependence on mathematical programs.
+
+       A simple solution is to use short Random Number Generators such as
+       LCG or XORSHIFT, which can be created with <10 assembler instructions.
+
+       With that method, the decryption key could be the n-th random number
+       starting from a given random seed. n can be adjusted such that it
+       takes xxx seconds to find the key.
+
+       To avoid X-Ray attacks, subsequent numbers can be combined to form
+       the whole key.
+
+
+
+
+     * Second question: What about observant users?
+
+       Imagine threshold tau is set to one minute. An infected program is
+       executed, the user would have to wait for one minute. Obviously this
+       will smell fishy.
+
+       The most simple solution would be to start the decryption engine as 
+       own process with lowest priority. By that, whenever CPU isn't used,
+       the engine continues to decrypt itself.
+
+       Advantage: user wont notice anything and emulator still would have to
+       to invest much time.
+
+
+
+
+     * Third question: After decryption - fully unprotected?
+
+       We could use partial decryption of the code:
+
+           Get 1st key with tau-obfuscation
+           Decrypt 1st part
+           Execute 1st part
+           Re-encrypt 1st part
+
+           Get 2nd key with tau-obfuscation
+           Decrypt 2nd part
+           Execute 2nd part
+           Re-encrypt 2nd part
+
+           ...
+
+           Get n-th key with tau-obfuscation
+           Decrypt n-th part
+           Execute n-th part
+           Re-encrypt n-th part
+
+       The virus will never be fully undecrypted in memory - it never loses
+       its shild.
+
+
+
+
+     * Fourth question: Suspicious single loop?
+
+       What if antivirus program mark a short long-running loop as
+       suspicious?
+
+       Simple: Instead of searching for one key after N loops of a RNG engine
+       we can search for m keys after (N/m) loops each, and use each key to
+       encrypt one of the m parts of the virusbody.
+
+
+
+
+     * Fifth question: Can I use it only for encryption?
+
+       We can use this technique for general obfuscation, not just
+       encryption.
+
+       Examples:
+
+           bignum=BIG_SPECIAL_NUMBER;
+           jmpvalue=add(factors(bignum))%pow(2,32);
+           jmp dword[jmpvalue]
+
+       or
+
+           bignum=BIG_SPECIAL_NUMBER;
+           datavalue=add(factors(bignum))%pow(2,32);
+           mov dword[eax], datavalue
+       
+
+
+     We see using tau-obfuscation can be fun for us and pain for them. :)
+
+
+[1] Philippe Beaucamps & Eric Filiol, "On the possibility of practically
+    obfuscating programs Towards a unified perspective of code protection"
+    Journal in Computer Virology, April 2007.
+
+[2] Z0MBiE, ""DELAYED CODE" technology (version 1.1)", 2000,
+    http://vxheavens.com/lib/vzo23.html
+
+[3] SPTH, "Matlab.MicrophoneFever2", Valhalla Magazine, July 2011.
+
+
+
+
+
+
+
+  2) Reverse Engineering vs. Meta-Language in Body
+
+     Metamorphic viruses/worms need the information of their structure coded
+     in a metalanguage to work with it later (change it and write it back to
+     native code).
+
+     One way is to get it by reverse engineering (disassembling) the code.
+
+     - -
+     Biologic organisms need the information of their structure coded in a
+     metalanguage to work with it later (due to the lack of a "copy
+     function").
+
+     They could also use a mechanism of reverse engineering the structures in
+     the cell to get this information.
+
+     They dont do this, because its way to complicated. Instead, they save
+     the whole information within the cell in form of the metalanguage
+     (DNA), and therefor they can directly start at this step.
+
+
+     For compuerviruses, the meta-language structure must not appear in
+     plain-text, and simple encryption is vulnerable to statistical
+     attacks.
+
+     Instead, one could write the zero-form at runtime to memory:
+
+           mov edi, Alloc_memory_for_metalanguage
+           mov dword[edi], 'AABBCCDD'
+           mov dword[edi+4], 'EEFFGGHH'
+
+     Advantage: This writing process is an excellent source for metamorphic
+     mutations, thus increases the variability of the organism alot, by that
+     also increases the detection complexity.
+
+     We can be funny and add simple encryption to written memory:
+
+           mov edi, Alloc_memory_for_metalanguage
+           mov dword[edi], 'XXYYZZAA'
+           mov dword[edi+4], 'BBCCDDEE'
+           ...
+           for(int i=0; i<Metalanguage_size; i++)
+           {
+               mov byte[edi+i], (byte[edi+i]+23)%26;
+           }
+           ...
+
+     Now - an emulation can kill us? No, just use tau-obfuscation :)
+
+
+     PS: Conway's Game of Life is known to be Turing-complete. In 2010,
+         Andrew Wade wrote the first self-replicator in that "universe". The
+         self-replicator has its own structure stored in a dynamic tape (DNA)
+         and uses a glider-stream (biosynthesis?) to gain the information.
+         (http://conwaylife.com/forums/viewtopic.php?f=2&t=399)
+
+
+
+
+
+
+
+  3) Code Integration -> Code Merging
+
+     Code integration is certainly the most complex infection technique
+     for computer viruses so far. It was first used in ZMist by Z0MBiE for
+     Win32 executeables in 2001[4][5], and later in 2007 by herm1t in his
+     Linux.Lacrimae[6][7].
+
+     The idea is to fully disassemble the host and virus, and integrate the
+     viruscode into the hostcode:
+
+     ***************             #####################
+     *             *             ##                 ##
+     *      H      *             ##  jmp Vir1       ##
+     *             *             ##  Host1:         ##
+     *      O      *             ##        H        ##
+     *             *             ##  jmp Host2      ##
+     *      S      *             ##  Vir3:          ##
+     *             *             ##        R        ##
+     *      T      *             ##  jmp Host1      ##
+     *             *             ##  Host2:         ##
+     ***************             ##        O        ##
+                       - - - >   ##  jmp Host3      ##
+     +++++++++++++++             ##  Vir1:          ##
+     +             +             ##        V        ##
+     +      V      +             ##  jmp Vir2       ##
+     +             +             ##  Host3:         ##
+     +      I      +             ##        S        ##
+     +             +             ##  jmp Host4      ##
+     +      R      +             ##  Vir2:          ##
+     +             +             ##        I        ##
+     +++++++++++++++             ##  jmp Vir3       ##
+                                 ##  Host4:         ##
+                                 ##        T        ##
+                                 ##                 ##
+                                 #####################
+
+     This is a successful technique. However, we can try to put it one
+     additional step further.
+
+     We can not just insert the virus between the hostcode, but actually use
+     the hostcode as viruscode, by creating a second codeflow.
+
+     Let's say, we want to include a simple
+
+                 invoke MessageBox, 0x0, VMSG1, VMSG2, 0x0
+
+     into a given hostcode:
+
+[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ]
+include 'E:\Programme\FASM\INCLUDE\win32ax.inc'
+
+.data
+FileName db 'info.txt',0
+hCreateFileFile dd 0x0
+
+.code
+start:
+        push      0x0
+        push      FILE_ATTRIBUTE_NORMAL
+        push      OPEN_ALWAYS
+        push      0x0
+        push      0x0
+        push      (GENERIC_READ or GENERIC_WRITE)
+        push      FileName
+        stdcall   dword[CreateFileA]
+        mov       dword[hCreateFileFile], eax
+ret
+.end start         
+[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ]
+
+
+     To get enough instructions that we can use, we can expand the hostcode
+
+
+[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ]
+include 'E:\Programme\FASM\INCLUDE\win32ax.inc'
+
+.data
+FileName db 'info.txt',0
+hCreateFileFile dd 0x0
+
+.code
+start:
+        push      0x0
+        mov       eax, FILE_ATTRIBUTE_NORMAL
+        push      eax
+        push      OPEN_ALWAYS
+        push      0x0
+        push      0x0
+        mov       eax, (GENERIC_READ or GENERIC_WRITE)
+        push      eax
+        mov       eax, FileName
+        push      eax
+        mov       eax, CreateFileA
+        stdcall   dword[eax]
+        mov       ebx, hCreateFileFile
+        mov       dword[ebx], eax
+ret
+
+.end start       
+[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ]
+
+
+     And now let's merge our MessageBox with this hostcode.
+
+
+[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ]
+include 'E:\Programme\FASM\INCLUDE\win32ax.inc'
+
+.data
+FileName db 'info.txt',0
+hCreateFileFile dd 0x0
+
+VMSG1 db 'Hello',0
+VMSG2 db 'VXers!',0
+
+.code
+start:
+        xor       ecx, ecx                                 ; Set ZF
+        jmp       VirInstr1
+        HostInstr0:
+        push      0x0
+        mov       eax, FILE_ATTRIBUTE_NORMAL
+        jnz       HostInstr1
+        VirInstr3:
+        add       eax, (VMSG1-FileName)
+        xor       ecx, ecx                                 ; Set ZF
+        jmp       VirInstr4
+        HostInstr1:
+        VirInstr6:
+        push      eax
+        jz        VirInstr7
+        push      OPEN_ALWAYS
+        VirInstr7:
+        push      0x0
+        jz        VirInstr8
+        VirInstr1:
+        push      0x0
+        jz        VirInstr2
+        mov       eax, (GENERIC_READ or GENERIC_WRITE)
+        VirInstr4:
+        push      eax
+        jz        VirInstr5
+        VirInstr2:
+        mov       eax, FileName
+        jz        VirInstr3
+        push      eax
+        jnz       HostInstr4
+        VirInstr10:
+        inc       ecx                                      ; Clear ZF
+        jmp       HostInstr0
+        HostInstr4:
+        mov       eax, CreateFileA
+        VirInstr9:
+        stdcall   dword[eax]
+        jz        VirInstr10
+        jnz       HostInstr2
+        VirInstr5:
+        add       eax, (VMSG2-VMSG1)
+        xor       ecx, ecx                                 ; Set ZF
+        jmp       VirInstr6
+        HostInstr2:
+        mov       ebx, hCreateFileFile
+        jnz       HostInstr3
+        VirInstr8:
+        add       eax, (MessageBox-VMSG2)
+        xor       ecx, ecx                                 ; Set ZF
+        jmp       VirInstr9
+        HostInstr3:
+        mov       dword[ebx], eax
+ret
+
+.end start     
+[ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ]
+
+
+     We use the instructions given by the hostcode, and combine them with
+     conditional jumps. The only instructions that are not merged are some
+     re-adjustments of addresses (MessageBox, VMSG1, VMSG1) - but in fact 
+     this could be done by merging too, however, the result would be more
+     complex.
+
+     Beside of hard recognizion of the code (even for the human eye), it
+     provides alot of freedom which can be used to alter after every
+     generation: which instructions are expanded; which registers are used
+     for expansion; how is the codeflow of the virus; ...
+
+     In my oppinion: Absolutly worth to bring to reality! :)
+
+
+
+[4] Z0MBiE, "Automated reverse engineering: Mistfall engine.", 2000,
+    http://vxheavens.com/lib/vzo21.html
+
+[5] Peter Ferrie & Péter Ször, "Zmist Opportunities", VirusBulletin Mar 2001,
+    http://vxheavens.com/lib/apf47.html
+
+[6] herm1t, "Code integration on Linux: Cooking the PIE", EOF-DR-RRLF, 2008.
+
+[7] Peter Ferrie, "Crimea river",  VirusBulletin February 2008,
+    http://vxheavens.com/lib/apf12.html
+
+
+
+
+
+
+
+  4) Overlapping Code for mutations
+
+     Overlapping code are code segments that have different behaviour
+     depending on how they are executed. For instance:
+
+         00402000 > $ B8 31C04040    MOV EAX,4040C031
+
+     what happens if we jump to 00402001?
+
+         00402001   > 31C0           XOR EAX,EAX
+         00402003   . 40             INC EAX
+         00402004   . 40             INC EAX
+
+
+     This can be used in a vast variety of ways for obfuscation (in 1994, 
+     Stormbringer wrote a virus that just consists of jump instructions,
+     using overlapping code[8]) or code protection[9].
+
+     Certainly, this can be used in mutation engines too, gives additional
+     variability.
+
+     Some examples:
+
+     Our code:
+
+         00402000 > $ 31C0           XOR EAX,EAX
+         00402002   . 40             INC EAX
+         00402003   . 40             INC EAX
+
+     Overlapped Code:
+
+         00402000 > $ 68 11204000    PUSH overlap_.00402011
+         00402005   . 68 0C204000    PUSH overlap_.0040200C
+         0040200A   . 81F7 31C040C3  XOR EDI,C340C031
+         00402010   . C3             RETN
+         00402011   . 40             INC EAX
+
+     or
+
+         00402000 > $ B8 31C04040    MOV EAX,4040C031
+         00402005   . 3D 31C04040    CMP EAX,4040C031
+         0040200A   .^74 F5          JE SHORT overlap_.00402001
+
+     or
+
+         00402000 > $ EB 02          JMP SHORT overlap_.00402004
+         00402002   . 81FE 31C04040  CMP ESI,4040C031
+
+
+     There are over 9.000 other ways to write the original instructions down
+     using overlapping code. One may consider this when planing the next
+     mutation engine.
+
+
+
+[8] Stormbringer, "Jump", 40hex #14, 1994.
+
+[9] Matthias Jacob & Mariusz H. Jakubowski & Ramarathnam Venkatesan, "Towards
+    Integral Binary Execution: Implementing Oblivious Hashing Using
+    Overlapped Instruction Encodings", 2007.
+
+
+
+
+
+                                                          Second Part To Hell
+                                                                    July 2011
+

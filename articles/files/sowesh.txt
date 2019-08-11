@@ -1,0 +1,118 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************     Somehow we should... Web 2.0     ***********
+	  ************        by Second Part To Hell        ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  1) Introduction
+
+  2) Community Project or "Use the power of Web 2.0"
+
+  3) How should it work?
+
+
+
+
+
+  1) Introduction
+
+     What are successful projects? Mozilla Firefox and Wikipedia,for example.
+     Why  are they successful and what  is the connection between them?  Many
+     people work together, many brains think together with one goal: Increase
+     the complexity and quality of the project.
+
+     For about 20 years computervirus-authors  have formed groups and "worked
+     together". Eeeehhhmmm... Did they really work together?
+
+     In most groups there are people  who help each other and try to increase
+     the reputation of the group. But still, they work as individual fighter.
+
+     As we could see,  the concept of viruswriting groups has died because of
+     natural  selection.  29A and  older  groups  died because  of  senility,
+     rRlf has commited suicide  (cooler way to disappear :D),  no new serious
+     groups has developed.
+
+     Furthermore, groups are still somehow elite-like. The members will vote,
+     if somebody wants to join.  If there are no people who are "good enough"
+     (view of the members), no new people will join anymore.
+
+     Resume 1: The concept "groups" is not up-to-date.
+
+     But what else? Let's focus again on "working together".
+     Successful  projects as  Firefox or  Wikipedia have  an  other  concept:
+     There  are   no  individual fighters,   but a community;  there  are  no
+     one-man-codes but one big project.
+
+     Let's think about the amount of quality and complexity:
+     One-Man-Codes or Community-Project? I guess you got the point...
+
+
+
+
+
+  2) Community Project or "Use the power of Web 2.0"
+
+     What is our main goal? A super-virus, which contains all techniques ever
+     ideat, ever created! Uhhmm... YES!
+
+     Why  didn't we  reached that goal,  yet? Because most  viruses have been
+     created by a single person.
+
+     Let's imagine:
+     We have  a  wiki-platform,   which  contains  a  simple structed  virus.
+     Interested people can join the wiki. In the discussion-page people think
+     about  how  to improve  the  infection technique,  how  to  improve  the
+     morphism, how to increase the amount of victim-files, ect...
+
+     Some  people  create  a  new  infection  technique,  other  improve  the
+     morphism.  They compain  the  different techniques to one virus.  People
+     search for bugs, fix them. People build in multiplattform, ectect.
+
+     Because of different experience, different ideas, different thinking and
+     knowlegde,  people have  different  special fields.  In  this  community
+     project many special fields will be compained to one single super virus.
+
+     Resume 2: The concept "community project" is up-to-date.
+
+
+
+
+
+  3) How should it work?
+
+     -> One person HAS TO start the project: Creating the wiki.
+     -> A crowd should has to discuss about the principal of the virus:
+        language;  how the code should look like  (it will increase alot,  so
+        the concept is important; maybe use the concept of already successful
+        projects as Mozilla, ...)
+     -> The body of the virus has to be coded and uploaded to the wiki.
+     -> Many people should be invited to join coding on the project.
+
+     Now the project is ready to start...
+
+     -> People code new functions of the virus, upload it to the wiki.
+     -> People discuss about the code.  If it's an increase of quality and/or
+        complexity, the new part should be included to the virus.
+
+     -> People improve functions of the main virus.
+     -> People discuss about the  improved code.  If it's good,  the new code
+        should replace the old code.
+
+     Resume 3: The project will succeed!
+
+
+
+                                                  - - - - - - - - - - - - - -
+                                                    Second Part To Hell
+                                                    www.spth.de.vu
+
+                                                    written in February 2008
+                                                  - - - - - - - - - - - - - -

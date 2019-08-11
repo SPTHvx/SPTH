@@ -1,0 +1,398 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************                MenuetOS              ***********
+          ************   Der Weg zum Erfolg mit Assembler   ***********
+          ************                                      ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Einleitung
+
+  1) Der Einstieg - Generelle Informationen
+
+  2) Programmaufbau
+
+  3) Der Header
+
+  4) Ein typisches Programm
+
+  5) System Calls
+
+  6) Hello World
+
+  7) Nachwort / Quellenangabe
+
+
+
+
+
+  0) Einleitung
+
+  MeunetOS ist ein 32bit Betriebssystem, das ausschließlich in x86 Assembler geschrieben
+  wurde. Es ist total Open Source, gratis und passt auf eine 1.44MB Diskette. MenuetOS
+  hat eine GUI (Graphical User Interface - Grafische Benutzeroberfläche), jede Menge
+  nützliche Netzwerktools wie einen eMail-Client, einen IRC-Client, einen Web-Browser,
+  einen Netzwerk-Schach-Client, einige Spiele wie Get4 (4 Gewinnt), einen JPG- und BMP-Viewer,
+  einen integrierten Compiler, einige Demo-Programme und vieles, vieles mehr.
+  MenuetOS hat keine Windows oder Unix Wurzeln, und arbeitet mit Multi-Tasking.
+  Das Projekt wurde 2000 von Ville Mikael Turjanmaa gestartet, und seit Sommer 2004 von
+  Mike Hibbett geleitet. Die offizielle Seite von MenuetOS ist www.menuetos.org.
+  Derzeit, Sebtember 2004, ist es in version 0.77 bzw. 0.78 pre3 erhältlich.
+  Als ich dieses Betriebssystem fand, war ich sofort bezaubert von der Idee, und musste
+  mehr darüber herausfinden. In diesem Artikel möchte ich dieses Betriebssystem näher erklären,
+  sowie erklären, wie man selbst Programme dafür schreibt.
+
+
+
+  1) Der Einstieg - Generelle Informationen
+
+     Nachdem man sich MenuetOS gratis heruntergeladen hat, und auf eine Diskette installiert hat,
+     kann man von der Diskette booten. Wenn man das macht, erscheinen zuerst 4 Fragen, welche
+     zum Beispiel die Einstellung der Bildschirmauflösung und des Boot-Typs festlegen. Hat man
+     diese Fragen beantwortet, läd der Kernel das OS in den Speicher, erstellt den Interrupt-Table,
+     läd Maus und Tastatur, und schließtlich, nach einem ESC-Druck, wird der Launcher geladen, der
+     den Desktop, die Taskleiste sowie die Icons generiert.
+     MenuetOS wird in den RAM geladen, wie bereits erwähnt wurde. Die Daten im RAM sind mit dem
+     Adresspfad '/RAMDISK/1/*' erreichbar. Die Daten der primäre Festplatte kann man mit dem Pfad
+     '/HARDDISK/1/*' erreichen.
+
+
+
+  2) Programmaufbau
+
+     Menuets ausführbare haben keine Dateiendung wie zum Beispiel DOS (*.com), Windows (*.exe)
+     oder Linux (*.elf) Dateien. MenuetOS benuetzt zwar Dateiendungen, aber nur für Bilder,
+     Homepage-Dateien oder Textdateien.
+     Eine ausführbare Datei besteht aus 2 Teilen, dem Head und dem Code:
+
+           ----------------
+           ---          ---
+           ---  HEADER  ---
+           ---          ---
+           ----------------
+
+           ----------------
+           ---          ---
+           ---  EXECUTE ---
+           ---   ABLE   ---
+           ---          ---
+           ---   CODE   ---
+           ---          ---
+           ----------------
+
+     Die viele Programme Speichern nach dem Header ihre Daten, um sie im Code nicht überspringen
+     zu müssen. Das Program wird im Speicher an die Adresse 0x0 (org 0x0) geladen, im Gegensatz
+     zu DOS, welches Dateien aud der Adresse 0x100 läd.
+
+
+
+  3) Der Header
+
+     Der Header der ausführbaren Menuet-Dateien beinhaltet wichtige Informationen, welche das OS
+     zum Laden der Datei braucht. Hier ist der Aufbau des Headers:
+
+
+          * Offset *  Länge    *  Name                  *
+          ***********************************************
+          * 00h    *  8 bytes  *  Datei ID              *
+          * 08h    *  4 bytes  *  benötigte OS-Version  *
+          * 0Ch    *  4 bytes  *  Entry Point           *
+          * 10h    *  4 bytes  *  Dateilänge            *
+          * 14h    *  4 bytes  *  Benötigter Speicher   *
+          * 18h    *  4 bytes  *  Extra Header / Stack  *
+          ***********************************************
+          * 1Ch    *  4 bytes  *  Parameters            *
+          * 20h    *  4 bytes  *  Icon Information      *
+          ***********************************************
+
+     Datei ID:
+               Die ID gibt an, dass es sich um eine ausführbare Menuet Datei handelt. Es gibt
+               hier entweder den Wert 'MENUET00' oder 'MENUET01'. Ich habe keinerlei Unterschied
+               zwischen diesen zwei Werten gefunden.
+
+     Benötigte OS-Version:
+               Da Menuet immer weiterentwickelt wird, werden auch immer wieder neue System Calls
+               (mehr dazu später) hinzugefügt. Wenn ein Programm einen System Call von zB Menuet
+               0.77 benützt, ist dieser Wert '77', und eine mögliche ältere Version führt das
+               Programm nicht aus, um Fehler zu vermeiden. Am besten ist hier der Wert des neusten
+               OS, da normalerweise jeder die neuste Version verwendet.
+
+     Entry Point:
+               Der Entry Point ist die Adresse des Codeanfangs. Wenn kein Extra Head verwendet wird,
+               und keine Daten nach dem Code gespeichert sind, ist dieser Wert [0x1C]. Am einfachsten
+               sollte hier ein Label vor dem Code benutzt werden, und der Compiler rechnet sich die
+               Adresse selbst aus.
+
+     Dateilänge:
+               Dieser Wert ist Header+Code+Daten. Einfach ein Label nach dem gesamten Code verwenden,
+               und der Compiler rechnet die Länge selbst aus.
+
+     Benötigter Speicher:
+               Hier reservieren Anwendungen den benötigten Speicher. Da Menuet mindestens 128MB RAM
+               benutzt, ist der Wert hier meistens sehr hoch (viel höher als wirklich benützt).
+               In den meisten Anwendungen ist dieser Wert [0x100000].
+
+     Extra Header / Stack:
+               Dieser Teil des Headers enthält einen von zwei Werten: Entweder die Adresse des Stacks,
+               wenn ein Extra Header verwendet wird. Der Stack befindet sich auf Adresse [0x7FFF0].
+               Anderenfalls, wenn kein Extra Header verwendet wird, ist dieser Wert [0x0].
+
+     Parameters / Icon Information:
+               In den meisten Fällen sind beide werde [0x0]. Diese Werte sind Extra Parameter für das
+               Programm sowie die Information für das zu verwendende Icon.
+
+
+
+  4) Ein typisches Programm
+
+     Die allermeisten Programme für MenuetOS benützen das gleiche, ganz einfache Schema.
+     Die folgende Grafik, erstellt von Ville Mikael Turjanmaa, zeigt diesen Aufbau:
+
+
+       -------------------------
+       -                       -
+       -     HEADER DATA       -
+       -                       -
+       -------------------------
+
+     START:
+       call draw_window
+
+       -------------------------
+       -                       -
+       -   WAIT UNTIL EVENT    -  <-----------------------------------------------|
+       -                       -                                                  |
+       -------------------------                                                  |
+                   |                                                              |
+       -------------------------                                                  |
+       -                       -     redraw   ->  call draw_window             -> |
+       -    READ EVENT TYPE    - ->  key      ->  read keypress    -> process  -> |
+       -                       -     button   ->  read buttonpress -> process  -> |
+       -------------------------
+
+
+     draw_window:
+       ------------------------------
+       -                            -
+       -  DRAW STATIC WINDOW PARTS  -
+       -                            -
+       ------------------------------
+       ret
+
+
+     DATA AREA:
+       ------------------------
+       -                      -
+       -     STATIC DATA      -
+       -                      -
+       ------------------------
+
+     Man kann genau erkennen, wie das Programm funktioniert. Zuerst wird das Fenster erstellt,
+     dann wird auf eine Aktion (Tastendruck, Mausklick auf Button, Fenster Veränderung) gewartet.
+     Wenn ein Tastendruck oder ein Klick auf einen Button erfolgt, wird ein bestimmter Teil des
+     Codes aufgerufen.
+
+
+
+  5) System Calls
+
+     Mit System Calls ruft man in MenuetOS APIs auf, das heißt, Funktionen wie 'WAIT FOR EVENT' oder
+     'SYSTEM TREE ACCESS'. In DOS ruft man Funktionen meistens mit INT 0x21 auf, und in Windows direkt
+     mit CALL. In Menuet funktioniert das folgendermaßen:
+
+     mov eax, FUNKTIONSNUMMER
+     ebx, ecx, edx, esi, edi, ebp = Parameters
+     INT 0x40 <- SYSTEM CALL
+
+     Die Funktionen, die bis jetzt 68 an der Zahl sind, findet man in der Datei SYSFUNCS.TXT.
+     Ein Beispiel - SYSFUNCS.TXT enthält folgende Informationen:
+
+          - - - - - - - - - -
+          05 = DELAY X/100 SECS
+
+              ebx delay in 1/100 secs
+              ret: nothing changed
+          - - - - - - - - - -
+
+      Wenn wir jetzt in unserem Programm eine 0.5 Sekunden lange Wartezeit wollen, müssen wir
+      es folgendermaßen benützen:
+
+          - - - - - - - - - -
+          mov  eax, 5	        ; Function number: DELAY X/100 SECS
+          mov  ebx, 50          ; 50/100 sek = 0.5 Sekunden
+          int  0x40             ; System call
+          - - - - - - - - - -
+
+      Wir setzen die Funktionsnummer (die hier 5 ist) in eax, setzten ebx die gewünschten ?*0.01
+      Sekunden und rufen die Funktion auf - ganz einfach.
+
+
+
+  6) Hello World
+
+     Es ist schon zur Tradition geworden, im ersten Programm ein 'Hello World' ausgeben zu lassen,
+     darum das auch hier:
+     Unser Ziel: Ein Programm, das 'Hello World' ausgibt, und hier ist der Code, und jede Zeile
+     wird genau erklärt.
+
+          - - - - - - - - - -
+          use32				; Sagt FASM (unserem Compiler), dass wir 32bit Code generieren wollen
+
+          org    0x0			; Die Anwendung wird auf diese Adresse geladen
+               db     'MENUET01'	; Datei ID
+               dd     0x01		; benötigte OS-Version
+               dd     START		; Entry Point
+               dd     I_END		; Dateilänge
+               dd     0x100000		; Benötigter Speicher (natürlich sehr übertrieben, aber wen stört 's?)
+               dd     0x0		; Kein Extra Header
+
+          START:			; Unser Entry-Point: Hier fängt der Code an
+               call draw_window		; Ruft die interne Funktion 'draw_window' auf. draw_windows ist ganz am
+					; Ende des Codes zu finden.
+
+          still:			; Hier ist unser Main-Loop-Start-Label. Wenn kein Aktion passiert, dann
+					; wird das Programm immer und immer wieder hier ausgeführt.
+
+              mov  eax,10		; System Call 10 = WAIT FOR EVENT
+					; Der zurückgegebene Wert befindet sich, nach INT 0x40, in eax
+              int  0x40			; SYSTEM CALL ausführen
+
+              cmp  eax,1		; eax enthält jetzt den zurückgegebenen Wert von 'WAIT FOR EVENT'.
+              je   red			; Wenn eax=1 (das Fenster wurde verschoben/seine Größe wurde verändert)
+					; dann springt das Programm zum Label 'red'.
+
+              cmp  eax,2		; eax wird mit 2 Verglichen
+              je   key			; Wenn eax=2 (eine Taste wurde gedrückt), dann sprint das Programm zum
+					; Label 'key'.
+
+              cmp  eax,3		; eax wird mit 3 verglichen
+              je   button		; Wenn eax=3 (ein Button wurde mit der Maus gedrückt), dann springt das
+					; Programm zum Label 'button'.
+
+              jmp  still		; Wenn nichts passiert ist, dann wird der Haupt-Loop wiederholt.
+
+            red:			; Label, falls das Fenster wurde verschoben/seine Größe wurde verändert
+              call draw_window		; Das Fenster wird neu generiert, um es an die neue Größe oder den neuen
+					; Ort anzupassen.
+              jmp  still		; Danach wird im Haupt-Loop wieder fortgefahren.
+
+            key:			; Label, falls eine Taste gedrückt wurde
+              mov  eax,2		; System Call 2: Get Key
+					; Zurückgegebene Werte: al=0: Erfolgreich | al=1: Kein Tastendruck
+					; gespeichert. ah=Wert der Taste (zB: RETURN=13)
+              int  0x40			; SYSTEM CALL ausführen
+              jmp  still		; Danach wird im Haupt-Loop wieder fortgefahren.
+
+            button:			; Label, falls ein Button mit der Maus gedrückt wurde
+              mov  eax,17		; System Call 17: GET PRESSED BUTTON ID
+					; Jeder Button, der generiert wird, bekommt eine ID.
+					; Die ID-Nummer wird bei dieser Funktion in ah zurückgegeben.
+              int  0x40			; SYSTEM CALL ausführen
+
+              cmp  ah,1			; ah (Button ID) wird mit 1 verglichen
+
+              jne  noclose		; Wenn Button ID!=1 (der EXIT Button, der bei 'draw_window' generiert
+					; wird), springt das Programm zu 'no_close'.
+
+              mov  eax,-1		; System Call -1: END APPLICATION
+					; Beendet das Programm, keine Weiteren Informationen werden benötigt
+					; oder zurückgegeben.
+              int  0x40			; SYSTEM CALL ausführen
+
+            noclose:			; Label, Button ID!=1
+
+              jmp  still		; Danach wird im Haupt-Loop wieder fortgefahren.
+
+
+          ;   *********************************************
+          ;   *******       FENSTER GENERIEREN     ********
+          ;   *********************************************
+
+          draw_window:				; Label für das Generieren vom Fenster
+              mov  eax,12			; System Call 12: WINDOW REDRAW STATUS
+						; Teilt dem OS mit, dass jetzt ein Fenster generiert wird
+              mov  ebx,1			; ebx=1: Start des Fenster Generierens
+              int  0x40				; SYSTEM CALL ausführen
+
+
+              mov  eax,0			; System Call 0: DEFINE AND DRAW WINDOW
+						; Hier wird das Fenster generiert
+              mov  ebx,100*65536+300		; [x start] *65536 + [x size]
+              mov  ecx,100*65536+120		; [y start] *65536 + [y size]
+              mov  edx,0x02ffffff		; Hauptfarbe
+              mov  esi,0x805080d0		; Nebenfarbe
+              mov  edi,0x005080d0		; Framefarbe
+              int  0x40				; SYSTEM CALL ausführen
+   
+
+              mov  eax,4			; System Call 4: WRITE TEXT TO WINDOW
+						; Hier wird der Kopf des Fensters beschrieben
+              mov  ebx,8*65536+8		; [x start] *65536 + [y start]
+              mov  ecx,0x10ddeeff		; Farbe
+              mov  edx,labelt			; Adresse des Textes
+              mov  esi,labellen-labelt		; Textlänge
+              int  0x40				; SYSTEM CALL ausführen
+
+
+              mov  eax,8			; System Call 8: DEFINE BUTTON
+						; Hier wird der Button zum Schließen des Programms erstellt
+              mov  ebx,(300-19)*65536+12	; [x start] *65536 + [x size]
+              mov  ecx,5*65536+12		; [y start] *65536 + [y size]
+              mov  edx,1			; Button ID
+              mov  esi,0x6688dd			; Button Farbe
+              int  0x40				; SYSTEM CALL ausführen
+
+              mov  eax,4			; System Call 4: WRITE TEXT TO WINDOW
+						; Wir schreiben jetzt unser 'Hello World!'
+              mov  ebx,20*65536+35		; [x start] *65536 + [y start]
+              mov  ecx,0x224466			; Farbe
+              mov  edx,text			; Adresse des Textes
+              mov  esi,labelt-text		; Textlänge
+              int  0x40				; SYSTEM CALL ausführen
+   
+              mov  eax,12 			; System Call 12: WINDOW REDRAW STATUS
+              mov  ebx,2			; ebx=2: Wir sagen dem OS, dass wir fertig gezeichnet haben
+              int  0x40				; SYSTEM CALL ausführen
+
+              ret				; Zurück, woher wir auch immer gekommen sind
+
+						; DATEN
+
+          text db 'Hello World!'		; Unser Hello World
+
+          labelt:
+               db   'Mein erstes MenuetOS Programm'	; Die Information im Kopf des Fensters
+          labellen:
+          I_END:				; Das ENDE-Label
+          - - - - - - - - - -
+
+
+
+  7) Nachwort / Quellenangabe
+
+     Dieser Artikel ist eine Informationssammlung über MenuetOS, einem sehr interessanten Betriebssystem.
+     Ich danke jedem Leser, dass er sich Zeit genümmen hat, um diesen Text zu lesen, und für das
+     Interesse an MenuetOS oder an der Assembler-Sprache. Ich hoffe, ich habe niemanden gelangweilt. :)
+     Jetzt wünsche ich noch jedem viel Spaß mit MenuetOS!
+
+     Quellenangabe:
+     Turjanmaa, Ville: MENUET 0.78 Pre1 SYSTEM CALLS FOR APPLICATIONS. Helsinki, 2004.
+     Turjanmaa, Ville: MenuetOS (0.75). Kernel and process management. Helsinki, 2003.
+     Turjanmaa, Ville: EXAMPLE APPLICATION. Helsinki, 2003.
+
+
+                                                        - - - - - - - - - - - - - - -
+                                                          Second Part To Hell/[rRlf]  
+                                                          www.spth.de.vu
+                                                          spth@priest.com
+                                                          geschrieben im Sebtember 2004
+                                                          Österreich
+                                                        - - - - - - - - - - - - - - - 

@@ -1,0 +1,679 @@
+
+                *******************************************
+                   Code Mutations via Behaviour Analysis  
+                                by Dr. Theodore Spankman
+                *******************************************
+
+
+
+
+  1) Introduction
+
+  2) Basics - Register Operators only
+     2.1) Analyse me: Local Behaviour Table
+     2.2) Create Random Code
+     2.3) Compare me: Blackbox-Analyse
+     2.4) More Freedom: Global Behaviour Table
+
+  3) Extentions
+     3.1) Including the Stack
+     3.2) Including Memory
+
+  4) Possible Extentions
+     4.1) Hide me: Global Behaviour Table at Runtime
+     4.2) Permutation - easy as it can be
+     4.3) Jump somewhere
+     4.4) Behaviour Flow
+     4.5) Automatic shrinking/extention/trash
+
+  5) Conclusion
+
+
+
+
+
+
+
+
+  1) Introduction
+
+  The basic idea is: The file analyses the behaviour of its own code and
+  compares it with the behaviour of a randomly generated code. If the
+  behaviour is the same, the original file-code will be substituted by the
+  new random code.
+
+  This article describes how this idea can be realized.
+
+
+
+
+
+  2) Basics - Register Operators only
+
+  2.1) Analyse me: Local Behaviour Table
+
+       The program's code is splitted into 8byte blocks of code, padded with
+       NOPs. With that knowlegde we can parse the whole file, and analyse
+       the behaviour of each 8byte part.
+
+       We only use Register operators for the moment. When we run an unknown
+       code, all that can be changed are the 8 Registers and FLAGS Registers.
+
+       We define a table consisting of 8+1 * 4 bytes:
+
+       - - - - - - - - - - - - - - - - - -
+                 Local Behaviour Table (LBT):
+
+                 Each behaviour Block consists of:
+                 Registers: 9*4=36 byte
+                  0x00 dd EAX
+                  0x04 dd EBX
+                  0x08 dd ECX
+                  0x0C dd EDX
+                  0x10 dd EBP
+                  0x14 dd ESI
+                  0x18 dd EDI
+                  0x1C dd FLAGS
+                  0x20 dd ESP
+       - - - - - - - - - - - - - - - - - -
+
+       Before running the unknown code, we set all registers (except of EPS)
+       to zero. After running the code, we save the change of the registers:
+
+       - - - - - - - - - - - - - - - - - -
+          sub   dword[LBT+0x00], eax
+          sub   dword[LBT+0x04], ebx
+                ...
+          sub   dword[LBT+0x20], esp
+       - - - - - - - - - - - - - - - - - -
+
+
+       (For the flag-register: pushfd/pop Reg32)
+       With that table, we know the principal behaviour of out code. Thats
+       all we need for the moment.
+
+
+
+  2.2) Create Random Code
+
+       We want to create an 8 byte random code. The best way is to use a
+       template system. One template could look like this:
+
+       - - - - - - - - - - - - - - - - - -
+           OPAlImm8:
+                cmp     ebp, (RandomCodeBufferSize-2)
+                jg      EndCRCCycle
+
+                mov     ebx, 9
+                xor     ecx, ecx
+                call    CreateSpecialRndNumber
+
+                mov     byte[RandomCode+ebp], 0x04   ; add al, Imm8
+                cmp     dl, 0
+                je      OPAlImm8Cont
+
+                    ...
+
+                mov     byte[RandomCode+ebp], 0x3C   ; cmp al, Imm8 
+                cmp     dl, 7
+                je      OPAlImm8Cont
+
+                jmp  OPAlImm8End
+
+                OPAlImm8Cont:
+                mov     byte[RandomCode+ebp+1], dl
+                add     ebp, 0x2
+           jmp  EndCRCCycle
+           OPAlImm8End:
+       - - - - - - - - - - - - - - - - - -
+
+       One important restriction is the ESP. The Stack Pointer must stay in 
+       the reserved Stack Memory (from [fs:0x04]-[fs:0x08]). Therefore the
+       RCG must not be the source of MOV, ADD, ... . INC and DEC are usually
+       OK if you restore the ESP variable after running the unknown code.
+
+
+
+  2.3) Compare me: Blackbox-Analyse
+
+       We could create a Local Behaviour Table for the file code and the
+       random code now, and compare the tables. Thats all?
+
+       No! We have used an initial condition (setting all registers to zero),
+       thus the LBT is dependent on that. For example these codes would have
+       the same LBT:
+
+                mov eax, 1           inc al
+                inc bl               inc bl
+
+       Or this one: 
+
+                mov eax, ebx         xor eax, eax
+
+       That means, when we found equivalent LBTs, we have to make further
+       tests using different initial conditions.
+
+       We can change the registers and the flags to random values, and create
+       new LBTs with that new conditions. If we run that test with always
+       changing conditions for a big number of times (I used 100 and 1000 for
+       register only and flags tests, respectivly), and every single LBT of
+       the programs code and the random code is equal, we found a code with
+       same behaviour, and can substitute the old one.
+
+
+
+  2.4) More Freedom: Global Behaviour Table
+
+       It is a very strict restriction to the new random code that it has to
+       have exactly the same behaviour. Usually its not required to have have
+       the same behaviour in all registers, most are unused anyway.
+
+       We could use this additional freedom, and creating a Global Behaviour
+       Table (GBT) and compile-time, giving the code the information of which
+       registers have to be the same and which can be different.
+
+       Its a good idea to use a macro and symbolic variables for that
+       (everything else would be insane):
+
+       - - - - - - - - - - - - - - - - - -
+       ; Restrictions:
+       ; A=EAX, B=EBX, C=ECX, D=EDX, P=EPB, S=ESI, I=EDI, F=FLAGS
+
+       rNoRes	  EQU 00000000b
+       rA	  EQU 00000001b
+       rB	  EQU 00000010b
+       rAB	  EQU 00000011b
+       rC	  EQU 00000100b
+       ...
+       rABCDPSIF  EQU 11111111b
+
+       GlobalBehaviourTableList equ   
+
+       macro cc restr*, instr*, op1, op2
+       {
+           ; Macro for padding commands to 8byte each and for
+           ; adding the restrictions to the GlobalBehaviourTableList
+
+           local StartCommand, EndCommand
+           StartCommand:
+           if op2 eq
+               if op1 eq
+                   instr
+               else
+                   instr op1
+               end if
+           else
+               instr op1,op2
+           end if
+           EndCommand:
+           times (8-EndCommand+StartCommand): nop          ; padding
+
+           match any, GlobalBehaviourTableList             ; Add further elements to list
+           \{
+               GlobalBehaviourTableList equ GlobalBehaviourTableList,restr
+           \}
+
+           match , GlobalBehaviourTableList                ; Add first element to list
+           \{
+               GlobalBehaviourTableList equ restr
+           \}
+       }
+       - - - - - - - - - - - - - - - - - -
+
+       There is no restiction for ESP, as this register always has to be
+       equivalent in file code and random code.
+
+       One simple example:
+       - - - - - - - - - - - - - - - - - -
+                cc rNoRes, nop
+                cc rA, mov, eax, 0x0          ; eax=0
+                cc rA, inc, eax               ; eax=1
+                cc rA, add, eax, 2            ; eax=3
+                cc rA, nop                    ; eax=3
+                cc rC, mov, ecx, eax          ; ecx=3
+                cc rC, nop                    ; ecx=3  
+       - - - - - - - - - - - - - - - - - -
+
+       will be translated to
+
+       - - - - - - - - - - - - - - - - - -
+       00402000 > $ 90             NOP
+       00402001   . 90             NOP
+       00402002   . 90             NOP
+       00402003   . 90             NOP
+       00402004   . 90             NOP
+       00402005   . 90             NOP
+       00402006   . 90             NOP
+       00402007   . 90             NOP
+       00402008   . B8 00000000    MOV EAX,0
+       0040200D   . 90             NOP
+       0040200E   . 90             NOP
+       0040200F   . 90             NOP
+       00402010   . 40             INC EAX
+       00402011   . 90             NOP
+       00402012   . 90             NOP
+       00402013   . 90             NOP
+       00402014   . 90             NOP
+       00402015   . 90             NOP
+       00402016   . 90             NOP
+       00402017   . 90             NOP
+       00402018   . 83C0 02        ADD EAX,2
+       0040201B   . 90             NOP
+       0040201C   . 90             NOP
+       0040201D   . 90             NOP
+       0040201E   . 90             NOP
+       0040201F   . 90             NOP
+       00402020   . 90             NOP
+       00402021   . 90             NOP
+       00402022   . 90             NOP
+       00402023   . 90             NOP
+       00402024   . 90             NOP
+       00402025   . 90             NOP
+       00402026   . 90             NOP
+       00402027   . 90             NOP
+       00402028   . 89C1           MOV ECX,EAX
+       0040202A   . 90             NOP
+       0040202B   . 90             NOP
+       0040202C   . 90             NOP
+       0040202D   . 90             NOP
+       0040202E   . 90             NOP
+       0040202F   . 90             NOP
+       00402030   . 90             NOP
+       00402031   . 90             NOP
+       00402032   . 90             NOP
+       00402033   . 90             NOP
+       00402034   . 90             NOP
+       00402035   . 90             NOP
+       00402036   . 90             NOP
+       00402037   . 90             NOP
+       - - - - - - - - - - - - - - - - - -
+
+       After a few minutes, the new code looks like that:
+
+       - - - - - - - - - - - - - - - - - -
+       00402000 > $ 80D5 39        ADC CH,39
+       00402003   . 90             NOP
+       00402004   . 92             XCHG EAX,EDX
+       00402005   . 4B             DEC EBX
+       00402006   . 8BD6           MOV EDX,ESI
+       00402008   . 45             INC EBP
+       00402009   . 20C8           AND AL,CL
+       0040200B   . 33C0           XOR EAX,EAX
+       0040200D   . 2BF2           SUB ESI,EDX
+       0040200F   . 4F             DEC EDI
+       00402010   . 88EE           MOV DH,CH
+       00402012   . 39CD           CMP EBP,ECX
+       00402014   . 12F5           ADC DH,CH
+       00402016   . 40             INC EAX
+       00402017   . 4F             DEC EDI
+       00402018   . 22FA           AND BH,DL
+       0040201A   . 14 02          ADC AL,2
+       0040201C   . 13C8           ADC ECX,EAX
+       0040201E   . 3C 07          CMP AL,7
+       00402020   . 83ED C6        SUB EBP,-3A
+       00402023   . 29DE           SUB ESI,EBX
+       00402025   . 83DA D9        SBB EDX,-27
+       00402028   . 8BD8           MOV EBX,EAX
+       0040202A   . 80E2 37        AND DL,37
+       0040202D   . 23D4           AND EDX,ESP
+       0040202F   . 91             XCHG EAX,ECX
+       00402030   . 2C 05          SUB AL,5
+       00402032   . 88CE           MOV DH,CL
+       00402034   . 21EF           AND EDI,EBP
+       00402036   . 4F             DEC EDI
+       00402037   . 90             NOP                   ; ecx=3
+       - - - - - - - - - - - - - - - - - -
+
+
+
+
+  3) Extentions
+
+  3.1) Including the Stack
+
+       Including Stack-Commands is quite easy. There are some things to note:
+
+       What happens at 'pop Reg32'? Reg32 changes and ESP changes, we already
+       have all of that informations in the LBT, so nothing to change for POP.
+
+       But what is with 'push Reg32/Imm32'? ESP changes, but we dont know what
+       is on the stack from the above rules. 'PUSH 0x0' would result in the
+       same LBT as 'PUSH 0x1' does.
+
+       Therefore we have to add an additional dword to the LBT, defining the
+       latest value of the stack (if newESP=oldESP-4 changed):
+
+       - - - - - - - - - - - - - - - - - -
+                  Local Behaviour Table (LBT):
+                          ...
+                     Stack: 1*4=4 byte
+                     0x44 STACK change (if push is used)
+       - - - - - - - - - - - - - - - - - -
+
+       One restriction to the random code appears, too:
+       You must not use pop/push as trash (push/pop is ok). As an example,
+       you have:
+
+       - - - - - - - - - - - - - - - - - -
+                  xor eax, eax
+                  ret
+       - - - - - - - - - - - - - - - - - -
+
+       This could be translated to:
+
+       - - - - - - - - - - - - - - - - - -
+                  xor eax, eax
+                  pop eax
+                  push 0
+                  ret
+       - - - - - - - - - - - - - - - - - -
+
+       In principal, a legal substituation from the rules above, but fatal.
+
+       One can solve that in two ways: Increase the Local Behaviour Table by
+       8 dwords, and compare the changing of the stack; or you could just
+       add a byte to note whether the pop occured before the push (this is what
+       I've used in my example virus).
+
+
+
+
+
+  3.2) Including Memory
+
+       It is very tricky to use memory instructions for the random code and
+       get the behaviour later.
+
+       First thing is, that we have to use an Exception Handler. I tried SEH,
+       but there are problems because the EXCEPTION_REGISTRATION and the
+       callback function handle has to be on the stack, and this value can be
+       changed by the random code (for instance "SBB DWORD PTR SS:[ESP+B],EAX",
+       which actually happened).
+       As it's the worst thing when the Exception Handler will be destroyed, we
+       have to use something else: VEH (Vectored Exception Handler). This is
+       provided by Windows XP+ as AddVectoredExceptionHandler-API.
+
+       Second problem: The memory may overwrite any data that is not protected.
+       That means: Its own code (if its in the .data section), any data created
+       with Virtual Alloc (and was no Read/Execution-Only-Flag).
+       We have to use VirtualProtect to any allocated memory.
+
+       Third problem: We can not and should not protect the .data section, as
+       we want new code-substituations for that, too. But the random code can
+       overwrite some important data in the .data section. A solution is to
+       mirror the .data memory with READ-ONLY potection (or NOACCESS flag)
+       After the execution and analyse of the random code, we can restore the
+       original .data section.
+
+       Fourth problem: We have to save the pointer to the DataMirror somewhere.
+       The register may change, so we have to use the .data section. But this
+       pointer can be overwritten by random code, then we dont know the place
+       of the DataMirror anymore, and can not restore the original .data - big
+       problem!
+       However, we can use some self-repair technique: We store the pointer to
+       the DataMirror three times at totally different positions in the .data
+       section, and after execution use that algorithm:
+
+       - - - - - - - - - - - - - - - - - -
+              mov eax, hDataMirror1;
+              if (hDataMirror1!=hDataMirror2) { mov eax, hDataMirror3; }
+       - - - - - - - - - - - - - - - - - -
+
+       eax is the pointer to the DataMirror if there is maximum one destroyed
+       pointer. This should be enough for us (we just have 8 byte of random
+       code).
+
+       Fifth problem: The instructions may rely on the values of the memory,
+       just the same thing as with initial register values. We have to fill the
+       memory as well as the stack with random memory, to prevent that
+       dependence on the initial values.
+
+       Sixth problem: The result of the random code (the local behaviour table)
+       can not be saved in .data (as this one will be restored later) or in the
+       DataMirror (as this one is used for comparing). So one has to allocate
+       additional memory for saving the LBT temporarily, and copy it to the
+       restored .data Section later.
+
+
+       For saving the results I added 2*4 additional dwords to the Local
+       Behaviour Table:
+
+       - - - - - - - - - - - - - - - - - -
+                  Memory: 2*4*4=8*4=32 byte:
+                     0x24 dd MemOffset1
+                     0x28 dword[MemOffset1]
+                     0x2C dd MemOffset2
+                     0x30 dword[MemOffset2]
+                     0x34 dd MemOffset3
+                     0x38 dword[MemOffset3]
+                     0x3C dd MemOffset4
+                     0x40 dword[MemOffset4]
+       - - - - - - - - - - - - - - - - - -
+
+       There is space for saving results of four changes of the random code,
+       each change uses two dwords, one for the addresse that has been changed,
+       and one for the actual data that has been changed.
+
+       The chance that a valid change appears is very slow if we use totally
+       random initial values. One could increase the chance by using the
+       following trick:
+
+       All registers get a small random value between 0 and ~200, and one
+       variable gets the value of the .data-section:
+
+            eax=0x33    ebp=0x67
+            ebx=0x8A    esi=.data + 0x12
+            ecx=0x04    edi=0xAA
+            edx=0x12    esp=esp
+
+       This increases the chance of valid memory changes alot - for instance:
+
+            mov dword[esi+ecx], eax
+
+       will be valid, which would have not be if the registers were totally
+       random.
+
+       This diagram shows what will be done with the memory blocks while
+       analysing one unknown code:
+
+
+     Preparation
+     ===========
+
+                        ___________ 
+            mirroring  |           |
+           ----------> | Data      |
+          |            |   Mirror  |
+     ___________       |           |
+    |           |      |           |
+    | .data     |      |___________|       ___________ 
+    |           |                         |           |
+    |           |                         | Random    |
+    |           |  -------------------->  |   Data    |
+    |___________|    important values     |           |
+                                          |           |
+                                          |___________|
+
+
+                        ___________ 
+                       |           |
+                       | Data      |
+                       |   Mirror  |
+     ___________       |           |
+    |           |      |           |
+    | .data     |      |___________|       ___________ 
+    |           |                         |           |
+    |           |                         | Random    |
+    |           |  <--------------------  |   Data    |
+    |___________|     randomize .data     |           |
+                                          |           |
+                                          |___________|
+
+
+
+
+                    E X E C U T I O N
+
+
+
+     Comparison
+     ==========
+                        ___________ 
+                       |           |
+                       | Data      |
+                       |   Mirror  |
+     ___________       |           |
+    |           |      |           |
+    | .data     |      |___________|       ___________ 
+    |           |                         |           |
+    |           |                         | Random    |
+    |           |  <<------------------>> |   Data    |
+    |___________|       compare data      |           |
+                             |            |           |
+                             |            |___________|
+                             |             ___________
+                             |            |           |
+                             -----------> | temp. LBT |
+                               results    |___________|
+
+
+     Restoration 
+     ===========
+
+
+                        ___________ 
+            restore    |           |
+           ----------  | Data      |
+          |            |   Mirror  |
+          V            |           |
+     ___________       |           |
+    |           |      |___________|
+    | .data     |      
+    |           |  
+    |           |                        ___________
+    |           |        save LBT       |           |
+    |___________|  <------------------- | temp. LBT |
+                                        |___________|  
+                        
+
+                     
+
+
+
+  4) Possible extentions
+
+     These are some ideas that increase the power of this technique and
+     are easy to implement - everything without the need of deep code
+     analyse or full disassembling.
+
+  4.1) Hide me: Global Behaviour Table at Runtime
+
+       The technique above uses a behaviour-table hardcoded in the file,
+       which could be a source for detection by lazy avers.
+       There is no need for that, one could create the GBT at runtime, and
+       write it to the memory. It's just a little bit tricky as the GBT
+       is defined implicit for all commands - but some fake-code or hand-
+       adjusted GBT can solve that problem.
+
+
+  4.2) Permutation - easy as it can be
+
+       As the whole code consists of 8byte command blocks, its very easy
+       to use permutation - there is no need of disassembling as in usual
+       permutation engines. One can simply copy the different 8byte blocks
+       to a random place in the file and connect them with Jmp-Operations.
+          
+
+  4.3) Jump somewhere
+
+       One weakness of this technique may be the handling of jmp/ret/call
+       commands. One must not execute them due to unexpected behaviour,
+       therefore I have defined a further restriction in the GBT: rNoEmul.
+       If this command appears, the corresponding 8byte block will not be
+       analysed, thus no equivalent codes will be found.
+       As the code knows where a jump will be (because of that rNoEmul
+       byte in the GBT), it can include trash or change the instruction
+       (call -> pop Reg32 + jmp Reg32). When trash is included, it should
+       restrict the trash to not contain significant operation opcodes
+       (0xC3 = ret, 0xE8 = call, 0xEB = jmp, 0x7x = jxxx).
+
+
+  4.4) Behaviour Flow
+
+       Imagine you have a code like this:
+
+       - - - - - - - - - - - - - - - - - -
+                  cc rA,   mov, eax, 0
+                  cc rAB,  mov, ebx, eax
+                  cc rB,   inc, ebx
+                  cc rBC,  xor, ecx, ecx
+       - - - - - - - - - - - - - - - - - -
+
+       Command 3 and 4 are independent and could be exchanged. But how can
+       the code itself find that out?
+
+       We could analyse both commands (16 bytes) together in a black-box
+       test and compare output. If the behaviour of the changed 16 bytes
+       is the same as the original one, we could use the new one. We can
+       see immediatly that line 2 and 3 can not be exchanged - exactly the
+       same result we would get in the blackbox test.
+
+       The only thing we have to think of is to adjust the restrictions,
+       which is straight forward.
+
+       In the end, we get some kind of behaviour flow, a very beautiful
+       result:
+
+       - - - - - - - - - - - - - - - - - -
+      cc rA,   mov, eax, 0        cc rA,   mov, eax, 0          cc rA,   mov, eax, 0
+      cc rAB,  mov, ebx, eax      cc rAB,  mov, ebx, eax        cc rAC,  xor, ecx, ecx
+      cc rB,   inc, ebx      ->   cc rBC,  xor, ecx, ecx   ->   cc rABC, mov, ebx, eax
+      cc rBC,  xor, ecx, ecx      cc rBC,  inc ebx              cc rBC,  inc ebx
+       - - - - - - - - - - - - - - - - - -
+
+
+
+  4.5) Automatic shrinking/extention/trash
+
+       Shrinking and extention is usually a very hard buisness - requires
+       full code disassembling to some meta-languages. Here it is much
+       easier, the only thing we have to do is adjusting the jump addresses.
+
+       For shrinking, we just use take a 16byte block (instead of the
+       usual 8 byte block) for analysing, and compare it with a 8 byte
+       block of random data - very simple!
+
+       The extention is the inverse process - we take a 8byte code from
+       the file code and compare it with a 16byte block of random code.
+       The random 16byte block should consist of 2 independent 8 byte
+       blocks, to prevent problems when this code will be analysed alone.
+       This is very trivial too.
+
+       The trash is a similar technique: We get an 8 byte code and analyse
+       its behaviour with respect to the restrictions of the direct-above
+       block. Again - very simple.
+
+
+
+
+
+
+  5) Conclusion
+
+     Analysing the behaviour of code and substituate with random instructions
+     is powerful as well as beautiful.
+
+     We should use more the power of unpredictable randomness!
+
+
+
+                                                        Dr. Theodore Spankman
+                                                                December 2010
+
+
+
+     PS1: The initial idea comes from an article released in August 2004:
+          http://vx.netlux.org/lib/vsp14.html
+     
+     PS2: Special thanks goes to hh86 for motivation, help and useful ideas
+          in connection with this research... Merci! :)

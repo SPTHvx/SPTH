@@ -1,0 +1,298 @@
+		SeCoNd PaRt To HeLl's  Special Character List for Batch Encryption
+
+
+
+What is this list for?
+For batch encryption. So if you want to crypt the word "Hell", you will use such a code:
+
+-------
+
+set a=hell
+echo %a%
+
+-------
+but it's even possible to use not "a" for crypting it, but any special character like "$" or "/".
+So look:
+-------
+
+set /!ß=hell
+echo %/!ß%
+
+-------
+
+But the problem, you can't use every character to crypt anything, so I wrote a list with all 255 ASCII characters.
+This list tells you, if you are able to crypt anything with this character or not.
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+ASCII  0 :         : no
+ASCII  1 :        : yes
+ASCII  2 :        : yes
+ASCII  3 :        : yes
+ASCII  4 :        : yes
+ASCII  5 :        : yes
+ASCII  6 :        : yes
+ASCII  7 :        : yes
+ASCII  8 :        : yes
+ASCII  9 :	        : no
+ASCII  10 :
+        : no
+ASCII  11 :        : yes
+ASCII  12 :        : yes
+ASCII  13 :        : no
+ASCII  14 :        : yes
+ASCII  15 :        : yes
+ASCII  16 :        : yes
+ASCII  17 :        : yes
+ASCII  18 :        : yes
+ASCII  19 :        : yes
+ASCII  20 :        : yes
+ASCII  21 :        : yes
+ASCII  22 :        : yes
+ASCII  23 :        : yes
+ASCII  24 :        : yes
+ASCII  25 :        : no
+ASCII  26 :        : no
+ASCII  27 :        : yes
+ASCII  28 :        : yes
+ASCII  29 :        : yes
+ASCII  30 :        : yes
+ASCII  31 :        : yes
+ASCII  32 :         : no
+ASCII  33 :!        : yes
+ASCII  34 :"        : yes
+ASCII  35 :#        : yes
+ASCII  36 :$        : yes
+ASCII  37 :%        : no
+ASCII  38 :&        : yes
+ASCII  39 :'        : yes
+ASCII  40 :(        : yes
+ASCII  41 :)        : yes
+ASCII  42 :*        : yes
+ASCII  43 :+        : yes
+ASCII  44 :,        : no
+ASCII  45 :-        : yes
+ASCII  46 :.        : yes
+ASCII  47 :/        : yes
+ASCII  48 :0        : no
+ASCII  49 :1        : no
+ASCII  50 :2        : no
+ASCII  51 :3        : no
+ASCII  52 :4        : no
+ASCII  53 :5        : no
+ASCII  54 :6        : no
+ASCII  55 :7        : no
+ASCII  56 :8        : no
+ASCII  57 :9        : no
+ASCII  58 ::        : yes
+ASCII  59 :;        : no
+ASCII  60 :<        : no
+ASCII  61 :=        : no
+ASCII  62 :>        : no
+ASCII  63 :?        : yes
+ASCII  64 :@        : yes
+ASCII  65 :A        : yes
+ASCII  66 :B        : yes
+ASCII  67 :C        : yes
+ASCII  68 :D        : yes
+ASCII  69 :E        : yes
+ASCII  70 :F        : yes
+ASCII  71 :G        : yes
+ASCII  72 :H        : yes
+ASCII  73 :I        : yes
+ASCII  74 :J        : yes
+ASCII  75 :K        : yes
+ASCII  76 :L        : yes
+ASCII  77 :M        : yes
+ASCII  78 :N        : yes
+ASCII  79 :O        : yes
+ASCII  80 :P        : yes
+ASCII  81 :Q        : yes
+ASCII  82 :R        : yes
+ASCII  83 :S        : yes
+ASCII  84 :T        : yes
+ASCII  85 :U        : yes
+ASCII  86 :V        : yes
+ASCII  87 :W        : yes
+ASCII  88 :X        : yes
+ASCII  89 :Y        : yes
+ASCII  90 :Z        : yes
+ASCII  91 :[        : yes
+ASCII  92 :\        : yes
+ASCII  93 :]        : yes
+ASCII  94 :^        : no
+ASCII  95 :_        : yes
+ASCII  96 :`        : yes
+ASCII  97 :a        : yes
+ASCII  98 :b        : yes
+ASCII  99 :c        : yes
+ASCII  100 :d        : yes
+ASCII  101 :e        : yes
+ASCII  102 :f        : yes
+ASCII  103 :g        : yes
+ASCII  104 :h        : yes
+ASCII  105 :i        : yes
+ASCII  106 :j        : yes
+ASCII  107 :k        : yes
+ASCII  108 :l        : yes
+ASCII  109 :m        : yes
+ASCII  110 :n        : yes
+ASCII  111 :o        : yes
+ASCII  112 :p        : yes
+ASCII  113 :q        : yes
+ASCII  114 :r        : yes
+ASCII  115 :s        : yes
+ASCII  116 :t        : yes
+ASCII  117 :u        : yes
+ASCII  118 :v        : yes
+ASCII  119 :w        : yes
+ASCII  120 :x        : yes
+ASCII  121 :y        : yes
+ASCII  122 :z        : yes
+ASCII  123 :{        : yes
+ASCII  124 :|        : no
+ASCII  125 :}        : yes
+ASCII  126 :~        : yes
+ASCII  127 :        : yes
+ASCII  128 :Ä        : yes
+ASCII  129 :Å        : yes
+ASCII  130 :Ç        : yes
+ASCII  131 :É        : yes
+ASCII  132 :Ñ        : yes
+ASCII  133 :Ö        : yes
+ASCII  134 :Ü        : yes
+ASCII  135 :á        : yes
+ASCII  136 :à        : yes
+ASCII  137 :â        : yes
+ASCII  138 :ä        : yes
+ASCII  139 :ã        : yes
+ASCII  140 :å        : yes
+ASCII  141 :ç        : yes
+ASCII  142 :é        : yes
+ASCII  143 :è        : yes
+ASCII  144 :ê        : yes
+ASCII  145 :ë        : yes
+ASCII  146 :í        : yes
+ASCII  147 :ì        : yes
+ASCII  148 :î        : yes
+ASCII  149 :ï        : yes
+ASCII  150 :ñ        : yes
+ASCII  151 :ó        : yes
+ASCII  152 :ò        : yes
+ASCII  153 :ô        : yes
+ASCII  154 :ö        : yes
+ASCII  155 :õ        : yes
+ASCII  156 :ú        : yes
+ASCII  157 :ù        : yes
+ASCII  158 :û        : yes
+ASCII  159 :ü        : yes
+ASCII  160 :†        : yes
+ASCII  161 :°        : yes
+ASCII  162 :¢        : yes
+ASCII  163 :£        : yes
+ASCII  164 :§        : yes
+ASCII  165 :•        : yes
+ASCII  166 :¶        : yes
+ASCII  167 :ß        : yes
+ASCII  168 :®        : yes
+ASCII  169 :©        : yes
+ASCII  170 :™        : yes
+ASCII  171 :´        : yes
+ASCII  172 :¨        : yes
+ASCII  173 :≠        : yes
+ASCII  174 :Æ        : yes
+ASCII  175 :Ø        : yes
+ASCII  176 :∞        : yes
+ASCII  177 :±        : yes
+ASCII  178 :≤        : yes
+ASCII  179 :≥        : yes
+ASCII  180 :¥        : yes
+ASCII  181 :µ        : yes
+ASCII  182 :∂        : yes
+ASCII  183 :∑        : yes
+ASCII  184 :∏        : yes
+ASCII  185 :π        : yes
+ASCII  186 :∫        : yes
+ASCII  187 :ª        : yes
+ASCII  188 :º        : yes
+ASCII  189 :Ω        : yes
+ASCII  190 :æ        : yes
+ASCII  191 :ø        : yes
+ASCII  192 :¿        : yes
+ASCII  193 :¡        : yes
+ASCII  194 :¬        : yes
+ASCII  195 :√        : yes
+ASCII  196 :ƒ        : yes
+ASCII  197 :≈        : yes
+ASCII  198 :∆        : yes
+ASCII  199 :«        : yes
+ASCII  200 :»        : yes
+ASCII  201 :…        : yes
+ASCII  202 :         : yes
+ASCII  203 :À        : yes
+ASCII  204 :Ã        : yes
+ASCII  205 :Õ        : yes
+ASCII  206 :Œ        : yes
+ASCII  207 :œ        : yes
+ASCII  208 :–        : yes
+ASCII  209 :—        : yes
+ASCII  210 :“        : yes
+ASCII  211 :”        : yes
+ASCII  212 :‘        : yes
+ASCII  213 :’        : yes
+ASCII  214 :÷        : yes
+ASCII  215 :◊        : yes
+ASCII  216 :ÿ        : yes
+ASCII  217 :Ÿ        : yes
+ASCII  218 :⁄        : yes
+ASCII  219 :€        : yes
+ASCII  220 :‹        : yes
+ASCII  221 :›        : yes
+ASCII  222 :ﬁ        : yes
+ASCII  223 :ﬂ        : yes
+ASCII  224 :‡        : yes
+ASCII  225 :·        : yes
+ASCII  226 :‚        : yes
+ASCII  227 :„        : yes
+ASCII  228 :‰        : yes
+ASCII  229 :Â        : yes
+ASCII  230 :Ê        : yes
+ASCII  231 :Á        : yes
+ASCII  232 :Ë        : yes
+ASCII  233 :È        : yes
+ASCII  234 :Í        : yes
+ASCII  235 :Î        : yes
+ASCII  236 :Ï        : yes
+ASCII  237 :Ì        : yes
+ASCII  238 :Ó        : yes
+ASCII  239 :Ô        : yes
+ASCII  240 :        : yes
+ASCII  241 :Ò        : yes
+ASCII  242 :Ú        : yes
+ASCII  243 :Û        : yes
+ASCII  244 :Ù        : yes
+ASCII  245 :ı        : yes
+ASCII  246 :ˆ        : yes
+ASCII  247 :˜        : yes
+ASCII  248 :¯        : yes
+ASCII  249 :˘        : yes
+ASCII  250 :˙        : yes
+ASCII  251 :˚        : yes
+ASCII  252 :¸        : yes
+ASCII  253 :˝        : yes
+ASCII  254 :˛        : yes
+ASCII  255 :ˇ        : yes
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+I hope you understood it and it will help you to write a nice encrypted virus. :)
+If you have some suggestions or questions about the article, feel free and mail me...
+
+---------------------
+SeCoNd PaRt To HeLl
+www.spth.de.vu
+spth@jet2web.cc
+written on 20.10.2002
+---------------------
+
+PS: I wanna think VorteX for giving me the idea of using special characters ;)

@@ -1,0 +1,180 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************        The Secure Virus-Copy         ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro Words
+
+  1) The Idea
+
+  2) Important marginal notes
+       a) Inverted commas
+       b) 'exit'-command
+       c) '@echo'-command
+       d) '%~a'-option
+       e) '>>'-option
+
+  3) How to use it
+       a) General Information
+       b) Where to store the code
+
+  4) Last words
+
+
+
+
+  0) Intro Words
+
+  The title of this article sounds really strange and I'm sure, you can't think
+  what I'll tell you now. Don't worry, you will get the point while reading this
+  text. First I have to thank three persons, who's viruses or articles helped me
+  to get this idea. First person is Benny, who wrote a great article called
+  'Some ideaz about future worms', which was released in 29a#6. In his article he
+  mentioned that a worm 'should not be stored at any file on the disk'. The second
+  important person, who's virus helped me to get the idea and bring the idea to
+  reallity was Lys Kovick with his WinREG.AntiREG. Last but not least Q the Misanthrope's
+  virus Bat.OneLine wsa very important for this article. To all these guys I have to
+  send out a really great 'THANK YOU'! :D Well you still can't think about my idea,
+  so I'll stopp writing this silly intro and start to come to the important parts...
+
+
+
+
+  1) The Idea
+
+     The idea is, as you should have already noticed, a copy of the virus, which can't
+     be detected. Let's consider the scan of a Antivirus-Program. The program detects
+     every virus, which is already in the virus-definition, in (most times) every file
+     at the computer. Now: What would be, if the virus doesn't exist in any file at the
+     computer??? It is not detected. You may think, "Damn, silly boy, how should the virus
+     work?". The answere's name is Registy...
+     As you may know, you can run any program with the right extansion via the registry.
+     That is the main point. You just have to store a copy of the virus/worm's code in registry
+     (if it's script than it's easy, if it's a binary you have to debug it later on). Now
+     let's think that the virus is in the registry, how we get it out from there?
+     As I have already told you, you can run programs via registry... One of this programs
+     you can run is called 'CMD.exe', the new Windows 2000 Command-Interpreter.
+     The think get's tricky now: As you may know, your CMD.exe has a command called 'for',
+     we are going to use it now. Why? Well, it's doubtful that your virus just have one line,
+     therefore we have to use one line (registry just allows one line of CMD.exe-code) bringing
+     your virus-code to a new file. Maybe you didn't fully understand what I meant, therefore
+     I'll show you an example now. This is the content of a new registy-key, which is stored
+     in HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run:
+
+     - - - - - - - - - - - - - -
+     cmd /c for %a in ("@echo off" cls "echo Second Part To Hell was here..." pause exit) do @echo %~a>>C:\example.cmd
+     - - - - - - - - - - - - - -
+
+     Now guess the effects of this key! Every start-up of the computer it will generate a new
+     file called C:\example.cmd with the code between the inverted commas. Cool we got
+     a new file onto the computer... I'm sure that you know it: The code should be your virus
+     code. :). Now let's say, a virus uses such a code. First run it installs the key with
+     it's code. Some time later the user notices that something smells fishy and scanns trough
+     the harddisk. It finds a few copies of the virus and delets it. Now the cool thing:
+     It doesn't matter as the virus has it's code saved in the registry. And this code is ready
+     to infect the computer again and again (and again...).
+
+
+
+
+  2) Impotant marginal notes
+
+     There are some stranges in that line, which you have to note, otherwise you will have
+     hard problems getting the code working:
+
+     a) Inverted commas
+        You have to set the commands between inverted commands, if the line you want to write to
+        a new file contains at least one blank space. Otherwise CMD.exe treat it as more commands
+        with the side-effects, that it writes every part to a new line. If the command doesn't contain
+        a blank space, you may not use inverted commas.
+
+
+     b) 'exit'-command
+        After writing all your code to a .CMD or .BAT file, you have to use an 'exit'-command, since
+        you may write the whole code to the file every computer run. That's also the reason why
+        you must not use lables or gotos.
+
+
+     c) '@echo'-command
+        You have to use @echo to write strings to a file. If you would use just 'echo', you would
+        also write the primary command to it (i.e.: C:\Windows\System32>echo cls>>C:\example.cmd AND
+        cls).
+
+     d) '%~a'-option
+        If you have used a multi-part-command (which contains blanc space[s]), you have to use inverted
+        commands, as I have already told you. Using the simple '%a'-option, you would also write that
+        inverted commas to the code (which you don't want I think). To write the code without that
+        inverted commas you have to use '%~a'. (Of course, you could also use another variable-letter).
+
+     e) '>>'-option
+        When you try to use '>' to write your code to a file, you won't have success as CMD.exe overwrites
+        everything in the file (the lines you have already written) with the new one with the result that
+        the file contains JUST the last line you wanted to write.
+
+
+
+
+  3) How to use it
+
+     a) General Information
+        I've already told you, how the technique works, but not how to use it. Well, here we are.
+        First thing your virus should do when it's activ is to search the AutoStart-Directory, after
+        that it should write the modified code (the code above with the new directory+filename) to the
+        registry. That's all, easy - isn't it?! :)
+
+     b) Where to store the code
+        This is maybe the most important decision you have to make. Here are a few opportunities with
+        it's pro and contra.
+
+        --> Standart-Registry-Run
+        For Example: HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+        This is maybe the easiest and saved way to make sure that the virus will be started every
+        computer-Run. But the problem is that even low- and and medium-knowlegde computer users know
+        how to find a key here. That's a big problem...
+
+        --> Command Processor-AutoRun
+        HKEY_LOCAL_MACHINE\Software\Microsoft\Command Processor\AutoRun
+        HKEY_CURRENT_USER\Software\Microsoft\Command Processor\AutoRun
+        The good thing is that nearly nobody knows about this key. The key forces the CMD.exe to
+        run a command or a file before the real window opens. The code would run when the 
+        user opens a .CMD/.BAT file or open directly the CMD.exe. The problem is that a normal user
+        don's use these things. :(
+
+        --> Hooking File-extansions
+        malfunction wrote an article about that and released it in 29a#6. He used that technique
+        to run a virus/worm-file before an .EXE is executed. We can use the same technique modified.
+        just put the code above instead of malfunction's filename, and it should work.
+
+
+
+
+  4) Last words
+
+     Here, at the end of my article, I really want to thank you for still being with me and
+     reading this. I am really happy that I've finally finished this technique and this article, and
+     I would be even happier if you could send me your opinion of this way to make a secure virus copy.
+     I know that this article looks like it's just a technique for batch viruses, but it isn't! You
+     can use it in every file-virus/worm for Windows. Just use the command 'debug', which is really easy.
+     As you can imaging, I will write such a virus as soon as possible, and for showing you that it's
+     possible, it will become a binary virus. :)...
+     Greets goes to everybody who knows me (I'm too lazy to write them all down again, you know who you
+     are - just look at my homepage :D)...
+     A special greets goes to my RainBow, ILD!
+
+
+                                                        - - - - - - - - - - - - - - -
+                                                          Second Part To Hell/[rRlf]  
+                                                          www.spth.de.vu
+                                                          spth@priest.com
+                                                          written from april-may 2004
+                                                          Austria
+                                                        - - - - - - - - - - - - - - - 

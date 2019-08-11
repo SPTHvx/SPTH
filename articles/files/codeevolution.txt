@@ -1,0 +1,461 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************             Code Evolution:          ***********
+          ************         Follow nature's example      ***********
+	  ************       by Second Part To Hell/[rRlf]  ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro Words
+
+  1) The idea
+     1.1) Biological DNA
+     1.2) Biological Mutation
+
+  2) The connection between DNA and Code
+
+  3) Code Mutation
+     3.1) Point Mutation in Codes
+     3.2) Chromosome Mutation in Codes
+
+  4) How to use it?
+     4.1) Generations and the mystical word 'Death'
+     4.2) Codeing style: Exons and Introns
+
+  5) Connection to computer viruses
+     5.1) Neutral mutations
+
+  6) Outro words
+
+
+
+
+  0) Intro Words
+
+     This article describes  an idea about  how the evolution  of computer code
+     could look like. First I have to say that I got this idea while I was on a
+     real strange party  with some punks.  I was  pretty drunken  by wiskey and
+     really stoned (no shit).  I could not really think,  so I took out a paper
+     and  noted my idea.  The next day I  read the paper  and thought that this
+     could really work. Well, I still think that this idea could work, so go on
+     reading about the idea! 
+
+
+
+
+
+  1) The idea
+
+     Biological evolution happens totally random,  anyway such complex forms of
+     life have been created.  The reason for that is 'natural selection'.  This
+     says, the the life form, who has a better DNA (which has randomly created)
+     will  spread better.  Maybe it can use  the energy of  the food  better or
+     better hides  from enemies or whatever.  Many ideas and  article have been
+     written about  the topic  'techical  natural selection'.  But this article
+     doesn't  describe selection,  but mutation  -  and the connection  between
+     biological and technical mutation.
+     To  understand,  where are  the  connections  between these two  types  of
+     mutation,we have to understand the biological mutation system and its DNA.
+
+
+
+  1.1) Biological DNA
+
+       Every cellular form of life has a code,  which is resposible, what every
+       part has to do.  This code is called DNA  (Deoxyribonucleic acid).  This
+       DNA consists of chromosomes.  For instance the human has 46 chromosomes.
+       The chromosomes consists of genes,  and genes are built of bases.  Bases
+       are the  root of  the DNA.  Their are  fours elements,  which can make a
+       base: Adenine (A), Thymine (T), Cytosine (C), and Guanine (G).  One base
+       could look like that:
+
+       A  = =  T
+       T  = =  A
+       C  = =  G
+       G  = =  C
+
+       That means,  that the DNA  is encoded into  4 different  blocks (while a
+       file has just two ones [0,1] - but that will follow later).
+       That is just a very brief describtion of the DNA, but for this idea it's
+       enough.
+
+
+
+  1.2) Biological Mutation
+
+       All in all,  their are two  different types of mutation:  Point mutation
+       (gene mutation) and chromosome mutation.
+
+       Point mutation:  This is the  most  frequent mutation type.  A base of a
+       gene changes by mistake.  The result is a changed DNA. This *COULD* have
+       positive  effects,  but as in  all mutations,  often  it has a  negative
+       effect to the life from.
+
+       Chromosome mutation:  Here the order of the genes change,  not the genes
+       themselves. There are 5 ways of chromosome mutation:
+
+         - Delection:  A part of the  chromosome disappears.  A simple  graphic
+           shows you how that would look like:
+
+           Normal chromosome: -1--2--3--4--5--6--7-
+           After delection:   -1--2--4--5--6--7-
+
+           You can see, that a  part of the chromosom  (one gene or more)  gets
+           lost. This type of chromosome mutation is most  times deadly for the
+           life form.
+
+
+         - Duplication:  A part  of the  chromosome  exists  two  times  in the
+           chromosome.
+
+           Normal chromosome:  -1--2--3--4--5--6--7-
+           After dublicaltion: -1--2--3--2--3--4--5--6--7-
+
+           Most times this  mutation has no effect  to the life form.  Just the
+           genetic code (DNA) increases.
+
+
+         - Inversation:  A part of the chromosome changes its  order and exists
+           in different order in the chromosome
+
+           Normal chromosome: -1--2--3--4--5--6--7-
+           After inversation: -1--2--4--3--5--6--7-
+
+           You can see the inversation of the part 3-4. 
+
+
+         - Inseration: A new part is added to the chromosome.
+
+           Normal chromosome: -1--2--3--4--5--6--7-
+           After inseration: -1--2--3--4--x1--x2--5--6--7-
+
+           Who knows where this parts come from in nature,  but that's not part
+           of this article.
+
+
+         - Translocation:  A  part  or  a  whole  chromosome  goes  to  another
+           chromosome.
+
+           Normal chromosome1: -a1--a2--a3--a4--a5--a6--a7-
+           Normal chromosome2: -b1--b2--b3--b4--b5--b6--b7--b8--b9-
+           After translocation1: -a1--a2--a3--4a--b4--b5--b6--5a--6a--7a-
+           After transloctaion2: -b1--b2--b3--b7--b8--b9-
+
+
+
+
+
+  2) The connection between DNA and Code
+
+     Why should not we use this successful system for our codes?
+     But before,  we have to think about  which parts are  equal in DNA and our
+     Code:
+
+     DNA = Code
+     The biological DNA is responsible for the development and the behaviour of
+     a  cellular  life form.  Equally,  the  code of  a program or  whatever is
+     responsible for the development and the behaviour of the program.  Here we
+     can  see a real  close connection.  So we  should remember:  The code of a
+     program is like it's DNA.
+
+     Chromosome = Program Function
+     A cromosome  is  built of  many genes.  It  has its  own functions  and is
+     resposible for specifically jobs.  Here we can see a real close connection
+     to our programs again: Programs consists of functions. These functions are
+     resposible for their own jobs.  And:  A functions of a program is built of
+     many commands (connections: genes).
+
+     Genes = Commands
+     A gene has one small specifically function, and it is build of bases. It's
+     nearly the same as our commands: They have small function, and it consists
+     of bits (0,1). A real close connection, hmm? :)
+
+     Bases = Bits
+     The roots  of the DNA are the four bases.  The roots of programs are bits.
+     The only different is,  that their are 4 types of bases,  and just 2 typed
+     of bit. But that is no problem for mutation.
+
+
+
+
+
+  3) Code Mutation
+
+     Now we know how  natural cellular life forms change (mutate),  and we know
+     the connection  between code and DNA.  So where is the problem?  Let's see
+     how we could mutate our code following nature's example.
+
+
+  3.1) Point Mutation in Codes
+
+       As bits are  (here)  equally to bases,  and at point  mutation the bases
+       change, we have to change the bits. Not whole bytes, because bytes are 8
+       bits. Let's see:
+
+            1000 1001 1101 1000      ...   mov ax, bx
+
+        XOR 0000 0000 0000 1000      ...   random number
+
+            1000 1001 1101 0000      ...   mov ax, dx
+
+       As you can see, this is the mutation,  as it also works in nature. Well,
+       not  exactly this way,  but like that.  You can  see, here I  used a XOR
+       calculation.  But, we could also take all  other bit calculation,  which
+       allows  a two byte calculation  (AND, OR, NAND, NOR, XOR).  Let's see an
+       other example:
+
+            1000 1001 1101 1000      ...   mov ax, bx
+
+         OR 0000 0000 1000 0000      ...   random number
+
+            1000 1001 1101 1000      ...   mov ax, bx
+
+       See, no effect (as most mutations in nature). Let's see another exmple:
+
+
+            1000 1001 1101 1000      ...   mov ax, bx
+
+         OR 0100 0000 0000 0000      ...   random number
+
+            1100 1001 1101 1000      ...   leave | fcomp st(0), st(0)
+
+       This mutation would  have been really important for the code.  Who knows
+       the command?  I neighter know  it nor i've found a  description of it in
+       the 'Intel Hex Opcodes And Mnemonics'. Well, the processor know it. What
+       I wanted to show is, how that mutation would work for codes.
+
+
+
+  3.2) Chromosome Mutation in Codes
+
+       We know: Chromosome are (here) equally to functions in codes. As example
+       we let a function mutate.  Our function is a short ASM code, calculating
+       the LBA number to FAT12 CHS values. This time I use ASM language for the
+       example because at chromosome mutation genes (=commands) change.
+
+       Delection:
+       (original code)                   (mutated code)
+
+        CyHeSe:                        CyHeSe:
+          cmp     ax, 36                 cmp     ax, 36
+          jge     BefCyHeSe              jge     BefCyHeSe
+          cmp     ax, 18                 cmp     ax, 18
+          jl      SecCheck               jl      SecCheck
+          mov     dh, 1
+          sub     ax, 18                 sub     ax, 18
+          SecCheck:                      SecCheck:
+          mov     cl, al                 mov     cl, al
+        ret                            ret
+
+       What would happen? In this example, the could would definitivly not work
+       anymore.But that's the same as in nature: After delection the chromosome
+       dont work really anymore.
+
+
+
+       Duplication:
+       (original code)                   (mutated code)
+
+        CyHeSe:                        CyHeSe:
+          cmp     ax, 36                 cmp     ax, 36
+          jge     BefCyHeSe              jge     BefCyHeSe
+          cmp     ax, 18                 cmp     ax, 18
+          jl      SecCheck               jl      SecCheck
+          mov     dh, 1                  mov     dh, 1
+                                         jl      SecCheck
+                                         mov     dh, 1
+          sub     ax, 18                 sub     ax, 18
+          SecCheck:                      SecCheck:
+          mov     cl, al                 mov     cl, al
+        ret                            ret
+
+       And what  would happen  this time?  Nothing.  But what could be:  A code
+       duplicated, that has a nice side effect.
+
+
+
+       Inversation:
+       (original code)                   (mutated code)
+
+        CyHeSe:                        CyHeSe:
+          cmp     ax, 36                 cmp     ax, 36
+          jge     BefCyHeSe              jge     BefCyHeSe
+          cmp     ax, 18                 cmp     ax, 18
+          jl      SecCheck               jl      SecCheck
+          mov     dh, 1                  sub     ax, 18
+          sub     ax, 18                 mov     dh, 1
+          SecCheck:                      SecCheck:
+          mov     cl, al                 mov     cl, al
+        ret                            ret
+
+       This changing of commands has  no effect to the function. But of course:
+       It could have real bad effects, but in a very good case: Even a positive
+       effect.
+
+
+
+       Inseration:
+       (original code)                   (mutated code)
+
+        CyHeSe:                        CyHeSe:
+          cmp     ax, 36                 cmp     ax, 36
+          jge     BefCyHeSe              jge     BefCyHeSe
+                                         stosb
+                                         dec     dx
+          cmp     ax, 18                 cmp     ax, 18
+          jl      SecCheck               jl      SecCheck
+          mov     dh, 1                  mov     dh, 1
+          sub     ax, 18                 sub     ax, 18
+          SecCheck:                      SecCheck:
+          mov     cl, al                 mov     cl, al
+        ret                            ret
+
+       I've  insert some random bits into the code.  As far as I can see,  this
+       code has no effect to the function.
+
+
+
+       Translocation:
+       (original code)                   (mutated code)
+
+        CyHeSe:                        CyHeSe:
+          cmp     ax, 36                 cmp     ax, 36
+          jge     BefCyHeSe              jge     BefCyHeSe
+          cmp     ax, 18                 cmp     ax, 18
+          jl      SecCheck               jl      SecCheck
+                                         mov     al, 0x2A
+                                         mov     ah, 0xE
+                                         mov     bx, 0x7
+                                         int     0x10
+          mov     dh, 1                  mov     dh, 1
+          sub     ax, 18                 sub     ax, 18
+          SecCheck:                      SecCheck:
+          mov     cl, al                 mov     cl, al
+        ret                            ret
+
+       The  difference to inseration is,  that the program 'knows', that it's a
+       working code,  because  it's from another program.  In our case the code
+       writes a '*' to the screen.
+
+
+
+
+
+  4) How to use it?
+
+     First we have to understand, why DNA mutates:  Due to mistakes. Most times
+     these mistakes  lead to a negative effect, if not dead.  But sometimes, as
+     you can see in the complexity  of some plaints or animals DNA (or even the
+     human one),  it leads to a positive effect.  Well, for computers there are
+     no mistakes. Therefor we have to help...
+     If we want  to use this technique,  we have to deside how  often the thing
+     should  mutate.  Therefor we have to  use random engines.  In nature, this
+     mutation rate is really slow. Bacteria have  a mutation  rate of  1/10 000
+     mutation every generation. 'Higher' life forms even less.I guess we should
+     not use such a slow value,  because we dont have 800 million of years. But
+     not too high.  I presume 1/10 or  1/50 every generation  would be ok.  But
+     where should we use that?
+
+
+
+  4.1) Generations and the mystical word 'Death'
+
+       I think of an example:  A file is in memory,  it makes a certain numbers
+       of 'children' per seconds, and after a number secunds, the process dies.
+       While living,  the process has created,  let's say,  10 children.  These
+       10  children  also  make 10 children.  And now  stop:  Now there are 100
+       processes in memory.  Maybe 2 of them are mutated.  I presume, they will
+       die. :)  If not, they give a different code (DNA)  to their kids. And do
+       you know:  Maybe some time one of the kids changed their  code in a way,
+       that is good  (like changing the value of the time-to-death).  This code
+       makes, in average, more new kids,  and after some time, just the mutated
+       process will stay in memory (more processes in memory, less cpu-time for
+       each process, the better will survive ['natural selection in computer'].
+
+
+
+
+  4.2) Coding style: Exons and Introns
+
+       As the DNA has been created totally random, the style of the DNA is 100%
+       unoptimized  and big  parts of  the DNA are  just junk.  These parts are
+       called Exons.  Exons are old parts of the evolution,  which are not used
+       anymore in the lifeform.  About 98% of the human DNA are Exons. They are
+       cut by a process called 'Splicing' before a protein becomes created. The
+       rest 2% of  the human DNA are Introns.  These parts are  responsible for
+       everything.  Now:  why is this important for us?  The complexer  and the
+       more  optimized  a code is,  the  higher  the chance  for errors  in the
+       mutation. Or better:  The lower the  chance of not-negative mutations. I 
+       think best would be a very huge and ugly code,  maybe even by-hand trash 
+       between the code, even this is exactly what we  try to reduce  in normal
+       coding. But this is NOT normal programming.
+
+
+
+
+
+  5) Connection to computer viruses
+
+     You may see, that I have not used this word here in the article. Well, now
+     I do.  This technique is of course a  technique idead for viruses.  It's a
+     kind of real code-evolution. This may be better than polymorphism or meta-
+     morphism,  but of course  much slower.  But the best  thing is:  Their are
+     infinity numbers of generation.
+     I think of this way: A virus spreads to files, and each file can not(!) be
+     seens as a children.  After a certain time (0.3sec?)  the virus loads some
+     other generations into the memory. Maybe one of the generation is mutated.
+     If the generation works  (=! broken),  it spreads it's mutated code to the
+     next files.  The old  generations have to die,  because they  are not need
+     anymore.  The new ones are maybe better.  The same as in nature  (old ones
+     die  because the new  are maybe better).  For worms it  works nearly same.
+     Let's  say a worm is in memory.  It sends itself our  to as much addresses
+     he cans.  After a  certain time it  loads some  other  processes of itself
+     (which may be mutated) into memory, and does a ExitProcess (=Death).
+     For a worm this idea would be much better, because their are more computer
+     which can make more generation in the same time. Result: More mutations:
+     Bigger chance of positive mutations.
+
+
+
+  5.1) Neutral mutations
+
+       Most mutations of such a  virus/worm  may be neutral.  That means,  they
+       have no effect to the virus/worm.  But for a virus a neutral mutation is
+       also a success, because scan strings of AVs may become senseless. Such a
+       neutral mutation may be inserting of bytes, which do nothing or changing
+       the registers in a way the virus will still work.
+       There are 100s of commands,  which may not have any effect  on the virus
+       or worm's functionality.
+       A few examples: xchg REG, REG | mov REG, REG | add REG, 0 | every calcu-
+       lation with unused registers | whatever.
+
+
+
+
+
+  6) Outro Words
+
+     I think this is a real interesting field,  which could also be damn really
+     successful.  As  it's very  interesting  for me,  I'm  going to  make some
+     experiments with  this technique. I would  be happy as hell  if that would
+     work as I hope: Due to natural selections broken parts stop work and parts
+     which  have positive  mutations life longer or  make more children, and in
+     the end they rule the memory.
+     Fiction or future? Time will tell us...
+
+
+                                                  - - - - - - - - - - - - - - -
+                                                    Second Part To Hell/[rRlf]  
+                                                    www.spth.de.vu
+                                                    spth@priest.com
+                                                    written in February 2005
+
+                                                    ...surrealistic viruswriter...
+                                                  - - - - - - - - - - - - - - - 

