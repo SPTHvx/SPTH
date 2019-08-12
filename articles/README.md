@@ -59,7 +59,7 @@
 <font size="2" color="#000000"><b>2013.11:</b></font> <a href="files/intJeffDahmer.txt">Interview with Jeff Dahmer</a><font color="#000000" size="2"> ~ 10 kB | also released in valhalla #4</font><br>
 <font size="2" color="#000000"><b>2013.10:</b></font> <a href="files/intJP.txt">Interview with JPanic</a><font color="#000000" size="2"> ~ 28 kB | together with hh86 | also released in valhalla #4</font><br>
 <font size="2" color="#000000"><b>2013.10:</b></font> <a href="files/intRGB.txt">Interview with roy g biv</a><font color="#000000" size="2"> ~ 21 kB | together with hh86 | also released in valhalla #4</font><br>
-<font size="2" color="#000000"><b>2013.07:</b></font> <a href="files/inthh86_2.html">Interview with hh86</a><font color="#000000" size="2"> ~ 27 kB | also released in DC #5</font><br>
+<font size="2" color="#000000"><b>2013.07:</b></font> <a href="files/inthh86_2.txt">Interview with hh86</a><font color="#000000" size="2"> ~ 27 kB | also released in DC #5</font><br>
 <font size="2" color="#000000"><b>2013.07:</b></font> <a href="files/intGenetix.txt">Interview with genetix</a><font color="#000000" size="2"> ~ 15 kB | also released in DC #5</font><br>
 <font size="2" color="#000000"><b>2012.12:</b></font> <a href="files/BTTF.txt">Back to the Future: What viruswriters in the past thought about the viruses of the future</a><font color="#000000" size="2"> ~ 32 kB | also released in valhalla #3</font><br>
 <font size="2" color="#000000"><b>2012.10:</b></font> <a href="files/intEricFiliol.txt">Interview with Eric Filiol</a><font color="#000000" size="2"> ~ 31 kB | also released in valhalla #3</font><br>
