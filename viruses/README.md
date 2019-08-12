@@ -22,7 +22,7 @@
 <font color="#AA0000">-</font> JavaScript file infector<br>
 <font color="#AA0000">-</font> Written in JavaScript (~2150 lines)<br><br><br></font>
 
-<font size="2" color="#000000"><b>2012.02:</b></font> <b><a href="filly.rar">Win32.Filly</a></b><font color="#000000" size="2"> (also released in valhalla #2 - <a href="frilly.pdf">Peter Ferrie: "LAHF"ing All The Way, in VirusBulletin 09.2012</a>)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2012.02:</b></font> <b><a href="files/filly/win32filly.asm">Win32.Filly</a></b><font color="#000000" size="2"> (also released in valhalla #2 - <a href="files/filly/frilly.pdf">Peter Ferrie: "LAHF"ing All The Way, in VirusBulletin 09.2012</a>)</font><font size="2"><br>
 <font color="#AA0000">-</font> Polymorphic decryptor using shadow of code-flow (flags)<br>
 <font color="#AA0000">-</font> Semi-deterministic code-reconstructor<br>
 <font color="#AA0000">-</font> Worming over removeable disks and shared network disks<br>
