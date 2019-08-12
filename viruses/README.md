@@ -14,7 +14,7 @@
 <font color="#AA0000">-</font> Uses Meta-Language which is scaleable (adding 5th language is as complicated as adding 2nd language<br>
 <font color="#AA0000">-</font> Written in JavaScript (~730 lines, generation0)<br><br><br></font>
 
-<font size="2" color="#000000"><b>2012.12:</b></font> <b><a href="Transcriptase.rar">JS.Transcriptase</a></b><font color="#000000" size="2"> (also released in valhalla #3 - <a href="transcript.pdf">Peter Ferrie: Read the Transcript, in VirusBulletin 05.2013</a>)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2012.12:</b></font> <b><a href="files/transcriptase/Transcriptase.js">JS.Transcriptase</a></b><font color="#000000" size="2"> (also released in valhalla #3 - <a href="files/transcriptase/transcript.pdf">Peter Ferrie: Read the Transcript, in VirusBulletin 05.2013</a>)</font><font size="2"><br>
 <font color="#AA0000">-</font> First metamorphic Script-Virus<br>
 <font color="#AA0000">-</font> Uses its own meta-language, with a self-compiling compiler<br>
 <font color="#AA0000">-</font> Micro- and Macro-Permutations<br>
