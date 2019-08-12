@@ -195,7 +195,7 @@
 <font color="#AA0000">-</font> infects BAT files
 </font><br><br><br>
 
-<font size="2" color="#000000"><b>2003.02:</b></font> <b><a href="charon.zip">BAT|JS.Charon</a></b><font color="#000000" size="2"> </font><br><font size="2">
+<font size="2" color="#000000"><b>2003.02:</b></font> <b><a href="files/bat_js.charon/charon.js">BAT|JS.Charon</a></b><font color="#000000" size="2"> </font><br><font size="2">
 <font color="#AA0000">-</font> spreads via eMail using 5 different subjects, bodys and attachment-names. Sometimes the attachment is .BAT, sometimes .JS<br>
 <font color="#AA0000">-</font> infects .JSes, .BATs and .CMDs<br>
 <font color="#AA0000">-</font> uses Anti-KAV heuristic technique</font><br><br><br>
