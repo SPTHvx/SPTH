@@ -84,7 +84,7 @@
 <font color="#AA0000">-</font> WinRAR archive worm<br>
 <font color="#AA0000">-</font> Fully written in assembler (~1400 lines)<br><br><br></font>
 
-<font size="2" color="#000000"><b>2006.03:</b></font> <b><a href="infopath.rar">InfoPath.iCab</a></b><font color="#000000" size="2"> (also released in rRlf #7)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2006.03:</b></font> <b><a href="files/infopath/infopath.ASM">InfoPath.iCab</a></b><font color="#000000" size="2"> (also released in rRlf #7)</font><font size="2"><br>
 <font color="#AA0000">-</font> Microsoft Office Infopath Macro virus<br>
 <font color="#AA0000">-</font> First of its kind<br>
 <font color="#AA0000">-</font> Fully written in assembler (~900 lines)<br><br><br></font>
