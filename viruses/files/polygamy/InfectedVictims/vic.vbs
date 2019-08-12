@@ -1,0 +1,1 @@
+MsgBox "I R the VBScript victim"
