@@ -119,7 +119,7 @@
 <font color="#AA0000">-</font> Prepender<br>
 <font color="#AA0000">-</font> 655 bytes<br><br><br></font>
 
-<font size="2" color="#000000"><b>2004.09:</b></font> <b><a href="Menuet.Tristesse.zip">Menuet/COM.Tristesse</a></b><font color="#000000" size="2"> (<a href="http://about-threats.trendmicro.com/us/archive/malware/menuetvir">Trend Micro</a> | also released in rRlf #5)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2004.09:</b></font> <b><a href="files/Menuet.Tristesse/code.asm">Menuet/COM.Tristesse</a></b><font color="#000000" size="2"> (also released in rRlf #5)</font><font size="2"><br>
 <font color="#AA0000">-</font> Multi-platform infector<br>
 <font color="#AA0000">-</font> Menuet (32bit) -&gt; Menuet (32bit - prepending)<br>
 <font color="#AA0000">-</font> Menuet (32bit) -&gt; COM (16bit - appending)<br>
