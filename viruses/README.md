@@ -28,7 +28,7 @@
 <font color="#AA0000">-</font> Worming over removeable disks and shared network disks<br>
 <font color="#AA0000">-</font> Written in assembler (~1950 lines)<br><br><br></font>
 
-<font size="2" color="#000000"><b>2011.11:</b></font> <b><a href="addisco.rar">Win32.Addisco</a></b><font color="#000000" size="2"> (also released in valhalla #2 - <a href="addisco.pdf">Peter Ferrie: Is Our Viruses Learning?, in VirusBulletin 11.2012</a>)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2011.11:</b></font> <b><a href="files/addisco/win32addisco.asm">Win32.Addisco</a></b><font color="#000000" size="2"> (also released in valhalla #2 - <a href="files/addisco/addisco.pdf">Peter Ferrie: Is Our Viruses Learning?, in VirusBulletin 11.2012</a>)</font><font size="2"><br>
 <font color="#AA0000">-</font> Autonomously finds and implements new anti-emulation tricks using blackbox analysis<br>
 <font color="#AA0000">-</font> Worming over removeable disks and shared network disks<br>
 <font color="#AA0000">-</font> Written in assembler (~750 lines)<br><br><br></font>
