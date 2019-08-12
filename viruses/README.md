@@ -51,7 +51,7 @@
 <font color="#AA0000">-</font> Partial encryption<br>
 <font color="#AA0000">-</font> Combines tau-obfuscation and multi-branches at code regeneration<br><br><br></font>
 
-<font size="2" color="#000000"><b>2011.03:</b></font> <b><a href="mathematica.prometheus.rar">Mathematica.Prometheus</a></b><font size="2"><br>
+<font size="2" color="#000000"><b>2011.03:</b></font> <b><a href="files/mathematica.prometheus/virus.nb">Mathematica.Prometheus</a></b><font size="2"><br>
 <font color="#AA0000">-</font> First virus for Wolfram Mathematica<br>
 <font color="#AA0000">-</font> Infects Mathematica Notebook files<br>
 <font color="#AA0000">-</font> Kind of EPO (inserts the code into a random Input-Object in the .nb-file)<br><br><br></font>
