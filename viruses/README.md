@@ -128,7 +128,7 @@
 <font color="#AA0000">-</font> Fully 16/32bit assembler written<br>
 <font color="#AA0000">-</font> KAV warning avoiding via by-hand DOS function encryption<br><br><br></font>
 
-<font size="2" color="#000000"><b>2004.06:</b></font> <b><a href="Menuet.Oxymoron.zip">Menuet.Oxymoron</a></b><font color="#000000" size="2"> (also released in rRlf #5)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2004.06:</b></font> <b><a href="files/Menuet.Oxymoron/Menuet.Oxymoron.asm">Menuet.Oxymoron</a></b><font color="#000000" size="2"> (also released in rRlf #5)</font><font size="2"><br>
 <font color="#AA0000">-</font> World's very first Menuet virus<br>
 <font color="#AA0000">-</font> Prepender<br>
 <font color="#AA0000">-</font> Fully 32 bit assembler written<br>
