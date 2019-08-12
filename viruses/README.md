@@ -165,7 +165,7 @@
 <font color="AA0000">-</font> A nice shorter-your-code-Technique
 </font><br><br><br>
 
-<font size="2" color="#000000"><b>2003.06:</b></font> <b><a href="js.sinope.zip">JS.Sinope</a></b><font color="#000000" size="2"> (also released in rRlf #4)</font><br><font size="2">
+<font size="2" color="#000000"><b>2003.06:</b></font> <b><a href="files/js.sinope/Sinope.js">JS.Sinope</a></b><font color="#000000" size="2"> (also released in rRlf #4)</font><br><font size="2">
 <font color="#AA0000">-</font> Cross Infection: BAT / CMD<br>
 <font color="#AA0000">-</font> Cross Infection: VBS<br>
 <font color="#AA0000">-</font> EPO infector in JS<br>
