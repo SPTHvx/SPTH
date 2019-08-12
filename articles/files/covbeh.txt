@@ -1,0 +1,289 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************           Code via Behaviour         ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro words
+
+  1) The idea
+
+  2) Structure / How could that work
+       a) General Information
+       b) Virus Part
+       c) Random Code Generator
+       d) Emulator
+       e) Behaviour Checker
+
+  3) All you need is time
+
+  4) Last words
+
+
+
+
+
+  0) Intro words
+
+  'Code via Behaviour' is an idea for hard-way morphing of code, it's a kind of
+  metamorphism, but much heavier than nowadays metamorphic techniques. Maybe
+  it's a primitive way of AI, who knows? First of all I have to say that this is
+  just an idea, nothing more. The whole thing could be trash, but I don't hope/think
+  so. Past showed us that everything is born out of an idea, and that is my the
+  inspiration for writing this article. The article itself is 100% theoretically,
+  no codeing examples, nothing but the explained idea.
+
+
+
+
+
+  1) The idea
+
+     Nowadays metamorphic viruses chance one instruction with a static number of
+     possibilities. For example setting a register ZERO:
+
+       Possibility 1: XOR reg,reg
+       Possibility 2: SUB reg,reg
+       Possibility 3: MOV reg,0
+
+     The reason for the static number of possibilities is the human author of the code,
+     who must find different instructions, which are doing the same. And as a result
+     that humans aren't perfect, the author doesn't find everything, and even if the
+     author would find every, nobody would include it as there are too much. I'm sure
+     that no author of a metamorphic virus would include these instructions for setting
+     a register ZERO:
+
+       MOV  reg2, reg1    ; reg2=reg1
+       STC                ; Set Carry Flag
+       SETC reg3          ; Set reg3 if carry: reg3=1
+       ADD  reg1, reg3    ; reg1++
+       SBB  reg1, reg2    ; reg1-=reg2-1: reg1=0
+
+     Well, this is an extrem example, but that's exacly what I mean: There are nn(n) different
+     instruction for everything, the only problem is how to find them, without including
+     them to the code.
+     Now the behaviour comes to the story:
+
+     Let's consider the relationship between code and behaviour: Normally you have
+     a piece of code, and this code is responsed for the behaviour:
+
+             CODE --> BEHAVIOUR
+
+     But for a virus you know what the code should do (what its behaviour is). As a result you
+     could change this order and let the behaviour be responsed for the code:
+
+             BEHAVIOUR --> CODE
+
+     This will lead to an unknown code, which has the behaviour we need. That way you don't
+     have to make the code by yourself, but create the virus' behaviour, and let the virus
+     find its code by itself.
+
+
+
+
+
+  2) Structure / How could that work
+
+        a) General Information
+
+           Such a virus could have three parts: The viruscode (for spreading/payload/...),
+           the behaviour/code engine (for generating the different parts new) and the
+           behaviour-information table (contains the behaviour of every part of the whole
+           virus):
+
+              ........  @@@@@@@@@@@@@@@@@@@@@@@  ############################################
+             <- VIRUS-><-behaviour/code engine-><------------Behaviour Info Table------------>
+
+           This simple graphic could tell you about the relationship of the part's size.
+           Next step is a detailed structure of such a virus:
+
+             -------------
+             part1
+             part2
+             part3
+             partN
+             -------------
+             RANDOM CODE GENERATOR -> Code
+             EMULATOR: Code -> Behaviour
+             BEHAVIOUR CHECKER: Behaviour & Info from Behaviour Table ->
+                  if (code==good)  { exchange code; JMP to RANDOM CODE GENERATOR }
+                  if (code==bad) {
+                        if (part==N) { JMP to RANDOM CODE GENERATOR }
+                        if (part!=N) { Get next part's behaviour; JMP to BEHAVIOUR CHECKER }
+                                   }
+             -------------
+             Behaviour Info for part1
+             Behaviour Info for part2
+             Behaviour Info for part3
+             Behaviour Info for partN
+             -------------
+
+
+
+
+
+        b) Virus Part
+
+           There is one important thing you have to notice for each part of the virus:
+           You have to reserve nn bytes (depends on how much bytes the RANDOM CODE GENERATOR
+           generates) for every part in the code, even if the instructions needs less space:
+
+             XOR  eax, eax -> 31C0 9090 9090 9090 9090 9090 9090 9090
+
+             MOV  ebx, 0
+             XCHG eax, ebx -> BB00 0000 0066 9390 9090 9090 9090 9090
+
+             MOV  ecx, eax
+             decrease:
+             XCHG eax, ebx
+             DEC  ebx
+             XCHG eax, ebx
+             LOOP decrease -> 6689 C166 9366 4B66 93E2 F890 9090 9090
+
+           At that example every part has reserved 16 bytes. The rest are NOPs for filling
+           the unused bytes.
+
+
+
+
+
+        c) Random Code Generator
+
+           The RCG creates a nn byte long value randomly. Maybe this value has the same behaviour
+           as any other part, and then it replaces that equal, old part. But so far we are at
+           creating a nn byte value. Let's say the parts are 16 bytes long, then the created
+           values could look like that:
+
+             0000 0000 0000 0000 0000 0000 0000 0000
+             ...
+             FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF
+
+
+
+
+
+        d) Emulator
+
+           The Emulator has to emulate the random generated code from the RCG, and check out it's
+           behaviour. That behaviour has to be saved for the BEHAVIOUR CHECKER. 
+           It sould not compair the OPCODES, but run the code virtually, and save what the code
+           did in the end:
+
+           Code:
+             XCHG eax, ebx      ; eax=ebx | ebx=eax
+             SUB  ebx, ebx      ; ebx=0
+             XCHG eax, ebx      ; eax=ebx | ebx=eax
+
+           Result:
+             EAX CHANGED: 0
+
+
+           Code:
+             XOR  edx, edx      ; edx=0
+             PUSH edx           ; 0 to Stack
+             XCHG ecx, edx      ; ecx=edx | edx=edx
+             POP  ecx           ; ecx=0
+             PUSH edx           ; edx to Stack
+
+           Result:
+             TO STACK: ecx
+             EDX CHANGED: ecx
+             ECX CHANGED: 0
+
+
+
+
+
+        e) Behaviour Checker
+
+           The Behaviour Checker has to compair the information from the Behaviour Information table
+           with the result of the Emulator. If the code from RCG has the same behaviour or at least
+           the important behaviour is existing, the original part will be replaced by the new one.
+           If it has a false behaviour, the next part will be checked, until there are no more parts
+           (than get new value by RCG) or one part is OK.
+
+
+
+
+
+        f) Behaviour Information Table
+
+           This table contains the Information for every part of the virus. There is one primary
+           value which it contains for a part and maybe a secondary value. The primary value
+           contains the behaviour of the part, and the secondary value contains all behaviours
+           which are not allowed:
+
+             CALL delta        <- 1st part
+             delta: POP ebp    <- 2nd part
+             sub ebp, delta    <- 3rd part
+
+           Table:
+             part1: + TO STACK: eip
+                    + JMP delta
+                    - JMP ???
+                    - CALL ???
+                    - TO STACK: ???
+
+             part2: + FROM STACK: ebp
+                    - TO STACK: ???
+                    - EBP CHANGED: ???
+
+             part3: + EBP CHANGED: EBP-delta
+
+
+
+
+
+  3) All you need is time
+
+     All you need is time: If a virus infects a computer, it spreads. After finishing, it
+     waits for a hooked API or whatever, but it waits and that's the point. As the infected
+     machine also don't use all of the CPU speed (normal using of WinWord.exe needs not more
+     that 20% of CPU speed), the behaviour/code engine could use it, as it is a neverending
+     story. There are two options you could do: Reserve 20-50% of the CPU speed for the engine
+     or use the unused CPU speed, which is definitively a better solution.
+
+     Another reason why the this idea could be very useful is that modern computer's speed increase
+     continously, and the time of the engine won't be that problem.
+
+     Next thing about the time: The bigger your buffer for one part is, the longer the emulator will
+     take to check it's behaviour. But that's no problem, because the bigger your buffer the bigger
+     the chance to get another code having the right behaviour.
+
+     In the past nearly every virus author prefered, if the question of time and size rised, the
+     smaller size of the code. Now you have to think different: The less clocks your engine uses,
+     the faster your code will change.
+
+
+
+
+
+  4) Last words
+
+     This is, as I've already said, an idea. Nothing more, but also nothing less. I think, if
+     it's possible to bring this idea to reality, it's the evolution of metamorphism, and maybe
+     even a kind of primitive AI. The virus, who could include random code to itself, may include
+     also other things to itself beside of the new generated code. Thinking about that makes me
+     happy in one case, but scared in another case. I'm happy because I know that something generated
+     by human could be intelligent. And I'm scared because I have to think at the beginning of
+     TERMINATOR 3, where a computervirus becomes intelligent (you know the rest).
+     But it's far from reality now. Nobody even know if it's possible at any date.
+     Anyway, if this idea would become reality, AVs have to pray that they find something against it...
+
+
+
+                                                        - - - - - - - - - - - - - - -
+                                                          Second Part To Hell/[rRlf]  
+                                                          www.spth.de.vu
+                                                          spth@priest.com
+                                                          written in august 2004
+                                                          Austria
+                                                        - - - - - - - - - - - - - - - 
