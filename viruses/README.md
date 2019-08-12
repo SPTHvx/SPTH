@@ -172,7 +172,7 @@
 <font color="#AA0000">-</font> Very small: 40 lines
 </font><br><br><br>
 
-<font size="2" color="#000000"><b>2003.06:</b></font> <b><a href="Bat.Iaafe.zip">Bat|BatXP.Iaafe</a></b><font color="#000000" size="2"> (also released in BATch Zine #2)</font><br><font size="2">
+<font size="2" color="#000000"><b>2003.06:</b></font> <b><a href="files/bat.iaafe/Bat.Iaafe.bat">Bat|BatXP.Iaafe</a></b><font color="#000000" size="2"> (also released in BATch Zine #2)</font><br><font size="2">
 <font color="AA0000">-</font> works at every Windows from Win 9x to WinXP<br>
 <font color="AA0000">-</font> polymorphic at Win00 and WinXP (21! generations)<br>
 <font color="AA0000">-</font> polymorphic at Win 9.x (5! generations)<br>
