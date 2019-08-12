@@ -107,7 +107,7 @@
 <font color="#AA0000">-</font> Infects all files in Root_Directory of 1st Partition on HD<br>
 <font color="#AA0000">-</font> Size: 3 Sectors<br><br><br></font>
 
-<font size="2" color="#000000"><b>2005.01:</b></font> <b><a href="spthos1.0.zip">SPTH-OS 1.0</a></b><font color="#000000" size="2"> (also released in rRlf #6)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2005.01:</b></font> <b><a href="files/SPTHos1/source.asm">SPTH-OS 1.0</a></b><font color="#000000" size="2"> (also released in rRlf #6)</font><font size="2"><br>
 <font color="#AA0000">-</font> Bootsectorvirus<br>
 <font color="#AA0000">-</font> Own FAT12 system support (no INT hooking)<br>
 <font color="#AA0000">-</font> Bootsectorinfection of FAT12 .IMG files<br>
