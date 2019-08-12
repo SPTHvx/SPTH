@@ -61,7 +61,7 @@
 <font color="#AA0000">-</font> Worming over removeable disks and shared network disks<br>
 <font color="#AA0000">-</font> Fully written in assembler (~3600 lines)<br><br><br></font>
 
-<font size="2" color="#000000"><b>2010.11:</b></font> <b><a href="evoris.rar">Evoris</a></b><font color="#000000" size="2"> (also released in Virus-writing Bulletin 2011 - <a href="flibi.pdf">Peter Ferrie: Flibi night, in VirusBulletin 03.2011</a> and <a href="flibi2.pdf">Flibi evolution, in VirusBulletin 05.2011</a>)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2010.11:</b></font> <b><a href="files/evoris/evoris.asm">Evoris</a></b><font color="#000000" size="2"> (also released in Virus-writing Bulletin 2011 - <a href="files/evoris/flibi.pdf">Peter Ferrie: Flibi night, in VirusBulletin 03.2011</a> and <a href="files/evoris/flibi2.pdf">Flibi evolution, in VirusBulletin 05.2011</a>)</font><font size="2"><br>
 <font color="#AA0000">-</font> First lifeform that took the redpill<br>
 <font color="#AA0000">-</font> Takes use of an artificial evolution concept<br>
 <font color="#AA0000">-</font> Worming over removeable disks and shared network disks<br>
