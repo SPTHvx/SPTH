@@ -40,7 +40,7 @@
 <font color="#AA0000">-</font> Worming over removeable disks and shared network disks<br>
 <font color="#AA0000">-</font> Written in assembler (virus) and C++ (factory)<br><br><br></font>
 
-<font size="2" color="#000000"><b>2011.07:</b></font> <b><a href="w32.kitti.rar">Win32.Kitti</a></b><font color="#000000" size="2"> (also released in valhalla #1)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2011.07:</b></font> <b><a href="files/kitty/oc.asm">Win32.Kitti</a></b><font color="#000000" size="2"> (also released in valhalla #1)</font><font size="2"><br>
 <font color="#AA0000">-</font> Mutation engine changes instruction to overlapped code<br>
 <font color="#AA0000">-</font> Worming over removeable disks and shared network disks<br>
 <font color="#AA0000">-</font> Fully written in assembler (~2500 lines)<br><br><br></font>
