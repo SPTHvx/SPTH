@@ -114,7 +114,7 @@
 <font color="#AA0000">-</font> Infects all files in Root_Directory of current Disk<br>
 <font color="#AA0000">-</font> Size: 1 Sector<br><br><br></font>
 
-<font size="2" color="#000000"><b>2004.11:</b></font> <b><a href="Ruby.Paradoxon.zip">Ruby.Paradoxon</a></b><font color="#000000" size="2"> (also released in rRlf #5)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2004.11:</b></font> <b><a href="files/ruby.paradoxon/paradoxon.rb">Ruby.Paradoxon</a></b><font color="#000000" size="2"> (also released in rRlf #5)</font><font size="2"><br>
 <font color="#AA0000">-</font> World's very first Ruby virus<br>
 <font color="#AA0000">-</font> Prepender<br>
 <font color="#AA0000">-</font> 655 bytes<br><br><br></font>
