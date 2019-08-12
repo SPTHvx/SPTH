@@ -140,7 +140,7 @@
 <font color="#AA0000">-</font> neverused commands<br>
 </font><br><br>
 
-<font size="2" color="#000000"><b>2004.01:</b></font> <b>JS.Cassandra.<a href="js.cassandra.zip">a</a>/<a href="js.cassandra.b.zip">b</a> <font size="2">- <a href="Cassandra-testset.rar">350 different representations</a></font></b> <font color="#000000" size="2"> (also released in rRlf #4)</font><br><font size="2">
+<font size="2" color="#000000"><b>2004.01:</b></font> <b>JS.Cassandra.<a href="files/js.cassandra/cassandr_a.js">a</a>/<a href="files/js.cassandra/JS.Cassandra.b.js">b</a> <font size="2">-</font></b> <font color="#000000" size="2"> (also released in rRlf #4)</font><br><font size="2">
 <font color="#AA0000">-</font> polymorphic (Add Garbage/Junk code)<br>
 <font color="#AA0000">-</font> polymorphic (Function Games)<br>
 <font color="#AA0000">-</font> polymorphic (Body Changing)<br>
