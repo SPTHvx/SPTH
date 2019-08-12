@@ -56,7 +56,7 @@
 <font color="#AA0000">-</font> Infects Mathematica Notebook files<br>
 <font color="#AA0000">-</font> Kind of EPO (inserts the code into a random Input-Object in the .nb-file)<br><br><br></font>
 
-<font size="2" color="#000000"><b>2010.12:</b></font> <b><a href="mimic.rar">Mimic</a></b><font color="#000000" size="2"> (also released in Virus-writing Bulletin 2011)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2010.12:</b></font> <b><a href="files/mimic/CvE.asm">Mimic</a></b><font color="#000000" size="2"> (also released in Virus-writing Bulletin 2011)</font><font size="2"><br>
 <font color="#AA0000">-</font> New mutation technique: Analyses the behaviour of random code and substituates the own code if behaviour matches<br>
 <font color="#AA0000">-</font> Worming over removeable disks and shared network disks<br>
 <font color="#AA0000">-</font> Fully written in assembler (~3600 lines)<br><br><br></font>
