@@ -8,7 +8,7 @@
 <font color="#AA0000">-</font> In digital world, worming over removeable disks and shared network disks<br>
 <font color="#AA0000">-</font> Written in C++ (~400 lines of code plus ~1.3MB of modified bacteria DNA)<br><br><br></font>
 
-<font size="2" color="#000000"><b>2013.07:</b></font> <b><a href="Polygamy.rar">JS/VBS/MatLab/Ruby/Python.Polygamy</a></b><font color="#000000" size="2"> (also released in valhalla #4)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2013.07:</b></font> <b><a href="files/polygamy/polygamy.js">JS/VBS/MatLab/Ruby/Python.Polygamy</a></b><font color="#000000" size="2"> (also released in valhalla #4)</font><font size="2"><br>
 <font color="#AA0000">-</font> Cross-script infector<br>
 <font color="#AA0000">-</font> Infects 5 different languages: JS, VBS, MatLab, Ruby, Python<br>
 <font color="#AA0000">-</font> Uses Meta-Language which is scaleable (adding 5th language is as complicated as adding 2nd language<br>
