@@ -72,7 +72,7 @@
 <font color="#AA0000">-</font> whole binary representation consists of ASCII human-readable characters (which is also the main feature of EICAR test file)<br>
 <font color="#AA0000">-</font> Fully written in assembler and encrypted with a c++ subprogram<br><br><br></font>
 
-<font size="2" color="#000000"><b>2006.05:</b></font> <b><a href="wiki.rar">WikiWorm</a></b><font color="#000000" size="2"> (also released in rRlf #7)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2006.05:</b></font> <b><a href="files/wiki/wikiworm.asm">WikiWorm</a></b><font color="#000000" size="2"> (also released in rRlf #7)</font><font size="2"><br>
 <font color="#AA0000">-</font> First worm using Wikipedia to spread<br>
 <font color="#AA0000">-</font> Searchs random Articles and changes external links to worm-download path<br>
 <font color="#AA0000">-</font> Fully written in assembler (~550 lines)<br><br><br></font>
