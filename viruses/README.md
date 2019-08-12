@@ -1,7 +1,7 @@
 
 ##Viruses:
 
-<font size="2" color="#000000"><b>2013.10:</b></font> <b><a href="InfDNA.rar">Mycoplasma mycoides SPTH-syn1.0</a></b><font color="#000000" size="2"> (also released in valhalla #4)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2013.10:</b></font> <b><a href="files/infectDNA/InfDNA.cpp">Mycoplasma mycoides SPTH-syn1.0</a></b><font color="#000000" size="2"> (also released in valhalla #4)</font><font size="2"><br>
 <font color="#AA0000">-</font> Can infect biological DNA, thus spread in the digital and biological world<br>
 <font color="#AA0000">-</font> Carries (modified) DNA of self-replicating bacteria (Synthetic Mycoplasma mycoides JCVI-syn1.0 clone sMmYCp235-1)<br>
 <font color="#AA0000">-</font> Infects FASTA files (standard DNA format for sequenced genoms)<br>
