@@ -67,7 +67,7 @@
 <font color="#AA0000">-</font> Worming over removeable disks and shared network disks<br>
 <font color="#AA0000">-</font> Fully written in assembler (~4500 lines)<br><br><br></font>
 
-<font size="2" color="#000000"><b>2009.02:</b></font> <b><a href="eicART.rar">eicART</a></b><font size="2"><br>
+<font size="2" color="#000000"><b>2009.02:</b></font> <b><a href="files/eicART/eicART.txt">eicART</a></b><font size="2"><br>
 <font color="#AA0000">-</font> MS-DOS .com file overwriter<br>
 <font color="#AA0000">-</font> whole binary representation consists of ASCII human-readable characters (which is also the main feature of EICAR test file)<br>
 <font color="#AA0000">-</font> Fully written in assembler and encrypted with a c++ subprogram<br><br><br></font>
