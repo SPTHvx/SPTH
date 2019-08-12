@@ -159,7 +159,7 @@
 <font color="#AA0000">-</font> extremly small: 36 lines
 </font><br><br><br>
 
-<font size="2" color="#000000"><b>2003.07:</b></font> <b><a href="Bat.Lorelei.zip">BAT.Lorelei</a></b><font color="#000000" size="2"> (also released in BATch Zine #3)</font><br><font size="2">
+<font size="2" color="#000000"><b>2003.07:</b></font> <b><a href="files/bat.lorelei/Bat.Lorelei.bat">BAT.Lorelei</a></b><font color="#000000" size="2"> (also released in BATch Zine #3)</font><br><font size="2">
 <font color="AA0000">-</font> Infects BAT files<br>
 <font color="AA0000">-</font> Finds many directory via Brute-Force<br>
 <font color="AA0000">-</font> A nice shorter-your-code-Technique
