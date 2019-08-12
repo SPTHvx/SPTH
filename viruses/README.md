@@ -188,7 +188,7 @@
 <font color="#AA0000">-</font> Low polymorphism (adding junk to the code)
 </font><br><br><br>
 
-<font size="2" color="#000000"><b>2003.03:</b></font> <b>BatXP.Palindrom.<a href="BatXP.Palindrom.zip">a</a>/<a href="BatXP.Palindrom-b.zip">b</a></b> <font color="#000000" size="2"> (<a href="http://securityresponse.symantec.com/avcenter/venc/data/bat.pdrome.html">Symantec</a> | also released in BATch Zine Christmas Edition)</font><br><font size="2">
+<font size="2" color="#000000"><b>2003.03:</b></font> <b>BatXP.Palindrom.<a href="files/bat.palindrom/palindrom_a.bat">a</a>/<a href="files/bat.palindrom/palindrom_b.bat">b</a></b> <font color="#000000" size="2"> (also released in BATch Zine Christmas Edition)</font><br><font size="2">
 <font color="#AA0000">-</font> polymorphic (Variable Changing)<br>
 <font color="#AA0000">-</font> polymorphic (Body Changing)<br>
 <font color="#AA0000">-</font> encrypted with a set-encryption<br>
