@@ -98,7 +98,7 @@
 <font color="#AA0000">-</font> EPO-infector<br>
 <font color="#AA0000">-</font> Cross-Infector<br><br><br></font>
 
-<font size="2" color="#000000"><b>2005.04:</b></font> <b><a href="spthos2.0.zip">SPTH-OS 2.0</a></b><font color="#000000" size="2"> (also released in rRlf #6)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2005.04:</b></font> <b><a href="files/SPTHos2/spth-os2.0.asm">SPTH-OS 2.0</a></b><font color="#000000" size="2"> (also released in rRlf #6)</font><font size="2"><br>
 <font color="#AA0000">-</font> Very first Bootsectorvirus for CD-ROMs<br>
 <font color="#AA0000">-</font> Works on CD-ROMs and diskettes<br>
 <font color="#AA0000">-</font> Own FAT32 system support (no INT hooking)<br>
