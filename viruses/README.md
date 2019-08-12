@@ -45,7 +45,7 @@
 <font color="#AA0000">-</font> Worming over removeable disks and shared network disks<br>
 <font color="#AA0000">-</font> Fully written in assembler (~2500 lines)<br><br><br></font>
 
-<font size="2" color="#000000"><b>2011.07:</b></font> <b>MatLab.MicrophoneFever <a href="Matlab.MicrophoneFever.rar">1</a>/<a href="Matlab.MicrophoneFever2.rar">2</a></b><font color="#000000" size="2"> (also released in valhalla #1 - <a href="mifeve.pdf">Peter Ferrie: Not 'Mifeve'-ourite Thing, in VirusBulletin 03.2012</a>)</font><font size="2"><br>
+<font size="2" color="#000000"><b>2011.07:</b></font> <b>MatLab.MicrophoneFever <a href="files/MicrophoneFever/1/Matlab.MicrophoneFever.txt">1</a>/<a href="files/MicrophoneFever/2/Matlab.MicrophoneFever2.txt">2</a></b><font color="#000000" size="2"> (also released in valhalla #1 - <a href="files/MicrophoneFever/mifeve.pdf">Peter Ferrie: Not 'Mifeve'-ourite Thing, in VirusBulletin 03.2012</a>)</font><font size="2"><br>
 <font color="#AA0000">-</font> Matlab M-file inserter<br>
 <font color="#AA0000">-</font> Polymorphism takes use of complex algorithm and functions provided by MatLab<br>
 <font color="#AA0000">-</font> Partial encryption<br>
