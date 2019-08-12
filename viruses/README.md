@@ -200,7 +200,7 @@
 <font color="#AA0000">-</font> infects .JSes, .BATs and .CMDs<br>
 <font color="#AA0000">-</font> uses Anti-KAV heuristic technique</font><br><br><br>
 
-<font size="2" color="#000000"><b>2002.11:</b></font> <b><font size="3"><a href="batXP.Saturn.zip">BatXP.Saturn</a></font></b><font color="#000000" size="2"> (<a href="http://about-threats.trendmicro.com/us/archive/malware/bat_spth.a">Trend Micro</a> | also released in rRlf#3)</font><br><font size="2">
+<font size="2" color="#000000"><b>2002.11:</b></font> <b><font size="3"><a href="files/batxp.saturn/BatXP.Saturn.bat">BatXP.Saturn</a></font></b><font color="#000000" size="2"> (also released in rRlf#3)</font><br><font size="2">
 <font color="#AA0000">-</font> polymorphic (5! different generation)<br>
 <font color="#AA0000">-</font> encrypt with a set-encryption<br>
 <font color="#AA0000">-</font> spreading via mIRC<br></font>
