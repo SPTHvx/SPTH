@@ -134,7 +134,7 @@
 <font color="#AA0000">-</font> Fully 32 bit assembler written<br>
 <font color="#AA0000">-</font> some parts are optimized<br><br><br></font>
 
-<font size="2" color="#000000"><b>2004.03:</b></font> <b><a href="BatXP.Nihilist.zip">BatXP.Nihilist</a></b><font color="#000000" size="2"> (also released in BATch Zone #5)</font><br><font size="2">
+<font size="2" color="#000000"><b>2004.03:</b></font> <b><a href="files/batxp.nihilist/BatXP.Nihilist.bat">BatXP.Nihilist</a></b><font color="#000000" size="2"> (also released in BATch Zone #5)</font><br><font size="2">
 <font color="#AA0000">-</font> EPO Infection<br>
 <font color="#AA0000">-</font> Infects 5 bat files every run<br>
 <font color="#AA0000">-</font> neverused commands<br>
