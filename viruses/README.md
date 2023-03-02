@@ -1,6 +1,13 @@
 
 ## Viruses:
 
+
+<font size="2" color="#000000"><b>2023.03:</b></font> <b><a href="files/LLMorphism/LLMorphismI.py">LLMorphism I</a>, <a href="files/LLMorphism/LLMorphismII.py">LLMorphism II</a></b><font color="#000000" size="2"> </font><font size="2"><br>
+<font color="#AA0000">-</font> Uses OpenAI's GPT to encode the entire virus in the natural langauge English<br>
+<font color="#AA0000">-</font> Metamorphic virus: generation of different code with same behaviour by GPT (from same prompt)<br>
+<font color="#AA0000">-</font> Linguisto-morphic virus: Modification of the natural language instructions by GPT <br>
+<font color="#AA0000">-</font> Proof-Of-Principle: Infector of python files in current directory<br><br><br></font>
+
 <font size="2" color="#000000"><b>2013.10:</b></font> <b><a href="files/infectDNA/InfDNA.cpp">Mycoplasma mycoides SPTH-syn1.0</a></b><font color="#000000" size="2"> (also released in valhalla #4)</font><font size="2"><br>
 <font color="#AA0000">-</font> Can infect biological DNA, thus spread in the digital and biological world<br>
 <font color="#AA0000">-</font> Carries (modified) DNA of self-replicating bacteria (Synthetic Mycoplasma mycoides JCVI-syn1.0 clone sMmYCp235-1)<br>
