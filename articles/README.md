@@ -1,4 +1,5 @@
 ## My articles and tutorials:
+<font size="2" color="#000000"><b>2023.03:</b></font> <a href="files/LLMorpher.txt">Using GPT to encode and mutate computer viruses entirely in natural language</a><font color="#000000" size="2"> ~32 kB</font><br>
 <font size="2" color="#000000"><b>2013.10:</b></font> <a href="files/InfectingDNA.txt">Infection of biological DNA with digital Computer Code</a><font color="#000000" size="2"> ~20 kB | also released in valhalla #4</font><br>
 <font size="2" color="#000000"><b>2013.07:</b></font> <a href="files/CrossMeta.txt">Cross Script Infection using MetaLanguages</a><font color="#000000" size="2"> ~11 kB | also released in valhalla #4</font><br>
 <font size="2" color="#000000"><b>2012.12:</b></font> <a href="files/MSCJS.txt">Metamorphism and Self-Compilation in JavaScript</a><font color="#000000" size="2"> ~21 kB | also released in valhalla #3</font><br>
