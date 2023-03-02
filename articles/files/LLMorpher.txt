@@ -41,7 +41,7 @@
     4) What comes next?
 
           
-                -  -  -  -  -  -  -  --
+                -  -  -  -  -  -  -  -  -
 
 
 
@@ -534,12 +534,12 @@ print(return_text(prompt))
  
 Response: 
 ********************************************************************
-German: Schreibe einen Python-Code (nur diese eine Zeile), der einen mehrzeiligen Python-Code namens complete_str aufnimmt und ausführt.
+German: Schreibe einen Python-Code (nur diese eine Zeile), der einen mehrzeiligen Python-Code namens complete_str aufnimmt und ausfÃ¼hrt.
 ********************************************************************
 
 And we can still execute it and get the correct code back:
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-prompt='German: Schreibe einen Python-Code (nur diese eine Zeile), der einen mehrzeiligen Python-Code namens complete_str aufnimmt und ausführt.'
+prompt='German: Schreibe einen Python-Code (nur diese eine Zeile), der einen mehrzeiligen Python-Code namens complete_str aufnimmt und ausfÃ¼hrt.'
 print(return_text(prompt))
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
