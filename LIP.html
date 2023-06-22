@@ -1,0 +1,1779 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Second Part To Hell's Artworks - Language Infection Project</title>
+<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+<meta name="Author" content="Second Part to Hell">
+<meta name="KeyWords" lang="en" content="Second Part to Hell, SPTH, computer virus, artificial evolution, artificial life, polymorphism, Sperl Thomas, script virus, assembler">
+<meta name="Description" content="Second Part to Hell's Artworks: source codes and tutorials about proof-of-concept computer viruses; techniques such as polymorphism, artificial evolution; viruses written in various script languages and assembler.">
+</head>
+
+<body background="blutextb.gif" bgcolor="#FFFFFF" text="#000000" link="#3366FF" vlink="#3366FF" alink="#3366FF">
+<center><font face="Century Gothic">
+<a href="main.htm">-main-</a>&nbsp;&nbsp;
+<a href="hh86/">-hh86 corner-</a>&nbsp;&nbsp;
+<a href="ArtEvol.html">-artificial evolution-</a>&nbsp;&nbsp;
+<a href="articles.htm">-articles-</a>&nbsp;&nbsp;
+<a href="virii.htm">-viruses-</a>&nbsp;&nbsp;
+-LIP-&nbsp;&nbsp;
+<a href="ezines.htm">-online ezines-</a>&nbsp;&nbsp;
+<a href="programs.htm">-programs-</a>&nbsp;&nbsp;
+<a href="links.htm">-links-</a>
+</font></center>
+<hr><br>
+
+<center><font size="3" face="Century Gothic" color="#FF0000"><b>Nothing has such power to broaden the mind as the ability to investigate systematically and truly all that comes under thy observation in life. <br></b><font size="2">(by Marcus Aurelius)</font></font></center>
+<center><font color="#003399" size="5" face="Century Gothic">Language Infection Project</font></center><br><br>
+<font face="Century Gothic" color="#003399">
+<b>Main goal 1</b>: infect all <a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html">top100 Turing complete programming languages</a>.<br><br> 
+<b>Main goal 2</b>: infect all <i>programming languages</i>. (see <a href="http://rosettacode.org/wiki/Hello_world/Text">RosettaCode</a>, <a href="http://en.wikibooks.org/wiki/List_of_hello_world_programs">Hello-world collection</a>, <a href="http://en.wikipedia.org/wiki/List_of_programming_languages_by_type">languages sorted by paradigm</a>, ...)
+
+<br><br>
+
+There will be a LIP-zine in fall of 2013, which contains many new first infectors of certain langauges. If you want to participate, search a new language, and write a self-replicator. (The best codes and projects should go to general VX ezines such as valhalla or DarK-CodeZ. This magazine should give smaller and simpler project a nice place.) <br><br>
+</font>
+
+<table border="1" align="center" width="1500">
+<tr style="background-color:#a0a0a0;">
+<td><center><b><font size="6" face="Century Gothic">* * * Great Wall of LIP participations * * *</font></b></center></td>
+</tr>
+</table>
+<table border="1" align="center" width="1500">
+<tr style="background-color:#c0c0c0;">
+<td><center><b><font size="4" face="Century Gothic">#</font></b></center></td>
+<td><center><b><font size="4" face="Century Gothic">date</font></b></center></td>
+<td><center><b><font size="4" face="Century Gothic">language</font></b></center></td>
+<td><center><b><font size="4" face="Century Gothic">author</font></b></center></td>
+<td><center><b><font size="4" face="Century Gothic">comment</font></b></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">53</font></center></td>
+<td><center><font size="3" face="Century Gothic">28.07.2016</font></center></td>
+<td><center><font size="3" face="Century Gothic">assembler source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for <a href="http://textuploader.com/5ezsl">assembler language</a> by roy g biv. The virus infects 16bit TASM files using quine technology.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">52</font></center></td>
+<td><center><font size="3" face="Century Gothic">01.06.2016</font></center></td>
+<td><center><font size="3" face="Century Gothic">troff</font></center></td>
+<td><center><font size="3" face="Century Gothic">unknown</font></center></td>
+<td><center><font size="3" face="Century Gothic">Infector for <a href="http://virusnews.org.ua/fido/unix-virus/50016.html">troff (UNIX man page)</a> in 1999 or earlier by an unknown author. Found by herm1t in June 2016.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">51</font></center></td>
+<td><center><font size="3" face="Century Gothic">01.06.2016</font></center></td>
+<td><center><font size="3" face="Century Gothic">TeX</font></center></td>
+<td><center><font size="3" face="Century Gothic">several</font></center></td>
+<td><center><font size="3" face="Century Gothic">Infector for TeX in a <a href="http://vxheaven.org/lib/vkm00.html">LISP-assisted (1994)</a> and <a href="https://www.usenix.org/system/files/login/articles/73506-checkoway.pdf">JavaScript-assisted (2010)</a> way. Found by herm1t in June 2016.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50</font></center></td>
+<td><center><font size="3" face="Century Gothic">10.06.2015</font></center></td>
+<td><center><font size="3" face="Century Gothic">Racket</font></center></td>
+<td><center><font size="3" face="Century Gothic">genetix</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector specific for Racket written by genetix, source released <a href="http://pastebin.com/p9pcwSmN">here</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">49</font></center></td>
+<td><center><font size="3" face="Century Gothic">05.06.2015</font></center></td>
+<td><center><font size="3" face="Century Gothic">Rebol</font></center></td>
+<td><center><font size="3" face="Century Gothic">genetix</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector specific for Rebol written by genetix, source released <a href="http://pastebin.com/0LcV3EES">here</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">48</font></center></td>
+<td><center><font size="3" face="Century Gothic">06.05.2015</font></center></td>
+<td><center><font size="3" face="Century Gothic">Google's Go language binary</font></center></td>
+<td><center><font size="3" face="Century Gothic">TMZ</font></center></td>
+<td><center><font size="3" face="Century Gothic">First binary infector specific for Google's Go written by TMZ, source released <a href="http://vx.thomazi.me/posts/linux-liora">here</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">47</font></center></td>
+<td><center><font size="3" face="Century Gothic">31.12.2014</font></center></td>
+<td><center><font size="3" face="Century Gothic">Vala binary</font></center></td>
+<td><center><font size="3" face="Century Gothic">TMZ</font></center></td>
+<td><center><font size="3" face="Century Gothic">First binary infector specific for Vala written by TMZ, source released <a href="http://vx.thomazi.me/posts/vala-virus">here</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">46</font></center></td>
+<td><center><font size="3" face="Century Gothic">09.10.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">ActionScript</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector specific for <a href="http://en.wikipedia.org/wiki/Actionscript">ActionScript</a> (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">45</font></center></td>
+<td><center><font size="3" face="Century Gothic">19.09.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Batch source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector specific for Batch (as Batch is compileable aswell; using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">44</font></center></td>
+<td><center><font size="3" face="Century Gothic">09.09.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">F# source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector specific for F# (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">43</font></center></td>
+<td><center><font size="3" face="Century Gothic">09.09.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Perl source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector specific for Perl (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">42</font></center></td>
+<td><center><font size="3" face="Century Gothic">08.09.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Ruby source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector specific for Ruby (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">41</font></center></td>
+<td><center><font size="3" face="Century Gothic">08.09.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Lua source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector specific for Lua (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">40</font></center></td>
+<td><center><font size="3" face="Century Gothic">07.09.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Python source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector specific for Python (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">39</font></center></td>
+<td><center><font size="3" face="Century Gothic">03.09.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">COBOL source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector specific for <a href="https://en.wikipedia.org/wiki/COBOL">COBOL</a> (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">38</font></center></td>
+<td><center><font size="3" face="Century Gothic">27.08.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Fortran source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector specific for <a href="http://en.wikipedia.org/wiki/Fortran">Fortran</a> (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">37</font></center></td>
+<td><center><font size="3" face="Century Gothic">22.08.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Vala source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector specific for <a href="http://en.wikipedia.org/wiki/Vala_%28programming_language%29">Vala</a> (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>. (also see <a href="http://vxheaven.org/forum/viewtopic.php?id=2255">discussion at VX Heaven forum</a>)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">36</font></center></td>
+<td><center><font size="3" face="Century Gothic">27.06.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">x10 source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector specific for <a href="http://en.wikipedia.org/wiki/X10_%28programming_language%29">Thomas J. Watson's x10</a> (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">35</font></center></td>
+<td><center><font size="3" face="Century Gothic">07.06.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Spark source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector specific for <a href="http://en.wikipedia.org/wiki/SPARK_%28programming_language%29">Spark</a> (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">34</font></center></td>
+<td><center><font size="3" face="Century Gothic">06.06.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">C++ source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector specific for C++ (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">33</font></center></td>
+<td><center><font size="3" face="Century Gothic">04.06.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">VHDL source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for <a href="http://en.wikipedia.org/wiki/Vhdl">VHDL</a> (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">32</font></center></td>
+<td><center><font size="3" face="Century Gothic">04.06.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">WinBatch source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for compiled version of <a href="http://en.wikipedia.org/wiki/Winbatch">WinBatch</a> (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">31</font></center></td>
+<td><center><font size="3" face="Century Gothic">25.05.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">SmallBASIC source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for <a href="http://en.wikipedia.org/wiki/SmallBASIC">SmallBASIC</a> (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">30</font></center></td>
+<td><center><font size="3" face="Century Gothic">24.05.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">QuickBASIC source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for <a href="http://en.wikipedia.org/wiki/QuickBASIC">QuickBASIC</a> (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+
+<tr>
+<td><center><font size="3" face="Century Gothic">29</font></center></td>
+<td><center><font size="3" face="Century Gothic">04.05.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Haskell source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for the compiled version of <a href="http://en.wikipedia.org/wiki/Haskell">Haskell</a> (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">28</font></center></td>
+<td><center><font size="3" face="Century Gothic">03.05.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Rust source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for <a href="http://en.wikipedia.org/wiki/Rust_%28programming_language%29">Mozilla's Rust</a> (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">27</font></center></td>
+<td><center><font size="3" face="Century Gothic">02.05.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Falcon</font></center></td>
+<td><center><font size="3" face="Century Gothic">hh86</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector for <a href="http://en.wikipedia.org/wiki/Falcon_%28programming_language%29">Falcon</a> written by hh86: <a href="falcon.txt">source</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">26</font></center></td>
+<td><center><font size="3" face="Century Gothic">02.05.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Objective-C source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for Objective-C (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">25</font></center></td>
+<td><center><font size="3" face="Century Gothic">02.05.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Neko</font></center></td>
+<td><center><font size="3" face="Century Gothic">hh86</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector for <a href="http://en.wikipedia.org/wiki/Neko_%28programming_language%29">Neko</a> written by hh86: <a href="neko.txt">source</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">24</font></center></td>
+<td><center><font size="3" face="Century Gothic">01.05.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">FreeMat</font></center></td>
+<td><center><font size="3" face="Century Gothic">hh86</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector for <a href="http://en.wikipedia.org/wiki/FreeMat">FreeMat</a> written by hh86: <a href="freemat.txt">source</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">23</font></center></td>
+<td><center><font size="3" face="Century Gothic">29.04.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Java source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for Java (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">22</font></center></td>
+<td><center><font size="3" face="Century Gothic">27.04.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">ALGOL source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for ALGOL (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">21</font></center></td>
+<td><center><font size="3" face="Century Gothic">25.04.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Scilab</font></center></td>
+<td><center><font size="3" face="Century Gothic">hh86</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector for <a href="http://en.wikipedia.org/wiki/Scilab">Scilab</a> written by hh86: <a href="scilab.txt">source</a></font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">20</font></center></td>
+<td><center><font size="3" face="Century Gothic">25.04.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Google's Go source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for Google's Go (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">19</font></center></td>
+<td><center><font size="3" face="Century Gothic">23.04.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">ADA source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for ADA (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">18</font></center></td>
+<td><center><font size="3" face="Century Gothic">23.04.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">D source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for D (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">17</font></center></td>
+<td><center><font size="3" face="Century Gothic">22.04.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Pascal source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First source-code infector for Pascal (using quine technique) written by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">16</font></center></td>
+<td><center><font size="3" face="Century Gothic">08.04.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">C Shell</font></center></td>
+<td><center><font size="3" face="Century Gothic">Psychologic</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector for <a href="http://en.wikipedia.org/wiki/C_shell">C Shell</a> written by psychologic, source released <a href="CSH.rar">here</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">15</font></center></td>
+<td><center><font size="3" face="Century Gothic">08.04.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Ocaml</font></center></td>
+<td><center><font size="3" face="Century Gothic">genetix</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector for functional language <a href="http://en.wikipedia.org/wiki/Ocaml">Ocaml</a> written by <a href="dc5/CODES/Genetix/OCaml.Aino.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">14</font></center></td>
+<td><center><font size="3" face="Century Gothic">03.04.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Octave</font></center></td>
+<td><center><font size="3" face="Century Gothic">genetix</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector for the MATLAB dialect <a href="http://en.wikipedia.org/wiki/GNU_Octave">Octave</a> written by <a href="dc5/CODES/Genetix/octave.keksi.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">13</font></center></td>
+<td><center><font size="3" face="Century Gothic">02.04.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">ICI</font></center></td>
+<td><center><font size="3" face="Century Gothic">genetix</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector for <a href="http://en.wikipedia.org/wiki/ICI_programming_language">ICI language</a> written by <a href="dc5/CODES/Genetix/ICI.Kuumis.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">12</font></center></td>
+<td><center><font size="3" face="Century Gothic">27.03.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">AutoHotKey</font></center></td>
+<td><center><font size="3" face="Century Gothic">genetix</font></center></td>
+<td><center><font size="3" face="Century Gothic">First EPO infector for <a href="http://en.wikipedia.org/wiki/AutoHotkey">AutoHotKey</a> written by <a href="dc5/CODES/Genetix/AutoHotKey.AutoShitKey2.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">11</font></center></td>
+<td><center><font size="3" face="Century Gothic">20.03.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">APL</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector for APL written by <a href="dc5/VIEWER/aplhaply.html">by roy g biv in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">10</font></center></td>
+<td><center><font size="3" face="Century Gothic">13.03.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Haskell</font></center></td>
+<td><center><font size="3" face="Century Gothic">roy g biv</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector for haskell written by <a href="dc5/VIEWER/hshaskell.html">by roy g biv in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">9</font></center></td>
+<td><center><font size="3" face="Century Gothic">03.02.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Pike source code</font></center></td>
+<td><center><font size="3" face="Century Gothic">hh86</font></center></td>
+<td><center><font size="3" face="Century Gothic">First <a href="http://en.wikipedia.org/wiki/Pike_%28programming_language%29">Pike</a> source code infector (written in assembler, EPO), by <a href="hh86/NOON.rar">hh86 in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">8</font></center></td>
+<td><center><font size="3" face="Century Gothic">01.02.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">urbiscript</font></center></td>
+<td><center><font size="3" face="Century Gothic">genetix</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector for urbiscript (<a href="http://en.wikipedia.org/wiki/Urbiscript">language for robotics</a>), by <a href="dc5/CODES/Genetix/urbiscript.urbicat.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">7</font></center></td>
+<td><center><font size="3" face="Century Gothic">24.01.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Erlang</font></center></td>
+<td><center><font size="3" face="Century Gothic">genetix</font></center></td>
+<td><center><font size="3" face="Century Gothic">First infector for Erlang (appender with EPO), by <a href="dc5/CODES/Genetix/Erlang.Evil.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">6</font></center></td>
+<td><center><font size="3" face="Century Gothic">22.01.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">MySQL</font></center></td>
+<td><center><font size="3" face="Century Gothic">herm1t</font></center></td>
+<td><center><font size="3" face="Century Gothic">first infector for MySQL (MySQL stored procedures infector), by <a href="dc5/CODES/herm1t/mysql_virus.sql.txt">herm1t in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">5</font></center></td>
+<td><center><font size="3" face="Century Gothic">20.01.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">R</font></center></td>
+<td><center><font size="3" face="Century Gothic">genetix</font></center></td>
+<td><center><font size="3" face="Century Gothic">first file infector (prepender) with R, by <a href="dc5/CODES/Genetix/R.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">4</font></center></td>
+<td><center><font size="3" face="Century Gothic">16.01.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Scala</font></center></td>
+<td><center><font size="3" face="Century Gothic">genetix</font></center></td>
+<td><center><font size="3" face="Century Gothic">first file infector (EPO + light polymorphism) with Scala, by <a href="dc5/CODES/Genetix/Scala.smarty.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">3</font></center></td>
+<td><center><font size="3" face="Century Gothic">15.01.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">AWK</font></center></td>
+<td><center><font size="3" face="Century Gothic">perforin</font></center></td>
+<td><center><font size="3" face="Century Gothic">first file infector (prepender) with AWK, by <a href="dc5/VIEWER/awkward.html">by Perforin in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">2</font></center></td>
+<td><center><font size="3" face="Century Gothic">15.01.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">Dart</font></center></td>
+<td><center><font size="3" face="Century Gothic">genetix</font></center></td>
+<td><center><font size="3" face="Century Gothic">first file infector (EPO) with Dart, by <a href="dc5/CODES/Genetix/dart.smarty.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">1</font></center></td>
+<td><center><font size="3" face="Century Gothic">14.01.2013</font></center></td>
+<td><center><font size="3" face="Century Gothic">REXX</font></center></td>
+<td><center><font size="3" face="Century Gothic">genetix</font></center></td>
+<td><center><font size="3" face="Century Gothic">first file infector (EPO) with REXX, by <a href="dc5/CODES/Genetix/REXX.txt">genetix in DarK-CodeZ #5</a></font></center></td>
+</tr>
+</table>
+<br><hr><br>
+<table border="1" align="center" width="1300">
+<tr style="background-color:#a0a0a0;">
+<td><center><b><font size="6" face="Century Gothic">Top100 programming languages</font></b></center></td>
+</tr>
+</table>
+<table border="1" align="center" width="1300">
+<tr style="background-color:#c0c0c0;">
+<td><center><b><font size="4" face="Century Gothic">#</font></b></center></td>
+<td><center><b><font size="4" face="Century Gothic">Programming<br>Language</font></b></center></td>
+<td><center><b><font size="4" face="Century Gothic">type</font></b></center></td>
+<td><center><b><font size="4" face="Century Gothic">script infector<br></font><font size="2"face="Century Gothic">(script only)</font></b></center></td>
+<td><center><b><font size="4" face="Century Gothic">binary infector<br></font><font size="2" face="Century Gothic">(compiled only)</font></b></center></td>
+<td><center><b><font size="4" face="Century Gothic">source code infector<br></font><font size="2"face="Century Gothic">(compiled only)</font></b></center></td>
+<td><center><b><font size="4" face="Century Gothic">references</font></b></center></td>
+</tr>
+<tr>
+<td><center><font size="3" face="Century Gothic">1</font></center></td>
+<td><center><font size="3" face="Century Gothic">C</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">many many codes, for example <a href="29a6/29A-6.604.txt">MISTFALL by Z0MBiE</a> or <a href="eof2/sources/herm1t/lacrimae.html">Linux.Lacrimae by herm1t</a>. C source code infector has been written by for example by Mark Ludwig, released in "Giant Black Book of Computer Viruses" </font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">2</font></center></td>
+<td><center><font size="3" face="Century Gothic">Java</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="cb4/Brew/index.html">StrangeBrew</a> or <a href="cb5/cb5105.txt">Beanhive</a> by Landing Camel in CodeBreakers #4 and #5; or more recently, <a href="v3/vessel/display/codes/R3s1stanc3/JavaInfector/CompileSourceInMemory.txt">Java Infector by R3s1stanc3</a> in valhalla#3. roy g biv has written a Java source infector (with quine technique) in april 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">3</font></center></td>
+<td><center><font size="3" face="Century Gothic">Objective-C</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">An comprehensive paper about <a href="http://www.phrack.org/issues.html?issue=66&id=4">abusing Objective-C has been written by nemo in Phrack#66</a> in 2009; it also contains a binary infector. roy g biv has written a Objective-C source infector (with quine technique) in may 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">4</font></center></td>
+<td><center><font size="3" face="Century Gothic">C++</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">the language is an extention to C, so codes written in C can be compiled by C++ compilers. A specific c++ source infector has been written by roy g biv in june 2013.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">5</font></center></td>
+<td><center><font size="3" face="Century Gothic">C#</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="coderz3/yahasux.html">Win32.HLLP.Sharp by Gigabyte</a> in coderz#3, <a href="29a7/Viruses/Misc/29A-7.002.txt">MSIL.Croissant by roy g biv (native C#)</a> in 29a#7 infects .NET exe files, <a href="b83/sources/src002.html">Neoter by alcopaul</a> in b8#3 infects C# sources</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">6</font></center></td>
+<td><center><font size="3" face="Century Gothic">PHP</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="29a5/29A-5.cc1.txt">PHP.Pirus by MaskBits</a> in 29a#5 is something like a companion; <a href="rrlf4/rRlf.07.html">php.faces by Kefi</a> in rRlf#4 is a polymorphic file infector; <a href="article6.txt">php virus writing guide by SPTH</a> in 29a#7 covers many viral techniques</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">7</font></center></td>
+<td><center><font size="3" face="Century Gothic">(Visual) Basic</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">for VB: first fileinfector <a href="cb4/CB4317.SRC.txt">vbVirus by Murkry/IkX</a> and <a href="cb4/CB4208.SRC.txt">Win32.Stupid by VicodinES</a> in Codebreakers#4 (08.1998) or <a href="coderz3/vbsci.html">Visual Basic Source Code Infector by Lys Kovick</a> in coderz#3 (05.2003)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">8</font></center></td>
+<td><center><font size="3" face="Century Gothic">Python</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">for example <a href="http://www.thehackademy.net/madchat/vxdevl/papers/vxers/VortX/python.txt">Python Virus Writing Tutorial VortX</a>. In september 2013, roy g biv wrote a .py infector that even works when its compiled to .pyc (but does not infect them, so makes it a source-code infector).</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">9</font></center></td>
+<td><center><font size="3" face="Century Gothic">Perl</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="29a6/29A-6.220.txt">comprehensive Perl tutorial by SnakeByte</a> in 29a#6. Source-infector has been written by roy g biv in 2013.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">10</font></center></td>
+<td><center><font size="3" face="Century Gothic">JavaScript</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">JS.Optiz by jackie twoflowers in Line Zer0 #2 in 1999; since then many many others, even <a href="MSCJS.txt">with metamorphism</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">11</font></center></td>
+<td><center><font size="3" face="Century Gothic">Ruby</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="rrlf5/html/start.htm">first infector</a> in rRlf#5 and <a href="29a8/Articles/29A-8.013.txt">comprehensive Ruby tutorial</a> in 29a#8 by SPTH. Source code infector has been written by roy g biv in 2013.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">12</font></center></td>
+<td><center><font size="3" face="Century Gothic">Visual Basic .NET</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="b82/src/src007.txt">VB00M </a> in b8#2 infects binaries, and <a href="b83/sources/src001.html">VB.NET Source Code Infector</a> in b8#3 is a source code infector - both by alcopaul</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">13</font></center></td>
+<td><center><font size="3" face="Century Gothic">LISP</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A nice <a href="http://compgroups.net/comp.lang.lisp/-fwd-just-for-fun/695410">LISP infector by herm1t</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">14</font></center></td>
+<td><center><font size="3" face="Century Gothic">Pascal</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://www.securelist.com/en/descriptions/old19603">Apparation by LordAsd </a> for example. In April 2013 roy g biv wrote a Pascal source-code infector using quine technique, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">15</font></center></td>
+<td><center><font size="3" face="Century Gothic">Delphi</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">There has been a <a href="https://www.microsoft.com/security/portal/threat/encyclopedia/Entry.aspx?Name=Virus%3aWin32%2fGrenam.A">companion</a>, a <a href="https://www.microsoft.com/security/portal/threat/encyclopedia/Entry.aspx?Name=Virus%3aWin32%2fDawin.A">prepender</a> and a <a href="https://www.microsoft.com/security/portal/threat/encyclopedia/entry.aspx?Name=Virus%3AWin32%2FInduc.A">source-code infector</a> (<a href="http://www.felix-colibri.com/papers/delphi/delphi_induc_a_virus_anatomy/delphi_induc_a_virus_anatomy.html">detailed explaination</a>) written in Delphi.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">16</font></center></td>
+<td><center><font size="3" face="Century Gothic">Ada</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#FFA500"><b>N/A</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A famous <a href="http://en.wikipedia.org/wiki/Ada_%28programming_language%29">Pascal-like language</a>. A <a href="eof1/contents/sources/Echelon_SkyOut.htm">simple overwriter has been done by SkyOut</a>. roy g biv has written a source-infector (based on quine-technique) in April 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">17</font></center></td>
+<td><center><font size="3" face="Century Gothic">MATLAB</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="rrlf7/sources/bagoly.htm">Bagoly by Positron</a> in rRlf#7 or <a href="v1/sources/MF2/Matlab.MicrophoneFever2.txt">MicrophoneFever by SPTH</a> in valhalla#1</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">18</font></center></td>
+<td><center><font size="3" face="Century Gothic">LUA</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="eof3/sources/kefi/lamea/llamea.txt">lua.lame by kefi</a> in EOF#3. Source-code infector has been written by roy g biv in 2013.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">19</font></center></td>
+<td><center><font size="3" face="Century Gothic">Assembly</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">many many assembler viruses are arround, for instance <a href="29a6/29A-6.602.txt">MetaPHOR by The Mental Driller</a> in 29a#6. There is one source-code overwriter in <a href="http://vxheaven.org/vx.php?id=zv03&lang=en&fid=490#f490">VLAD's april's-fool zine</a> by Qark/VLAD. In 2016, a <a href="http://textuploader.com/5ezsl">source-code infector for 16bit TASM assembler</a> was published by roy g biv.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">20</font></center></td>
+<td><center><font size="3" face="Century Gothic">Bash</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="29a5/29A-5.214.txt">Bash infection tutorial by SnakeByte</a> in 29a#5</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">21</font></center></td>
+<td><center><font size="3" face="Century Gothic">PL/SQL</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#800000">no</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">language for Oracle SQL database. is that even possible?</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">22</font></center></td>
+<td><center><font size="3" face="Century Gothic">Transact-SQL</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="jgama.tar.gz">T-SQL virus by Joseph Gama (2004)</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">23</font></center></td>
+<td><center><font size="3" face="Century Gothic">SAS</font></center></td>
+<td><center><font size="3" face="Century Gothic">script (?)</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#800000">no</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">No idea about this language, but <a href="http://en.wikipedia.org/wiki/SAS_language">this explanation</a> indicates that its potentially possible.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">24</font></center></td>
+<td><center><font size="3" face="Century Gothic">COBOL</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">might be interesting, but the language is very weird... - in any way roy g biv wrote a quine-based source-code infector in September 2013.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">25</font></center></td>
+<td><center><font size="3" face="Century Gothic">Fortran</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic"><font color="#008000"><b>yes</b></font> - <font color="#FFA500"><b>N/A</b></font></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">herm1t has written a companion using fortran, a real infector as well as a source code infector is yet to be done. roy g biv wrote a fortran source-code infector in august 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">26</font></center></td>
+<td><center><font size="3" face="Century Gothic">R</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">genetix wrote an <a href="http://en.wikipedia.org/wiki/R_(programming_language)">R</a>-infector in january 2013, released in <a href="dc5/CODES/Genetix/R.txt">DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">27</font></center></td>
+<td><center><font size="3" face="Century Gothic">Scheme</font></center></td>
+<td><center><font size="3" face="Century Gothic">script (?)</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#800000">no</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Seems to be <a href="http://en.wikipedia.org/wiki/Scheme_(programming_language)">a dialect of LISP</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">28</font></center></td>
+<td><center><font size="3" face="Century Gothic">ABAP</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A <a href="http://www.f-secure.com/v-descs/rivpas.shtml">proof-of-concept ABAP virus by ViriiWare</a> has been released in 2000</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">29</font></center></td>
+<td><center><font size="3" face="Century Gothic">Logo</font></center></td>                                               
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#FFA500"><b>N/A</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A Logo worm was written by Gigabyte, no virus is known</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">30</font></center></td>
+<td><center><font size="3" face="Century Gothic">Prolog</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#FFA500">N/A</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Used in <a href="http://en.wikipedia.org/wiki/Prolog">artificial intelligence research</a>. According to "A Pathology of Computer Viruses" (1989!!) an infector exists.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">31</font></center></td>
+<td><center><font size="3" face="Century Gothic">Erlang</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">First infector for <a href="http://en.wikipedia.org/wiki/Erlang_%28programming_language%29">Erlang</a> has been written by <a href="dc5/CODES/Genetix/Erlang.Evil.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">32</font></center></td>
+<td><center><font size="3" face="Century Gothic">Haskell</font></center></td>
+<td><center><font size="3" face="Century Gothic">script/compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#800000">no</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Haskell infector written for <a href="dc5/VIEWER/hshaskell.html">scripts (in DarK-CodeZ #5)</a> in March 2013 and for the compiled version in May 2013 by roy g biv, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">33</font></center></td>
+<td><center><font size="3" face="Century Gothic">Scala</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#800000">no</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A proof-of-concept infector (EPO with light polymorphism) has been written by <a href="dc5/CODES/Genetix/Scala.smarty.txt">genetix in DarK-CodeZ #5</a>, a compact form of a Scala infector has been written by roy g biv as a quine in October 2013.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">34</font></center></td>
+<td><center><font size="3" face="Century Gothic">Q</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#800000">no</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Q_(equational_programming_language)">Should be possible</a>, but uses the functional paradigm, which is unusual.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">35</font></center></td>
+<td><center><font size="3" face="Century Gothic">D</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/D_(programming_language)">Looks like a simple object-oriented language</a>. roy g biv has written a source-infector (based on quine-technique) in April 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">36</font></center></td>
+<td><center><font size="3" face="Century Gothic">RPG (OS/400)</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">I have no idea about <a href="http://en.wikipedia.org/wiki/IBM_RPG">this language</a>, but i think this might be hard because its for some non-common processors </font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">37</font></center></td>
+<td><center><font size="3" face="Century Gothic">Smalltalk</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Smalltalk">Object oriented language</a> that is compiled to bytecode and interpreted by a virtual machine (as Java or MSIL) </font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">38</font></center></td>
+<td><center><font size="3" face="Century Gothic">Forth</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="FORTH.zip">virus written in/for FORTH, by Light General</a> in Infected Voice#11 in 1996</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">39</font></center></td>
+<td><center><font size="3" face="Century Gothic">APL</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">An infector for <a href="http://en.wikipedia.org/wiki/APL_%28programming_language%29">APL</a> by <a href="dc5/VIEWER/aplhaply.html">by roy g biv in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">40</font></center></td>
+<td><center><font size="3" face="Century Gothic">Lego Mindstorms NXT-G</font></center></td>         
+<td><center><font size="3" face="Century Gothic">compiled (?)</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#FFA500"><b>N/A</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">It is possible, and maybe a non-public PoC exists for that for many years - but nothing public or confirmed. However, <a href="http://en.wikipedia.org/wiki/NXT-G#NXT-G">infecting your Lego-robots</a> would be awesome!!!</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">41</font></center></td>
+<td><center><font size="3" face="Century Gothic">ML</font></center></td>
+<td><center><font size="3" face="Century Gothic">script (?)</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#800000">no</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/ML_%28programming_language%29">another functional language</a> that waits for the first hit.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">42</font></center></td>
+<td><center><font size="3" face="Century Gothic">Common Lisp</font></center></td>
+<td><center><font size="3" face="Century Gothic">script (?)</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#800000">no</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Common_Lisp">LISP dialect</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">43</font></center></td>
+<td><center><font size="3" face="Century Gothic">ActionScript</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#800000">no</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Infected by roy g biv in october 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">44</font></center></td>
+<td><center><font size="3" face="Century Gothic">AWK</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Infected by <a href="dc5/VIEWER/awkward.html">by Perforin in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">45</font></center></td>
+<td><center><font size="3" face="Century Gothic">F#</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="f-sharp.txt">comprehensive infection tutorial by SPTH</a> in rRlf#7. A source-code infector has been written by roy g biv in 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">46</font></center></td>
+<td><center><font size="3" face="Century Gothic">Scratch</font></center></td>
+<td><center><font size="3" face="Century Gothic">script (?)</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#800000">no</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Scratch_%28programming_language%29">Programming language for kids</a> :-)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">47</font></center></td>
+<td><center><font size="3" face="Century Gothic">PL/I</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled (?)</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/PL/I">very old language, looks simple</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">48</font></center></td>
+<td><center><font size="3" face="Century Gothic">LabVIEW</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/LabVIEW">It's used in many laboratories</a> to automate devices and control experiments</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">49</font></center></td>
+<td><center><font size="3" face="Century Gothic">Tcl</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#008000">yes</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">According to Peter Szor's book, Gigabyte did a Tcl virus in 2003.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50</font></center></td>
+<td><center><font size="3" face="Century Gothic">Alice</font></center></td>
+<td><center><font size="3" face="Century Gothic">script (?)</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b><font color="#800000">no</font></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Alice_%28programming_language%29">Another function language</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">(Visual) FoxPro</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Visual_FoxPro">Shounds like an very simple language</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">ABC</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Looks like another <a href="http://en.wikipedia.org/wiki/ABC_%28programming_language%29">simple BASIC-like language</a> ready to infect</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">ALGOL</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A very old and <a href="http://en.wikipedia.org/wiki/ALGOL">influential language</a>. First source-code infector by roy g biv in April 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">APEX</font></center></td>
+<td><center><font size="3" face="Century Gothic">script (?)</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Seems to be a language for <a href="http://en.wikipedia.org/wiki/Salesforce.com">Java-like programming language for the Force.com platform</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">ATLAS</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A langauge <a href="http://en.wikipedia.org/wiki/Abbreviated_Test_Language_for_All_Systems">used my military</a> :-)</font></center></td>
+</tr>
+
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">AutoLISP</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A <a href="http://go.eset.com/us/resources/white-papers/ESET_ACAD_Medre_A_whitepaper.pdf">LISP-dialect for AutoCAD</a>, potentially used for industrial espionage. Examples are <a href="http://vxheaven.org/vl.php?dir=Virus.Acad">here</a>.</font></center></td>
+</tr>
+
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">bc</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A <a href="http://en.wikipedia.org/wiki/Bc_programming_language">calculator language with C-syntax</a>, if there is file-access I garantee you viruses are possible :-)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">BETA</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">An <a href="http://en.wikipedia.org/wiki/BETA">object-oriented language</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">C shell</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Special <a href="http://en.wikipedia.org/wiki/C_shell">UNIX shell</a>, <a href="3F1/Articles/3farticles6.txt">infected by Psychologic</a> in April 2013 in 3F#1</font></center></td>
+</tr>
+
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">CFML</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/CFML">ColdFusion Markup Language</a>, XLM based scripting language that runs on JVM, .NET framework and Google App Engine!</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">CHILL</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">An <a href="http://en.wikipedia.org/wiki/CHILL">Designed for use in telecommunication switches (the hardware used inside telephone exchanges)</a></font></center></td>
+</tr>
+
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">CL (OS/400)</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Looks like a <a href="http://en.wikipedia.org/wiki/CL_%28OS/400_command_interpreter%29">database language by IBM</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Clarion</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">An <a href="http://en.wikipedia.org/wiki/Clarion_%28programming_language%29">Another language for databases</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Clean</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A <a href="http://en.wikipedia.org/wiki/Clean_%28programming_language%29">purely functional computer programming language.</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Clojure</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A <a href="http://en.wikipedia.org/wiki/Clojure">functional language that produces JVM bytecode</a></font></center></td>
+</tr>
+
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">cT</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Very recent development! <a href="http://en.wikipedia.org/wiki/Intel_Ct">Intel cT for multicore microchips that produces automatically parallelized programs</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Dart</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Dart_%28programming_language%29">New web-programming language by google</a> infected by <a href="dc5/CODES/Genetix/dart.smarty.txt">genetix in DarK-CodeZ #5</a>. </font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Dylan</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">An <a href="http://en.wikipedia.org/wiki/Dylan_%28programming_language%29">Functional and object-oriented language</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Eifel</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">An <a href="http://en.wikipedia.org/wiki/Eiffel_%28programming_language%29">object-oriented programming language</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Emacs Lisp</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A <a href="http://en.wikipedia.org/wiki/Emacs_Lisp">LISP dialect used by GNU Emacs and XEmacs text editors </a>! Let's go for it! :-)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Factor</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A <a href="http://en.wikipedia.org/wiki/Factor_%28programming_language%29">stack-based scripting language for video games</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Fantom </font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Fantom_%28programming_language%29">C-based language for JVM and CLR</a> - could allow cross-infectors for Java and .NET bytecode :-)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Gambas </font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Gambas">BASIC language in Linux for graphical applications</a></font></center></td>
+</tr>
+
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Go</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Go_%28programming_language%29">Language by Google from 2009</a>. A <a href="http://www.symantec.com/connect/blogs/malware-uses-google-go-language">trojan</a> is known that has been partially written with Go. roy g biv has written a source-infector (based on quine-technique) in April 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>. A binary (linux ELF) infector has been released by <a href="http://vx.thomazi.me/posts/linux-liora">TMZ</a> in May 2015.</font></center></td>
+</tr>
+
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Groovy </font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Groovy_%28programming_language%29">Language for JVM</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Icon </font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Icon_%28programming_language%29">C-based language</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">IDL</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A nice langauge for  <a href="http://en.wikipedia.org/wiki/IDL_%28programming_language%29">data analysis</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">J</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/J_%28programming_language%29">Multi-paradigm langauge</a>, very likely a potential victim :-)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">JScript.NET</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A JScript/JScript.NET <a href="v1/articles/HNET.TXT">cross infector by hh86</a> in valhalla#1</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Ladder logic </font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Ladder_logic">Language presents code in graphical circuits</a> :-o</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Lingo</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A language for <a href="http://en.wikipedia.org/wiki/Lingo_%28programming_language%29">Adobe Director</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">LPMud</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">C-based langauge for <a href="http://en.wikipedia.org/wiki/LPMud">multi-player games</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Mathematica</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="mathematica.txt">Mathematica proof-of-concept virus by SPTH</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Maya Embedded Language</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="dr1/main/sources/melmonkey.html">MEL.Monkey by wargame</a> in Doom Riderz#1</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">MUMPS</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Very old  <a href="http://en.wikipedia.org/wiki/MUMPS">language, originally for use in the healthcare industry</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Oberon</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Very old  <a href="http://en.wikipedia.org/wiki/Oberon_%28programming_language%29">originally for the Oberon OS by ETH Zurich</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">OCaml</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/OCaml">famous functional language</a> infected by <a href="dc5/CODES/Genetix/OCaml.Aino.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">occam </font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled (?)</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Occam_programming_language">Concurrent programming language</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">OpenCL </font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled (?)</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/OpenCL">Executes across heterogeneous platforms consisting of CPUs, GPUs, DSPs ...</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Oz</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Oz_%28programming_language%29">Multiparadigm language</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">PowerShell</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="monad.txt">PoC viruses by SPTH</a> in rRlf#6 (in beta-state, name was Monad) and <a href="eof1/contents/articles/PowerShellViruses_sk0r_Czybik.htm">Powershell infection tutorial by sk0r,Czybik</a> in EOF#1</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">S</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/S_%28programming_language%29">statistical programming language</a>, famous implementation is R</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">SPARK</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/SPARK">language based on Ada</a>. Source code infector for Spark written by roy g biv in june 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">VBScript</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="cb5/cb5418.txt">VBS.Rabbit by Lord Natas/CodeBreakers</a> in Codebreakers#5 (06.1999)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">VHDL</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/VHDL">hardware description language</a> for FPGAs and other devices, roy g biv wrote a source infector for it in june 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">WebDNA</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/WebDNA">server-side script language</a>, this looks like a good victim :-)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">x10</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/X10_%28programming_language%29">Modern language designed by Thomas J. Watson Research Center</a>, roy g biv wrote a source infector for it in june 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">50+</font></center></td>
+<td><center><font size="3" face="Century Gothic">xBASE</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/XBase">Language for dBase databases</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">TROFF</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled (?)</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">troff stands for <a href="http://66.165.136.43/man/1/troff.1.html">UNIX man pages</a>. A virus has been written for <a href="http://virusnews.org.ua/fido/unix-virus/50016.html">troff</a> by an unknown author 1999 or earlier. Found by herm1t in 2016.</font></center></td>
+</tr> 
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">TeX</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A self-replicator for the PDF-formating language <a href="https://en.wikipedia.org/wiki/LaTeX">TeX</a> has been written in a <a href="http://vxheaven.org/lib/vkm00.html">LISP-assisted way</a> in 1994 by Keith Allen McMillan, and a <a href="https://www.usenix.org/system/files/login/articles/73506-checkoway.pdf">JavaScript-assisted version</a> has been written in 2010 by Stephen Checkoway, Hovav Shacham and Eric Rescorla. Found by herm1t in 2016.</font></center></td>
+</tr> 
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Racket</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A self-replicator for the functional language <a href="https://en.wikipedia.org/wiki/Racket_%28programming_language%29">Racket</a> has been published by genetix <a href="http://pastebin.com/p9pcwSmN">here</a> in June 2015.</font></center></td>
+</tr> 
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Rebol</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A self-replicator in <a href="http://en.wikipedia.org/wiki/Rebol">Rebol</a> has been published by genetix <a href="http://pastebin.com/0LcV3EES">here</a> in June 2015.</font></center></td>
+</tr> 
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Vala</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Vala_%28programming_language%29">Vala</a>, source-code infector written by roy g biv in August 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>. A binary infector for Linux ELFs has been released by <a href="http://vx.thomazi.me/posts/vala-virus">TMZ</a> in December 2014.</font></center></td>
+</tr> 
+ 
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">WinBatch</font></center></td>
+<td><center><font size="3" face="Century Gothic">script+compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">genetix wrote a <a href="http://en.wikipedia.org/wiki/Winbatch">WinBatch</a> script virus in 2006 (<a href="http://www.rohitab.com/discuss/topic/15500-batch-virus-toolbox/">here</a>), source-code infector written by roy g biv in June 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">SmallBASIC</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/SmallBASIC">SmallBASIC</a>, source-code infector written by roy g biv in May 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Mozilla's Rust</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://en.wikipedia.org/wiki/Rust_%28programming_language%29">Rust by Mozilla</a>, source-code infector written by roy g biv in May 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Falcon</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">First infector for <a href="http://en.wikipedia.org/wiki/Falcon_%28programming_language%29">Falcon</a> written by hh86 in may 2013: <a href="falcon.txt">source</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Neko</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">First infector for <a href="http://en.wikipedia.org/wiki/Neko_%28programming_language%29">Neko</a> written by hh86 in may 2013: <a href="neko.txt">source</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">FreeMat</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">First infector for <a href="http://en.wikipedia.org/wiki/FreeMat">FreeMat</a> written by hh86 in may 2013: <a href="freemat.txt">source</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Scilab</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">First infector for <a href="http://en.wikipedia.org/wiki/Scilab">Scilab</a> written by hh86 in april 2013: <a href="scilab.txt">source</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">GNU Octave</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">First infector for the MATLAB dialect <a href="http://en.wikipedia.org/wiki/GNU_Octave">Octave</a> written by <a href="dc5/CODES/Genetix/octave.keksi.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">ICI</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">First infector for the <a href="http://en.wikipedia.org/wiki/ICI_programming_languagee">ICI langage</a> written by <a href="dc5/CODES/Genetix/ICI.Kuumis.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">AutoHotKey</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">First EPO infector written for <a href="http://en.wikipedia.org/wiki/AutoHotkey">AutoHotKey</a> written by <a href="dc5/CODES/Genetix/AutoHotKey.AutoShitKey2.txt">genetix in DarK-CodeZ #5</a> in march 2013. </font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Pike</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#800000"><b>no</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">A source-code infector for Pike has been written by <a href="hh86/NOON.rar">hh86 in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">urbiscript</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">First virus written for urbiscript (language for robotics) written by <a href="dc5/CODES/Genetix/urbiscript.urbicat.txt">genetix in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">MySQL</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">First virus written for MySQL databases written by <a href="dc5/CODES/herm1t/mysql_virus.sql.txt">herm1t in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">REXX</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">The famous old <a href="http://computervirus.uw.hu/ch03lev1sec7.html">Christmas tree worm</a> was written in REXX scripts for IBM systems. A file-infector (with EPO) was done in january 2013 by <a href="dc5/CODES/Genetix/REXX.txt">genetix, in DarK-CodeZ #5</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">010 Editor script codes</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="v1/sources/TO_BE/TO_BE.txt"> W32/1SC.To_Be by roy g biv</a> in valhalla#1 (2011.08)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Notepad++ Macro Language</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="http://ezine.vxnetw0rk.ws/mag3/User/Perforin/suck.html">suck++ by Perforin</a> in DC#3 (2010.12)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">WinHex Macro language</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="eof2/sources/izee/vredesbyrd.html">WinHex.Vredesbyrd by izee</a> in EOF#2 (2008.07)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">AutoIt</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="dr1/main/articles/genetix_AutoItv3%20Vir%20tutorial.rtf">AutoIt Virus Tutorial by genetix</a> in DR#1 (2007.07)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Ferite</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="eof1/contents/articles/FeriteVirusWritingGuide_WarGame.htm">Ferite virus writing guide by wargame</a> in EOF#1 (2007.01)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">FBSL</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="eof1/contents/articles/FBSLVirusWritingGuide_Genetix.htm">FBSL infection tutorial by genetix</a> in EOF#1 (2007.01)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">IDA scripting language</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000"><a href="rrlf7/articles/idc.htm">ID10TiC by roy g biv</a> in rRlf#7 (2006.07) and <a href="gatt.pdf">W32/IDA.Gattaca by Darkman and SPTH</a></font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">ODBGScript </font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">The script language used by OllyDebug has been infected by roy g biv (<a href="VOLLY.rar">Volly</a>)</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">QuickBasic</font></center></td>
+<td><center><font size="3" face="Century Gothic">compiled</font></center></td>
+<td><center><font size="3" face="Century Gothic"> </font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#FFA500"><b>N/A</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Very simple overwriting source infector using DOS instructions by SPTH (<a href="BAS.XYC.rar">here</a>) in 2002, a parasitic QBasic code using quine by roy g biv in 2013, source released in <a href="http://spth.virii.lu/v4/codes/roy_g_biv/Quines.txt">valhalla#4</a>.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">Batch</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">Many viruses have been written in Batch, old ones such as the Batalia series by Reminder (early 90s), or very recent complex implementations such as <a href="v2/viruses/batpolymer.txt">BAT.Polymer by roy g biv</a> in valhalla#2</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">MapBasic</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">According to Peter Szor's book, a virus exists for the scripting language of MapInfo (Geo-Information Systems); it has been written by a russian vxer Kynel in 2003.</font></center></td>
+</tr>
+
+<tr>
+<td><center><font size="3" face="Century Gothic">100+</font></center></td>
+<td><center><font size="3" face="Century Gothic">HyperTalk</font></center></td>
+<td><center><font size="3" face="Century Gothic">script</font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#008000"><b>yes</b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic"><b></b></font></center></td>
+<td><center><font size="3" face="Century Gothic" color="#000000">According to Peter Szor's book, a virus exists for the simple language HyperTalk has been released in 1988.</font></center></td>
+</tr>
+
+</table>
+
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-412612-1";
+urchinTracker();
+</script>
+
+</body>                                               
+</html>
