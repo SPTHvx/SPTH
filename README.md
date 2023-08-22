@@ -1,6 +1,9 @@
 # Second Part to Hell's artworks
 
- 
+
+ **[articles](/articles) -- [viruses](/viruses) -- [historic e-zines](https://spthvx.github.io/ezines/) -- [twitter](https://twitter.com/SPTHvx) -- [e-mail](mailto:sperl.thomas@gmail.com)**
+
+## News:
 <font face="Century Gothic">
 <a name="02032023"></b><b>02.03.2023:</b><font size="2"> Just uploaded a new article, in which I use <a href="https://github.com/SPTHvx/SPTH/blob/master/articles/files/LLMorpher.txt">OpenAI's GPT to encode and mutate self-replicating code</a>, see for concrete implementations the self-replicating linguisto-morphic codes <a href="https://github.com/SPTHvx/SPTH/blob/master/viruses/files/LLMorphism/LLMorphismI.py">LLMorpher I</a> and <a href="https://github.com/SPTHvx/SPTH/blob/master/viruses/files/LLMorphism/LLMorphismII.py">LLMorpher II</a>.<br><br>
 <a name="11082019"></b><b>11.08.2019:</b><font size="2"> My old domain (spth.virii.lu) has been down now for some time (thanks a lot perforin for hosting it!). I decided to upload the news-page (basically a logbook over the past 17 years), my <a href="articles/">articles and interviews</a>, as well as <a href="viruses/">codes</a> to github. Many links in this logbook are broken, but for reasons of nostalgia i will keep everything as it is. Please enjoy some old ideas on self-replicating codes, artificial life, artificial evolution, metamorphism, ... If you have cool idea or projects, let <a href="mailto:sperl.thomas@gmail.com">me</a> know.<br><br>
