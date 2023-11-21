@@ -13,8 +13,8 @@ delivered at the International Congress of Mathematicians in Paris in 1900. He
 proceeded to introduce 23 open mathematical challenges, which profoundly
 influenced mathematical research throughout the 20th century.
  
-Today, I take the opportunity to present a compilation of 23 crucial challenges
-in the realm of digital self-replicators, computer viruses, and worms. I find
+Today, I take the opportunity to present a compilation of **23 crucial challenges
+in the realm of digital self-replicators, computer viruses, and worms**. I find
 each of these challenges deeply fascinating. Their underlying motivations,
 background, and preliminary pathways toward resolution are detailed herein,
 along with my view of their potential (or partial) solutions.
