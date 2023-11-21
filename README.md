@@ -1,7 +1,7 @@
 # Second Part to Hell's artworks
 
 
- **[articles](/articles) -- [viruses](/viruses) -- [historic e-zines](https://spthvx.github.io/ezines/) -- [twitter](https://twitter.com/SPTHvx) -- [e-mail](mailto:sperl.thomas@gmail.com)**
+ **[articles](/articles) -- [viruses](/viruses) -- [23 open problems](/23problems) -- [historic e-zines](https://spthvx.github.io/ezines/)  -- [23 problems](https://spthvx.github.io/ezines/) -- [twitter](https://twitter.com/SPTHvx) -- [e-mail](mailto:sperl.thomas@gmail.com)**
 
 ## News:
 <font face="Century Gothic">
