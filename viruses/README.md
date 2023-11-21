@@ -2,7 +2,7 @@
 ## Viruses:
 
 
-<font size="2" color="#000000"><b>2023.03:</b></font> <b><a href="files/LLMorphism/LLMorphismI.py">LLMorphism I</a>, <a href="files/LLMorphism/LLMorphismII.py">LLMorphism II</a></b><font color="#000000" size="2"> </font><font size="2"><br>
+<font size="2" color="#000000"><b>2023.03/2023.08:</b></font> <b><a href="files/LLMorphism/LLMorphismI.py">LLMorpher I</a>, <a href="files/LLMorphism/LLMorphismII.py">LLMorpher II</a>, <a href="files/LLMorphism/LLMorpherIII.py">LLMorpher III</a></b><font color="#000000" size="2"> </font><font size="2"><br>
 <font color="#AA0000">-</font> Uses OpenAI's GPT to encode the entire virus in the natural langauge English<br>
 <font color="#AA0000">-</font> Metamorphic virus: generation of different code with same behaviour by GPT (from same prompt)<br>
 <font color="#AA0000">-</font> Linguisto-morphic virus: Modification of the natural language instructions by GPT <br>
