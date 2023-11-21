@@ -1,0 +1,431 @@
+
+         ******************************************************************
+            Full Metamorphism of computer virus Code and Prompts via GPT4
+                                         by Second Part To Hell
+         ******************************************************************
+
+
+
+    1) Introduction
+    2) About LLMorpher
+    3) How to encode and mutate viral codes with OpenAI's GPT?
+    4) How to mutate the prompts via OpenAI's GPT
+    5) GPT-based Code and Code Descriptions: Practical Challenges & Solutions   
+        5.1) Get the message from GPT's response
+        5.2) Finding the code in the response  
+        5.3) GPT timeouts    
+        5.4) Auto-Interpreting the Code   
+        5.5) Troubles with long strings     
+        5.6) Troubles with short strings       
+        5.7) Forbidden characters in the responses  
+    6) Conclusion                                 
+    
+    
+    
+
+    1) Introduction
+    
+        In March 2023, I presented LLMorpherI and LLMorpherII, the first 
+        computer viruses that encode their viral functions in English sentences 
+        and generate executable Python code via GPT-3.5 [1,2].
+
+        Today, we are advancing this concept by utilizing GPT-4. With it, we can
+        not only fully regenerate the virus code but also completely recreate 
+        the English language description of the functions.
+
+        The new code emerges through a sequence of well-defined prompts given to
+        GPT-4. These prompts, in turn, are formulated by instructing GPT-4 to 
+        describe the newly generated code in English. I've named this technique
+        "natural-language mutation" or "Linguisto-morphism."
+
+        Debugging presents its challenges since the mutation engine operates 
+        autonomously, making it unpredictable. Therefore, the objective of this 
+        piece is to share several practical insights to navigate these 
+        challenges.
+
+
+
+    2) About LLMorpher
+    
+        A quick summary of the three versions:
+    
+        LLMorpherI:
+            Date: March 2023
+            LLM: GPT 3.5 (text-davinci-003 model)
+            Code mutation: Yes, fully metamorphic via GPT
+            Prompt mutation: No
+            Size: 17 prompts
+                    10 prompts for code in infected file
+                    7 prompts for on-the-fly code generation of viral code
+                    
+        LLMorpherII:
+            Date: March 2023
+            LLM: GPT 3.5 (text-davinci-003 model)
+            Code mutation: Yes, fully metamorphic via GPT
+            Prompt mutation: Slight modification via GPT
+            Size: 26 prompts
+                    19 prompts for code in infected file
+                    7 prompts for on-the-fly code generation of viral code
+                    
+        LLMorpherIII:
+            Date: August 2023
+            LLM: GPT 4 (gpt-4 model)
+            Code mutation: Yes, fully metamorphic via GPT
+            Prompt mutation: Yes, fully metamorphic via GPT
+            Size: 53 prompts
+                    13 prompts for code in infected file
+                    40 prompts for on-the-fly code generation of viral code
+
+
+
+    3) How to encode and mutate viral codes with OpenAI's GPT?
+    
+        I covered this topic extensively in my text from March 2023 [1], so I'll
+        proceed with a brief summary here. We can interface with GPT using 
+        OpenAI's APIs, allowing us to send prompts and receive GPT's responses.
+        If the prompt is crafted effectively, it can be used to generate code.
+        Given that our virus is composed of code, we can submit the English 
+        description of our virus in segments to GPT and retrieve the 
+        corresponding code.
+
+        In the most basic scenario, the process is as follows:
+        
+        - - - - - - 
+        prompt_list=["Code description 1", "Code description 2", ...]
+        full_virus=''
+        for prompt in prompt_list:
+            full_virus.append(GPT(prompt))
+        # full_virus is a string of the full code, which we could run via
+        # exec(full_virus)
+        - - - - - - 
+        
+        Now, if the temperature of GPT (a parameter of variability) is larger 
+        than zero, the new codes can be different every time. And as we don't
+        carry the mutation engine, the mutations are actually unpredictable.
+
+
+
+    4) How to mutate the prompts via OpenAI's GPT
+    
+        GPT can explain code, so why not just ask it to explain the virus code
+        and use this description in the next generation? The pseudo-code goes
+        like this:
+        
+        - - - - - - 
+        prompt_list=["Code description 1", "Code description 2", ...]
+        full_virus_list=
+        for prompt in prompt_list:
+            full_virus_list.append(GPT(prompt))
+        full_virus=''.join(full_virus_list)
+        
+        new_prompt_list=[]
+        for prompt in prompt_list:
+            full_prompt="Please describe this Python code: "+prompt
+            new_prompt_list.append(GPT(full_prompt))
+            
+        # new_prompt_list contains all of the new prompts
+        - - - - - - 
+        
+        Now when we infect a new file, we just paste the new prompts instead of 
+        the old ones. Every generation GPT generates a new code, and then new 
+        description of the code.
+        
+        So far goes the theory. In practice, lot can and will go wrong. Even if
+        we use GPT4 (which is obviously much better than previous versions), it
+        makes many weird mistakes that we need to counteract.
+        
+        
+
+    5) GPT-based Code and Code Descriptions: Practical Challenges & Solutions
+    
+        The challenge lies in ensuring GPT can seamlessly generate the code and 
+        subsequently provide an accurate description of it. This demands some 
+        unconventional approaches and tweaks to the actual code. I'm eager to 
+        share my primary insights on this matter. For those venturing into using 
+        GPT for virus-related tasks, I believe you'll find this information 
+        valuable.    
+
+        5.1) Get the message from GPT's response
+
+        Clearly, GPT-4 was trained on data predating the GPT-4 APIs. OpenAI has 
+        adjusted its interface with the GPT API since its third iteration, 
+        leading GPT-4 to occasionally slip when retrieving message content. At 
+        times, it might generate openai-functions that return the content string 
+        directly, while in other instances, it produces functions that yield a 
+        dictionary. To circumvent these inconsistencies, we implement a function 
+        as follows:
+        
+        - - - - - - 
+        def openai_getmessage(completion):
+            if isinstance(completion, str):
+                return completion
+            else:
+                msg=completion.choices[0].message.content
+                return msg
+        - - - - - - 
+        
+        
+        
+        5.2) Finding the code in the response
+        
+        In the response from GPT, we just want our code, but that's not always
+        what it likes to do. For example, if we ask for "Write a Python code
+        that prints 'Hello VXers!'.", we might get:
+        
+        - - - - - - 
+        Certainly! Here's a simple Python code that prints 'Hello VXers!':
+
+        ```Python
+        
+        print('Hello VXers!')
+        ```
+        You can execute this code in a Python environment to see the output.
+        - - - - - - 
+        
+        Even if we explicitly mention that that we want only code, GPT from time
+        to time ignores the command. I tried for quite some time, but without 
+        success. If we have 70 prompts to execute, an error here can be fatal. 
+        Rather than prompt engineering, we can just introduce a simple error-
+        correction.  
+        
+        - - - - - - 
+        import re
+        def modify_response(s):
+            match = re.search('```Python(.*?)```', s, re.DOTALL)
+            
+            if match:
+                return match.group(1)
+            else:
+                return s
+        
+        real_code=modify_response(GPT(code_prompt))
+        - - - - - - 
+        
+        This would work perfectly, if we wouldn't need to generate exactly that 
+        function too. In that case, the function stops at the markdown 
+        identifiers, and just returns:
+        
+        - - - - - - 
+        import re
+        def modify_response(s):
+            match = re.search(
+        - - - - - - 
+
+        OK, no problem, let's create a function that generates the pattern for 
+        us. Note we cannot generate the '```', so we need to play some tricks:
+
+        - - - - - - 
+        def get_str1(opt=0):
+            return '`'
+        
+        def get_str(opt=0):
+            return get_str1()+get_str1()+get_str1()
+        
+        def get_pattern(opt=0):
+            pattern=get_str()+'Python(.*?)'+get_str()
+            return pattern
+        
+        import re
+        def modify_response(s):
+            pattern = get_pattern()
+            match = re.search(pattern, s, re.DOTALL)
+            
+            if match:
+                return match.group(1)
+            else:
+                return s
+        - - - - - - 
+
+        This must work, right? Yes in most of the cases, but sometimes GPT tries
+        to interpret the 'Python(.*?)' as regex syntax, and starts to write ill-
+        formed interpretations of the function, therefore, we need to split the 
+        pattern string into several prompts, such that there is no chance that 
+        it recognizes. Finally, this worked for LLMorpherIII:
+        
+        - - - - - - 
+        def get_str1(opt=0):
+            return '`'
+        
+        def get_str(opt=0):
+            return get_str1()+get_str1()+get_str1()
+        
+        def pval_str(opt=0):
+            return 'on(.*?)'
+        
+        def get_pattern(opt=0):
+            pattern=get_str()+'pyth'+pval_str()+get_str()
+            return pattern
+        
+        import re
+        def modify_response(s):
+            pattern = get_pattern()
+            match = re.search(pattern, s, re.DOTALL)
+            
+            if match:
+                return match.group(1)
+            else:
+                return s
+        - - - - - - 
+
+        You can see that i added a few unused paramters with defauls values. 
+        That's because sometimes GPT tries to call these functions with a 
+        parameter, and otherwise it would crash.
+        
+        With a large probablility, we can receive the code now in this way:
+        
+        - - - - - - 
+        our_code_snippet=modify_response(openai_getmessage(GPT(code_prompt))
+        - - - - - - 
+
+
+        5.3) GPT timeouts
+        
+        The GPT4 API is slow and frequently timeouts (about every 25th prompt). 
+        We can simply avoid this with a try-except in an endless loop:
+        
+        - - - - - - 
+        def return_text(prompt):
+            while True:
+                try:
+                    new_response=modify_response(openai_getmessage(GPT(code_prompt))
+                    break
+                except:
+                    pass
+            return new_response
+        - - - - - - 
+
+
+        5.4) Auto-Interpreting the Code
+        
+        We want that GPT describes our code snippets in pure English, such that 
+        they form useful prompts for the next generation. This requires some 
+        prompt-engineering. We cannot just write "Explain this code.", because 
+        it might not understand the level of detail we want. I found that giving
+        5 concrete rules to follow works well:
+        
+        a) No reinterpretations -- without this rule, GPT adds more 
+        interpretations of the code, which are problematic in the code creation 
+        in the next generation.
+        b) Be explicit about all variables/functions. Otherwise, it might skip
+        naming variables or functions, or some function arguments and default 
+        values.
+        c) Write full string. This is important, otherwise it starts 
+        interpreting the string content. Even with this command, we still need 
+        to take care of this problem later.
+        d) Keep the order -- We use some string concatinations. Without this
+        comment, sometimes the descriptions are ambiguous and the next 
+        generation code is ill-formed. 
+        e) Output one single line. This is very crucial as we want each prompt 
+        in a line.It liked to ignore this comment if we weren't overly explicit.
+        
+        The prompt that works for LLMorpherIII:
+        
+        - - - - - - 
+        preprompt_var=' Explain these code lines, and strictly follow these 5 
+        rules: 1) no further interpretation of code before or after! 2) mention
+        ALL variable names,  function names and function arguments (including 
+        default values!!). 3) Especially, take care and write  the FULL content
+        of strings! 4) If applicable, be explicit about order string 
+        concatenating! 5) Do not ignore the following  command: Output the 
+        whole code explanation in one line only, do not write  more than one 
+        line: '
+        - - - - - - 
+
+
+
+        5.5) Troubles with long strings
+        
+        When we ask GPT to explain a certain string, it might interpret and 
+        thereby modify the content. In some cases, we do not want this, 
+        otherwise the next generation code generation will fail. What helped in 
+        my case is to split up the strings in smaller pieces. The separation 
+        should cut through the logic of the sentences such that interpretation 
+        becomes difficult. For example, to generate the preprompt_var from 
+        before:
+        
+        - - - - - -  
+        preprompt_var1 = ' Explain these code lines, and'
+        preprompt_var2 = ' strictly follow these 5 rules: 1) no furhter 
+        interpretation of code before or after! 2) mention ALL variable names, '
+        preprompt_var3 = ' function names and function arguments (including default values!!).'
+        preprompt_var4 = ' 3) Especially, take care and write '
+        preprompt_var5 = ' the FULL content of strings! 4) If applicable, be 
+        explicit about order string concatenating! 5) Do not ignore the  following '
+        preprompt_var6 = ' command: Output the whole code explanation in one line only, do not write '
+        preprompt_var7 = ' more than one line: '
+        preprompt_var=preprompt_var1+preprompt_var2+preprompt_var3+preprompt_var4+preprompt_var5+preprompt_var6+preprompt_var7
+        - - - - - - 
+        
+        
+        
+        5.6) Troubles with short strings
+        
+        Another highly annoying problem I have encountered is that GPT makes a 
+        lot of mistakes with special characters, such as quotation marks,
+        linebreaks (\n), dots '.' and spaces ' ' in strings. Therefore, for
+        example to generate the string:
+        
+        - - - - - - 
+        str_tofileX='\nprompts_list=[]\ntofile_list=[]\n'
+        - - - - - - 
+        
+        I had to split it into many small, innocent pieces:
+        - - - - - - 
+        str_nnn='\n'
+        str_tofileA1 = 'prompts'
+        str_tofileA2='_list'
+        str_tofileA3='tofile'
+        str_tofileC ='=[]'
+        str_tofileB = str_tofileC+str_nnn+str_tofileA3+str_tofileA2
+        str_tofileX=str_nnn+str_tofileA1+str_tofileA2+str_tofileB+str_tofileC+
+                str_nnn
+        - - - - - - 
+
+
+
+        5.7) Forbidden characters in the responses
+        
+        Some characters in the responses are not allowed, for instance we want 
+        to use double-quotation marks to store the prompts in the infected file. 
+        Thus we can't reuse it. Also we don't want to have line-breaks in the 
+        next-generation prompts. We could mention this in the prompt to GPT 
+        itself, but sometimes it ignores this command and then the 
+        next-generation code crashes. Therefore we can write a simple
+        error-correction:
+        
+        - - - - - - 
+        prompts_list_new = [s.replace(chr(34), chr(39)).strip() for s in prompts_list_new]
+        - - - - - - 
+
+
+
+    6) Conclusion   
+        
+        If we consider these techniques, it becomes plausible that even more 
+        advanced self-replicators can be developed that modify their codes using
+        GPT. For instance, the actual Python code in the file could be produced 
+        by prompting with "Create the following code in a creative, unusual 
+        way." I've observed that this approach can generate unique codes, such 
+        as defining classes and invoking methods on class instances. This could 
+        be an intriguing avenue to explore further.
+
+        Additionally, I'm still pondering the concept of macro-mutations. My 
+        experiments indicate that meticulous engineering is required to make 
+        even relatively simple functions operational, especially when they 
+        undergo multiple translations (e.g., code -> English -> code -> English,
+        and so on). I'm eager to witness the emergence of codes that can craft 
+        larger functions, thereby leveraging the ambiguity between computer 
+        languages and natural languages at a more general level.
+
+
+                                             Second Part To Hell
+                                             August 2023
+                                                                      
+                                             https://github.com/SPTHvx/SPTH
+                                             sperl.thomas@gmail.com
+                                             twitter: @SPTHvx          
+
+
+
+[1] SPTH, "Using GPT to encode and mutate computer viruses entirely in natural language", https://github.com/SPTHvx/SPTH/blob/master/articles/files/LLMorpher.txt.
+[2] Mikko Hyppönen, "Malware and machine learning: A match made in hell", https://www.helpnetsecurity.com/2023/04/03/machine-learning-malware/
