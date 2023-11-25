@@ -1,7 +1,7 @@
 # Second Part to Hell's artworks
 
 
- **[articles](/articles) -- [viruses](/viruses) -- [23 open problems](/23problems) -- [historic e-zines](https://spthvx.github.io/ezines/)  -- [23 problems](/23problems) -- [twitter](https://twitter.com/SPTHvx) -- [e-mail](mailto:sperl.thomas@gmail.com)**
+ **[articles](/articles) -- [viruses](/viruses) -- [23 open problems](/23problems) -- [historic e-zines](https://spthvx.github.io/ezines/)  -- [twitter](https://twitter.com/SPTHvx) -- [e-mail](mailto:sperl.thomas@gmail.com)**
 
 ## News:
 <b>22.11.2023:</b> I have created a subsite about the [23 Open Problems for Digital Self-Replicators](/23problems). None of these questions is solved so far. I will update if their are new partial or full solutions. If you think you have made a contributions, contact me!<br><br>
