@@ -23,7 +23,8 @@ With this list, I aim to inspire the upcoming generation of programmers. Those
 of you passionate about artificial intelligence, evolution, and the essence of
 life should dive deep into these significant challenges. I truly believe that
 solving these problems will make a lasting difference. This has been originally
-published in the [tmp.0ut#3 zine](https://tmpout.sh/3) in November 2023.
+published in the [tmp.0ut#3 zine](https://tmpout.sh/3) in November 2023 (see the
+[full plain text version of this text](/articles/files/23problems.txt)).
  
 
 | Number | **Category** | Title and Details | **Solution(s)** | **Current Status** |
