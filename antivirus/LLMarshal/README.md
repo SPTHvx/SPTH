@@ -32,6 +32,18 @@ GPT-4 to decide whether the prompts are malicious.
 It is a very simple demo, but it wont be too difficult to fill in a few
 voids and create a much more powerful defence mechanism.
 
+
+## Files
+
+   |*Filename*|*Description*|
+   |---------------|-----------|   
+   | `LLMarshal.py`   | Full demo of the antivirus program | 
+   | test1_malicious.py | File infected with LLMorpher 3 | 
+   | test2_malicious.py |  File infected with LLMorpher 3 |
+   | test3_malicious.py | File infected with LLMorpher 1 |
+   | test4_harmless.py |  A file that uses GPT, but in a harmless way. |
+   
+
 ## Motivation
 
 I write this code because I am surprised that no antivirus program at
@@ -47,15 +59,3 @@ the fluidity between natural and computer languages.
    <img src="virustotal.png" alt="VirusTotal on LLMorpher" width="1000px">
 </p>
 
-
-
-## Files
-
-   |*Filename*|*Description*|
-   |---------------|-----------|   
-   | `LLMarshal.py`   | Full demo of the antivirus program | 
-   | test1_malicious.py | File infected with LLMorpher 3 | 
-   | test2_malicious.py |  File infected with LLMorpher 3 |
-   | test3_malicious.py | File infected with LLMorpher 1 |
-   | test4_harmless.py |  A file that uses GPT, but in a harmless way. |
-   
