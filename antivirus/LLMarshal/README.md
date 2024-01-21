@@ -38,10 +38,10 @@ voids and create a much more powerful defence mechanism.
    |*Filename*|*Description*|
    |---------------|-----------|   
    | `LLMarshal.py`   | Full demo of the antivirus program | 
-   | test1_malicious.py | File infected with LLMorpher 3 | 
-   | test2_malicious.py |  File infected with LLMorpher 3 |
-   | test3_malicious.py | File infected with LLMorpher 1 |
-   | test4_harmless.py |  A file that uses GPT, but in a harmless way. |
+   | `test1_malicious.py` | File infected with LLMorpher 3 | 
+   | `test2_malicious.py` |  File infected with LLMorpher 3 |
+   | `test3_malicious.py` | File infected with LLMorpher 1 |
+   | `test4_harmless.py` |  A file that uses GPT, but in a harmless way. |
    
 
 ## Motivation
