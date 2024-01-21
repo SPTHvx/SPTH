@@ -3,7 +3,7 @@
 
 This is a **LLM-based anti-virus program** which can fight against
 new-age LLM-based computer viruses,
-such as the [LLMorpher family](https://github.com/SPTHvx/SPTH/blob/master/articles/files/LLMorpher.txt)
+such as the [LLMorpher family](https://github.com/SPTHvx/SPTH/blob/master/articles/files/LLMorpher.txt).
 
 ## Description
 
@@ -52,7 +52,7 @@ viruses. Together with my belief that this might become a serious problem
 in the future
 [Mikko Hypponen seems to agree](https://thenextweb.com/news/mikko-hypponen-5-biggest-ai-cybersecurity-threats-2024) and implicitly [Mustafa Suleyman](https://www.the-coming-wave.com/) discussed these ideas. Therefore, I show a simple way how to defend against such codes.
 
-Fighting bad AI with good AI - that's the spirit here. I am curious 
+[*The only thing that can stop a bad AI is a good AI.*](https://www.helpnetsecurity.com/2023/04/03/machine-learning-malware/) - that's the spirit here. I am curious 
 whether these future techniques can be defeated without LLMs that exploit
 the fluidity between natural and computer languages.
 <p align="center">
